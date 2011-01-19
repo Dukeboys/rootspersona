@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://ed4becky.net/rootsPersona"
+			xmlns="http://ed4becky.net/rootsPersona">
+        	
+  <xs:element name="caption" type="xs:string" />
+  <xs:element name="date" type="xs:string"/>
+  <xs:element name="place" type="xs:string"/>
+
+  <xs:element name="characteristic">
+    <xs:complexType mixed="true">
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="gender" />
+            <xs:enumeration value="name" />
+            <xs:enumeration value="other" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="characteristics">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="characteristic" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="event">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="date" minOccurs="0" />
+        <xs:element ref="place" minOccurs="0" />
+        <xs:element ref="person" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="events">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="event" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="familyGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="parents" minOccurs="0" />
+        <xs:element ref="children" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="selfType" type="xs:NMTOKEN" use="optional" />
+      <xs:attribute name="refId" type="xs:NMTOKEN" use="optional" />
+      <xs:attribute name="id" type="xs:NMTOKEN" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="familyGroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="familyGroup" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="person">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="characteristics" minOccurs="0" />
+        <xs:element ref="events" minOccurs="0" />
+        <xs:element ref="references" minOccurs="0" />
+        <xs:element ref="relations" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="references">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="familyGroups"  minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="relation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="person" />
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="relations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="relation" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="children">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="relation" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+    <xs:element name="parents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="relation" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
