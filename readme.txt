@@ -1,6 +1,6 @@
 === rootsPersona ===
 Contributors: ed4becky
-Donate link: http://ed4becky.org/plugins
+Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
