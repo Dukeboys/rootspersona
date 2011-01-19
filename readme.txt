@@ -13,14 +13,14 @@ rootsPersona creates one or more pages of family history using data imported fro
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
 
 **Features**
-* Support for Gedcom Version 5.5
-* Ability to upload more than one Gedcom file from the same source and link families together
-* Ability to select which persons from the Gedcom file to create pages for
-* As updates are made, Gedcom files can be reloaded and existing pages will be updated
-* Each page includes links to children and spouses
-* Each page displays a visual family tree that includes three generations
-* Ability to link pictures uploaded to Wordpress to each person (up to 7)
-* Pages identifed as 'Permission Required' will only be displayed to users who are logged into your Wordpress site
+- Support for Gedcom Version 5.5
+- Ability to upload more than one Gedcom file from the same source and link families together
+- Ability to select which persons from the Gedcom file to create pages for
+- As updates are made, Gedcom files can be reloaded and existing pages will be updated
+- Each page includes links to children and spouses
+- Each page displays a visual family tree that includes three generations
+- Ability to link pictures uploaded to Wordpress to each person (up to 7)
+- Pages identifed as 'Permission Required' will only be displayed to users who are logged into your Wordpress site
 
 *Note: importing Gedcom files from different programs can have unexpected consequences.
 rootsPersona uses the ids generated in the gedcom file, and different programs may assign the same ids to different people.
