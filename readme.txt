@@ -9,6 +9,7 @@ Stable tag: 1.0.2
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
 == Description ==
+**REQUIRES PHP 5.3**
 
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
 
