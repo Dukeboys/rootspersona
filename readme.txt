@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
@@ -67,16 +67,22 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 
 1. 1st half of main Persona page
 2. 2nd half of main Persona page
-3. page for upoading a GEDCOM file
-4. page for adding pages after a GEDCOM upload
-5. page for editting a Persona page
+3. Page for uploading a GEDCOM file
+4. Page for adding pages after a GEDCOM upload
+5. Page for editing a Persona page
 
 == Changelog ==
 
 = 1.0.1 =
 * First release.
 
+= 1.0.2 =
+* fixed directory issue that caused [function.require-once]: failed to open stream error
+
 == Upgrade Notice ==
 
 = 1.0.1 =
+Initial Version
 
+= 1.0.2 =
+Previous version had a directory problem - did not realize that Wordpress site would not be case sensitve when distributing plugins.  I have fixed this.
