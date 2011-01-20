@@ -80,7 +80,7 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 = 1.0.2 =
 * fixed directory issue that caused [function.require-once]: failed to open stream error.
 
-+ 1.0.3 =
+= 1.0.3 =
 * removed PHP 5.3 dependency.
 
 == Upgrade Notice ==
