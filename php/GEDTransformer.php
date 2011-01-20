@@ -1,10 +1,4 @@
 <?php
-use PEAR2\Genealogy\Gedcom\GedcomManager;
-
-/**
- * required by a PEAR2 package to load classes
- */
-//require 'PEAR2\\Autoload.php';
 require_once ('include.inc.php');
 
 class GEDTransformer {

@@ -3,7 +3,7 @@
  Plugin Name: rootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 1.0.2
+ Version: 1.0.3
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  License: GPLv2
@@ -12,7 +12,7 @@
 /*  Copyright 2010  Ed Thompson  (email : ed@ed4becky.org)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -34,8 +34,8 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/personUtility.php');
  * First, make sure class exists
  */
 if (!class_exists("rootsPersona")) {
-    class rootsPersona {  	
-        var $rootsPersonaVersion = '1.0.1';
+    class rootsPersona {
+        var $rootsPersonaVersion = '1.0.3';
         var $plugin_dir;
         var $utility;
 
@@ -63,14 +63,14 @@ if (!class_exists("rootsPersona")) {
          */
         function rootsPersonaHandler( $atts, $content = null ) {
             $rootsPersonId = $atts["personid"];
-            
+
             if($this->isExcluded($rootsPersonId))
             	return $this->utility->returnDefaultEmpty('Privacy Protected.',$this->plugin_dir);
-            	
+
             $block = "rootsPersonaHandler: $rootsPersonId";
             $mysite = get_option('siteurl');
             if(isset($rootsPersonId)) {
-                $block = $this->utility->buildPersonaPage($atts, 
+                $block = $this->utility->buildPersonaPage($atts,
                 								 $mysite,
                 								 $this->getDataDir(),
                 								 $this->plugin_dir,
@@ -113,19 +113,19 @@ if (!class_exists("rootsPersona")) {
 		                   			$p[$pf] = @preg_replace(
             							'/.*?' . $pf . '=[\'|"](.*)[\'|"].*?/US'
 		                   				, '$1'
-		                   				, $content);	
+		                   				, $content);
 
 		                   			$pc = 'picCap' . $i;
 									if(preg_match("/$pc/", $content)) {
 		                   				$p[$pc] = @preg_replace(
             							'/.*?' . $pc . '=[\'|"](.*)[\'|"].*?/US'
 		                   				, '$1'
-		                   				, $content);	
+		                   				, $content);
 									}
 								}
 		                   }
 			            }
-		    	        $p['action'] =  get_option('siteurl') . '/?page_id=' . $this->getPageId();                
+		    	        $p['action'] =  get_option('siteurl') . '/?page_id=' . $this->getPageId();
 		                $p['isSystemOfRecord'] = $isSystemOfRecord;
 		                return $this->utility->showForm($p,$this->plugin_dir);
                 	} else {
@@ -134,7 +134,7 @@ if (!class_exists("rootsPersona")) {
    	            } else {
    	            	return "Missing required person ID.";
    	            }
-                
+
 
             } else {
            		$p = $this->utility->paramsFromHTML($_POST);
@@ -152,7 +152,7 @@ if (!class_exists("rootsPersona")) {
 //                	    } else {
 //                    	    $xml_doc->load($this->getDataDir() . 'templatePerson.xml');
 //	                    }
-//	
+//
 //    	                $xml_doc = $this->utility->paramsToXML($xml_doc, $p);
 //        	            $xml_doc->formatOutput = true;
 //						$xml_doc->preserveWhiteSpace = false;
@@ -171,16 +171,16 @@ if (!class_exists("rootsPersona")) {
 							$content = $content . ' ' . $pf . "='" . $p[$pf] . "'";
 							$pc = 'picCap' . $i;
 							if(isset($p[$pc]) && !empty($p[$pc])) {
-								$content = $content . ' ' . $pc . "='" . $p[$pc] . "'";								
+								$content = $content . ' ' . $pc . "='" . $p[$pc] . "'";
 							}
-						}				                   			
+						}
   					}
   					$content = $content . "/]";
   					$my_post['post_content'] = $content;
   					wp_update_post( $my_post );
   					$location = get_option('siteurl') . '/?page_id=' . $p['srcPage'];
-  					// The wp_redirect command uses a PHP redirect at its core, 
-  					// therefore, it will not work either after header information 
+  					// The wp_redirect command uses a PHP redirect at its core,
+  					// therefore, it will not work either after header information
   					// has been defined for a page.
 					return '<script type="text/javascript">window.location="' . $location . '"; </script>';
   					//$msg = $msg . "<br>Saved.";
@@ -245,18 +245,18 @@ if (!class_exists("rootsPersona")) {
 				}
 			}
 			if(empty($msg) && isset($_POST['submitUploadGedcomForm'])) {
-				// The wp_redirect command uses a PHP redirect at its core, 
-  				// therefore, it will not work either after header information 
+				// The wp_redirect command uses a PHP redirect at its core,
+  				// therefore, it will not work either after header information
   				// has been defined for a page.
 				$location = get_option('siteurl') . '/?page_id=' . get_option("rootsCreatePage");
 				return '<script type="text/javascript">window.location="' . $location . '"; </script>';
-				
+
 			} else {
-				return $this->utility->showUploadGedcomForm($action,$msg);			
+				return $this->utility->showUploadGedcomForm($action,$msg);
 			}
 
 		}
-		
+
         // PLUGIN FILTERS
 
         /**
@@ -352,21 +352,21 @@ if (!class_exists("rootsPersona")) {
             	add_option('rootsEditPage', $page);
             	$page = $this->addAddPage();
             	add_option('rootsCreatePage', $page);
-            	$page = $this->addUploadPage();       		
+            	$page = $this->addUploadPage();
             	add_option('rootsUploadGedcomPage', $page);
-            	add_option('rootsPersonaParentPage', "0"); 
-            	add_option('rootsIsSystemOfRecord', 'false'); 
+            	add_option('rootsPersonaParentPage', "0");
+            	add_option('rootsIsSystemOfRecord', 'false');
         	} else {
         		if ($currVersion != $this->rootsPersonaVersion)
         		{
         			update_option('rootsPersonaVersion', $this->rootsPersonaVersion);
         		}
-        		
+
         		$opt = get_option('rootsDataDir');
         		if(!isset($opt) || empty($opt)) {
         			add_option('rootsDataDir', "rootsData/");
         		}
-        		
+
         	    $page = get_option('rootsEditPage');
         		if(!isset($page) || empty($page)) {
             		$page = $this->addEditPage();
@@ -374,7 +374,7 @@ if (!class_exists("rootsPersona")) {
         		} else {
         			$this->updateEditPage($page);
         		}
-        		
+
         		unset($page);
         	    $page = get_option('rootsCreatePage');
         		if(!isset($page) || empty($page)) {
@@ -383,7 +383,7 @@ if (!class_exists("rootsPersona")) {
         		} else {
         			$this->updateAddPage($page);
         		}
-        		
+
         	    unset($page);
         	    $page = get_option('rootsUploadGedcomPage');
         		if(!isset($page) || empty($page)) {
@@ -392,16 +392,16 @@ if (!class_exists("rootsPersona")) {
         		} else {
         			$this->updateUploadPage($page);
         		}
-        		
+
         		unset($opt);
         		$opt = get_option('rootsPersonaParentPage');
         		if (!isset($opt) || empty($opt))
-        		   add_option('rootsPersonaParentPage', "0"); 
-        		   
+        		   add_option('rootsPersonaParentPage', "0");
+
         		unset($opt);
         		$opt = get_option('rootsIsSystemOfRecord');
         		if (!isset($opt) || empty($opt))
-        		   add_option('rootsIsSystemOfRecord', 'false'); 
+        		   add_option('rootsIsSystemOfRecord', 'false');
         	}
         }
 
@@ -421,7 +421,7 @@ if (!class_exists("rootsPersona")) {
             $pageID = wp_insert_post( $my_post );
             return $pageID;
         }
-        
+
         function updateUploadPage($page) {
         	// Create post object
             $my_post = array();
@@ -437,8 +437,8 @@ if (!class_exists("rootsPersona")) {
 
             // Insert the post into the database
             wp_update_post( $my_post );
-        }        
-        
+        }
+
         function addAddPage() {
         	// Create post object
             $my_post = array();
@@ -455,7 +455,7 @@ if (!class_exists("rootsPersona")) {
             $pageID = wp_insert_post( $my_post );
             return $pageID;
         }
-        
+
         function updateAddPage($page) {
         	// Create post object
             $my_post = array();
@@ -472,7 +472,7 @@ if (!class_exists("rootsPersona")) {
             // Insert the post into the database
             wp_update_post( $my_post );
         }
-        
+
         function addEditPage() {
         	// Create post object
             $my_post = array();
@@ -489,7 +489,7 @@ if (!class_exists("rootsPersona")) {
             $pageID = wp_insert_post( $my_post );
             return $pageID;
         }
-        
+
         function updateEditPage($page) {
         	// Create post object
             $my_post = array();
@@ -506,7 +506,7 @@ if (!class_exists("rootsPersona")) {
             // Insert the post into the database
             wp_update_post( $my_post );
         }
-        
+
         /**
          * Uninstall (cleanup) the plugin
          */
@@ -522,29 +522,29 @@ if (!class_exists("rootsPersona")) {
             $page = get_option('rootsUploadGedcomPage');
             wp_delete_post($page);
             delete_option('rootsUploadGedcomPage');
-            delete_option('rootsPersonaParentPage');  
-            delete_option('rootsIsSystemOfRecord');    
-            remove_action('admin_menu', 'rootsPersonaOptionsPage');        
+            delete_option('rootsPersonaParentPage');
+            delete_option('rootsIsSystemOfRecord');
+            remove_action('admin_menu', 'rootsPersonaOptionsPage');
         }
 
         function __toString() {
             return __CLASS__;
         }
-        
+
     	function rootsPersonaOptionsPage() {
-			add_options_page('rootsPersona Options', 
-						'rootsPersona', 
-						'manage_options', 
-						__FILE__, 
+			add_options_page('rootsPersona Options',
+						'rootsPersona',
+						'manage_options',
+						__FILE__,
 						array(&$this, 'buildRootsOptionsPage'));
 		}
-		
+
     	function buildRootsOptionsPage() {
 			$block = "<html><head></head><body>";
 			$block = $block . "<div class='wrap'><h2>rootsPersona</h2>";
 			$block = $block . "<form method='post' action='options.php'>";
 			$block = $block . wp_nonce_field('update-options');
-	
+
 			$block = $block . "<table class='form-table'>";
 
 			$block = $block . "<tr valign='top'>";
@@ -589,7 +589,7 @@ if (!class_exists("rootsPersona")) {
 			$block = $block . " value='" . get_option('rootsIsSystemOfRecord'). "' /></td>";
 			$block = $block . "<td>true|false.  Only false is supporterd at this time (meaning some external program is the system of record).</td></tr>";
 
-			$block = $block . "</table>";			
+			$block = $block . "</table>";
 			$block = $block . "<input type='hidden' name='action' value='update' />";
 			$block = $block . "<input type='hidden' name='page_options' value='rootsPersonaParentPage,rootsIsSystemOfRecord,rootsDataDir,rootsUploadGedcomPage,rootsCreatePage,rootsEditPage' />";
 			$block = $block . "<p class='submit'>";
@@ -618,7 +618,7 @@ if (isset($rootsPersonaplugin)) {
     add_shortcode('rootsEditPersonaForm', array(&$rootsPersonaplugin, 'editPersonFormHandler'));
     add_shortcode('rootsAddPageForm', array(&$rootsPersonaplugin, 'addPageFormHandler'));
     add_shortcode('rootsUploadGedcomForm', array(&$rootsPersonaplugin, 'uploadGedcomFormHandler'));
-    add_action('admin_menu', array(&$rootsPersonaplugin, 'rootsPersonaOptionsPage')); 
+    add_action('admin_menu', array(&$rootsPersonaplugin, 'rootsPersonaOptionsPage'));
     add_action('wp_print_styles', array(&$rootsPersonaplugin, 'insertRootsPersonaStyles'));
     add_filter( 'the_content', array(&$rootsPersonaplugin, 'checkPermissions'), 2 );
 }
