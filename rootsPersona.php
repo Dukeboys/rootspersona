@@ -348,7 +348,7 @@ if (!class_exists("rootsPersona")) {
         	if(!isset($currVersion) || empty($currVersion)) {
             	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
             	//mkdir(WP_CONTENT_DIR ."/rootsData/",0777);
-            	recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
+            	$this->recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
             	add_option('rootsDataDir', "wp-content/rootsData/");
             	$page = $this->addEditPage();
             	add_option('rootsEditPage', $page);
@@ -367,7 +367,7 @@ if (!class_exists("rootsPersona")) {
         		$opt = get_option('rootsDataDir');
         		if(!isset($opt) || empty($opt)) {
         			//mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
-            		recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
+            		$this->recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
             		add_option('rootsDataDir', "wp-content/rootsData/");
         		}
 
@@ -537,7 +537,7 @@ if (!class_exists("rootsPersona")) {
     		while(false !== ( $file = readdir($dir)) ) {
     	    	if (( $file != '.' ) && ( $file != '..' )) {
             		if ( is_dir($src . '/' . $file) ) {
-            	    	recurse_copy($src . '/' . $file,$dst . '/' . $file);
+            	    	$this->recurse_copy($src . '/' . $file,$dst . '/' . $file);
 	    	        }
   		  	        else {
         	    	    copy($src . '/' . $file,$dst . '/' . $file);
