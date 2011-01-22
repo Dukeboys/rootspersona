@@ -27,7 +27,7 @@
 
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 //require_once(ABSPATH . 'wp-includes/pluggable.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/personUtility.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 
 
 /**
@@ -43,7 +43,7 @@ if (!class_exists("rootsPersona")) {
          * Constructor
          */
         function __construct() {
-            $this->plugin_dir = "wp-content/plugins/" . plugin_basename(dirname(__FILE__)) . "/";
+            $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__)) . "/";
             $this->utility = new PersonUtility();
         }
 
@@ -347,8 +347,8 @@ if (!class_exists("rootsPersona")) {
         	$currVersion = get_option('rootsPersonaVersion');
         	if(!isset($currVersion) || empty($currVersion)) {
             	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-            	mkdir("wp-content/rootsData/",0777);
-            	copy($this->plugin_dir . "/rootsData/*", "wp-content/rootsData/");
+            	mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
+            	copy($this->plugin_dir . "/rootsData/*", WP_PLUGIN_DIR ."/rootsData/");
             	add_option('rootsDataDir', "wp-content/rootsData/");
             	$page = $this->addEditPage();
             	add_option('rootsEditPage', $page);
@@ -366,7 +366,9 @@ if (!class_exists("rootsPersona")) {
 
         		$opt = get_option('rootsDataDir');
         		if(!isset($opt) || empty($opt)) {
-        			add_option('rootsDataDir', "rootsData/");
+        			mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
+            		copy($this->plugin_dir . "/rootsData/*", WP_PLUGIN_DIR ."/rootsData/");
+            		add_option('rootsDataDir', "wp-content/rootsData/");
         		}
 
         	    $page = get_option('rootsEditPage');
