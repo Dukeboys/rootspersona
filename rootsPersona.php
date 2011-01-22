@@ -347,8 +347,8 @@ if (!class_exists("rootsPersona")) {
         	$currVersion = get_option('rootsPersonaVersion');
         	if(!isset($currVersion) || empty($currVersion)) {
             	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-            	mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
-            	copy($this->plugin_dir . "/rootsData/*", WP_PLUGIN_DIR ."/rootsData/");
+            	//mkdir(WP_CONTENT_DIR ."/rootsData/",0777);
+            	recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
             	add_option('rootsDataDir', "wp-content/rootsData/");
             	$page = $this->addEditPage();
             	add_option('rootsEditPage', $page);
@@ -366,8 +366,8 @@ if (!class_exists("rootsPersona")) {
 
         		$opt = get_option('rootsDataDir');
         		if(!isset($opt) || empty($opt)) {
-        			mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
-            		copy($this->plugin_dir . "/rootsData/*", WP_PLUGIN_DIR ."/rootsData/");
+        			//mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
+            		recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
             		add_option('rootsDataDir', "wp-content/rootsData/");
         		}
 
@@ -530,6 +530,22 @@ if (!class_exists("rootsPersona")) {
             delete_option('rootsIsSystemOfRecord');
             remove_action('admin_menu', 'rootsPersonaOptionsPage');
         }
+        
+		function recurse_copy($src,$dst) {
+    		$dir = opendir($src);
+	    	@mkdir($dst);
+    		while(false !== ( $file = readdir($dir)) ) {
+    	    	if (( $file != '.' ) && ( $file != '..' )) {
+            		if ( is_dir($src . '/' . $file) ) {
+            	    	recurse_copy($src . '/' . $file,$dst . '/' . $file);
+	    	        }
+  		  	        else {
+        	    	    copy($src . '/' . $file,$dst . '/' . $file);
+            		}
+    	    	}
+ 	   		}
+    		closedir($dir);
+		} 
 
         function __toString() {
             return __CLASS__;
