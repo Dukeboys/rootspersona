@@ -335,7 +335,7 @@ if (!class_exists("rootsPersona")) {
          * @return string plugin directory containing person data files
          */
         function getDataDir() {
-            return $this->plugin_dir . get_option("rootsDataDir") . "/";
+            return get_option("rootsDataDir");
         }
 
 		// PLUGIN REGISTRATION
@@ -347,7 +347,9 @@ if (!class_exists("rootsPersona")) {
         	$currVersion = get_option('rootsPersonaVersion');
         	if(!isset($currVersion) || empty($currVersion)) {
             	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-            	add_option('rootsDataDir', "rootsData/");
+            	mkdir("wp-content/rootsData/",0777);
+            	copy($this->plugin_dir . "/rootsData/*", "wp-content/rootsData/");
+            	add_option('rootsDataDir', "wp-content/rootsData/");
             	$page = $this->addEditPage();
             	add_option('rootsEditPage', $page);
             	$page = $this->addAddPage();

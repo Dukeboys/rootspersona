@@ -24,6 +24,6 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class InvalidFieldException  extends \Exception
+class InvalidFieldException  extends Exception
 {
 }

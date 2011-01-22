@@ -24,6 +24,6 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class FileException  extends \Exception
+class FileException  extends Exception
 {
 }
