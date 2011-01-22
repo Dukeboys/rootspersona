@@ -35,7 +35,7 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/personUtility.php');
  */
 if (!class_exists("rootsPersona")) {
     class rootsPersona {
-        var $rootsPersonaVersion = '1.0.3';
+        var $rootsPersonaVersion = '1.0.4';
         var $plugin_dir;
         var $utility;
 
