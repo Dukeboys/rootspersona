@@ -4,12 +4,19 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
 == Description ==
-**REFACTORED TO REMOVE DEPENDENCE ON PHP 5.3**
+**IF UPGRADING FROM VERISON PRIOR TO 1.04, PLEASE SEE NOTE:**
+
+BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  
+It is important to copy the rootsData directory BEFORE upgrading unless you want to start over.
+AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
+
+Reloading your gedcom AFTER performing the above will support additional fucntionality 
+due to upgrades to the idMap.xml file.  Reloading a gedcom will not harm exisiting data.
 
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
 
@@ -64,6 +71,16 @@ Not sure why they are there, but if you simply delete these extra characters, sa
 The Gedcom file on your PC is untouched.  The copy uploaded to Wordpress is converted into a set of
 person and family files in XML format.  After conversion, the Gedcom file uploaded to Wordpress is deleted.
 
+= Why do I need a ‘Parent Page’? =
+
+You don’t.
+
+However, if you’re like me, you will soon end up with hundreds of persons on your site. Many widgets will display a link to all or some of your pages, and by creating the person pages under a parent, you can choose to exclude those hundreds of pages from your list. That’s what I use it for; it’s really just a convenience. By default the parent page is set to zero, which means no parent page.
+
+= I only want people who are logged in to see certain people on my site. =
+
+On the Edit Page screen, add a Custom Field with name permissions and value of true
+
 == Screenshots ==
 
 1. 1st half of main Persona page
@@ -94,8 +111,8 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 == Upgrade Notice ==
 
 = 1.0.4 =
-BEWARE - if upgrading from previous versions, all data will be lost!  It is important to
-copy the rootsData directory BEFORE upgrading unless you want to start over.
+BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  
+It is important to copy the rootsData directory BEFORE upgrading unless you want to start over.
 AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
 
 Reloading your gedcom AFTER performing the above will support additional fucntionality 
