@@ -79,7 +79,7 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 * moved deafult rootsDataDir to wp-content/rootsPersonaData so data would not be lost on upgrade
 * added surname to idMap.xml and person.xml files
 * parametized data_dir in XSL files
-* synchronized picture references between shortcode and stylesheet so images would appear
+* fixed defect to allow images and captions to display properly
 
 = 1.0.3 =
 * removed PHP 5.3 dependency.

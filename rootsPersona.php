@@ -585,9 +585,9 @@ if (!class_exists("rootsPersona")) {
 
 			$block = $block . "<tr valign='top'>";
 			$block = $block . "<th scope='row'><label for='rootsDataDir'>rootsPersona Data Directory</label></th>";
-			$block = $block . "<td><input type='text' size='25' name='rootsDataDir' id='rootsDataDir'";
+			$block = $block . "<td><input type='text' size='35' name='rootsDataDir' id='rootsDataDir'";
 			$block = $block . " value='" . get_option('rootsDataDir'). "' /></td>";
-			$block = $block . "<td>Directory under the plugin where data files are stored. There is usually no need to change this.</td></tr>";
+			$block = $block . "<td>Directory where data files are stored. There is usually no need to change this.</td></tr>";
 
 			$block = $block . "<tr valign='top'>";
 			$block = $block . "<th scope='row'><label for='rootsEditPage'>Edit Person Page Id</label></th>";
