@@ -43,7 +43,7 @@ if (!class_exists("rootsPersona")) {
          * Constructor
          */
         function __construct() {
-            $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__)) . "/";
+            $this->plugin_dir = "wp-content/plugins/" . plugin_basename(dirname(__FILE__)) . "/";
             $this->utility = new PersonUtility();
         }
 
@@ -292,7 +292,7 @@ if (!class_exists("rootsPersona")) {
          * @return void
          */
         function insertRootsPersonaStyles() {
-            $style_url = "/" . $this->plugin_dir . "/css/";
+            $style_url = "/" . $this->plugin_dir . "css/";
 
             wp_register_style('rootsPersona-1', $style_url . 'familyGroup.css', false, '1.0', 'screen');
             wp_enqueue_style( 'rootsPersona-1');
@@ -352,9 +352,8 @@ if (!class_exists("rootsPersona")) {
         	$currVersion = get_option('rootsPersonaVersion');
         	if(!isset($currVersion) || empty($currVersion)) {
             	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-            	//mkdir(WP_CONTENT_DIR ."/rootsData/",0777);
-            	$this->recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
-            	add_option('rootsDataDir', "wp-content/rootsData/");
+            	$this->recurse_copy(ABSPATH . $this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsPersonaData/");
+            	add_option('rootsDataDir', "wp-content/rootsPersonaData/");
             	$page = $this->addEditPage();
             	add_option('rootsEditPage', $page);
             	$page = $this->addAddPage();
@@ -371,9 +370,8 @@ if (!class_exists("rootsPersona")) {
 
         		$opt = get_option('rootsDataDir');
         		if(!isset($opt) || empty($opt)) {
-        			//mkdir(WP_PLUGIN_DIR ."/rootsData/",0777);
-            		$this->recurse_copy($this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsData/");
-            		add_option('rootsDataDir', "wp-content/rootsData/");
+            		$this->recurse_copy(ABSPATH . $this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsPersonaData/");
+            		add_option('rootsDataDir', "wp-content/rootsPersonaData/");
         		}
 
         	    $page = get_option('rootsEditPage');

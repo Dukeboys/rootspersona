@@ -5,8 +5,9 @@
 
     <xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
     <xsl:param name="site_url"/>
+    <xsl:param name="data_dir"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
-    <xsl:variable name="map-top" select="document('../rootsData/idMap.xml')/map:idMap" />
+    <xsl:variable name="map-top" select="document(concat($data_dir,'/idMap.xml'))/map:idMap" />
 
     <xsl:template match="/persona:familyGroup">
         <xsl:if test="@id!='f000'">
@@ -23,7 +24,7 @@
 
     <xsl:template match="persona:parents/persona:relation">
         <xsl:variable name="pid" select="persona:person/@id" />
-        <xsl:variable name="node" select="document(concat('../rootsData/',concat($pid,'.xml')))/persona:person" />
+        <xsl:variable name="node" select="document(concat($data_dir,concat($pid,'.xml')))/persona:person" />
 
         <tr>
             <td class="full" colspan="4">PARENT
@@ -74,7 +75,7 @@
 				 </xsl:apply-templates>
 			   </xsl:attribute>
                 <xsl:value-of
-                    select="document(concat('../rootsData/',concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
+                    select="document(concat($data_dir,concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
 
                </a>
             </xsl:if>
@@ -91,7 +92,7 @@
                <xsl:variable name="fid"  select="$node/persona:relations/persona:relation[@type='father']/persona:person/@id" />
                <xsl:if test="$fid!='' and $fid!='p000'">
                 <xsl:variable name="fNode"
-                        select="document(concat('../rootsData/',concat($fid,'.xml')))/persona:person" />
+                        select="document(concat($data_dir,concat($fid,'.xml')))/persona:person" />
                <a>
                <xsl:attribute name="href">
                  <xsl:apply-templates select="$map-top">
@@ -110,7 +111,7 @@
                 <xsl:variable name="mid"  select="$node/persona:relations/persona:relation[@type='mother']/persona:person/@id" />
                 <xsl:if test="$mid!='' and $mid!='p000'">
                     <xsl:variable name="mNode"
-                        select="document(concat('../rootsData/',concat($mid,'.xml')))/persona:person" />
+                        select="document(concat($data_dir,concat($mid,'.xml')))/persona:person" />
                                <a>
                <xsl:attribute name="href">
                  <xsl:apply-templates select="$map-top">
@@ -134,7 +135,7 @@
 
      <xsl:template match="persona:relation">
         <xsl:variable name="pid" select="persona:person/@id" />
-        <xsl:variable name="node" select="document(concat('../rootsData/',concat($pid,'.xml')))/persona:person" />
+        <xsl:variable name="node" select="document(concat($data_dir,concat($pid,'.xml')))/persona:person" />
         <tr>
             <td class="gender"><xsl:value-of select="$node/persona:characteristics/persona:characteristic[@type='gender']/text()" /></td>
             <td class="child" colspan="3">
@@ -184,7 +185,7 @@
 				 </xsl:apply-templates>
 			   </xsl:attribute>
                 <xsl:value-of
-                    select="document(concat('../rootsData/',concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
+                    select="document(concat($data_dir,concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
 
                </a>
             </xsl:if>

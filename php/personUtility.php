@@ -313,7 +313,6 @@ class PersonUtility {
 		$dh  = opendir($dataDir);
 		$files = null;
 		while (false !== ($filename = readdir($dh))) {
-			//if(!substr_compare($filename, "p", 0, 1) == 0) continue;
 			if(in_array(substr($filename,0,-4), $ids)) continue;
 			if(strpos($filename,"xml") <= 0
 			    || $filename == "p000.xml"
@@ -500,7 +499,7 @@ class PersonUtility {
          *
          * @return string HTML content
          */
-        function buildPersonaPage($atts,  $mysite, $dataDir, $baseDir,$pageId) {
+        function buildPersonaPage($atts,  $mysite, $dataDir, $pluginDir,$pageId) {
         	$rootsPersonId = $atts["personid"];
             $block = "buildPersonaPage:$rootsPersonId";
             $fileName =  $dataDir . $rootsPersonId . ".xml";
@@ -508,15 +507,28 @@ class PersonUtility {
                 $xp = new XsltProcessor();
                 // create a DOM document and load the XSL stylesheet
                 $xsl = new DomDocument;
-                $xsl->load($baseDir . 'xsl/transformPerson2Page.xsl');
+                $xsl->load($pluginDir . 'xsl/transformPerson2Page.xsl');
 
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
-                if(isset($atts['pic0'])) {
-                    $xp->setParameter('','pic0',$atts['pic0']);
+                $xp->setParameter('','data_dir','../../../../' . $dataDir);
+
+                if(isset($atts['picfile1'])) {
+                    $xp->setParameter('','pic0',$atts['picfile1']);
                 } else {
-                    $xp->setParameter('','pic0',$baseDir . '/images/boy-silhouette.gif');
+                    $xp->setParameter('','pic0',$pluginDir . 'images/boy-silhouette.gif');
+                }
+                
+                for ($idx=1; $idx<7;$idx++) {
+                	$pic = 'picfile' . ($idx+1);
+                	if(isset($atts[$pic])) {
+                		$xp->setParameter('','pic'.$idx,$atts[$pic]);
+                		$cap = 'piccap' . ($idx+1);
+                	    if(isset($atts[$cap])) {
+                			$xp->setParameter('','cap'.$idx,$atts[$cap]);
+                	    }
+                	}
                 }
                 
                 // create a DOM document and load the XML data
@@ -536,14 +548,14 @@ class PersonUtility {
                             . "'>Edit Person</a></div>";
                         }
                     } else {
-                        $block = $this->returnDefaultEmpty('XSL transformation failed.',$baseDir);
+                        $block = $this->returnDefaultEmpty('XSL transformation failed.',$pluginDir);
                     } // if
 
                 } catch (Exception $e) {
-                    $block = $this->returnDefaultEmpty('No Information available.',$baseDir);
+                    $block = $this->returnDefaultEmpty('No Information available.',$pluginDir);
                 }
             } else {
-                $block = $this->returnDefaultEmpty('No Information available.',$baseDir);
+                $block = $this->returnDefaultEmpty('No Information available.',$pluginDir);
             }
 
             return $block;
@@ -556,8 +568,8 @@ class PersonUtility {
          *
          * @return string HTML content
          */
-        function returnDefaultEmpty($input, $baseDir) {
-            $block = "<div class='truncate'><img src='" . $baseDir . "/images/boy-silhouette.gif' class='headerBox' />";
+        function returnDefaultEmpty($input, $pluginDir) {
+            $block = "<div class='truncate'><img src='" . $pluginDir . "images/boy-silhouette.gif' class='headerBox' />";
             $block = $block . "<div class='headerBox'><span class='headerBox'>" . $input . "</span></div></div>";
             $block = $block . "<br/><div class='personBanner'>Facts</div>";
             $block = $block . "<br/><div class='personBanner'>Ancestors</div>";

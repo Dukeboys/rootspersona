@@ -1,8 +1,9 @@
 <xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:persona="http://ed4becky.net/rootsPersona"
     xmlns:map="http://ed4becky.net/idMap">
-    <xsl:import href="../xsl/transformFamilyGroup.xsl" />
+    <xsl:import href="./transformFamilyGroup.xsl" />
     <xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
     <xsl:param name="site_url"/>
+    <xsl:param name="data_dir"/>
     <xsl:param name="pic0"/>
     <xsl:param name="pic1"/>
     <xsl:param name="pic2"/>
@@ -17,13 +18,12 @@
     <xsl:param name="cap5"/>
     <xsl:param name="cap6"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
-    <xsl:variable name="map-top" select="document('../rootsData/idMap.xml')/map:idMap" />
+    <xsl:variable name="map-top" select="document(concat($data_dir,'idMap.xml'))/map:idMap" />
     <!--
     <xsl:variable name="personId" select="@id"/>
     <xsl:variable name="exc" select="key('person2Page', $personId)/@pageId"/>
     -->
     <xsl:template match="/persona:person">
-
         <xsl:call-template name="personHeader" />
         <xsl:call-template name="facts" />
         <xsl:call-template name="ancestors" />
@@ -37,7 +37,7 @@
         <div class="personBanner">Family Group</div>
         <div class="truncate">
             <xsl:for-each
-                select="document(concat('../rootsData/',concat(persona:references/persona:familyGroups/persona:familyGroup/@refId,'.xml')))">
+                select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup/@refId,'.xml')))">
                 <xsl:apply-templates />
             </xsl:for-each>
         </div>
@@ -71,7 +71,7 @@
         <div class="truncate">
             <ul>
                 <xsl:for-each select="persona:characteristics/persona:characteristic">
-                    <xsl:if test="(@type!='name') and (@type!='gender')">
+                    <xsl:if test="(@type!='name') and (@type!='gender') and (@type!='surname')">
                         <li>
                             <xsl:value-of select="text()" />
                         </li>
@@ -108,7 +108,7 @@
 										</xsl:apply-templates>
 									</xsl:attribute>
                                     <xsl:value-of
-                                        select="document(concat('../rootsData/',concat($pid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
+                                        select="document(concat($data_dir,concat($pid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
                                 </a>
                             </xsl:if>
                             &#160;in
@@ -129,14 +129,14 @@
                     <xsl:variable name="fatherPid"
                         select="persona:relations/persona:relation[@type='father']/persona:person/@id" />
                     <xsl:variable name="fatherNode"
-                        select="document(concat('../rootsData/',concat($fatherPid,'.xml')))/persona:person" />
+                        select="document(concat($data_dir,concat($fatherPid,'.xml')))/persona:person" />
                     <tr>
                         <td colspan="2" rowspan="6">&#160;</td>
                         <td colspan="3" rowspan="2">&#160;</td>
                         <td>&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
-                                select="document(concat('../rootsData/',concat($fatherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
+                                select="document(concat($data_dir,concat($fatherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
                         </xsl:call-template>
                     </tr>
                     <tr>
@@ -159,7 +159,7 @@
                         <td class="leftbottom">&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
-                                select="document(concat('../rootsData/',concat($fatherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
+                                select="document(concat($data_dir,concat($fatherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
                         </xsl:call-template>
                     </tr>
                     <tr>
@@ -180,13 +180,13 @@
                     <xsl:variable name="motherPid"
                         select="persona:relations/persona:relation[@type='mother']/persona:person/@id" />
                     <xsl:variable name="motherNode"
-                        select="document(concat('../rootsData/',concat($motherPid,'.xml')))/persona:person" />
+                        select="document(concat($data_dir,concat($motherPid,'.xml')))/persona:person" />
                     <tr>
                         <td colspan="2" rowspan="6">&#160;</td>
                         <td>&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
-                                select="document(concat('../rootsData/',concat($motherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
+                                select="document(concat($data_dir,concat($motherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
                         </xsl:call-template>
                     </tr>
                     <tr>
@@ -209,7 +209,7 @@
                         <td class="leftbottom">&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
-                                select="document(concat('../rootsData/',concat($motherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
+                                select="document(concat($data_dir,concat($motherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
                         </xsl:call-template>
                     </tr>
                     <tr>

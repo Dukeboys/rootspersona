@@ -74,22 +74,34 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 
 == Changelog ==
 
-= 1.0.1 =
-* First release.
-
-= 1.0.2 =
-* fixed directory issue that caused [function.require-once]: failed to open stream error.
+= 1.0.4 =
+* removed extraneous slash from FileException and InvalidFieldException
+* moved deafult rootsDataDir to wp-content/rootsPersonaData so data would not be lost on upgrade
+* added surname to idMap.xml and person.xml files
+* parametized data_dir in XSL files
+* synchronized picture references between shortcode and stylesheet so images would appear
 
 = 1.0.3 =
 * removed PHP 5.3 dependency.
 
-== Upgrade Notice ==
+= 1.0.2 =
+* fixed directory issue that caused "[function.require-once]: failed to open stream" error.
 
 = 1.0.1 =
-Initial Version
+* First release.
+
+== Upgrade Notice ==
+
+= 1.0.4 =
+BEWARE - if upgrading from previous versions, all data will be lost!  It is important to
+copy the rootsData directory BEFORE upgrading unless you want to start over.
+AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
+
+= 1.0.3 =
+Previous version required PHP 5.3 for namespace support.  This version does not.
 
 = 1.0.2 =
 Previous version had a directory problem - did not realize that Wordpress site would not be case sensitve when distributing plugins.  I have fixed this.
 
-= 1.0.3 =
-Previous version required PHP 5.3 for namespace support.  This version does not.
+= 1.0.1 =
+Initial Version
