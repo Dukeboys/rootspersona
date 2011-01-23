@@ -3,6 +3,7 @@
     xsi:schemaLocation="http://ed4becky.net/rootsPersona ../schema/person.xsd" id="p000">
 	<persona:characteristics>
 		<persona:characteristic type="name" />
+		<persona:characteristic type="surname" />
 		<persona:characteristic type="gender" />
 	</persona:characteristics>
 	<persona:events>

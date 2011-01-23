@@ -237,11 +237,16 @@ if (!class_exists("rootsPersona")) {
 				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name']))
 					$msg = 'Empty File.';
 				else {
+					//$origTimeout = ini_get("max_execution_time");
+					//$to = isempty($origTimeout)?30:$origTimeout;
+					//set_time_limit(0);
 					$fileName = $_FILES['gedcomFile']['tmp_name'];
 					$stageDir = $this->plugin_dir . "/stage/";
 					$this->utility->processGedcomForm($fileName, $stageDir, $this->getDataDir());
 					//$msg = 'processing ' . $_FILES['gedcomFile']['name'] . ' Complete.';
 					unlink($_FILES['gedcomFile']['tmp_name']);
+					//set_time_limit($to);
+					//ini_restore("max_execution_time");
 				}
 			}
 			if(empty($msg) && isset($_POST['submitUploadGedcomForm'])) {

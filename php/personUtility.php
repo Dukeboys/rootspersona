@@ -343,6 +343,20 @@ class PersonUtility {
 		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="name"]');
 		$name = $nodeList->length?$nodeList->item(0)->nodeValue:'';
 		return $name;
+	}	/**
+	 * 
+	 * Enter description here ...
+	 * @param  $fileName
+	 * @param  $dataDir
+	 */
+	public function getSurname($fileName, $dataDir) {
+		$dom = new DOMDocument();
+		$dom->load($dataDir . "/" . $fileName);
+		$xpath = new DOMXPath($dom);
+		$xpath->registerNamespace('persona', "http://ed4becky.net/rootsPersona");
+		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="surname"]');
+		$surname = $nodeList->length?$nodeList->item(0)->nodeValue:'';
+		return $surname;
 	}
 	
 	/**
@@ -354,7 +368,7 @@ class PersonUtility {
 	 * @param  $name
 	 * @param  $dataDir
 	 */
-	public function createMapEntry($pid, $page, $name, $dataDir ) {
+	public function createMapEntry($pid, $page, $name, $surname, $dataDir ) {
 		// add to idMap.xml
   		$dom = new DOMDocument();
 		$dom->load("$dataDir/idMap.xml");
@@ -366,6 +380,7 @@ class PersonUtility {
 		$entryEl = $dom->createElementNS('http://ed4becky.net/idMap', 'map:entry');
 		$entryEl->setAttribute('personId',$pid);
 		$entryEl->setAttribute('pageId',$page);
+		$entryEl->setAttribute('surName',$surname);
 		$entryEl->appendChild($dom->createTextNode($name));
 		$rootNode->appendChild($entryEl);
 		$dom->formatOutput = true;
@@ -446,7 +461,8 @@ class PersonUtility {
             $pageID = wp_insert_post( $my_post );
             if($pageID != false)
             {
-                $this->createMapEntry($pid,$pageID, $name, $dataDir);
+            	$surname = $this->getSurname($fileName, $dataDir);
+                $this->createMapEntry($pid,$pageID, $name, $surname, $dataDir);
             }
             return $pageID;
         }

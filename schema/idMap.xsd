@@ -8,6 +8,7 @@
       <xs:attribute name="pageId" type="xs:NMTOKEN" use="required" />
       <xs:attribute name="personId" type="xs:NMTOKEN" use="required" />
       <xs:attribute name="excludeLiving" type="xs:boolean" use="optional" />
+      <xs:attribute name="surName" type="xs:token" use="optional" />
     </xs:complexType>
   </xs:element>
 

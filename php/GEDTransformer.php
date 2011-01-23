@@ -77,6 +77,11 @@ class GEDTransformer {
 		$charEl->setAttribute('type','name');
 		$charEl->appendChild($dom->createTextNode(str_replace('/','',$person->getFullName())));
 		$charsEl->appendChild($charEl);
+		
+		$charEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:characteristic');
+		$charEl->setAttribute('type','surname');
+		$charEl->appendChild($dom->createTextNode(str_replace('/','',$person->getSurname())));
+		$charsEl->appendChild($charEl);
 
 		$charEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:characteristic');
 		$charEl->setAttribute('type','gender');
@@ -86,8 +91,6 @@ class GEDTransformer {
 		$personEl->appendChild($charsEl);
 
 		//events
-
-
 		$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
 		$eventEl->setAttribute('type','birth');
 		$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');

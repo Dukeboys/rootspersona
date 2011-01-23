@@ -160,10 +160,20 @@ class IndividualRecord extends EntityAbstract
      * @since Method available since Release 0.0.1
      */
     public function getFullName() {
-        if(isset($this->Names[0]->Name->Full))
-        return $this->Names[0]->Name->Full;
+        return $this->Names[0]->Name->getFullName();
     }
 
+    /**
+     * Returns the default surname
+     *
+     * @return string default (first) surname
+     * @access public
+     * @since Method available since Release 0.0.1
+     */
+    public function getSurname() {
+        return $this->Names[0]->Name->getSurname();
+    }
+    
     /**
      * Returns the nth instance of a specific event type
      *

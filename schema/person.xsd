@@ -15,6 +15,7 @@
           <xs:restriction base="xs:NMTOKEN">
             <xs:enumeration value="gender" />
             <xs:enumeration value="name" />
+            <xs:enumeration value="surname" />
             <xs:enumeration value="other" />
           </xs:restriction>
         </xs:simpleType>

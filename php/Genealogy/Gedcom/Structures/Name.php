@@ -64,11 +64,29 @@ class Name  extends EntityAbstract
             $str = $this->Full;
         } else {
             $str = $this->Pieces->getFullName();
+            $this->Full = $str;
         }
 
         return $str;
     }
 
+    /**
+     * Returns a surname deriving it from a Fullname if a Surname does not exist.
+     *
+     * @return string The surname
+     */
+    public function getSurname() {
+    	 if(isset($this->Pieces->Surname) && $this->Pieces->Surname != '')
+        {
+            $str = $this->Pieces->Surname;
+        } else {
+            $str = $this->getFullName();
+            $str = substr($str,strpos($str, '/'),strrpos($str,'/'));
+            $str = (empty($str)?substr($str,strrpos($str, ' ')):$str);
+        }
+
+        return $str;
+    }
     /**
      * Flattens the object into a GEDCOM compliant format
      *

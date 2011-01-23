@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persona:familyGroup xmlns:persona="http://ed4becky.net/rootsPersona" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://ed4becky.net/rootsPersona ../schema/person.xsd" id="F000">
-    <persona:parents>
-        <persona:relation type="father">
-            <persona:person id="p000" />
-        </persona:relation>
-        <persona:relation type="mother">
-            <persona:person id="p000" />
-        </persona:relation>
+<persona:familyGroup xmlns:persona="http://ed4becky.net/rootsPersona" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://ed4becky.net/rootsPersona ../schema/person.xsd" id="f000">
+    <persona:parents>
+        <persona:relation type="father">
+            <persona:person id="p000" />
+        </persona:relation>
+        <persona:relation type="mother">
+            <persona:person id="p000" />
+        </persona:relation>
     </persona:parents>
-    <persona:children>
-        <persona:relation type="child">
-            <persona:person id="p000" />
-        </persona:relation>
+    <persona:children>
+        <persona:relation type="child">
+            <persona:person id="p000" />
+        </persona:relation>
     </persona:children>
 </persona:familyGroup>
