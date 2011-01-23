@@ -23,9 +23,9 @@ class PersonUtility {
 		$block = $block . "<div class='headerBox' style='padding-top: 5px;'>";
 
 		if($p['isSystemOfRecord'] =="true") {
-			$block = $block . "<div style='width:4em;float:left'>Id:</div ><input value='". $p['personId'] ."' type='text' name='personId' size='6' style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div style='width:4em;float:left'>Name:</div ><input value='". $p['personName'] ."' type='text' name='personName' size='35' style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div  style='width:4em;float:left'>Gender:</div >";
+			$block = $block . "<div style='width:4em;float:left'>Id:</div><input value='". $p['personId'] ."' type='text' name='personId' size='6' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:4em;float:left'>Name:</div><input value='". $p['personName'] ."' type='text' name='personName' size='35' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div  style='width:4em;float:left'>Gender:</div>";
 			$block = $block . "<div style='margin:0px 5px 5px 5px;'>";
 			$block = $block . "<input type='radio' name='gender' value='M' " . ($p['gender'] == 'M'?"checked='checked'":"") ."/> Male";
 			$block = $block . "<input type='radio' name='gender' value='F' " . ($p['gender'] == 'F'?"checked='checked'":"") ."/> Female";
@@ -34,7 +34,7 @@ class PersonUtility {
 			$block = $block . "<div  style='width:4em;float:left'>Born:</div><input style='float:left' value='". $p['bDate'] ."' type='text' name='bDate'  style='margin:0px 5px 5px 5px;'>";
 			$block = $block . "<div  style='width:3em;float:left;padding-left:5px;'>Place:</div><input value='". $p['bPlace'] ."' type='text' name='bPlace'  style='margin:0px 5px 5px 5px;'><br/>";
 			$block = $block . "<div  style='width:4em;float:left'>Died:</div><input style='float:left' value='". $p['dDate'] ."' type='text' name='dDate'  style='margin:0px 5px 5px 5px;'>";
-			$block = $block . "<div  style='width:3em;float:left;padding-left:5px;'>Place:</div ><input value='". $p['dPlace'] ."' type='text' name='dPlace'  style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div  style='width:3em;float:left;padding-left:5px;'>Place:</div><input value='". $p['dPlace'] ."' type='text' name='dPlace'  style='margin:0px 5px 5px 5px;'><br/>";
 			$block = $block . "<div style='float:right;'><input type='submit' name='submitPersonForm' value='Submit'/>";
 			$block = $block . "&#160;&#160;&#160;<input type='reset' name='reset' value='Reset'/></div>";
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
@@ -44,30 +44,30 @@ class PersonUtility {
 			$block = $block . "<div style='padding-top: 15px;'>";
 			$block = $block . "<div  style='width:6em;float:left'>Marraige:</div><input style='float:left' value='". $p['mDate'] ."' type='text' name='mDate'  style='margin:0px 5px 5px 5px;'>";
 			$block = $block . "<div  style='width:3.4em;float:left;padding-left:5px;'>Place:</div><input value='". $p['mPlace'] ."' type='text' name='mPlace'  style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div style='width:6em;float:left'>Partner's Id:</div ><input style='float:left' value='". $p['pid'] ."' type='text' name='pid' size='6' style='margin:0px 5px 5px 5px;'>";
+			$block = $block . "<div style='width:6em;float:left'>Partner's Id:</div><input style='float:left' value='". $p['pid'] ."' type='text' name='pid' size='6' style='margin:0px 5px 5px 5px;'>";
 			$block = $block . "<div style='float:right;'><input type='submit' name='submitPersonForm' value='Submit'/>";
 			$block = $block . "&#160;&#160;&#160;<input type='reset' name='reset' value='Reset'/></div></div>";
 			$block = $block . "</div>";
 					
 			$block = $block . "<br/><div class='personBanner'>Ancestors</div><div class='truncate'>";
 			$block = $block . "<div style='padding-top: 15px;'>";
-			$block = $block . "<div style='width:8em;float:left'>Father's Id:</div ><input value='". $p['fid'] ."' type='text' name='fid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div style='width:8em;float:left'>Mother's Id:</div ><input value='". $p['mid'] ."' type='text' name='mid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:8em;float:left'>Father's Id:</div><input value='". $p['fid'] ."' type='text' name='fid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:8em;float:left'>Mother's Id:</div><input value='". $p['mid'] ."' type='text' name='mid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
 			$block = $block . "<div style='float:right;'><input type='submit' name='submitPersonForm' value='Submit'/>";
 			$block = $block . "&#160;&#160;&#160;<input type='reset' name='reset' value='Reset'/></div></div>";
 			$block = $block . "</div>";
 
 			$block = $block . "<br/><div class='personBanner'>Family Group</div><div class='truncate'>";
 			$block = $block . "<div style='padding-top: 15px;'>";
-			$block = $block . "<div style='width:10em;float:left'>Group Id (as Parent):</div ><input value='". $p['gpid'] ."' type='text' name='gpid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div style='width:10em;float:left'>Group Id (as Child):</div ><input value='". $p['gcid'] ."' type='text' name='gcid' size='6' style='margin:0px 5px 5px 5px;'>";
+			$block = $block . "<div style='width:10em;float:left'>Group Id (as Parent):</div><input value='". $p['gpid'] ."' type='text' name='gpid' size='6' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:10em;float:left'>Group Id (as Child):</div><input value='". $p['gcid'] ."' type='text' name='gcid' size='6' style='margin:0px 5px 5px 5px;'>";
 			$block = $block . "<div style='float:right;'><input type='submit' name='submitPersonForm' value='Submit'/>";
 			$block = $block . "&#160;&#160;&#160;<input type='reset' name='reset' value='Reset'/></div></div>";
 			$block = $block . "</div>";
 			
 		} else {
-			$block = $block . "<div style='width:4em;float:left'>Id:</div ><input readonly value='". $p['personId'] ."' type='text' name='personId' size='6' style='margin:0px 5px 5px 5px;'><br/>";
-			$block = $block . "<div style='width:4em;float:left'>Name:</div ><input readonly value='". $p['personName'] ."' type='text' name='personName' size='35' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:4em;float:left'>Id:</div><input readonly value='". $p['personId'] ."' type='text' name='personId' size='6' style='margin:0px 5px 5px 5px;'><br/>";
+			$block = $block . "<div style='width:4em;float:left'>Name:</div><input readonly value='". $p['personName'] ."' type='text' name='personName' size='35' style='margin:0px 5px 5px 5px;'><br/>";
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
 			$block = $block . "</div></div>";
 		}
@@ -78,20 +78,25 @@ class PersonUtility {
 		for ($i= 1;$i <= 7; $i++) {
 			$pf = 'picFile' . $i;
 			$pc = 'picCap' . $i;
-			$block = $block . "<div><div style='width:2em;float:left;'>$i</div >";
-			$block = $block . "<div style='width:4em;float:left;padding-left:5px;'>File:</div >"
+			$block = $block . "<div><div style='width:2em;float:left;'>$i</div>";
+			$block = $block . "<div style='width:5em;float:left;padding-left:5px;'>File:</div>"
 				. "<input  style='float:left;' value='" 
 				. (isset($p[$pf])?$p[$pf]:'')  
 				. "' type='text' name='" 
 				. $pf . "' id='" . $pf
-				. "' size='35' style='margin:0px 5px 5px 5px;'></div>";
-			$block = $block . "<div style='clear:both'><div style='width:2em;float:left;'>&nbsp;</div >";
-			$block = $block . "<div style='width:4em;float:left;padding-left:5px;'>Caption:</div >"
-				. "<input value='" 
-				. (isset($p[$pc])?$p[$pc]:'')  
-				. "' type='text' name='"
-				. $pc . "' id='" . $pc
-				."' size='35' style='margin:0px 5px 5px 5px;'></div><br/>";
+				. "' size='40'></div>";
+			$block = $block . "<div style='clear:both'><div style='width:2em;float:left;'>&nbsp;</div>";
+			if($i == 1) {
+				$block = $block . "<div style='width:6em;float:left;'>&nbsp;</div>";
+				$block = $block . "<div style=''>(example: wp-content/uploads/father.jpg)</div></div><br/>";
+			} else {
+				$block = $block . "<div style='width:5em;float:left;padding-left:5px;'>Caption:</div>"
+					. "<input value='" 
+					. (isset($p[$pc])?$p[$pc]:'')  
+					. "' type='text' name='"
+					. $pc . "' id='" . $pc
+					. "' size='40'></div><br/>";
+			}
 		}
 
 		$block = $block . "<div style='float:right;'><input type='submit' name='submitPersonForm' id='submitPersonForm' value='Submit'/>";
@@ -387,6 +392,33 @@ class PersonUtility {
 		$dom->save("$dataDir/idMap.xml");
 	}
 	
+	public function updateNames($pid, $name, $surname, $dataDir ) {
+		// add to idMap.xml
+  		$dom = new DOMDocument();
+		$dom->load("$dataDir/idMap.xml");
+		$xpath = new DOMXPath($dom);
+		$xpath->registerNamespace('map', "http://ed4becky.net/idMap");
+
+		$nodes = $xpath->query("/map:idMap/map:entry[@personId=$pid]");
+		foreach($nodes as $entryEl) {
+			$entryEl->setAttribute('surName',$surname);
+			$entryEl->nodeValue = $name;
+			$page = $entryEl->getAttribute('pageId');
+			$dom->formatOutput = true;
+			$dom->preserveWhiteSpace = false;
+			$dom->save("$dataDir/idMap.xml");
+			
+			//update post title, assuming name change
+			if(isset($page) && !empty($page)) {
+				$my_post = array();
+  				$my_post['ID'] = $page;
+				$my_post['post_title'] = $name;
+				wp_update_post( $my_post );
+			}
+			break; //only want first one
+		}
+	}
+	
 	/**
 	 * 
 	 * Enter description here ...
@@ -473,18 +505,25 @@ class PersonUtility {
          * @param  $fileName
          * @param  $destDir
          */
-		function processGedcomForm($fileName, $destDir, $dataDir) {
+		function processGedcomForm($fileName, $stageDir, $dataDir) {
 			$transformer = new GEDTransformer();
-			$transformer->transformToXML($fileName, $destDir);
-	
+			$transformer->transformToXML($fileName, $stageDir);
+			
 			// open this directory 
-			$myDirectory = opendir($destDir);
+			$myDirectory = opendir($stageDir);
 			
 			// get each entry
 			while($entryName = readdir($myDirectory)) {
-				//$dirArray[] = $entryName;
-				if (strpos($entryName, "xml") > 0)
-					rename($destDir . $entryName, $dataDir . $entryName);
+				if (strpos($entryName, "xml") > 0) {
+					// update map entry with possible name chnage, if map entry exists
+					$pid = str_replace('.xml', '', $entryName);
+					$name = $this->getName($entryName, $stageDir);
+					if(!empty($name)) {
+						$surname = $this->getSurname($entryName, $stageDir);
+						$this->updateNames($pid, $name, $surname, $dataDir );
+					}
+					rename($stageDir . $entryName, $dataDir . $entryName);
+				}	
 			}
 
 			// close directory
