@@ -80,6 +80,7 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 * added surname to idMap.xml and person.xml files
 * parametized data_dir in XSL files
 * fixed defect to allow images and captions to display properly
+* update page title and idMap.xml when gedcom is reloaded (in case name changed or new attribute in idMap)
 
 = 1.0.3 =
 * removed PHP 5.3 dependency.
@@ -96,6 +97,9 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 BEWARE - if upgrading from previous versions, all data will be lost!  It is important to
 copy the rootsData directory BEFORE upgrading unless you want to start over.
 AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
+
+Reloading your gedcom AFTER performing the above will support additional fucntionality 
+due to upgrades to the idMap.xml file.  Reloading a gedcom will not harm exisiting data.
 
 = 1.0.3 =
 Previous version required PHP 5.3 for namespace support.  This version does not.
