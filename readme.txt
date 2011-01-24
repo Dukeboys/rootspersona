@@ -71,11 +71,11 @@ Not sure why they are there, but if you simply delete these extra characters, sa
 The Gedcom file on your PC is untouched.  The copy uploaded to Wordpress is converted into a set of
 person and family files in XML format.  After conversion, the Gedcom file uploaded to Wordpress is deleted.
 
-= Why do I need a *Parent Page*? =
+= Why do I need a Parent Page? =
 
 You don’t.
 
-However, if you are like me, you will soon end up with hundreds of persons on your site. Many widgets will display a link to all or some of your pages, and by creating the person pages under a parent, you can choose to exclude those hundreds of pages from your list. That’s what I use it for; it is really just a convenience. By default the parent page is set to zero, which means no parent page.
+However, if you are like me, you will soon end up with hundreds of persons on your site. Many widgets will display a link to all or some of your pages, and by creating the person pages under a parent, you can choose to exclude those hundreds of pages from your list. That is what I use it for; it is really just a convenience. By default the parent page is set to zero, which means no parent page.
 
 = I only want people who are logged in to see certain people on my site. =
 
