@@ -110,8 +110,8 @@ class Parser
      */
     private function _validate(&$buffer)
     {
-        if (($buffer[0] != '0 HEAD')
-            ||($buffer[count($buffer) -1] != '0 TRLR')
+        if ((strpos($buffer[0],'0 HEAD') === false)
+            ||(strpos($buffer[count($buffer) -1],'0 TRLR') === false)
         ) {
             throw new FileException(
                 'Invalid GEDCOM file: invalid HEAD or TRLR: '
