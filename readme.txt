@@ -73,7 +73,7 @@ person and family files in XML format.  After conversion, the Gedcom file upload
 
 = Why do I need a Parent Page? =
 
-You don’t.
+You do not.
 
 However, if you are like me, you will soon end up with hundreds of persons on your site. Many widgets will display a link to all or some of your pages, and by creating the person pages under a parent, you can choose to exclude those hundreds of pages from your list. That is what I use it for; it is really just a convenience. By default the parent page is set to zero, which means no parent page.
 

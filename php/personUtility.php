@@ -395,18 +395,17 @@ class PersonUtility {
 	public function updateNames($pid, $name, $surname, $dataDir ) {
 		// add to idMap.xml
   		$dom = new DOMDocument();
-		$dom->load("$dataDir/idMap.xml");
+		$dom->load($dataDir . "idMap.xml");
 		$xpath = new DOMXPath($dom);
-		$xpath->registerNamespace('map', "http://ed4becky.net/idMap");
-
-		$nodes = $xpath->query("/map:idMap/map:entry[@personId=$pid]");
-		foreach($nodes as $entryEl) {
+        $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+        $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
+		foreach($nodeList as $entryEl) {
 			$entryEl->setAttribute('surName',$surname);
 			$entryEl->nodeValue = $name;
 			$page = $entryEl->getAttribute('pageId');
 			$dom->formatOutput = true;
 			$dom->preserveWhiteSpace = false;
-			$dom->save("$dataDir/idMap.xml");
+			$dom->save($dataDir . "/idMap.xml");
 			
 			//update post title, assuming name change
 			if(isset($page) && !empty($page)) {
