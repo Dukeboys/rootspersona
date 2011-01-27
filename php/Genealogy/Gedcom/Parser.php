@@ -101,14 +101,14 @@ class Parser
     /**
      * Validate that the file is a valid gedcom file
      *
-     * @param array &$buffer lines of the gedcom file
+     * @param array $buffer lines of the gedcom file
      *
      * @return void
      * @throws FileException
      * @access private
      * @since Method available since Release 0.0.1
      */
-    private function _validate(&$buffer)
+    private function _validate($buffer)
     {
         if ((strpos($buffer[0],'0 HEAD') === false)
             ||(strpos($buffer[count($buffer) -1],'0 TRLR') === false)
@@ -135,15 +135,15 @@ class Parser
      * By making the leaf a node(array),
      * it can be turned into a branch if needed.
      *
-     * @param array &$records contains lines being parsed
+     * @param array $records contains lines being parsed
      * @param int	$idx      indicates current offset to be parsed in $records
      * @param int	$depth    indicates current depth to be parsed
-     * @param array &$tree    empty container for records to be parsed
+     * @param array $tree    empty container for records to be parsed
      *                        at current depth for the current parent
      *
      * @return int  $idx      index of last record created
      */
-    private function _createTree(&$records, $idx, $depth, &$tree)
+    private function _createTree($records, $idx, $depth, &$tree)
     {
         // the first call is always at the right depth.
         $tree[] = array($records[$idx]);
@@ -160,7 +160,7 @@ class Parser
                 $off = sizeof($tree) - 1;
                 // will need an array for the next lvl
                 $tree[$off][1] = array();
-                $idx = $this->_createTree(&$records, $idx, $recDepth, $tree[$off][1]);
+                $idx = $this->_createTree($records, $idx, $recDepth, $tree[$off][1]);
             } else {
                 //stay here for another round
                 $tree[] = array($records[$idx]);
@@ -174,11 +174,11 @@ class Parser
     /**
      * Creates objects from tree nodes
      *
-     * @param array &$tree the populated tree of records
+     * @param array $tree the populated tree of records
      *
      * @return void
      */
-    private function _parseTree(&$tree)
+    private function _parseTree($tree)
     {
         foreach ($tree as $row) {
             if (@preg_match('/0 HEAD/US', $row[0])) {

@@ -599,7 +599,7 @@ class PersonUtility {
             return $block;
         }
         
-        /**
+		/**
          * Return an empty person page
          *
          * @param $input message to be displayed
@@ -614,6 +614,42 @@ class PersonUtility {
             $block = $block . "<br/><div class='personBanner'>Family Group</div>";
             $block = $block . "<br/><div class='personBanner'>Pictures</div>";
             $block = $block . "<br/><div class='personBanner'><br/></div>";
+            return $block;
+        }
+        
+        function buildPersonaIndexPage($atts,  $mysite, $dataDir, $pluginDir) {
+            $block = "";
+            $fileName =  $dataDir . "idMap.xml";
+            if(file_exists($fileName)) {
+                $xp = new XsltProcessor();
+                // create a DOM document and load the XSL stylesheet
+                $xsl = new DomDocument;
+                $xsl->load($pluginDir . 'xsl/personaIndex.xsl');
+
+                // import the XSL stylesheet into the XSLT process
+                $xp->importStylesheet($xsl);
+                $xp->setParameter('','site_url',$mysite);
+                $xp->setParameter('','data_dir','../../../../' . $dataDir);
+                
+                // create a DOM document and load the XML data
+                $xml_doc = new DomDocument;
+                try {
+                    $xml_doc->load($fileName);
+
+                    // transform the XML into HTML using the XSL file
+                    if (($html = $xp->transformToXML($xml_doc)) !== false) {
+                        $block = $html;
+                    } else {
+                        $block = 'XSL transformation failed.';
+                    } // if
+
+                } catch (Exception $e) {
+                    $block = 'No Information available.';
+                }
+            } else {
+                $block = 'No Information available.';
+            }
+
             return $block;
         }
 }
