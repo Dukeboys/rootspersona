@@ -230,15 +230,7 @@ class PersonUtility {
 		$nodeList = $xpath->query('persona:references/persona:familyGroups/persona:familyGroup[@selfType="child"]',$rootPersonNode);
 		$node = $nodeList->item(0);
 		$p['gcid'] = isset($node)?$node->getAttribute('refId'):'';
-		
-//		$picList = $xpath->query('persona:references/persona:media/persona:picture',$rootPersonNode);
-//		for ($i=0; $i < $picList->length; $i++)  {
-//			$picNode = $picList->item($i);
-//			$p['picFile' . ($i+1)] = $picNode->getAttribute('src');		
-//			$nodeList = $xpath->query('persona:caption',$picNode);
-//			$p['picCap' . ($i+1)] = $nodeList->length?$nodeList->item(0)->nodeValue:'';
-//		}
-				
+					
 		return $p;
 	}
 
@@ -304,14 +296,6 @@ class PersonUtility {
 		$node = $nodeList->item(0);
 		$node->setAttribute('refId',$p['gcid']);
 		
-//		$picList = $xpath->query('persona:references/persona:media/persona:picture',$rootPersonNode);
-//		for ($i=1; $i < 8; $i++)  {
-//			$picNode = $picList->item($i-1);
-//			$picNode->setAttribute('seq', $i);
-//			$picNode->setAttribute('src',$p['picFile' . $i]);		
-//			$nodeList = $xpath->query('persona:caption',$picNode);
-//			$nodeList->item(0)->nodeValue = $p['picCap' . $i]; 
-//		}
 		return $xml_doc;
 	}
 
@@ -643,7 +627,7 @@ class PersonUtility {
                         if(current_user_can("edit_pages"))
                         {
                             $block = $block . "<div style='margin-top:10px'><a href='"
-                            . get_option('siteurl') . '/?page_id=' . get_option("rootsEditPage")
+                            . $mysite . '/?page_id=' . get_option("rootsEditPage")
                             . "&personId=" . $rootsPersonId
                             . "&srcPage=" . $pageId
                             . "'>Edit Person</a></div>";

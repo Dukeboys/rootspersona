@@ -65,10 +65,9 @@ if (!class_exists("rootsPersona")) {
             	return $this->utility->returnDefaultEmpty('Privacy Protected.',$this->plugin_dir);
 
             $block = "rootsPersonaHandler: $rootsPersonId";
-            $mysite = get_option('siteurl');
             if(isset($rootsPersonId)) {
                 $block = $this->utility->buildPersonaPage($atts,
-                								 $mysite,
+                								 site_url(),
                 								 $this->getDataDir(),
                 								 $this->plugin_dir,
                 								 $this->getPageId());
@@ -78,9 +77,8 @@ if (!class_exists("rootsPersona")) {
 
         function rootsPersonaIndexHandler( $atts, $content = null ) {
             $block = "";
-            $mysite = get_option('siteurl');
             $block = $this->utility->buildPersonaIndexPage($atts,
-                								 $mysite,
+                								 site_url(),
                 								 $this->getDataDir(),
                 								 $this->plugin_dir);
             return $block;
@@ -132,7 +130,7 @@ if (!class_exists("rootsPersona")) {
 								}
 		                   }
 			            }
-		    	        $p['action'] =  get_option('siteurl') . '/?page_id=' . $this->getPageId();
+		    	        $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 		                $p['isSystemOfRecord'] = $isSystemOfRecord;
 		                return $this->utility->showForm($p,$this->plugin_dir);
                 	} else {
@@ -185,14 +183,14 @@ if (!class_exists("rootsPersona")) {
   					$content = $content . "/]";
   					$my_post['post_content'] = $content;
   					wp_update_post( $my_post );
-  					$location = get_option('siteurl') . '/?page_id=' . $p['srcPage'];
+  					$location = site_url() . '/?page_id=' . $p['srcPage'];
   					// The wp_redirect command uses a PHP redirect at its core,
   					// therefore, it will not work either after header information
   					// has been defined for a page.
 					return '<script type="text/javascript">window.location="' . $location . '"; </script>';
   					//$msg = $msg . "<br>Saved.";
             	}
-                $p['action'] =  get_option('siteurl') . '/?page_id=' . $this->getPageId();
+                $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
                 $p['isSystemOfRecord'] = $isSystemOfRecord;
 
                 return $this->utility->showForm($p, $this->plugin_dir, "<div class='truncate'>" . $msg . "</div>");
@@ -210,7 +208,7 @@ if (!class_exists("rootsPersona")) {
          * @example [rootsAddPageForm/]
          */
         function addPageFormHandler() {
-            $action =  get_option('siteurl') . '/?page_id=' . $this->getPageId();
+            $action =  site_url() . '/?page_id=' . $this->getPageId();
             $msg ='';
             if (isset($_POST['submitAddPageForm']))
             {
@@ -235,7 +233,7 @@ if (!class_exists("rootsPersona")) {
 			if (!current_user_can('upload_files'))
 				wp_die(__('You do not have permission to upload files.'));
 
-			$action =  get_option('siteurl') . '/?page_id=' . $this->getPageId();
+			$action =  site_url() . '/?page_id=' . $this->getPageId();
 
 			$msg ='';
 
@@ -244,23 +242,18 @@ if (!class_exists("rootsPersona")) {
 				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name']))
 					$msg = 'Empty File.';
 				else {
-					//$origTimeout = ini_get("max_execution_time");
-					//$to = isempty($origTimeout)?30:$origTimeout;
-					//set_time_limit(0);
 					$fileName = $_FILES['gedcomFile']['tmp_name'];
 					$stageDir = $this->plugin_dir . "stage/";
 					$this->utility->processGedcomForm($fileName, $stageDir, $this->getDataDir());
-					//$msg = 'processing ' . $_FILES['gedcomFile']['name'] . ' Complete.';
 					unlink($_FILES['gedcomFile']['tmp_name']);
-					//set_time_limit($to);
-					//ini_restore("max_execution_time");
+
 				}
 			}
 			if(empty($msg) && isset($_POST['submitUploadGedcomForm'])) {
 				// The wp_redirect command uses a PHP redirect at its core,
   				// therefore, it will not work either after header information
   				// has been defined for a page.
-				$location = get_option('siteurl') . '/?page_id=' . get_option("rootsCreatePage");
+				$location = site_url() . '/?page_id=' . get_option("rootsCreatePage");
 				return '<script type="text/javascript">window.location="' . $location . '"; </script>';
 
 			} else {
@@ -269,11 +262,9 @@ if (!class_exists("rootsPersona")) {
 
 		}
 
-        // PLUGIN FILTERS
-
         /**
          * Called on behalf of the the_content filter hook
-         * to check for a custom filed called "permissions"
+         * to check for a custom field called "permissions"
          * and insure a user is logged in if the field is set.
          *
          * @param $content page content retrieved from DB
@@ -290,15 +281,13 @@ if (!class_exists("rootsPersona")) {
             return $content;
         }
 
-        //PLUGIN ACTIONS
-
         /**
          * Called on behalf of the wp_print_styles hook to dynamically
          * insert the style sheets the plugin needs
          *
          * @return void
          */
-            function insertRootsPersonaStyles() {
+        function insertRootsPersonaStyles() {
             wp_register_style('rootsPersona-1', plugins_url('css/familyGroup.css',__FILE__), false, '1.0', 'screen');
             wp_enqueue_style( 'rootsPersona-1');
             wp_register_style('rootsPersona-2', plugins_url('css/ancestors.css',__FILE__), false, '1.0', 'screen');
@@ -313,8 +302,6 @@ if (!class_exists("rootsPersona")) {
        		wp_register_script('sortable_us', plugins_url('scripts/sortable_us.js',__FILE__));
             wp_enqueue_script('sortable_us');
         }
-
-        // PLUGIN HELPERS
 
         /**
          * Determines if a person is flagged as excluded
@@ -360,7 +347,8 @@ if (!class_exists("rootsPersona")) {
          */
         function rootsPersonaInstall () {
 			$installer = new rootsPersonaInstaller();
-			$installer->rootsPersonaInstall($this->rootsPersonaVersion);
+			$installer->rootsPersonaInstall(ABSPATH . $this->plugin_dir, 
+											$this->rootsPersonaVersion);
         }
         
         function rootsPersonaUpgrade() {
@@ -368,7 +356,8 @@ if (!class_exists("rootsPersona")) {
         	if(!isset($currentVersion) || empty($currentVersion)
         		|| $this->rootsPersonaVersion != $currentVersion) {
 				$installer = new rootsPersonaInstaller();
-				$installer->rootsPersonaUpgrade($this->rootsPersonaVersion);
+				$installer->rootsPersonaUpgrade(ABSPATH . $this->plugin_dir,
+												$this->rootsPersonaVersion);
         	}
         }
         
@@ -407,7 +396,7 @@ if (class_exists("rootsPersona")) {
 if (isset($rootsPersonaplugin)) {
     register_activation_hook(__FILE__,array($rootsPersonaplugin, 'rootsPersonaInstall'));
     register_deactivation_hook(__FILE__, array($rootsPersonaplugin, 'rootsPersonaUninstall') ) ;
-	add_action( 'admin_init', 'rootsPersonaUpgrade' );
+	add_action( 'admin_init', array($rootsPersonaplugin, 'rootsPersonaUpgrade' ));
     
     add_shortcode('rootsPersona', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
