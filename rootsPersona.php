@@ -3,7 +3,7 @@
  Plugin Name: rootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 1.1.0
+ Version: 1.1.1
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  License: GPLv2
@@ -26,16 +26,15 @@
 */
 
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-//require_once(ABSPATH . 'wp-includes/pluggable.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
-
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
 
 /**
  * First, make sure class exists
  */
 if (!class_exists("rootsPersona")) {
     class rootsPersona {
-        var $rootsPersonaVersion = '1.1.0';
+        var $rootsPersonaVersion = '1.1.1';
         var $plugin_dir;
         var $utility;
 
@@ -46,8 +45,6 @@ if (!class_exists("rootsPersona")) {
             $this->plugin_dir = "wp-content/plugins/" . plugin_basename(dirname(__FILE__)) . "/";
             $this->utility = new PersonUtility();
         }
-
-        // PLUGIN SHORTCODE HANDLERS
 
         /**
          * Entry point for the rootsPersona shortcode
@@ -358,264 +355,31 @@ if (!class_exists("rootsPersona")) {
             return get_option("rootsDataDir");
         }
 
-		// PLUGIN REGISTRATION
-
         /**
          * Install the plugin
          */
         function rootsPersonaInstall () {
-        	$currVersion = get_option('rootsPersonaVersion');
-        	if(!isset($currVersion) || empty($currVersion)) {
-            	add_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-            	if(!is_dir(WP_CONTENT_DIR ."/rootsPersonaData/")) {
-            		$this->recurse_copy(ABSPATH . $this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsPersonaData/");
-            	}
-            	add_option('rootsDataDir', "wp-content/rootsPersonaData/");
-            	$page = $this->addEditPage();
-            	add_option('rootsEditPage', $page);
-            	$page = $this->addAddPage();
-            	add_option('rootsCreatePage', $page);
-            	$page = $this->addUploadPage();
-            	add_option('rootsUploadGedcomPage', $page);
-            	$page = $this->addIndexPage();
-            	add_option('rootsPersonaIndexPage', $page);
-            	add_option('rootsPersonaParentPage', "0");
-            	add_option('rootsIsSystemOfRecord', 'false');
-        	} else {
-        		if ($currVersion != $this->rootsPersonaVersion)
-        		{
-        			update_option('rootsPersonaVersion', $this->rootsPersonaVersion);
-        		}
-
-        		$opt = get_option('rootsDataDir');
-        		if(!isset($opt) || empty($opt) || !is_dir($opt)) {
-        			$this->recurse_copy(ABSPATH . $this->plugin_dir . "/rootsData/", WP_CONTENT_DIR ."/rootsPersonaData/");
-        			add_option('rootsDataDir', "wp-content/rootsPersonaData/");	
-        		}
-
-        	    $page = get_option('rootsEditPage');
-        		if(!isset($page) || empty($page)) {
-            		$page = $this->addEditPage();
-            		add_option('rootsEditPage', $page);
-        		} else {
-        			$this->updateEditPage($page);
-        		}
-
-        		unset($page);
-        	    $page = get_option('rootsCreatePage');
-        		if(!isset($page) || empty($page)) {
-            		$page = $this->addAddPage();
-            		add_option('rootsCreatePage', $page);
-        		} else {
-        			$this->updateAddPage($page);
-        		}
-
-        	    unset($page);
-        	    $page = get_option('rootsUploadGedcomPage');
-        		if(!isset($page) || empty($page)) {
-            		$page = $this->addUploadPage();
-            		add_option('rootsUploadGedcomPage', $page);
-        		} else {
-        			$this->updateIndexPage($page);
-        		}
-        		
-        	    unset($page);
-        	    $page = get_option('rootsPersonaIndexPage');
-        		if(!isset($page) || empty($page)) {
-            		$page = $this->addIndexPage();
-            		add_option('rootsPersonaIndexPage', $page);
-        		} else {
-        			$this->updateIndexPage($page);
-        		}
-        		
-        		unset($opt);
-        		$opt = get_option('rootsPersonaParentPage');
-        		if (!isset($opt) || empty($opt))
-        		   add_option('rootsPersonaParentPage', "0");
-
-        		unset($opt);
-        		$opt = get_option('rootsIsSystemOfRecord');
-        		if (!isset($opt) || empty($opt))
-        		   add_option('rootsIsSystemOfRecord', 'false');
-        	}
-        }
-
-       function addIndexPage() {
-        	// Create post object
-            $my_post = array();
-            $my_post['post_title'] = 'Persona Index';
-            $my_post['post_content'] = "[rootsPersonaIndexPage/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            $pageID = wp_insert_post( $my_post );
-            return $pageID;
-        }
-
-        function updateIndexPage($page) {
-        	// Create post object
-            $my_post = array();
-            $my_post['ID'] = $page;
-            $my_post['post_title'] = 'Persona Index';
-            $my_post['post_content'] = "[rootsPersonaIndexPage/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            wp_update_post( $my_post );
+			$installer = new rootsPersonaInstaller();
+			$installer->rootsPersonaInstall($this->rootsPersonaVersion);
         }
         
-        function addUploadPage() {
-        	// Create post object
-            $my_post = array();
-            $my_post['post_title'] = 'Upload gedcom File';
-            $my_post['post_content'] = "[rootsUploadGedcomForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            $pageID = wp_insert_post( $my_post );
-            return $pageID;
+        function rootsPersonaUpgrade() {
+        	$currentVersion = get_option('rootsPersonaVersion');
+        	if(!isset($currentVersion) || empty($currentVersion)
+        		|| $this->rootsPersonaVersion != $currentVersion) {
+				$installer = new rootsPersonaInstaller();
+				$installer->rootsPersonaUpgrade($this->rootsPersonaVersion);
+        	}
         }
-    
-        function updateUploadPage($page) {
-        	// Create post object
-            $my_post = array();
-            $my_post['ID'] = $page;
-            $my_post['post_title'] = 'Upload gedcom File';
-            $my_post['post_content'] = "[rootsUploadGedcomForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            wp_update_post( $my_post );
-        }
-
-        function addAddPage() {
-        	// Create post object
-            $my_post = array();
-            $my_post['post_title'] = 'Add Person';
-            $my_post['post_content'] = "[rootsAddPageForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            $pageID = wp_insert_post( $my_post );
-            return $pageID;
-        }
-
-        function updateAddPage($page) {
-        	// Create post object
-            $my_post = array();
-            $my_post['ID'] = $page;
-            $my_post['post_title'] = 'Add Person';
-            $my_post['post_content'] = "[rootsAddPageForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            wp_update_post( $my_post );
-        }
-
-        function addEditPage() {
-        	// Create post object
-            $my_post = array();
-            $my_post['post_title'] = 'Edit Person';
-            $my_post['post_content'] = "[rootsEditPersonaForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            $pageID = wp_insert_post( $my_post );
-            return $pageID;
-        }
-
-        function updateEditPage($page) {
-        	// Create post object
-            $my_post = array();
-            $my_post['ID'] = $page;
-            $my_post['post_title'] = 'Edit Person';
-            $my_post['post_content'] = "[rootsEditPersonaForm/]";
-            $my_post['post_status'] = 'private';
-            $my_post['post_author'] = 0;
-            $my_post['post_type'] = 'page';
-            $my_post['ping_status'] = 'closed';
-            $my_post['comment_status'] = 'closed';
-            $my_post['post_parent'] = 0;
-
-            // Insert the post into the database
-            wp_update_post( $my_post );
-        }
-
+        
         /**
          * Uninstall (cleanup) the plugin
          */
         function rootsPersonaUninstall() {
-            delete_option('rootsPersonaVersion');
-            delete_option('rootsDataDir');
-            $page = get_option('rootsEditPage');
-            wp_delete_post($page);
-            delete_option('rootsEditPage');
-            $page = get_option('rootsCreatePage');
-            wp_delete_post($page);
-            delete_option('rootsCreatePage');
-            $page = get_option('rootsUploadGedcomPage');
-            wp_delete_post($page);
-            delete_option('rootsUploadGedcomPage');
-            $page = get_option('rootsPersonaIndexPage');
-            wp_delete_post($page);
-            delete_option('rootsPersonaIndexPage');
-            
-            delete_option('rootsPersonaParentPage');             
-            delete_option('rootsIsSystemOfRecord');
-            remove_action('admin_menu', 'rootsPersonaOptionsPage');
+			$installer = new rootsPersonaInstaller();
+			$installer->rootsPersonaUninstall();
         }
         
-		function recurse_copy($src,$dst) {
-    		$dir = opendir($src);
-	    	@mkdir($dst);
-    		while(false !== ( $file = readdir($dir)) ) {
-    	    	if (( $file != '.' ) && ( $file != '..' )) {
-            		if ( is_dir($src . '/' . $file) ) {
-            	    	$this->recurse_copy($src . '/' . $file,$dst . '/' . $file);
-	    	        }
-  		  	        else {
-        	    	    copy($src . '/' . $file,$dst . '/' . $file);
-            		}
-    	    	}
- 	   		}
-    		closedir($dir);
-		} 
-
         function __toString() {
             return __CLASS__;
         }
@@ -625,72 +389,7 @@ if (!class_exists("rootsPersona")) {
 						'rootsPersona',
 						'manage_options',
 						__FILE__,
-						array($this, 'buildRootsOptionsPage'));
-		}
-
-    	function buildRootsOptionsPage() {
-			$block = "<html><head></head><body>";
-			$block = $block . "<div class='wrap'><h2>rootsPersona</h2>";
-			$block = $block . "<form method='post' action='options.php'>";
-			$block = $block . wp_nonce_field('update-options');
-
-			$block = $block . "<table class='form-table'>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsPersonaVersion'>rootsPersona Version</label></th>";
-			$block = $block . "<td><label class='regular-text' name='rootsPersonaVersion' id='rootsPersonaVersion'>";
-			$block = $block . get_option('rootsPersonaVersion'). "</label></td>";
-			$block = $block . "<td></td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsPersonaParentPage'>rootsPersona Parent Page Id</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsPersonaParentPage' id='rootsPersonaParentPage'";
-			$block = $block . " value='" . get_option('rootsPersonaParentPage'). "' /></td>";
-			$block = $block . "<td>Indicate the page you want persona pages to be organized under in a menu structure.  0 indicates no parent page.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsDataDir'>rootsPersona Data Directory</label></th>";
-			$block = $block . "<td><input type='text' size='35' name='rootsDataDir' id='rootsDataDir'";
-			$block = $block . " value='" . get_option('rootsDataDir'). "' /></td>";
-			$block = $block . "<td>Directory where data files are stored. There is usually no need to change this.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsEditPage'>Edit Person Page Id</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsEditPage' id='rootsEditPage'";
-			$block = $block . " value='" . get_option('rootsEditPage'). "' /></td>";
-			$block = $block . "<td>Indicates the page with the  Edit Page shortcode. There is usually no need to change this.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsCreatePage'>Add Person Page Id</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsCreatePage' id='rootsCreatePage'";
-			$block = $block . " value='" . get_option('rootsCreatePage'). "' /></td>";
-			$block = $block . "<td>Indicates the page with the  Add Page shortcode. There is usually no need to change this.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsUploadGedcomPage'>Upload Gedcom Page Id</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsUploadGedcomPage' id='rootsUploadGedcomPage'";
-			$block = $block . " value='" . get_option('rootsUploadGedcomPage'). "' /></td>";
-			$block = $block . "<td>Indicates the page with the  Upload gedcom shortcode. There is usually no need to change this.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsIndexPage'>Persona Index Page Id</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsPersonaIndexPage' id='rootsPersonaIndexPage'";
-			$block = $block . " value='" . get_option('rootsPersonaIndexPage'). "' /></td>";
-			$block = $block . "<td>Indicates the page with the  Name Index. There is usually no need to change this.</td></tr>";
-
-			$block = $block . "<tr valign='top'>";
-			$block = $block . "<th scope='row'><label for='rootsIsSystemOfRecord'>Is this the System Of Record?</label></th>";
-			$block = $block . "<td><input type='text' size='5' name='rootsIsSystemOfRecord' id='rootsIsSystemOfRecord'";
-			$block = $block . " value='" . get_option('rootsIsSystemOfRecord'). "' /></td>";
-			$block = $block . "<td>true|false.  Only false is supporterd at this time (meaning some external program is the system of record).</td></tr>";
-
-			$block = $block . "</table>";
-			$block = $block . "<input type='hidden' name='action' value='update' />";
-			$block = $block . "<input type='hidden' name='page_options' value='rootsPersonaParentPage,rootsIsSystemOfRecord,rootsDataDir,rootsUploadGedcomPage,rootsCreatePage,rootsEditPage,rootsPersonaIndexPage' />";
-			$block = $block . "<p class='submit'>";
-			$block = $block . "<input type='submit' name='Submit' value='Save Changes'/>";
-			$block = $block . "</p></form></div></body></html>";
-			echo $block;
+						array($this->utility, 'buildRootsOptionsPage'));
 		}
     }
 }
@@ -708,7 +407,8 @@ if (class_exists("rootsPersona")) {
 if (isset($rootsPersonaplugin)) {
     register_activation_hook(__FILE__,array($rootsPersonaplugin, 'rootsPersonaInstall'));
     register_deactivation_hook(__FILE__, array($rootsPersonaplugin, 'rootsPersonaUninstall') ) ;
-
+	add_action( 'admin_init', 'rootsPersonaUpgrade' );
+    
     add_shortcode('rootsPersona', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
     add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'editPersonFormHandler'));
