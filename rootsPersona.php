@@ -29,6 +29,7 @@ require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsOptionPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
 
 /**
  * First, make sure class exists
@@ -133,7 +134,7 @@ if (!class_exists("rootsPersona")) {
 			            }
 		    	        $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 		                $p['isSystemOfRecord'] = $isSystemOfRecord;
-		                return $this->utility->showForm($p,site_url() . "/wp-content/plugins/rootspersona");
+		                return showEditForm($p,site_url() . "/wp-content/plugins/rootspersona");
                 	} else {
                 		return "Missing file: $fileName";
                 	}
@@ -194,7 +195,7 @@ if (!class_exists("rootsPersona")) {
                 $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
                 $p['isSystemOfRecord'] = $isSystemOfRecord;
 
-                return $this->utility->showForm($p, site_url() . "/wp-content/plugins/roostpersona/", "<div class='truncate'>" . $msg . "</div>");
+                return showEditForm($p, site_url() . "/wp-content/plugins/roostpersona/", "<div class='truncate'>" . $msg . "</div>");
             }
         }
 
