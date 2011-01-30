@@ -1,4 +1,4 @@
-#content table.ancestors {
+.post table.ancestors {
 margin-top: 10px; 
 margin-bottom:10px;
 margin-left:auto;
@@ -10,33 +10,33 @@ border-spacing: 0px;
 text-indent: 0;
 }
 
-#content table.ancestors tr {
+.post table.ancestors tr {
 text-align: center;
 }
 
-#content table.ancestors tr td {
+.post table.ancestors tr td {
 padding: 0px;
 border: 0px none;
 }
 
-#content table.ancestors td.nameBox {
+.post table.ancestors td.nameBox {
 border: 2px solid brown;
 padding: 0.2em;
 }
 
-#content table.ancestors td.topleft {
+.post table.ancestors td.topleft {
 border-top: 1px solid brown;
 border-left: 1px solid brown;
 }
 
-#content table.ancestors td.bottom {
+.post table.ancestors td.bottom {
 border-bottom: 1px solid brown;
 }
 
-#content table.ancestors td.left {
+.post table.ancestors td.left {
 border-left: 1px solid brown;
 }
 
-#content table.ancestors td.leftbottom {
+.post table.ancestors td.leftbottom {
 border-left: 1px solid brown; border-bottom: 1px solid brown;
 }

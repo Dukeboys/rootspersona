@@ -167,7 +167,11 @@ class GedcomManager extends Parser
     {
         return $this->gedcomObjects['MediaRecs'][$identifier];
     }
-
+    
+    function getSource($identifier)
+    {
+        return $this->gedcomObjects['SrcRecs'][$identifier];
+    }
     /**
      * Get the header object
      *

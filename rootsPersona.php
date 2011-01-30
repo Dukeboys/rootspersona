@@ -28,6 +28,7 @@
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsOptionPage.php');
 
 /**
  * First, make sure class exists
@@ -43,7 +44,7 @@ if (!class_exists("rootsPersona")) {
          */
         function __construct() {
             $this->plugin_dir = "wp-content/plugins/" . plugin_basename(dirname(__FILE__)) . "/";
-            $this->utility = new PersonUtility();
+            $this->utility = new personUtility();
         }
 
         /**
@@ -345,7 +346,7 @@ if (!class_exists("rootsPersona")) {
         /**
          * Install the plugin
          */
-        function rootsPersonaInstall () {
+        function rootsPersonaActivate () {
 			$installer = new rootsPersonaInstaller();
 			$installer->rootsPersonaInstall(ABSPATH . $this->plugin_dir, 
 											$this->rootsPersonaVersion);
@@ -364,7 +365,7 @@ if (!class_exists("rootsPersona")) {
         /**
          * Uninstall (cleanup) the plugin
          */
-        function rootsPersonaUninstall() {
+        function rootsPersonaDeactivate() {
 			$installer = new rootsPersonaInstaller();
 			$installer->rootsPersonaUninstall();
         }
@@ -378,8 +379,19 @@ if (!class_exists("rootsPersona")) {
 						'rootsPersona',
 						'manage_options',
 						__FILE__,
-						array($this->utility, 'buildRootsOptionsPage'));
+						'buildRootsOptionsPage');
 		}
+
+		function rootsPersonaOptionsInit() {
+			register_setting( 'rootsPersonaOptions', 'rootsPersonaParentPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsIsSystemOfRecord', 'wp_filter_nohtml_kses');
+			register_setting( 'rootsPersonaOptions', 'rootsDataDir', 'wp_filter_nohtml_kses');
+			register_setting( 'rootsPersonaOptions', 'rootsUploadGedcomPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsEditPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );								
+		}
+		
     }
 }
 
@@ -394,10 +406,11 @@ if (class_exists("rootsPersona")) {
  * Third, activate the plugin and any actions or filters
  */
 if (isset($rootsPersonaplugin)) {
-    register_activation_hook(__FILE__,array($rootsPersonaplugin, 'rootsPersonaInstall'));
-    register_deactivation_hook(__FILE__, array($rootsPersonaplugin, 'rootsPersonaUninstall') ) ;
-	add_action( 'admin_init', array($rootsPersonaplugin, 'rootsPersonaUpgrade' ));
-    
+    register_activation_hook(__FILE__,array($rootsPersonaplugin, 'rootsPersonaActivate'));
+    register_deactivation_hook(__FILE__, array($rootsPersonaplugin, 'rootsPersonaDeactivate') ) ;
+	add_action('admin_init', array($rootsPersonaplugin, 'rootsPersonaUpgrade' ));
+    add_action('admin_init', array($rootsPersonaplugin, 'rootsPersonaOptionsInit' ));
+	
     add_shortcode('rootsPersona', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
     add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'editPersonFormHandler'));

@@ -88,6 +88,12 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 
 == Changelog ==
 
+= 1.1.1 =
+* refactor deprecated Wordpress functions
+* update style sheets to use .page selector instead of #content selector
+  (works with more themes)
+* add citations and sources to XML files
+
 = 1.1.0 =
 * Added a sortable Index Page
 * Removed deprecated pass-by-reference usage.
@@ -110,6 +116,8 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 * First release.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
 
 = 1.1.0 =
 BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  

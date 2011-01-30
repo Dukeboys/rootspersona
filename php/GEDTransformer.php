@@ -23,6 +23,7 @@ class GEDTransformer {
 	}
 
 	public function createXMLFamily($family, $ged, $dataDir) {
+		$sources = array();
 		$dom = new DomDocument('1.0', 'UTF-8');
 		$rootEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:familyGroup');
 		$rootEl->setAttributeNS  ( 'http://www.w3.org/2001/XMLSchema-instance'  , 'xsi:schemaLocation', 'http://ed4becky.net/rootsPersona ../schema/person.xsd');
@@ -57,7 +58,11 @@ class GEDTransformer {
 			$person->setAttribute('id',strtolower($id));
 			$child->appendChild($person);
 		}
+		$this->addCitations($family,$rootEl, $dom, $sources);
 
+		if(count($sources) > 0)
+			$this->addEvidence($sources,$rootEl, $dom, $ged);
+			
 		$fileName = $dataDir . strtolower($family->Id) . '.xml';
 		$dom->formatOutput = true;
 		$dom->preserveWhiteSpace = false;
@@ -65,6 +70,7 @@ class GEDTransformer {
 	}
 
 	public function createXMLPerson($person, $ged, $dataDir) {
+		$sources = array();
 		$dom = new DomDocument('1.0', 'UTF-8');
 		$personEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
 		$personEl->setAttributeNS  ( 'http://www.w3.org/2001/XMLSchema-instance'  , 'xsi:schemaLocation', 'http://ed4becky.net/rootsPersona ../schema/person.xsd');
@@ -77,7 +83,7 @@ class GEDTransformer {
 		$charEl->setAttribute('type','name');
 		$charEl->appendChild($dom->createTextNode(str_replace('/','',$person->getFullName())));
 		$charsEl->appendChild($charEl);
-		
+
 		$charEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:characteristic');
 		$charEl->setAttribute('type','surname');
 		$charEl->appendChild($dom->createTextNode(str_replace('/','',$person->getSurname())));
@@ -99,6 +105,7 @@ class GEDTransformer {
 			$dateEl->appendChild($dom->createTextNode($ev->Date));
 			$eventEl->appendChild($dateEl);
 			if($ev->Place != null) {
+				
 				$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
 				$placeEl->appendChild($dom->createTextNode($ev->Place->Name));
 				$eventEl->appendChild($placeEl);
@@ -106,6 +113,7 @@ class GEDTransformer {
 			if(!isset($eventsEl))
 			$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
 			$eventsEl->appendChild($eventEl);
+			$this->addCitations($ev,$eventEl, $dom, $sources);
 		}
 
 		$ev = $person->getEvent('DEAT');
@@ -123,6 +131,7 @@ class GEDTransformer {
 			if(!isset($eventsEl))
 			$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
 			$eventsEl->appendChild($eventEl);
+			$this->addCitations($ev,$eventEl, $dom, $sources);
 		}
 
 		$spouses = $person->SpouseFamilyLinks;
@@ -151,10 +160,10 @@ class GEDTransformer {
 				if(!isset($eventsEl))
 				$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
 				$eventsEl->appendChild($eventEl);
+				$this->addCitations($ev,$eventEl, $dom, $sources);
 			}
 		}
-		if(isset($eventsEl))
-		$personEl->appendChild($eventsEl);
+		if(isset($eventsEl)) $personEl->appendChild($eventsEl);
 
 		// references
 		$referencesEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:references');
@@ -217,12 +226,52 @@ class GEDTransformer {
 
 		$personEl->appendChild($relationsEl);
 
+		$this->addCitations($person,$personEl, $dom, $sources);
+		
+		if(count($sources) > 0)
+			$this->addEvidence($sources,$personEl, $dom, $ged);
+
 		$fileName = $dataDir . strtolower($person->Id) . '.xml';
 		$dom->formatOutput = true;
 		$dom->preserveWhiteSpace = false;
 		$dom->save($fileName);
 	}
 
+	function addCitations($rec, $node, $dom, &$sources) {
+		if(count($rec->Citations) > 0) {
+//			if(!isset($cites)) {
+				$cites = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citations');
+				$node->appendChild($cites);
+//			}
+			
+			for($i=0; $i<count($rec->Citations);$i++) {
+				$citation = $rec->Citations[$i];
+				$cite = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citation');
+				if(isset($citation->Page)) {
+					$cite->setAttribute('page',$citation->Page);
+				}
+				if(isset($citation->SourceId)) {
+					$cite->setAttribute('srcId',str_replace('@', '', $citation->SourceId));
+					$sources[] = $citation->SourceId;
+				}
+				$cites->appendChild($cite);
+			}
+		}	
+	}
+	
+	function addEvidence($sources, $rootEl, $dom, $ged) {
+		$evidence = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:evidence');
+		$rootEl->appendChild($evidence);
+		$srcIds = array_unique($sources);
+		foreach($srcIds as $srcId) {
+			$source = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:source');
+			$evidence->appendChild($source);	
+			$src = $ged->getSource($srcId);	
+			$source->appendChild($dom->createTextNode($src->Title));
+			$source->setAttribute('id',str_replace('@', '', $srcId));	
+		}
+	}
+	
 	/** Prettifies an XML string into a human-readable and indented work of art
 	 *  @param string $xml The XML as a string
 	 *  @param boolean $html_output True if the output should be escaped (for use in HTML)

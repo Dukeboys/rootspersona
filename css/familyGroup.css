@@ -1,29 +1,29 @@
-#content table.familygroup a {
+.post table.familygroup a {
 	color:blue;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-#content table.familygroup a:link {
+.post table.familygroup a:link {
 	color: #06c;
 	text-decoration: none;
 }
 
-#content table.familygroup a:visited {
+.post table.familygroup a:visited {
 	color: #06c;
 	text-decoration: none;
 }
 
-#content table.familygroup a:active {
+.post table.familygroup a:active {
 	color: #06c;
 }
 
-#content table.familygroup a:hover {
+.post table.familygroup a:hover {
 	color: #06c;
 	text-decoration: underline;
 }
 
-#content table.familygroup {
+.post table.familygroup {
 	border: 3px ridge brown;
 	border-spacing: 0px;
 	border-collapse: collapse;
@@ -34,38 +34,38 @@
 	width: 96%;
 }
 
-#content table.familygroup td {
+.post table.familygroup td {
 	border: 2px ridge brown;
 	padding: 3px 0px 3px 8px;
 }
 
-#content table.familygroup td.full {
+.post table.familygroup td.full {
 	background-image:url('../images/familyGroupSidebar.jpg');
 		padding-right:8px;
 	padding-left: 8px;
 		width: 70%;
 }
 
-#content table.familygroup td.child {
+.post table.familygroup td.child {
 	background-image:url('../images/familyGroupSidebar.jpg');
 		padding-right:8px;
 	padding-left: 8px;
 		width: 70%;
 }
 
-#content table.familygroup td.parent {
+.post table.familygroup td.parent {
 	padding-right:8px;
 	padding-left: 8px;
 		width: 70%;
 }
 
-#content table.familygroup td.notes {
+.post table.familygroup td.notes {
 	padding-right:8px;
 	padding-left: 8px;
 		width: 70%;
 }
 
-#content table.familygroup td.gender {
+.post table.familygroup td.gender {
 	background-image:url('../images/familyGroupSidebar.jpg');
 	font-weight:bold;
 	text-align: center;
@@ -73,22 +73,22 @@
 	width: 3%;
 }
 
-#content table.familygroup td.inset {
+.post table.familygroup td.inset {
 	padding: 0px 2px 0px 2px;
 	background-image:url('../images/familyGroupSidebar.jpg');
 	width: 3%;
 }
 
-#content table.familygroup td.ref {
+.post table.familygroup td.ref {
 	padding-left: 0px;
 
 }
-#content table.familygroup td.date {
+.post table.familygroup td.date {
 	padding: 0px 8px 0px 8px;
 		width: 18%;
 }
 
-#content table.familygroup td.label {
+.post table.familygroup td.label {
 
 	padding: 0px 8px 0px 8px;
 	width: 10%;
