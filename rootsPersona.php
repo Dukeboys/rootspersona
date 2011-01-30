@@ -390,7 +390,12 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsUploadGedcomPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsEditPage', 'intval' );
-			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );								
+			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );	
+			register_setting( 'rootsPersonaOptions', 'rootsDisplayHeader');
+			register_setting( 'rootsPersonaOptions', 'rootsDisplayFacts');
+			register_setting( 'rootsPersonaOptions', 'rootsDisplayAncestors');
+			register_setting( 'rootsPersonaOptions', 'rootsDisplayFamily');
+			register_setting( 'rootsPersonaOptions', 'rootsDisplayPictures');						
 		}
 		
     }

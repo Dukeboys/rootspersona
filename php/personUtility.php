@@ -428,7 +428,12 @@ class PersonUtility {
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
                 $xp->setParameter('','data_dir','../../../../' . $dataDir);
-
+                $xp->setParameter('','hdrFlag',get_option('rootsDisplayHeader'));
+    			$xp->setParameter('','facFlag',get_option('rootsDisplayFacts'));
+   				$xp->setParameter('','ancFlag',get_option('rootsDisplayAncestors'));
+    			$xp->setParameter('','famFlag',get_option('rootsDisplayFamily'));
+    			$xp->setParameter('','picFlag',get_option('rootsDisplayPictures'));
+    			
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);
                 } else {
@@ -507,6 +512,7 @@ class PersonUtility {
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
                 $xp->setParameter('','data_dir','../../../../' . $dataDir);
+
                 
                 // create a DOM document and load the XML data
                 $xml_doc = new DomDocument;

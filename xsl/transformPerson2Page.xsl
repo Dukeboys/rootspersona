@@ -17,22 +17,35 @@
     <xsl:param name="cap4"/>
     <xsl:param name="cap5"/>
     <xsl:param name="cap6"/>
+    <xsl:param name="hdrFlag"/>
+    <xsl:param name="facFlag"/>
+    <xsl:param name="ancFlag"/>
+    <xsl:param name="famFlag"/>
+    <xsl:param name="picFlag"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
     <xsl:variable name="map-top" select="document(concat($data_dir,'idMap.xml'))/map:idMap" />
-    <!--
-    <xsl:variable name="personId" select="@id"/>
-    <xsl:variable name="exc" select="key('person2Page', $personId)/@pageId"/>
-    -->
+
     <xsl:template match="/persona:person">
-        <xsl:call-template name="personHeader" />
-        <xsl:call-template name="facts" />
-        <xsl:call-template name="ancestors" />
-        <xsl:call-template name="familyGroup" />
-        <xsl:call-template name="pictures" />
+    	<xsl:if test="$hdrFlag!='0'">
+        	<xsl:call-template name="personHeader" />
+        </xsl:if>
+        <xsl:if test="$facFlag!='0'">
+        	<xsl:call-template name="facts" />
+        </xsl:if>
+        <xsl:if test="$ancFlag!='0'">
+        	<xsl:call-template name="ancestors" />
+        </xsl:if>
+        <xsl:if test="$famFlag!='0'">
+        	<xsl:call-template name="familyGroup" />
+        </xsl:if>
+        <xsl:if test="$picFlag!='0'">
+        	<xsl:call-template name="pictures" />
+        </xsl:if>
         <div class="personBanner">
             <br />
         </div>
     </xsl:template>
+    
     <xsl:template name="familyGroup">
         <div class="personBanner">Family Group</div>
         <div class="truncate">
@@ -42,6 +55,7 @@
             </xsl:for-each>
         </div>
     </xsl:template>
+    
     <xsl:template name="personHeader">
         <div class="truncate">
             <a>
@@ -66,6 +80,7 @@
             </div>
         </div>
     </xsl:template>
+    
     <xsl:template name="facts">
         <div class="personBanner">Facts</div>
         <div class="truncate">
@@ -121,6 +136,7 @@
             </ul>
         </div>
     </xsl:template>
+    
     <xsl:template name="ancestors">
         <div class="personBanner">Ancestors</div>
         <div class="truncate">
@@ -219,6 +235,7 @@
             </table>
         </div>
     </xsl:template>
+    
     <xsl:template name="pictures">
         <div class="personBanner">Pictures</div>
         <div class="truncate">
@@ -298,6 +315,7 @@
             </table>
         </div>
     </xsl:template>
+    
     <xsl:template name="personbox">
         <xsl:param name="personNode" />
         <td rowspan="2" class="nameBox">
@@ -315,6 +333,7 @@
             <xsl:value-of select="$personNode/persona:events/persona:event[@type='death']/persona:date/text()" />
         </td>
     </xsl:template>
+    
     <xsl:template match="map:idMap">
         <xsl:param name="curr-label" />
         <xsl:value-of select="$site_url" />/?page_id=<xsl:value-of select="key('person2Page', $curr-label/@id)/@pageId" />
