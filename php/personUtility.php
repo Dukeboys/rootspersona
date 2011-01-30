@@ -433,6 +433,7 @@ class PersonUtility {
    				$xp->setParameter('','ancFlag',get_option('rootsDisplayAncestors'));
     			$xp->setParameter('','famFlag',get_option('rootsDisplayFamily'));
     			$xp->setParameter('','picFlag',get_option('rootsDisplayPictures'));
+    			$xp->setParameter('','eviFlag',get_option('rootsDisplayEvidence'));
     			
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);

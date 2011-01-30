@@ -385,7 +385,7 @@ if (!class_exists("rootsPersona")) {
 
 		function rootsPersonaOptionsInit() {
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaParentPage', 'intval' );
-			register_setting( 'rootsPersonaOptions', 'rootsIsSystemOfRecord', 'wp_filter_nohtml_kses');
+			register_setting( 'rootsPersonaOptions', 'rootsIsSystemOfRecord', array($this,'validateYesNo'));
 			register_setting( 'rootsPersonaOptions', 'rootsDataDir', 'wp_filter_nohtml_kses');
 			register_setting( 'rootsPersonaOptions', 'rootsUploadGedcomPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
@@ -396,6 +396,15 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsDisplayAncestors');
 			register_setting( 'rootsPersonaOptions', 'rootsDisplayFamily');
 			register_setting( 'rootsPersonaOptions', 'rootsDisplayPictures');						
+		}
+		
+		function validateYesNo($rootsIsSystemOfRecord) {
+			if($rootsIsSystemOfRecord == 'Yes') {
+				$out =  'true';
+			} else {
+				$out = 'false';
+			}
+			return $out;	
 		}
 		
     }

@@ -252,7 +252,7 @@ class GEDTransformer {
 				}
 				if(isset($citation->SourceId)) {
 					$cite->setAttribute('srcId',str_replace('@', '', $citation->SourceId));
-					$sources[] = $citation->SourceId;
+					$sources[] = $citation->SourceId . ":::" .  $citation->Page;
 				}
 				$cites->appendChild($cite);
 			}
@@ -262,13 +262,15 @@ class GEDTransformer {
 	function addEvidence($sources, $rootEl, $dom, $ged) {
 		$evidence = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:evidence');
 		$rootEl->appendChild($evidence);
-		$srcIds = array_unique($sources);
-		foreach($srcIds as $srcId) {
+		$rows = array_unique($sources);
+		foreach($rows as $row) {
+			$tokStr = explode(":::", $row);
 			$source = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:source');
 			$evidence->appendChild($source);	
-			$src = $ged->getSource($srcId);	
-			$source->appendChild($dom->createTextNode($src->Title));
-			$source->setAttribute('id',str_replace('@', '', $srcId));	
+			$src = $ged->getSource($tokStr[0]);	
+			$page = (count($tokStr)>1)?$tokStr[1]:'';
+			$source->appendChild($dom->createTextNode($src->Title . '; ' . $page));
+			$source->setAttribute('id',str_replace('@', '', $tokStr[0]));	
 		}
 	}
 	

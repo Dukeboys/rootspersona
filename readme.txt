@@ -93,6 +93,7 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 * update style sheets to use .page selector instead of #content selector
   (works with more themes)
 * add citations and sources to XML files
+* added Evidence panel
 
 = 1.1.0 =
 * Added a sortable Index Page

@@ -22,6 +22,7 @@
     <xsl:param name="ancFlag"/>
     <xsl:param name="famFlag"/>
     <xsl:param name="picFlag"/>
+    <xsl:param name="eviFlag"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
     <xsl:variable name="map-top" select="document(concat($data_dir,'idMap.xml'))/map:idMap" />
 
@@ -41,11 +42,25 @@
         <xsl:if test="$picFlag!='0'">
         	<xsl:call-template name="pictures" />
         </xsl:if>
+        <xsl:if test="$eviFlag!='0'">
+        	<xsl:call-template name="evidence" />
+        </xsl:if>        
         <div class="personBanner">
             <br />
         </div>
     </xsl:template>
-    
+
+    <xsl:template name="evidence">
+        <div class="personBanner">Evidence</div>
+        <div class="truncate">
+        <ul>
+            <xsl:for-each select="persona:evidence/persona:source">
+				<li><xsl:value-of select="text()"/></li>
+            </xsl:for-each>
+        </ul>
+        </div>
+    </xsl:template> 
+       
     <xsl:template name="familyGroup">
         <div class="personBanner">Family Group</div>
         <div class="truncate">

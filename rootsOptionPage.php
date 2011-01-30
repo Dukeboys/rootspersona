@@ -49,9 +49,18 @@ echo  "<td><a href=' " . site_url() . " ?page_id= " . get_option('rootsPersonaIn
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsIsSystemOfRecord'>" .  __('Is this the System Of Record?') . "</label></th>";
-echo  "<td><input type='text' size='5' name='rootsIsSystemOfRecord' id='rootsIsSystemOfRecord'";
-echo  " value=' " . get_option('rootsIsSystemOfRecord'). " '/></td>";
-echo  "<td>" .  __('true|false. Only false is supported at this time (meaning some external program is the system of record).'). "</td></tr>";
+$yes = get_option('rootsIsSystemOfRecord');
+if(isset($yes) && $yes == 'true') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsIsSystemOfRecord' value='Yes' $yes>Yes ";
+echo "<input type='radio' name='rootsIsSystemOfRecord' value='No' $no>No </td>";
+
+echo  "<td>" .  __('Only No is supported at this time (meaning some external program is the system of record).'). "</td></tr>";
 
 echo  "</table><p class='submit'>";
 echo  "<input type='submit' name='Submit' value=' " . __('Save Changes') . " '/>";

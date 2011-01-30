@@ -134,6 +134,13 @@ class rootsPersonaInstaller {
 
 		delete_option('rootsPersonaParentPage');
 		delete_option('rootsIsSystemOfRecord');
+		delete_option('rootsDisplayHeader');
+		delete_option('rootsDisplayFacts');
+		delete_option('rootsDisplayAncestors');
+		delete_option('rootsDisplayFamily');
+		delete_option('rootsDisplayPictures');
+		delete_option('rootsDisplayEvidence');
+		
 		remove_action('admin_menu', 'rootsPersonaOptionsPage');
 	}
 
