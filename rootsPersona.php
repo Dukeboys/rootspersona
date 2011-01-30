@@ -133,7 +133,7 @@ if (!class_exists("rootsPersona")) {
 			            }
 		    	        $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 		                $p['isSystemOfRecord'] = $isSystemOfRecord;
-		                return $this->utility->showForm($p,$this->plugin_dir);
+		                return $this->utility->showForm($p,site_url() . "/wp-content/plugins/rootspersona");
                 	} else {
                 		return "Missing file: $fileName";
                 	}
@@ -194,7 +194,7 @@ if (!class_exists("rootsPersona")) {
                 $p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
                 $p['isSystemOfRecord'] = $isSystemOfRecord;
 
-                return $this->utility->showForm($p, $this->plugin_dir, "<div class='truncate'>" . $msg . "</div>");
+                return $this->utility->showForm($p, site_url() . "/wp-content/plugins/roostpersona/", "<div class='truncate'>" . $msg . "</div>");
             }
         }
 

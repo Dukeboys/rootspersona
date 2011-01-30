@@ -520,7 +520,7 @@ class PersonUtility {
          *
          * @return string HTML content
          */
-        function buildPersonaPage($atts,  $mysite, $dataDir, $pluginDir,$pageId) {
+        function buildPersonaPage($atts,  $mysite, $dataDir, $pluginDir, $pageId) {
         	$rootsPersonId = $atts["personid"];
             $block = "buildPersonaPage:$rootsPersonId";
             $fileName =  $dataDir . $rootsPersonId . ".xml";
@@ -538,7 +538,7 @@ class PersonUtility {
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);
                 } else {
-                    $xp->setParameter('','pic0',$pluginDir . 'images/boy-silhouette.gif');
+                    $xp->setParameter('','pic0',site_url() . '/wp-content/plugins/rootspersona/images/boy-silhouette.gif');
                 }
                 
                 for ($idx=1; $idx<7;$idx++) {
@@ -590,7 +590,7 @@ class PersonUtility {
          * @return string HTML content
          */
         function returnDefaultEmpty($input, $pluginDir) {
-            $block = "<div class='truncate'><img src='" . $pluginDir . "images/boy-silhouette.gif' class='headerBox' />";
+            $block = "<div class='truncate'><img src='" . site_url . "/wp-content/plugins/rootspersona/images/boy-silhouette.gif' class='headerBox' />";
             $block = $block . "<div class='headerBox'><span class='headerBox'>" . $input . "</span></div></div>";
             $block = $block . "<br/><div class='personBanner'>Facts</div>";
             $block = $block . "<br/><div class='personBanner'>Ancestors</div>";
