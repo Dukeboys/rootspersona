@@ -60,7 +60,7 @@ if (!class_exists("rootsPersona")) {
          *
          * @example [rootsPersona personId='p392'/]
          */
-        function rootsPersonaHandler( $atts, $content = null ) {
+        function rootsPersonaHandler( $atts, $content = null, $callback) {
             $rootsPersonId = $atts["personid"];
 
             if($this->isExcluded($rootsPersonId))
@@ -68,13 +68,13 @@ if (!class_exists("rootsPersona")) {
 
             $block = "rootsPersonaHandler: $rootsPersonId";
             if(isset($rootsPersonId)) {
-                $block = $this->utility->buildPersonaPage($atts,
+                $block = $this->utility->buildPersonaPage($atts, $callback,
                 								 site_url(),
                 								 $this->getDataDir(),
                 								 $this->plugin_dir,
                 								 $this->getPageId());
             }
-            return $block;
+            return $callback . $block ;
         }
 
         function rootsPersonaIndexHandler( $atts, $content = null ) {
@@ -427,6 +427,12 @@ if (isset($rootsPersonaplugin)) {
     add_action('admin_init', array($rootsPersonaplugin, 'rootsPersonaOptionsInit' ));
 	
     add_shortcode('rootsPersona', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaHeader', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaFacts', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaAncestors', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaPamily', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaPictures', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaEvidence', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
     add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'editPersonFormHandler'));
     add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'addPageFormHandler'));

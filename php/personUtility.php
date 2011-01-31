@@ -414,7 +414,7 @@ class PersonUtility {
          *
          * @return string HTML content
          */
-        function buildPersonaPage($atts,  $mysite, $dataDir, $pluginDir, $pageId) {
+        function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pageId) {
         	$rootsPersonId = $atts["personid"];
             $block = "";
             $fileName =  $dataDir . $rootsPersonId . ".xml";
@@ -428,13 +428,37 @@ class PersonUtility {
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
                 $xp->setParameter('','data_dir','../../../../' . $dataDir);
-                $xp->setParameter('','hdrFlag',get_option('rootsDisplayHeader'));
-    			$xp->setParameter('','facFlag',get_option('rootsDisplayFacts'));
-   				$xp->setParameter('','ancFlag',get_option('rootsDisplayAncestors'));
-    			$xp->setParameter('','famFlag',get_option('rootsDisplayFamily'));
-    			$xp->setParameter('','picFlag',get_option('rootsDisplayPictures'));
-    			$xp->setParameter('','eviFlag',get_option('rootsDisplayEvidence'));
-    			
+                $callback = strtolower ($callback);
+                if($callback == 'rootspersona') {
+                	$xp->setParameter('','hdrFlag',get_option('rootsDisplayHeader'));
+    				$xp->setParameter('','facFlag',get_option('rootsDisplayFacts'));
+   					$xp->setParameter('','ancFlag',get_option('rootsDisplayAncestors'));
+    				$xp->setParameter('','famFlag',get_option('rootsDisplayFamily'));
+    				$xp->setParameter('','picFlag',get_option('rootsDisplayPictures'));
+    				$xp->setParameter('','eviFlag',get_option('rootsDisplayEvidence'));
+                } else {
+                	$xp->setParameter('','hdrFlag',0);
+    				$xp->setParameter('','facFlag',0);
+   					$xp->setParameter('','ancFlag',0);
+    				$xp->setParameter('','famFlag',0);
+    				$xp->setParameter('','picFlag',0);
+    				$xp->setParameter('','eviFlag',0);
+               
+    				if($callback == 'rootspersonaheader') {
+                		$xp->setParameter('','hdrFlag',1);
+                	} else if($callback == 'rootspersonafacts') {
+    					$xp->setParameter('','facFlag',1);              	
+                	} else if($callback == 'rootspersonaancestors') {
+   						$xp->setParameter('','ancFlag',1);               	
+                	} else if($callback == 'rootspersonafamily') {
+    					$xp->setParameter('','famFlag',1);              	
+  	              	} else if($callback == 'rootspersonapictures') {
+    					$xp->setParameter('','picFlag',1);                	
+					} else if($callback == 'rootspersonaevidence') {
+    					$xp->setParameter('','eviFlag',1);                	
+                	}
+                }
+                
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);
                 } else {
@@ -460,7 +484,7 @@ class PersonUtility {
                     // transform the XML into HTML using the XSL file
                     if (($html = $xp->transformToXML($xml_doc)) !== false) {
                         $block = $html;
-                        if(current_user_can("edit_pages"))
+                        if((get_post_type($pageId) != 'post') && (current_user_can("edit_pages")))
                         {
                             $block = $block . "<div style='margin-top:10px'><a href='"
                             . $mysite . '/?page_id=' . get_option("rootsEditPage")
@@ -479,6 +503,7 @@ class PersonUtility {
                 $block = $this->returnDefaultEmpty('No Information available.',$pluginDir);
             }
 
+            $block = $block;
             return $block;
         }
         
