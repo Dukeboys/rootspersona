@@ -17,41 +17,46 @@
     <xsl:param name="cap4"/>
     <xsl:param name="cap5"/>
     <xsl:param name="cap6"/>
-    <xsl:param name="hdrFlag"/>
-    <xsl:param name="facFlag"/>
-    <xsl:param name="ancFlag"/>
-    <xsl:param name="famFlag"/>
-    <xsl:param name="picFlag"/>
-    <xsl:param name="eviFlag"/>
+    <xsl:param name="hideHdr"/>
+    <xsl:param name="hideFac"/>
+    <xsl:param name="hideAnc"/>
+    <xsl:param name="hideFam"/>
+    <xsl:param name="hidePic"/>
+    <xsl:param name="hideEvi"/>
+    <xsl:param name="hideBanner"/>
+    <xsl:param name="hideDates"/>
+    <xsl:param name="hidePlaces"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
     <xsl:variable name="map-top" select="document(concat($data_dir,'idMap.xml'))/map:idMap" />
 
     <xsl:template match="/persona:person">
-    	<xsl:if test="$hdrFlag!='0'">
+    	<xsl:if test="$hideHdr!='1'">
         	<xsl:call-template name="personHeader" />
         </xsl:if>
-        <xsl:if test="$facFlag!='0'">
+        <xsl:if test="$hideFac!='1'">
         	<xsl:call-template name="facts" />
         </xsl:if>
-        <xsl:if test="$ancFlag!='0'">
+        <xsl:if test="$hideAnc!='1'">
         	<xsl:call-template name="ancestors" />
         </xsl:if>
-        <xsl:if test="$famFlag!='0'">
+        <xsl:if test="$hideFam!='1'">
         	<xsl:call-template name="familyGroup" />
         </xsl:if>
-        <xsl:if test="$picFlag!='0'">
+        <xsl:if test="$hidePic!='1'">
         	<xsl:call-template name="pictures" />
         </xsl:if>
-        <xsl:if test="$eviFlag!='0'">
+        <xsl:if test="$hideEvi!='1'">
         	<xsl:call-template name="evidence" />
         </xsl:if>        
-        <div class="personBanner">
-            <br />
-        </div>
+        <xsl:if test="$hideBanner = '1'">
+        	<div class="personBanner"><br/></div>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="evidence">
-        <div class="personBanner">Evidence</div>
+    	<xsl:if test="$hideBanner != '1'">
+        	<div class="personBanner">Evidence</div>
+        </xsl:if>
         <div class="truncate">
         <ul>
             <xsl:for-each select="persona:evidence/persona:source">
@@ -62,7 +67,9 @@
     </xsl:template> 
        
     <xsl:template name="familyGroup">
-        <div class="personBanner">Family Group</div>
+    	<xsl:if test="$hideBanner != '1'">
+        	<div class="personBanner">Family Group</div>
+        </xsl:if>
         <div class="truncate">
             <xsl:for-each
                 select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup/@refId,'.xml')))">
@@ -87,17 +94,21 @@
                     &#160;<xsl:value-of select="@id" />
                 </span>
                 <br />
+                <xsl:if test="$hideDates != '1'">
                 b:
                 <xsl:value-of select="persona:events/persona:event[@type='birth']/persona:date/text()" />
                 <br />
                 d:
                 <xsl:value-of select="persona:events/persona:event[@type='death']/persona:date/text()" />
+            	</xsl:if>
             </div>
         </div>
     </xsl:template>
     
     <xsl:template name="facts">
-        <div class="personBanner">Facts</div>
+    	<xsl:if test="$hideBanner != '1'">
+      	  <div class="personBanner">Facts</div>
+      	</xsl:if>
         <div class="truncate">
             <ul>
                 <xsl:for-each select="persona:characteristics/persona:characteristic">
@@ -110,24 +121,31 @@
                 <xsl:for-each select="persona:events/persona:event">
                     <xsl:if test="@type!='marriage'">
                         <li>
-                            <xsl:value-of select="persona:date" />
+                        	<xsl:if test="$hideDates != '1'">
+                            	<xsl:value-of select="persona:date" />
                             -
+                            </xsl:if>
                             <xsl:value-of
                                 select="concat(translate(substring(@type,1,1),'abcdefghijklmnopqrstuvwxyz',
                      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
+                     	<xsl:if test="$hidePlaces != '1'">
                             &#160;in
                             <span class="place">
                                 <xsl:value-of select="persona:place" />
                             </span>
+                        </xsl:if>
                         </li>
                     </xsl:if>
                     <xsl:if test="@type='marriage'">
                         <li>
+                        	<xsl:if test="$hideDates != '1'">
                             <xsl:value-of select="persona:date" />
                             -
+                            </xsl:if>
                             <xsl:value-of
                                 select="concat(translate(substring(@type,1,1),'abcdefghijklmnopqrstuvwxyz',
                      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
+                     		
                             &#160;to
                             <xsl:variable name="pid" select="persona:person/@id" />
                             <xsl:if test="$pid!='p000' and $pid!=''">
@@ -141,10 +159,12 @@
                                         select="document(concat($data_dir,concat($pid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
                                 </a>
                             </xsl:if>
+                            <xsl:if test="$hidePlaces != '1'">
                             &#160;in
                             <span class="place">
                                 <xsl:value-of select="persona:place" />
                             </span>
+                            </xsl:if>
                         </li>
                     </xsl:if>
                 </xsl:for-each>
@@ -153,7 +173,9 @@
     </xsl:template>
     
     <xsl:template name="ancestors">
-        <div class="personBanner">Ancestors</div>
+    	<xsl:if test="$hideBanner != '1'">
+        	<div class="personBanner">Ancestors</div>
+        </xsl:if>
         <div class="truncate">
             <table cellpadding="0" cellspacing="0" class="ancestors">
                 <tbody>
@@ -252,7 +274,9 @@
     </xsl:template>
     
     <xsl:template name="pictures">
-        <div class="personBanner">Pictures</div>
+    	<xsl:if test="$hideBanner != '1'">
+        	<div class="personBanner">Pictures</div>
+        </xsl:if>
         <div class="truncate">
             <table class="personGallery" cellspacing="5px">
                 <tbody>
@@ -343,9 +367,11 @@
                 <xsl:value-of select="$personNode/persona:characteristics/persona:characteristic[@type='name']/text()" />
             </a>
             <br />
+            <xsl:if test="$hideDates != '1'">
             <xsl:value-of select="$personNode/persona:events/persona:event[@type='birth']/persona:date/text()" />
             -
             <xsl:value-of select="$personNode/persona:events/persona:event[@type='death']/persona:date/text()" />
+        	</xsl:if>
         </td>
     </xsl:template>
     

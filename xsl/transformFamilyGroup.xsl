@@ -6,6 +6,8 @@
     <xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
     <xsl:param name="site_url"/>
     <xsl:param name="data_dir"/>
+    <xsl:param name="hideDates"/>
+    <xsl:param name="hidePlaces"/>
     <xsl:key name="person2Page" match="map:entry" use="@personId" />
     <xsl:variable name="map-top" select="document(concat($data_dir,'/idMap.xml'))/map:idMap" />
 
@@ -43,28 +45,32 @@
             <xsl:variable name="myRows" select="4 + count($node/persona:events/persona:event[@type='marriage'])" />
             <td class="inset" rowspan="{$myRows}"></td>
             <td class="label">Birth</td>
-            <td class="date"><xsl:value-of select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" /></td>
+            <td class="date"><xsl:if test="$hideDates != '1'"><xsl:value-of select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="bPlace" select="$node/persona:events/persona:event[@type='birth']/persona:place/text()" />
             <xsl:if test="$bPlace!=''">
             in <xsl:value-of select="$bPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>
         <tr>
             <td class="label">Death</td>
-            <td class="date"><xsl:value-of select="$node/persona:events/persona:event[@type='death']/persona:date/text()" /></td>
+            <td class="date"><xsl:if test="$hideDates != '1'"><xsl:value-of select="$node/persona:events/persona:event[@type='death']/persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="dPlace" select="$node/persona:events/persona:event[@type='death']/persona:place/text()" />
             <xsl:if test="$dPlace!=''">
             in <xsl:value-of select="$dPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>
         <xsl:for-each select="$node/persona:events/persona:event[@type='marriage']">
         <tr>
             <td class="label">Marriage</td>
-            <td class="date">&#160;<xsl:value-of select="persona:date/text()" /></td>
+            <td class="date">&#160;<xsl:if test="$hideDates != '1'"><xsl:value-of select="persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
             <xsl:variable name="spid" select="persona:person/@id" />
             <xsl:if test="$spid!='' and $spid !='p000'">
@@ -79,9 +85,11 @@
 
                </a>
             </xsl:if>
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="mPlace" select="persona:place/text()" />
             <xsl:if test="$mPlace!=''">
             in <xsl:value-of select="$mPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>
@@ -153,28 +161,32 @@
             <xsl:variable name="myRows" select="2 + count($node/persona:events/persona:event[@type='marriage'])" />
             <td class="inset" rowspan="{$myRows}"></td>
             <td class="label">Birth</td>
-            <td class="date"><xsl:value-of select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" /></td>
+            <td class="date"><xsl:if test="$hideDates != '1'"><xsl:value-of select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="bPlace" select="$node/persona:events/persona:event[@type='birth']/persona:place/text()" />
             <xsl:if test="$bPlace!=''">
             in <xsl:value-of select="$bPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>
         <tr>
             <td class="label">Death</td>
-            <td class="date"><xsl:value-of select="$node/persona:events/persona:event[@type='death']/persona:date/text()" /></td>
+            <td class="date"><xsl:if test="$hideDates != '1'"><xsl:value-of select="$node/persona:events/persona:event[@type='death']/persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="dPlace" select="$node/persona:events/persona:event[@type='death']/persona:place/text()" />
             <xsl:if test="$dPlace!=''">
             in <xsl:value-of select="$dPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>
         <xsl:for-each select="$node/persona:events/persona:event[@type='marriage']">
         <tr>
             <td class="label">Marriage</td>
-            <td class="date">&#160;<xsl:value-of select="persona:date/text()" /></td>
+            <td class="date">&#160;<xsl:if test="$hideDates != '1'"><xsl:value-of select="persona:date/text()" /></xsl:if></td>
             <td class="notes">&#160;
             <xsl:variable name="spid" select="persona:person/@id" />
             <xsl:if test="$spid!='' and $spid !='p000'">
@@ -189,9 +201,11 @@
 
                </a>
             </xsl:if>
+            <xsl:if test="$hidePlaces != '1'">
             <xsl:variable name="mPlace" select="persona:place/text()" />
             <xsl:if test="$mPlace!=''">
             in <xsl:value-of select="$mPlace" />
+            </xsl:if>
             </xsl:if>
             </td>
         </tr>

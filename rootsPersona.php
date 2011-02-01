@@ -74,7 +74,7 @@ if (!class_exists("rootsPersona")) {
                 								 $this->plugin_dir,
                 								 $this->getPageId());
             }
-            return $callback . $block ;
+            return $block ;
         }
 
         function rootsPersonaIndexHandler( $atts, $content = null ) {
@@ -385,28 +385,20 @@ if (!class_exists("rootsPersona")) {
 
 		function rootsPersonaOptionsInit() {
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaParentPage', 'intval' );
-			register_setting( 'rootsPersonaOptions', 'rootsIsSystemOfRecord', array($this,'validateYesNo'));
+			register_setting( 'rootsPersonaOptions', 'rootsIsSystemOfRecord');
 			register_setting( 'rootsPersonaOptions', 'rootsDataDir', 'wp_filter_nohtml_kses');
 			register_setting( 'rootsPersonaOptions', 'rootsUploadGedcomPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsEditPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );	
-			register_setting( 'rootsPersonaOptions', 'rootsDisplayHeader');
-			register_setting( 'rootsPersonaOptions', 'rootsDisplayFacts');
-			register_setting( 'rootsPersonaOptions', 'rootsDisplayAncestors');
-			register_setting( 'rootsPersonaOptions', 'rootsDisplayFamily');
-			register_setting( 'rootsPersonaOptions', 'rootsDisplayPictures');						
-		}
-		
-		function validateYesNo($rootsIsSystemOfRecord) {
-			if($rootsIsSystemOfRecord == 'Yes') {
-				$out =  'true';
-			} else {
-				$out = 'false';
-			}
-			return $out;	
-		}
-		
+			register_setting( 'rootsPersonaOptions', 'rootsHideHeader');
+			register_setting( 'rootsPersonaOptions', 'rootsHideFacts');
+			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
+			register_setting( 'rootsPersonaOptions', 'rootsHideFamily');
+			register_setting( 'rootsPersonaOptions', 'rootsHidePictures');	
+			register_setting( 'rootsPersonaOptions', 'rootsPersonaHideDates');				
+			register_setting( 'rootsPersonaOptions', 'rootsPersonaHidePlaces');				
+		}		
     }
 }
 

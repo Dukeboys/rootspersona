@@ -430,34 +430,37 @@ class PersonUtility {
                 $xp->setParameter('','data_dir','../../../../' . $dataDir);
                 $callback = strtolower ($callback);
                 if($callback == 'rootspersona') {
-                	$xp->setParameter('','hdrFlag',get_option('rootsDisplayHeader'));
-    				$xp->setParameter('','facFlag',get_option('rootsDisplayFacts'));
-   					$xp->setParameter('','ancFlag',get_option('rootsDisplayAncestors'));
-    				$xp->setParameter('','famFlag',get_option('rootsDisplayFamily'));
-    				$xp->setParameter('','picFlag',get_option('rootsDisplayPictures'));
-    				$xp->setParameter('','eviFlag',get_option('rootsDisplayEvidence'));
+                	$xp->setParameter('','hideHdr',get_option('rootsHideHeader'));
+    				$xp->setParameter('','hideFac',get_option('rootsHideFacts'));
+   					$xp->setParameter('','hideAnc',get_option('rootsHideAncestors'));
+    				$xp->setParameter('','hideFam',get_option('rootsHideFamily'));
+    				$xp->setParameter('','hidePic',get_option('rootsHidePictures'));
+    				$xp->setParameter('','hideEvi',get_option('rootsHideEvidence'));
+    				$xp->setParameter('','hideBanner',0);
                 } else {
-                	$xp->setParameter('','hdrFlag',0);
-    				$xp->setParameter('','facFlag',0);
-   					$xp->setParameter('','ancFlag',0);
-    				$xp->setParameter('','famFlag',0);
-    				$xp->setParameter('','picFlag',0);
-    				$xp->setParameter('','eviFlag',0);
-               
+                	$xp->setParameter('','hideHdr',1);
+    				$xp->setParameter('','hideFac',1);
+   					$xp->setParameter('','hideAnc',1);
+    				$xp->setParameter('','hideFam',1);
+    				$xp->setParameter('','hidePic',1);
+    				$xp->setParameter('','hideEvi',1);
+               		$xp->setParameter('','hideBanner',1);
     				if($callback == 'rootspersonaheader') {
-                		$xp->setParameter('','hdrFlag',1);
+                		$xp->setParameter('','hideHdr',0);
                 	} else if($callback == 'rootspersonafacts') {
-    					$xp->setParameter('','facFlag',1);              	
+    					$xp->setParameter('','hideFac',0);              	
                 	} else if($callback == 'rootspersonaancestors') {
-   						$xp->setParameter('','ancFlag',1);               	
+   						$xp->setParameter('','hideAnc',0);               	
                 	} else if($callback == 'rootspersonafamily') {
-    					$xp->setParameter('','famFlag',1);              	
+    					$xp->setParameter('','hideFam',0);              	
   	              	} else if($callback == 'rootspersonapictures') {
-    					$xp->setParameter('','picFlag',1);                	
+    					$xp->setParameter('','hidePic',0);                	
 					} else if($callback == 'rootspersonaevidence') {
-    					$xp->setParameter('','eviFlag',1);                	
+    					$xp->setParameter('','hideEvi',0);                	
                 	}
                 }
+                $xp->setParameter('','hideDates',get_option('rootsPersonaHideDates'));
+                $xp->setParameter('','hidePlaces',get_option('rootsPersonaHidePlaces'));
                 
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);

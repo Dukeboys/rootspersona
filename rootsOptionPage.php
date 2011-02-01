@@ -48,6 +48,126 @@ echo  " value=' " . get_option('rootsPersonaIndexPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . " ?page_id= " . get_option('rootsPersonaIndexPage') . "'>" . __('Page') . "</a> " . __('with the  Name Index shortcode.  There is usually no need to change this.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideHeader'>" .  __('Hide Header?') . "</label></th>";
+$yes = get_option('rootsHideHeader');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideHeader' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideHeader' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the Header Panel on persona Pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideFacts'>" .  __('Hide Facts?') . "</label></th>";
+$yes = get_option('rootsHideFacts');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideFacts' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideFacts' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the Facts panel on persona pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideAncestors'>" .  __('Hide Ancestors?') . "</label></th>";
+$yes = get_option('rootsHideAncestors');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideAncestors' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideAncestors' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the Ancestors panel on person pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideFamily'>" .  __('Hide Family Group?') . "</label></th>";
+$yes = get_option('rootsHideFamily');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideFamily' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideFamily' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the Family Group panel on persona pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHidePictures'>" .  __('Hide Picture?') . "</label></th>";
+$yes = get_option('rootsHidePictures');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHidePictures' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHidePictures' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the pictures panel on perosna pages. Still displays the image in the Header panel.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideEvidence'>" .  __('Hide Evidence?') . "</label></th>";
+$yes = get_option('rootsHideEvidence');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideEvidence' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideEvidence' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the evidence panel in persona pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsPersonaHideDates'>" .  __('Hide Dates?') . "</label></th>";
+$yes = get_option('rootsPersonaHideDates');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsPersonaHideDates' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsPersonaHideDates' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Some people may want to hide dates for privacy purposes.  This is a global flag (impacts all persona pages).'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsPersonaHidePlaces'>" .  __('Hide Locations?') . "</label></th>";
+$yes = get_option('rootsPersonaHidePlaces');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsPersonaHidePlaces' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsPersonaHidePlaces' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Some people may want to hide locations for privacy purposes.  This is a global flag (impacts all persona pages).'). "</td></tr>";
+
+echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsIsSystemOfRecord'>" .  __('Is this the System Of Record?') . "</label></th>";
 $yes = get_option('rootsIsSystemOfRecord');
 if(isset($yes) && $yes == 'true') {
@@ -57,10 +177,11 @@ if(isset($yes) && $yes == 'true') {
 	$yes = '';
 	$no = 'checked';
 }
-echo  "<td><input type='radio' name='rootsIsSystemOfRecord' value='Yes' $yes>Yes ";
-echo "<input type='radio' name='rootsIsSystemOfRecord' value='No' $no>No </td>";
+echo  "<td><input type='radio' name='rootsIsSystemOfRecord' value='true' $yes>Yes ";
+echo "<input type='radio' name='rootsIsSystemOfRecord' value='false' $no>No </td>";
 
 echo  "<td>" .  __('Only No is supported at this time (meaning some external program is the system of record).'). "</td></tr>";
+
 
 echo  "</table><p class='submit'>";
 echo  "<input type='submit' name='Submit' value=' " . __('Save Changes') . " '/>";

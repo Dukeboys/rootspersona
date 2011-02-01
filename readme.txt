@@ -87,7 +87,15 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
-
+= 1.3.0 =
+* Added new shortcodes for use in posts when you want to display only a single panel in a post
+	rootsPersonaHeader
+    rootsPersonaFacts
+    rootsPersonaAncestors
+    rootsPersonaPamily
+    rootsPersonaPictures
+    rootsPersonaEvidence
+    
 = 1.2.0 =
 * refactor deprecated Wordpress functions
 * update style sheets to use .page selector instead of #content selector
