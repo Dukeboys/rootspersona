@@ -48,7 +48,7 @@
         <xsl:if test="$hideEvi!='1'">
         	<xsl:call-template name="evidence" />
         </xsl:if>        
-        <xsl:if test="$hideBanner = '1'">
+        <xsl:if test="$hideBanner != '1'">
         	<div class="personBanner"><br/></div>
         </xsl:if>
     </xsl:template>

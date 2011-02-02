@@ -422,7 +422,7 @@ if (isset($rootsPersonaplugin)) {
     add_shortcode('rootsPersonaHeader', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaFacts', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaAncestors', array($rootsPersonaplugin, 'rootsPersonaHandler'));
-    add_shortcode('rootsPersonaPamily', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaFamily', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaPictures', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaEvidence', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));

@@ -60,7 +60,7 @@ if(isset($yes) && $yes == '1') {
 echo  "<td><input type='radio' name='rootsHideHeader' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsHideHeader' value='0' $no>No </td>";
 
-echo  "<td>" .  __('Skip the Header Panel on persona Pages.'). "</td></tr>";
+echo  "<td>" .  __('Skip the Header Panel on persona pages.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsHideFacts'>" .  __('Hide Facts?') . "</label></th>";
