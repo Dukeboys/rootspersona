@@ -1,69 +1,1 @@
-.post div.personBanner {
-padding: 3px 0px 3px 8px;
-background-image: url(../images/personBanner.jpg);
-color: black;
-font-weight: bold;
-font-size: larger;
-}
-
-.post table.personGallery {
-margin-top: 10px;
-margin-bottom:10px;
-margin-left:auto;
-margin-right:auto;
-border: 0 none;
-border-collapse: separate;
-border-spacing: 2px;
-text-indent: 0;
-}
-
-.post table.personGallery td.picture {
-border: 4px ridge brown;
-padding: 1px;
-}
-.post table.personGallery td.picture img {
-width: 100px;
-}
-
-.post table.personGallery td.picture a,
-.post table.personGallery td.picture a img
-{
-text-decoration:none;
-border: none;
-vertical-align:top;
-}
-
-
-.post table.personGallery td.caption {
-text-align: center;
-width: 100px;
-}
-
-.post .truncate {
-overflow: hidden;
-}
-
-.post div.headerBox {
-padding: 25px 5px 5px;
-float: left;
-}
-
-.post span.headerBox {
-font-size: larger;
-font-weight: bold;
-color: black;
-}
-
-.post img.headerBox {
-border: 4px ridge brown;
-margin-bottom:10px;
-margin-right:10px;
-padding: 5px;
-width: 100px;
-text-align: center;
-float: left;
-}
-
-.post span.place {
-font-style:italic
-}
+div.rp_banner {	padding: 3px 0px 3px 8px;	background-image: url("../images/personBanner.jpg");	color: black;	font-weight: bold;	font-size: larger;}div.rp_pictures table.personGallery {	margin-top: 10px !important;	margin-bottom: 10px !important;	margin-left: auto !important;	margin-right: auto !important;	border: 0 none !important;	border-collapse: separate !important;	border-spacing: 2px !important;	text-indent: 0;}div.rp_pictures table.personGallery td.rp_picture {	border: 4px ridge brown !important;	padding: 1px !important;}div.rp_pictures table.personGallery td.rp_picture img {	width: 100px !important;}div.rp_pictures table.personGallery td.rp_picture a,div.rp_pictures table.personGallery td.rp_picture a img	{	text-decoration: none;	border: none;	vertical-align: top;}div.rp_pictures table.personGallery td.rp_caption {	border: 0 none !important;	text-align: center !important;	width: 100px;}div.rp_truncate {	overflow: hidden !important;}div.rp_header div.rp_headerbox {	padding: 25px 5px 5px;	float: left;}div.rp_header span.rp_headerbox {	font-size: larger;	font-weight: bold;	color: black;}div.rp_header img.rp_headerbox {	border: 4px ridge brown;	margin: 0px 10px 10px 0px ! important;	padding: 5px;	width: 100px ! important;	text-align: center;	float: left;}div.rp_facts span.rp_place {	font-style: italic}

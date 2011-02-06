@@ -49,28 +49,30 @@
         	<xsl:call-template name="evidence" />
         </xsl:if>        
         <xsl:if test="$hideBanner != '1'">
-        	<div class="personBanner"><br/></div>
+        	<div class="rp_banner"><br/></div>
         </xsl:if>
     </xsl:template>
 
     <xsl:template name="evidence">
     	<xsl:if test="$hideBanner != '1'">
-        	<div class="personBanner">Evidence</div>
+        	<div class="rp_banner">Evidence</div>
         </xsl:if>
-        <div class="truncate">
+        <div class="rp_truncate">
+		<div class="rp_facts">
         <ul>
             <xsl:for-each select="persona:evidence/persona:source">
 				<li><xsl:value-of select="text()"/></li>
             </xsl:for-each>
         </ul>
+		</div>
         </div>
     </xsl:template> 
        
     <xsl:template name="familyGroup">
     	<xsl:if test="$hideBanner != '1'">
-        	<div class="personBanner">Family Group</div>
+        	<div class="rp_banner">Family Group</div>
         </xsl:if>
-        <div class="truncate">
+        <div class="rp_truncate">
             <xsl:for-each
                 select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup/@refId,'.xml')))">
                 <xsl:apply-templates />
@@ -79,18 +81,19 @@
     </xsl:template>
     
     <xsl:template name="personHeader">
-        <div class="truncate">
+        <div class="rp_truncate">
+		<div class="rp_header">
             <a>
                 <xsl:attribute name="href"><xsl:value-of select="$pic0" /></xsl:attribute>
-                <img class="headerBox">
+                <img class="rp_headerbox">
                     <xsl:attribute name="src"><xsl:value-of select="$pic0" /></xsl:attribute>
                 </img>
             </a>
-            <div class="headerBox">
-                <span class="headerBox">
+            <div class="rp_headerbox">
+                <span class="rp_headerbox">
                     <xsl:value-of select="persona:characteristics/persona:characteristic[@type='name']/text()" />
                 </span>
-                <span class="headerBox" style="align:right;color:#EBDDE2">
+                <span class="rp_headerbox" style="align:right;color:#EBDDE2">
                     &#160;<xsl:value-of select="@id" />
                 </span>
                 <br />
@@ -102,14 +105,16 @@
                 <xsl:value-of select="persona:events/persona:event[@type='death']/persona:date/text()" />
             	</xsl:if>
             </div>
+		</div>
         </div>
     </xsl:template>
     
     <xsl:template name="facts">
     	<xsl:if test="$hideBanner != '1'">
-      	  <div class="personBanner">Facts</div>
+      	  <div class="rp_banner">Facts</div>
       	</xsl:if>
-        <div class="truncate">
+        <div class="rp_truncate">
+		<div class="rp_facts">
             <ul>
                 <xsl:for-each select="persona:characteristics/persona:characteristic">
                     <xsl:if test="(@type!='name') and (@type!='gender') and (@type!='surname')">
@@ -130,7 +135,7 @@
                      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
                      	<xsl:if test="$hidePlaces != '1'">
                             &#160;in
-                            <span class="place">
+                            <span class="rp_place">
                                 <xsl:value-of select="persona:place" />
                             </span>
                         </xsl:if>
@@ -161,7 +166,7 @@
                             </xsl:if>
                             <xsl:if test="$hidePlaces != '1'">
                             &#160;in
-                            <span class="place">
+                            <span class="rp_place">
                                 <xsl:value-of select="persona:place" />
                             </span>
                             </xsl:if>
@@ -169,14 +174,16 @@
                     </xsl:if>
                 </xsl:for-each>
             </ul>
+		</div>
         </div>
     </xsl:template>
     
     <xsl:template name="ancestors">
     	<xsl:if test="$hideBanner != '1'">
-        	<div class="personBanner">Ancestors</div>
+        	<div class="rp_banner">Ancestors</div>
         </xsl:if>
-        <div class="truncate">
+        <div class="rp_truncate">
+		<div class="rp_ancestors">
             <table cellpadding="0" cellspacing="0" class="ancestors">
                 <tbody>
                     <xsl:variable name="fatherPid"
@@ -193,23 +200,23 @@
                         </xsl:call-template>
                     </tr>
                     <tr>
-                        <td class="topleft">&#160;</td>
+                        <td class="rp_topleft">&#160;</td>
                     </tr>
                     <tr>
                         <td>&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode" select="$fatherNode" />
                         </xsl:call-template>
-                        <td class="bottom">&#160;</td>
-                        <td colspan="2" rowspan="2" class="left">&#160;</td>
+                        <td class="rp_bottom">&#160;</td>
+                        <td colspan="2" rowspan="2" class="rp_left">&#160;</td>
                     </tr>
                     <tr>
-                        <td class="topleft">&#160;</td>
+                        <td class="rp_topleft">&#160;</td>
                         <td>&#160;</td>
                     </tr>
                     <tr>
-                        <td colspan="3" rowspan="6" class="left">&#160;</td>
-                        <td class="leftbottom">&#160;</td>
+                        <td colspan="3" rowspan="6" class="rp_left">&#160;</td>
+                        <td class="rp_leftbottom">&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
                                 select="document(concat($data_dir,concat($fatherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
@@ -219,12 +226,12 @@
                         <td>&#160;</td>
                     </tr>
                     <tr>
-                        <td rowspan="2" class="nameBox">
+                        <td rowspan="2" class="rp_nameBox">
                             <span style="color:blue">
                                 <xsl:value-of select="persona:characteristics/persona:characteristic[@type='name']/text()" />
                             </span>
                         </td>
-                        <td class="bottom">&#160;</td>
+                        <td class="rp_bottom">&#160;</td>
                         <td colspan="2" rowspan="2">&#160;</td>
                     </tr>
                     <tr>
@@ -243,15 +250,15 @@
                         </xsl:call-template>
                     </tr>
                     <tr>
-                        <td class="topleft">&#160;</td>
+                        <td class="rp_topleft">&#160;</td>
                     </tr>
                     <tr>
-                        <td class="leftbottom">&#160;</td>
+                        <td class="rp_leftbottom">&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode" select="$motherNode" />
                         </xsl:call-template>
-                        <td class="bottom">&#160;</td>
-                        <td colspan="2" rowspan="2" class="left">&#160;</td>
+                        <td class="rp_bottom">&#160;</td>
+                        <td colspan="2" rowspan="2" class="rp_left">&#160;</td>
                     </tr>
                     <tr>
                         <td>&#160;</td>
@@ -259,7 +266,7 @@
                     </tr>
                     <tr>
                         <td colspan="3" rowspan="2">&#160;</td>
-                        <td class="leftbottom">&#160;</td>
+                        <td class="rp_leftbottom">&#160;</td>
                         <xsl:call-template name="personbox">
                             <xsl:with-param name="personNode"
                                 select="document(concat($data_dir,concat($motherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
@@ -270,18 +277,20 @@
                     </tr>
                 </tbody>
             </table>
+		</div>
         </div>
     </xsl:template>
     
     <xsl:template name="pictures">
     	<xsl:if test="$hideBanner != '1'">
-        	<div class="personBanner">Pictures</div>
+        	<div class="rp_banner">Pictures</div>
         </xsl:if>
-        <div class="truncate">
+        <div class="rp_truncate">
+		<div class="rp_pictures">
             <table class="personGallery" cellspacing="5px">
                 <tbody>
                     <tr>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic1" /></xsl:attribute>
                                     <img>
@@ -289,7 +298,7 @@
                                     </img>
                                 </a>
                             </td>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic2" /></xsl:attribute>
                                     <img>
@@ -297,7 +306,7 @@
                                     </img>
                                 </a>
                             </td>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic3" /></xsl:attribute>
                                     <img>
@@ -305,7 +314,7 @@
                                     </img>
                                 </a>
                             </td>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic4" /></xsl:attribute>
                                     <img>
@@ -313,7 +322,7 @@
                                     </img>
                                 </a>
                             </td>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic5" /></xsl:attribute>
                                     <img>
@@ -321,7 +330,7 @@
                                     </img>
                                 </a>
                             </td>
-                            <td class="picture">
+                            <td class="rp_picture">
                                 <a>
                                     <xsl:attribute name="href"><xsl:value-of select="$pic6" /></xsl:attribute>
                                     <img>
@@ -331,33 +340,34 @@
                             </td>
                     </tr>
                     <tr>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap1" />
                             </td>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap2" />
                             </td>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap3" />
                             </td>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap4" />
                             </td>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap5" />
                             </td>
-                            <td class="caption">
+                            <td class="rp_caption">
                                 <xsl:value-of select="$cap6" />
                             </td>
                     </tr>
                 </tbody>
             </table>
+		</div>
         </div>
     </xsl:template>
     
     <xsl:template name="personbox">
         <xsl:param name="personNode" />
-        <td rowspan="2" class="nameBox">
+        <td rowspan="2" class="rp_nameBox">
             <a>
                 <xsl:attribute name="href">
                     <xsl:apply-templates select="$map-top">

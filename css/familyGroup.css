@@ -1,95 +1,1 @@
-.post table.familygroup a {
-	color:blue;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.post table.familygroup a:link {
-	color: #06c;
-	text-decoration: none;
-}
-
-.post table.familygroup a:visited {
-	color: #06c;
-	text-decoration: none;
-}
-
-.post table.familygroup a:active {
-	color: #06c;
-}
-
-.post table.familygroup a:hover {
-	color: #06c;
-	text-decoration: underline;
-}
-
-.post table.familygroup {
-	border: 3px ridge brown;
-	border-spacing: 0px;
-	border-collapse: collapse;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left:auto;
-	margin-right:auto;
-	width: 96%;
-}
-
-.post table.familygroup td {
-	border: 2px ridge brown;
-	padding: 3px 0px 3px 8px;
-}
-
-.post table.familygroup td.full {
-	background-image:url('../images/familyGroupSidebar.jpg');
-		padding-right:8px;
-	padding-left: 8px;
-		width: 70%;
-}
-
-.post table.familygroup td.child {
-	background-image:url('../images/familyGroupSidebar.jpg');
-		padding-right:8px;
-	padding-left: 8px;
-		width: 70%;
-}
-
-.post table.familygroup td.parent {
-	padding-right:8px;
-	padding-left: 8px;
-		width: 70%;
-}
-
-.post table.familygroup td.notes {
-	padding-right:8px;
-	padding-left: 8px;
-		width: 70%;
-}
-
-.post table.familygroup td.gender {
-	background-image:url('../images/familyGroupSidebar.jpg');
-	font-weight:bold;
-	text-align: center;
-	padding: 0px 2px 0px 2px;
-	width: 3%;
-}
-
-.post table.familygroup td.inset {
-	padding: 0px 2px 0px 2px;
-	background-image:url('../images/familyGroupSidebar.jpg');
-	width: 3%;
-}
-
-.post table.familygroup td.ref {
-	padding-left: 0px;
-
-}
-.post table.familygroup td.date {
-	padding: 0px 8px 0px 8px;
-		width: 18%;
-}
-
-.post table.familygroup td.label {
-
-	padding: 0px 8px 0px 8px;
-	width: 10%;
-}
+div.rp_family table.familygroup a {	color: blue;	text-decoration: none;	font-weight: bold;}div.rp_family table.familygroup a:link {	color: #06c;	text-decoration: none;}div.rp_family table.familygroup a:visited {	color: #06c;	text-decoration: none;}div.rp_family table.familygroup a:active {	color: #06c;}div.rp_family table.familygroup a:hover {	color: #06c;	text-decoration: underline;}div.rp_family table.familygroup {	border: 3px ridge brown;	border-spacing: 0px;	border-collapse: collapse;	margin-top: 10px !important;	margin-bottom: 10px !important;	margin-left: auto;	margin-right: auto;	width: 96%;}div.rp_family table.familygroup td {	border: 2px ridge brown !important;	padding: 3px 0px 3px 8px !important;}div.rp_family table.familygroup td.full {	background-image: url("../images/familygroupSidebar.jpg");	padding-right: 8px !important;	padding-left: 8px !important;	width: 70%;}div.rp_family table.familygroup td.child {	background-image: url("../images/familygroupSidebar.jpg");	padding-right: 8px !important;	padding-left: 8px !important;	width: 70%;}div.rp_family table.familygroup td.parent {	padding-right: 8px !important;	padding-left: 8px !important;	width: 70%;}div.rp_family table.familygroup td.notes {	padding-right: 8px !important;	padding-left: 8px !important;	width: 70%;}div.rp_family table.familygroup td.gender {	background-image: url("../images/familygroupSidebar.jpg");	font-weight: bold;	text-align: center;	padding: 0px 2px 0px 2px !important;	width: 3%;}div.rp_family table.familygroup td.inset {	padding: 0px 2px 0px 2px !important;	background-image: url("../images/familygroupSidebar.jpg");	width: 3%;}div.rp_family table.familygroup td.ref {	padding-left: 0px !important;}div.rp_family table.familygroup td.date {	padding: 0px 8px 0px 8px !important;	width: 18%;}div.rp_family table.familygroup td.label {	padding: 0px 8px 0px 8px !important;	width: 10%;}

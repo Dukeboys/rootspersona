@@ -12,6 +12,7 @@
     <xsl:variable name="map-top" select="document(concat($data_dir,'/idMap.xml'))/map:idMap" />
 
     <xsl:template match="/persona:familyGroup">
+		<div class="rp_family">
         <xsl:if test="@id!='f000'">
         <table class="familygroup">
             <tbody>
@@ -22,6 +23,7 @@
         <xsl:if test="@id='f000'">
         <br/>
         </xsl:if>
+		</div>
     </xsl:template>
 
     <xsl:template match="persona:parents/persona:relation">
