@@ -1,6 +1,6 @@
 <?php
 /**
- * \Genealogy\Gedcom\Event
+ * \Genealogy\Gedcom\rpEvent
  *
  * PHP version 5
  *
@@ -9,7 +9,7 @@
  * @author    Ed Thompson <ed4becky@gmail.com>
  * @copyright 2010 Ed Thompson
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
- * @version   SVN: $Id: Event.php 307 2010-12-25 23:35:23Z ed4becky $
+ * @version   SVN: $Id: rpEvent.php 307 2010-12-25 23:35:23Z ed4becky $
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
 
@@ -25,7 +25,7 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class Event extends FactDetail
+class rpEvent extends FactDetail
 {
     var $_TYPES = array(
     'ADOP' => 'Adoption',
@@ -60,7 +60,7 @@ class Event extends FactDetail
     'MARL' => 'Marriage License',
     'MARS' => 'Marriage Settlement',
     'RESI' => 'Residence',
-    'EVEN' => 'Event'
+    'EVEN' => 'rpEvent'
     );
 
     /**
@@ -91,7 +91,7 @@ class Event extends FactDetail
         foreach ($keys as $tag) {
             $off = 0;
             while (($i1=parent::findTag($tree, $tag, $off))!==false) {
-                $event = new Event();
+                $event = new rpEvent();
                 $event->Ver =$ver;
                 $event->Tag = $tag;
                 $event->Descr = parent::parseText($tree[$i1], $tag);

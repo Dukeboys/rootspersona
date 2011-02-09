@@ -74,13 +74,13 @@ class Association  extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->AssociateId) && $this->AssociateId != '') {
-                $gedRec .= $lvl . ' ' . Tags::ASSOCIATION
+                $gedRec .= $lvl . ' ' . rpTags::ASSOCIATION
                     . ' @' . $this->AssociateId . '@';
 
                 $lvl2 = $lvl+1;
                 if (isset($this->Relationship) && $this->Relationship != '') {
                     $gedRec .= "\n" . $lvl2 . ' '
-                        . Tags::RELATIONSHIP . ' ' . $this->Relationship;
+                        . rpTags::RELATIONSHIP . ' ' . $this->Relationship;
                 }
                 for ($i=0; $i<count($this->Citations); $i++) {
                     $gedRec .= "\n" . $this->Citations[$i]->toGedcom($lvl2, $ver);
@@ -109,19 +109,19 @@ class Association  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::ASSOCIATION))!==false) {
+        if (($i1=parent::findTag($tree, rpTags::ASSOCIATION))!==false) {
             $this->AssociateId = parent::parsePtrId(
-                $tree[$i1], Tags::ASSOCIATION
+                $tree[$i1], rpTags::ASSOCIATION
             );
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::RELATIONSHIP))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::RELATIONSHIP))!==false) {
                     $this->Relationship
-                        = parent::parseText($sub2[$i2], Tags::RELATIONSHIP);
+                        = parent::parseText($sub2[$i2], rpTags::RELATIONSHIP);
                 }
                 $off = 0;
                 while (
-                    ($i1=parent::findTag($sub2, Tags::CITE, $off))!==false
+                    ($i1=parent::findTag($sub2, rpTags::CITE, $off))!==false
                     ) {
                     $tmp = new Citation();
                     $tmp->parseTree(array($sub2[$i1]), $ver);
@@ -130,7 +130,7 @@ class Association  extends EntityAbstract
                 }
                 $off = 0;
                 while (
-                    ($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false
+                    ($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false
                     ) {
                     $tmp = new Note();
                     $tmp->parseTree(array($sub2[$i1]), $ver);

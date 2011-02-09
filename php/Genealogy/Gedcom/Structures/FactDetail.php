@@ -55,9 +55,9 @@ abstract class FactDetail extends EntityAbstract
     var $Place;
     /**
      *
-     * @var Address
+     * @var rpAddress
      */
-    var $Address;
+    var $rpAddress;
     /**
      *
      * @var string
@@ -105,7 +105,7 @@ abstract class FactDetail extends EntityAbstract
     function __construct()
     {
         $this->Place = new Place();
-        $this->Address = new Address();
+        $this->rpAddress = new rpAddress();
     }
 
     /**
@@ -165,36 +165,36 @@ abstract class FactDetail extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Type) && $this->Type != '') {
-                $gedRec .= "\n" . $lvl . ' ' . Tags::TYPE . ' ' . $this->Type;
+                $gedRec .= "\n" . $lvl . ' ' . rpTags::TYPE . ' ' . $this->Type;
             }
             if (isset($this->Date) && $this->Date != '') {
-                $gedRec .= "\n" . $lvl . ' ' . Tags::DATE . ' ' . $this->Date;
+                $gedRec .= "\n" . $lvl . ' ' . rpTags::DATE . ' ' . $this->Date;
             }
             $str = $this->Place->toGedcom($lvl, $ver);
             if (isset($str) && $str != '') {
                 $gedRec .= "\n" . $str;
             }
-            $str = $this->Address->toGedcom($lvl, $ver);
+            $str = $this->rpAddress->toGedcom($lvl, $ver);
             if (isset($str) && $str != '') {
                 $gedRec .= "\n" . $str;
             }
             if (isset($this->Age) && $this->Age != '') {
-                $gedRec .= $lvl . ' ' . Tags::AGE . ' ' . $this->Age;
+                $gedRec .= $lvl . ' ' . rpTags::AGE . ' ' . $this->Age;
             }
             if (isset($this->RespAgency) && $this->RespAgency != '') {
-                $gedRec .= $lvl . ' ' . Tags::AGENCY . ' ' . $this->RespAgency;
+                $gedRec .= $lvl . ' ' . rpTags::AGENCY . ' ' . $this->RespAgency;
             }
             if (isset($this->ReligiousAffiliation)
                 && $this->ReligiousAffiliation != ''
             ) {
                 $gedRec .= $lvl . ' '
-                    . Tags::RELIGION . ' ' . $this->ReligiousAffiliation;
+                    . rpTags::RELIGION . ' ' . $this->ReligiousAffiliation;
             }
             if (isset($this->Restriction) && $this->Restriction != '') {
-                $gedRec .= $lvl . ' ' . Tags::RESTRICTION . ' ' . $this->Restriction;
+                $gedRec .= $lvl . ' ' . rpTags::RESTRICTION . ' ' . $this->Restriction;
             }
             if (isset($this->Cause) && $this->Cause != '') {
-                $gedRec .= $lvl . ' ' . Tags::CAUSE . ' ' . $this->Cause;
+                $gedRec .= $lvl . ' ' . rpTags::CAUSE . ' ' . $this->Cause;
             }
             for ($i=0; $i<count($this->Citations); $i++) {
                 $str .= "\n" . $this->Citations[$i]->toGedcom($lvl, $ver);
@@ -223,7 +223,7 @@ abstract class FactDetail extends EntityAbstract
      * @access public
      * @since Method available since Release 0.0.1
      */
-    public function parseTree($tree, $ver, $tag=Tags::EVENT)
+    public function parseTree($tree, $ver, $tag=rpTags::EVENT)
     {
         $this->Ver =$ver;
         if (($i1=parent::findTag($tree, $tag))!==false) {
@@ -249,52 +249,52 @@ abstract class FactDetail extends EntityAbstract
      */
     protected function parseTreeDetail($tree, $ver)
     {
-        if (($i1=parent::findTag($tree, Tags::TYPE))!==false) {
-            $this->Type = parent::parseText($tree[$i1], Tags::TYPE);
+        if (($i1=parent::findTag($tree, rpTags::TYPE))!==false) {
+            $this->Type = parent::parseText($tree[$i1], rpTags::TYPE);
         }
-        if (($i1=parent::findTag($tree, Tags::DATE))!==false) {
-            $this->Date = parent::parseText($tree[$i1], Tags::DATE);
+        if (($i1=parent::findTag($tree, rpTags::DATE))!==false) {
+            $this->Date = parent::parseText($tree[$i1], rpTags::DATE);
         }
-        if (($i1=parent::findTag($tree, Tags::ADDRESS))!==false) {
-            $this->Address->parseTree(array($tree[$i1]), $ver);
+        if (($i1=parent::findTag($tree, rpTags::ADDRESS))!==false) {
+            $this->rpAddress->parseTree(array($tree[$i1]), $ver);
         }
-        if (($i1=parent::findTag($tree, Tags::PLACE))!==false) {
+        if (($i1=parent::findTag($tree, rpTags::PLACE))!==false) {
             $this->Place->parseTree(array($tree[$i1]), $ver);
         }
-        if (($i1=parent::findTag($tree, Tags::RELIGION))!==false) {
+        if (($i1=parent::findTag($tree, rpTags::RELIGION))!==false) {
             $this->ReligiousAffiliation
-                = parent::parseText($tree[$i1], Tags::RELIGION);
+                = parent::parseText($tree[$i1], rpTags::RELIGION);
         }
-        if (($i1=parent::findTag($tree, Tags::AGENCY))!==false) {
-            $this->RespAgency = parent::parseText($tree[$i1], Tags::AGENCY);
+        if (($i1=parent::findTag($tree, rpTags::AGENCY))!==false) {
+            $this->RespAgency = parent::parseText($tree[$i1], rpTags::AGENCY);
         }
-        if (($i1=parent::findTag($tree, Tags::AGE))!==false) {
-            $this->Age = parent::parseText($tree[$i1], Tags::AGE);
+        if (($i1=parent::findTag($tree, rpTags::AGE))!==false) {
+            $this->Age = parent::parseText($tree[$i1], rpTags::AGE);
         }
-        if (($i1=parent::findTag($tree, Tags::RESTRICTION))!==false) {
-            $this->Restriction = parent::parseText($tree[$i1], Tags::RESTRICTION);
+        if (($i1=parent::findTag($tree, rpTags::RESTRICTION))!==false) {
+            $this->Restriction = parent::parseText($tree[$i1], rpTags::RESTRICTION);
         }
-        if (($i1=parent::findTag($tree, Tags::CAUSE))!==false) {
-            $this->Cause = parent::parseText($tree[$i1], Tags::CAUSE);
+        if (($i1=parent::findTag($tree, rpTags::CAUSE))!==false) {
+            $this->Cause = parent::parseText($tree[$i1], rpTags::CAUSE);
         }
         $this->Place->parseTree($tree, $ver);
-        $this->Address->parseTree($tree, $ver);
+        $this->rpAddress->parseTree($tree, $ver);
         $off = 0;
-        while (($i1=parent::findTag($tree, Tags::CITE, $off))!==false) {
+        while (($i1=parent::findTag($tree, rpTags::CITE, $off))!==false) {
             $tmp = new Citation();
             $tmp->parseTree(array($tree[$i1]), $ver);
             $this->Citations[] = $tmp;
             $off = $i1 + 1;
         }
         $off = 0;
-        while (($i1=parent::findTag($tree, Tags::MEDIA, $off))!==false) {
+        while (($i1=parent::findTag($tree, rpTags::MEDIA, $off))!==false) {
             $tmp = new MediaLink();
             $tmp->parseTree(array($tree[$i1]), $ver);
             $this->MediaLinks[] = $tmp;
             $off = $i1 + 1;
         }
         $off = 0;
-        while (($i1=parent::findTag($tree, Tags::NOTE, $off))!==false) {
+        while (($i1=parent::findTag($tree, rpTags::NOTE, $off))!==false) {
             $tmp = new Note();
             $tmp->parseTree(array($tree[$i1]), $ver);
             $this->Notes[] = $tmp;
@@ -319,7 +319,7 @@ abstract class FactDetail extends EntityAbstract
         . ', Type->' . $this->Type
         . ', Date->' . $this->Date
         . ', Place->' . $this->Place
-        . ', Address->' . $this->Address
+        . ', rpAddress->' . $this->rpAddress
         . ', Age->' .$this->Age
         . ', RespAgency->' .$this->RespAgency
         . ', ReligiousAffiliation->' . $this->ReligiousAffiliation

@@ -60,13 +60,13 @@ class GedC extends EntityAbstract
      */
     public function toGedcom($lvl, $ver)
     {
-        $gedRec = $lvl . ' ' . Tags::GEDC;
+        $gedRec = $lvl . ' ' . rpTags::GEDC;
         $lvl2 = $lvl + 1;
         if (isset($this->VerNbr) && $this->VerNbr != '') {
-            $gedRec .= "\n" . $lvl2 . ' ' . Tags::VERSION . ' ' . $this->VerNbr;
+            $gedRec .= "\n" . $lvl2 . ' ' . rpTags::VERSION . ' ' . $this->VerNbr;
         }
         if (isset($this->Form) && $this->Form != '') {
-            $gedRec .= "\n" . $lvl2 . ' ' . Tags::FORM . ' ' . $this->Form;
+            $gedRec .= "\n" . $lvl2 . ' ' . rpTags::FORM . ' ' . $this->Form;
         }
         return $gedRec;
     }
@@ -87,14 +87,14 @@ class GedC extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver = $ver;
-        if (($i1=parent::findTag($tree, Tags::GEDC))!==false)
+        if (($i1=parent::findTag($tree, rpTags::GEDC))!==false)
         if (isset($tree [$i1] [1])) {
             $sub2 = $tree [$i1] [1];
-            if (($i2=parent::findTag($sub2, Tags::VERSION)) !== false) {
-                $this->VerNbr = parent::parseText($sub2 [$i2], Tags::VERSION);
+            if (($i2=parent::findTag($sub2, rpTags::VERSION)) !== false) {
+                $this->VerNbr = parent::parseText($sub2 [$i2], rpTags::VERSION);
             }
-            if (($i2 = parent::findTag($sub2, Tags::FORM)) !== false) {
-                $this->Form = parent::parseText($sub2 [$i2], Tags::FORM);
+            if (($i2 = parent::findTag($sub2, rpTags::FORM)) !== false) {
+                $this->Form = parent::parseText($sub2 [$i2], rpTags::FORM);
             }
         }
     }

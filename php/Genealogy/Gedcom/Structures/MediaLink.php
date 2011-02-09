@@ -54,12 +54,12 @@ class MediaLink extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Id) && $this->Id != '') {
-                $gedRec .= $lvl . ' ' . Tags::MEDIA . ' @' . $this->Id . '@';
+                $gedRec .= $lvl . ' ' . rpTags::MEDIA . ' @' . $this->Id . '@';
             } else {
-                $gedRec .= $lvl . ' ' . Tags::MEDIA;
+                $gedRec .= $lvl . ' ' . rpTags::MEDIA;
                 $lvl2 = $lvl + 1;
                 if (isset($this->Title) && $this->Title != '') {
-                    $gedRec .= "\n" . $lvl2 . ' ' . Tags::TITLE . ' ' . $this->Title;
+                    $gedRec .= "\n" . $lvl2 . ' ' . rpTags::TITLE . ' ' . $this->Title;
                 }
                 for ($i=0; $i<count($this->MediaFiles); $i++) {
                     $gedRec .= "\n" . $this->MediaFiles[$i]->toGedcom($lvl2, $ver);
@@ -85,17 +85,17 @@ class MediaLink extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::MEDIA))!==false) {
-            $str = parent::parsePtrId($tree[$i1], Tags::MEDIA);
+        if (($i1=parent::findTag($tree, rpTags::MEDIA))!==false) {
+            $str = parent::parsePtrId($tree[$i1], rpTags::MEDIA);
             if (isset($str) && $str != '') {
                 $this->Id = $str;
             } else {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::TITLE))!==false) {
-                    $this->Title = parent::parseText($sub2[$i2], Tags::TITLE);
+                if (($i2=parent::findTag($sub2, rpTags::TITLE))!==false) {
+                    $this->Title = parent::parseText($sub2[$i2], rpTags::TITLE);
                 }
                 $off = 0;
-                while (($i1=parent::findTag($sub2, Tags::FILE, $off))!==false) {
+                while (($i1=parent::findTag($sub2, rpTags::FILE, $off))!==false) {
                     $tmp = new MediaFile();
                     $tmp->parseTree(array($sub2[$i1]), $ver);
                     $this->MediaFiles[] = $tmp;

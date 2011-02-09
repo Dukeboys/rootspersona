@@ -128,7 +128,7 @@ class SourceRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::SOURCE;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::SOURCE;
             $lvl2 = $lvl + 1;
 
             for ($i=0; $i<count($this->SourceData); $i++) {
@@ -136,25 +136,25 @@ class SourceRecord extends EntityAbstract
             }
             if (isset($this->Author) && $this->Author != '') {
                 $gedRec .= "\n"
-                    . parent::toConTag($this->Author, Tags::AUTHOR, $lvl2);
+                    . parent::toConTag($this->Author, rpTags::AUTHOR, $lvl2);
             }
             if (isset($this->Title) && $this->Title != '') {
                 $gedRec .= "\n"
-                    . parent::toConTag($this->Title, Tags::TITLE, $lvl2);
+                    . parent::toConTag($this->Title, rpTags::TITLE, $lvl2);
             }
             if (isset($this->AbbreviatedTitle) && $this->AbbreviatedTitle != '') {
                 $gedRec .= "\n"
-                    . parent::toConTag($this->AbbreviatedTitle, Tags::ABBR, $lvl2);
+                    . parent::toConTag($this->AbbreviatedTitle, rpTags::ABBR, $lvl2);
             }
             if (isset($this->PublicationFacts) && $this->PublicationFacts != '') {
                 $gedRec .= "\n"
                     . parent::toConTag(
-                        $this->PublicationFacts, Tags::PUBLICATION, $lvl2
+                        $this->PublicationFacts, rpTags::PUBLICATION, $lvl2
                     );
             }
             if (isset($this->Text) && $this->Text != '') {
                 $gedRec .= "\n"
-                    . parent::toConTag($this->Text, Tags::TEXT, $lvl2);
+                    . parent::toConTag($this->Text, rpTags::TEXT, $lvl2);
             }
             for ($i=0; $i<count($this->RepositoryCitations); $i++) {
                 $gedRec .= "\n"
@@ -162,17 +162,17 @@ class SourceRecord extends EntityAbstract
             }
             for ($i=0; $i<count($this->UserRefNbrs); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::USERFILE
+                    . ' ' . rpTags::USERFILE
                     . ' ' . $this->UserRefNbrs[$i]['Nbr'];
                 if (isset($this->UserRefNbrs[$i]['Type'])) {
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::TYPE
+                        . ' ' . rpTags::TYPE
                         . ' ' . $this->UserRefNbrs[$i]['Type'];
                 }
             }
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID .' ' .$this->AutoRecId;
+                    . ' ' . rpTags::AUTORECID .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
@@ -203,71 +203,71 @@ class SourceRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::SOURCE);
+        $this->Id = parent::parseRefId($tree[0], rpTags::SOURCE);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::DATA, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::DATA, $off))!==false) {
                 $tmp = new SourceData();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->SourceData[] = $tmp;
                 $off = $i1 + 1;
             }
 
-            if (($i1=parent::findTag($sub2, Tags::AUTHOR))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::AUTHOR))!==false) {
                 $this->Author
-                    = parent::parseConTag($sub2 [$i1], Tags::AUTHOR);
+                    = parent::parseConTag($sub2 [$i1], rpTags::AUTHOR);
             }
-            if (($i1=parent::findTag($sub2, Tags::TITLE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::TITLE))!==false) {
                 $this->Title
-                    = parent::parseConTag($sub2 [$i1], Tags::TITLE);
+                    = parent::parseConTag($sub2 [$i1], rpTags::TITLE);
             }
-            if (($i1=parent::findTag($sub2, Tags::ABBR))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::ABBR))!==false) {
                 $this->AbbreviatedTitle
-                    = parent::parseConTag($sub2 [$i1], Tags::ABBR);
+                    = parent::parseConTag($sub2 [$i1], rpTags::ABBR);
             }
-            if (($i1=parent::findTag($sub2, Tags::PUBLICATION))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::PUBLICATION))!==false) {
                 $this->PublicationFacts
-                    = parent::parseConTag($sub2 [$i1], Tags::PUBLICATION);
+                    = parent::parseConTag($sub2 [$i1], rpTags::PUBLICATION);
             }
-            if (($i1=parent::findTag($sub2, Tags::TEXT))!==false) {
-                $this->Text = parent::parseConTag($sub2 [$i1], Tags::TEXT);
+            if (($i1=parent::findTag($sub2, rpTags::TEXT))!==false) {
+                $this->Text = parent::parseConTag($sub2 [$i1], rpTags::TEXT);
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::REPOSITORY, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::REPOSITORY, $off))!==false) {
                 $tmp = new RepositoryCitation();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->RepositoryCitations[] = $tmp;
                 $off = $i1 + 1;
             }
-            if (($i1=parent::findTag($sub2, Tags::USERFILE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::USERFILE))!==false) {
                 $this->UserRefNbrs[]['Nbr']
-                    = parent::parseText($sub2 [$i1], Tags::USERFILE);
+                    = parent::parseText($sub2 [$i1], rpTags::USERFILE);
                 if (isset($sub2[$i1][1])) {
-                    if (($i2=parent::findTag($sub2[$i1][1], Tags::TYPE)) !== false) {
+                    if (($i2=parent::findTag($sub2[$i1][1], rpTags::TYPE)) !== false) {
                         $this->UserRefNbrs[count($this->UserRefNbrs)-1]['Type']
-                            = parent::parseText($sub2 [$i1][1][$i2], Tags::TYPE);
+                            = parent::parseText($sub2 [$i1][1][$i2], rpTags::TYPE);
                     }
                 }
             }
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::MEDIA, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::MEDIA, $off))!==false) {
                 $tmp = new MediaLink();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->MediaLinks[] = $tmp;
                 $off = $i1 + 1;
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;

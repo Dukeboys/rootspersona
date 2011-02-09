@@ -56,19 +56,19 @@ class MediaFile  extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->RefNbr) && $this->RefNbr != '') {
-                $gedRec .= $lvl . ' ' . Tags::FILE . ' ' . $this->RefNbr;
+                $gedRec .= $lvl . ' ' . rpTags::FILE . ' ' . $this->RefNbr;
 
                 $lvl2 = $lvl+1;
                 if (isset($this->Format) && $this->Format != '') {
                     $gedRec .= "\n" . $lvl2
-                        . ' ' . Tags::FORMAT . ' ' . $this->Format;
+                        . ' ' . rpTags::FORMAT . ' ' . $this->Format;
                     if (isset($this->FormatType) && $this->FormatType != '') {
                         $gedRec .= "\n" .($lvl2+1)
-                            . ' ' . Tags::TYPE . ' ' . $this->FormatType;
+                            . ' ' . rpTags::TYPE . ' ' . $this->FormatType;
                     }
                 }
                 if (isset($this->Title) && $this->Title != '') {
-                    $gedRec .= "\n" . $lvl2 . ' ' . Tags::TITLE . ' ' . $this->Title;
+                    $gedRec .= "\n" . $lvl2 . ' ' . rpTags::TITLE . ' ' . $this->Title;
                 }
             }
         }
@@ -91,22 +91,22 @@ class MediaFile  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::FILE))!==false) {
-            $this->RefNbr = parent::parseText($tree[$i1], Tags::FILE);
+        if (($i1=parent::findTag($tree, rpTags::FILE))!==false) {
+            $this->RefNbr = parent::parseText($tree[$i1], rpTags::FILE);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::FORMAT))!==false) {
-                    $this->Format = parent::parseText($sub2[$i2], Tags::FORMAT);
+                if (($i2=parent::findTag($sub2, rpTags::FORMAT))!==false) {
+                    $this->Format = parent::parseText($sub2[$i2], rpTags::FORMAT);
                     if (isset($sub2[$i2][1])) {
-                        if (($i3=parent::findTag($sub2[$i2][1], Tags::TYPE))!==false
+                        if (($i3=parent::findTag($sub2[$i2][1], rpTags::TYPE))!==false
                         ) {
                             $this->FormatType
-                                = parent::parseText($sub2[$i2][1][$i3], Tags::TYPE);
+                                = parent::parseText($sub2[$i2][1][$i3], rpTags::TYPE);
                         }
                     }
                 }
-                if (($i2=parent::findTag($sub2, Tags::TITLE))!==false) {
-                    $this->Title = parent::parseText($sub2[$i2], Tags::TITLE);
+                if (($i2=parent::findTag($sub2, rpTags::TITLE))!==false) {
+                    $this->Title = parent::parseText($sub2[$i2], rpTags::TITLE);
                 }
             }
         }

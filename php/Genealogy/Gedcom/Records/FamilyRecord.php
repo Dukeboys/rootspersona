@@ -159,27 +159,27 @@ class FamilyRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::FAMILY;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::FAMILY;
             $lvl2 = $lvl + 1;
             if (isset($this->Restriction) && $this->Restriction != '') {
                 $gedRec .= "\n" . $lvl2 . ' '
-                    . Tags::RESTRICTION .' ' .$this->Restriction;
+                    . rpTags::RESTRICTION .' ' .$this->Restriction;
             }
             if (isset($this->Husband) && $this->Husband != '') {
                 $gedRec .= "\n" . $lvl2 . ' '
-                    . Tags::HUSBAND .' @' .$this->Husband . '@';
+                    . rpTags::HUSBAND .' @' .$this->Husband . '@';
             }
             if (isset($this->Wife) && $this->Wife != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::WIFE .' @' .$this->Wife . '@';
+                    . ' ' . rpTags::WIFE .' @' .$this->Wife . '@';
             }
             for ($i=0; $i<count($this->Children); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::CHILD .' @' .$this->Children[$i] . '@';
+                    . ' ' . rpTags::CHILD .' @' .$this->Children[$i] . '@';
             }
             if (isset($this->CountOfChildren) && $this->CountOfChildren != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::CHILDCNT .' ' .$this->CountOfChildren;
+                    . ' ' . rpTags::CHILDCNT .' ' .$this->CountOfChildren;
             }
             for ($i=0; $i<count($this->Events); $i++) {
                 $gedRec .= "\n" . $this->Events[$i]->toGedcom($lvl2, $ver);
@@ -189,19 +189,19 @@ class FamilyRecord extends EntityAbstract
             //			}
             for ($i=0; $i<count($this->SubmitterLinks); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::SUBMITTER . ' @' . $this->SubmitterLinks[$i] . '@';
+                    . ' ' . rpTags::SUBMITTER . ' @' . $this->SubmitterLinks[$i] . '@';
             }
             for ($i=0; $i<count($this->UserRefNbrs); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::USERFILE . ' ' . $this->UserRefNbrs[$i]['Nbr'];
+                    . ' ' . rpTags::USERFILE . ' ' . $this->UserRefNbrs[$i]['Nbr'];
                 if (isset($this->UserRefNbrs[$i]['Type'])) {
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::TYPE . ' ' . $this->UserRefNbrs[$i]['Type'];
+                        . ' ' . rpTags::TYPE . ' ' . $this->UserRefNbrs[$i]['Type'];
                 }
             }
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID .' ' .$this->AutoRecId;
+                    . ' ' . rpTags::AUTORECID .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
@@ -236,75 +236,75 @@ class FamilyRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::FAMILY);
+        $this->Id = parent::parseRefId($tree[0], rpTags::FAMILY);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
-            if (($i1=parent::findTag($sub2, Tags::RESTRICTION))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::RESTRICTION))!==false) {
                 $this->Restriction
-                    = parent::parseText($sub2 [$i1], Tags::RESTRICTION);
+                    = parent::parseText($sub2 [$i1], rpTags::RESTRICTION);
             }
-            $tmp = new Event();
+            $tmp = new rpEvent();
             $this->Events = $tmp->parseTreeToArray($sub2, $ver);
 
-            if (($i1=parent::findTag($sub2, Tags::HUSBAND))!==false) {
-                $this->Husband = parent::parsePtrId($sub2 [$i1], Tags::HUSBAND);
+            if (($i1=parent::findTag($sub2, rpTags::HUSBAND))!==false) {
+                $this->Husband = parent::parsePtrId($sub2 [$i1], rpTags::HUSBAND);
             }
-            if (($i1=parent::findTag($sub2, Tags::WIFE))!==false) {
-                $this->Wife = parent::parsePtrId($sub2 [$i1], Tags::WIFE);
+            if (($i1=parent::findTag($sub2, rpTags::WIFE))!==false) {
+                $this->Wife = parent::parsePtrId($sub2 [$i1], rpTags::WIFE);
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::CHILD, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::CHILD, $off))!==false) {
                 $this->Children[]
-                    = parent::parsePtrId($sub2 [$i1], Tags::CHILD);
+                    = parent::parsePtrId($sub2 [$i1], rpTags::CHILD);
                 $off = $i1 + 1;
             }
-            if (($i1=parent::findTag($sub2, Tags::CHILDCNT))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHILDCNT))!==false) {
                 $this->CountOfChildren
-                    = parent::parseText($sub2 [$i1], Tags::CHILDCNT);
+                    = parent::parseText($sub2 [$i1], rpTags::CHILDCNT);
             }
             // TODO add support for LdsSealing
             //			$tmp = new LdsSealing();
             //			$this->LdsSealings = $tmp->parseTreeToArray($sub2, $ver);
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::SUBMITTER, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::SUBMITTER, $off))!==false) {
                 $this->SubmitterLinks[]
-                    = parent::parsePtrId($sub2 [$i1], Tags::SUBMITTER);
+                    = parent::parsePtrId($sub2 [$i1], rpTags::SUBMITTER);
                 $off = $i1 + 1;
             }
-            if (($i1=parent::findTag($sub2, Tags::USERFILE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::USERFILE))!==false) {
                 $this->UserRefNbrs[]['Nbr']
-                    = parent::parseText($sub2 [$i1], Tags::USERFILE);
+                    = parent::parseText($sub2 [$i1], rpTags::USERFILE);
                 if (isset($sub2[$i1][1])) {
-                    if (($i2=parent::findTag($sub2[$i1][1], Tags::TYPE)) !== false) {
+                    if (($i2=parent::findTag($sub2[$i1][1], rpTags::TYPE)) !== false) {
                         $this->UserRefNbrs[count($this->UserRefNbrs)-1]['Type']
-                            = parent::parseText($sub2 [$i1][1][$i2], Tags::TYPE);
+                            = parent::parseText($sub2 [$i1][1][$i2], rpTags::TYPE);
                     }
                 }
             }
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::CITE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::CITE, $off))!==false) {
                 $tmp = new Citation();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Citations[] = $tmp;
                 $off = $i1 + 1;
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::MEDIA, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::MEDIA, $off))!==false) {
                 $tmp = new MediaLink();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->MediaLinks[] = $tmp;
                 $off = $i1 + 1;
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;

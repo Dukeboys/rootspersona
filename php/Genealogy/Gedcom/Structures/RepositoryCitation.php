@@ -58,15 +58,15 @@ class RepositoryCitation  extends EntityAbstract
             if (isset($this->RepositoryId) && $this->RepositoryId != '') {
                 $str = ' @' . $this->RepositoryId . '@';
             }
-            $gedRec .= $lvl . ' ' . Tags::REPOSITORY . $str;
+            $gedRec .= $lvl . ' ' . rpTags::REPOSITORY . $str;
             $lvl2 = $lvl+1;
             for ($i=0; $i<count($this->CallNbrs); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::CALLNBR
+                    . ' ' . rpTags::CALLNBR
                     . ' ' . $this->CallNbrs[$i]['Nbr'];
                 if (isset($this->CallNbrs[$i]['Media'])) {
                     $gedRec .= "\n" . ($lvl2+1)
-                        . ' ' . Tags::MEDIATYPE
+                        . ' ' . rpTags::MEDIATYPE
                         . ' ' . $this->CallNbrs[$i]['Media'];
                 }
             }
@@ -93,20 +93,20 @@ class RepositoryCitation  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::REPOSITORY))!==false) {
-            $this->RepositoryId = parent::parsePtrId($tree[$i1], Tags::REPOSITORY);
+        if (($i1=parent::findTag($tree, rpTags::REPOSITORY))!==false) {
+            $this->RepositoryId = parent::parsePtrId($tree[$i1], rpTags::REPOSITORY);
             $sub2 = $tree[$i1][1];
 
             $off = 0;
             $idx = 0;
-            while (($i2=parent::findTag($sub2, Tags::CALLNBR, $off))!==false) {
-                $this->CallNbrs[$idx]['Nbr'] = parent::parseText($sub2 [$i2], Tags::CALLNBR);
+            while (($i2=parent::findTag($sub2, rpTags::CALLNBR, $off))!==false) {
+                $this->CallNbrs[$idx]['Nbr'] = parent::parseText($sub2 [$i2], rpTags::CALLNBR);
                 if (isset($sub2 [$i2][1])) {
-                    if (($i3=parent::findTag($sub2 [$i2][1], Tags::MEDIATYPE))!==false
+                    if (($i3=parent::findTag($sub2 [$i2][1], rpTags::MEDIATYPE))!==false
                     ) {
                         $this->CallNbrs[$idx]['Media']
                             = parent::parseText(
-                                $sub2 [$i2][1][$i3], Tags::MEDIATYPE
+                                $sub2 [$i2][1][$i3], rpTags::MEDIATYPE
                             );
                     }
                 }
@@ -115,7 +115,7 @@ class RepositoryCitation  extends EntityAbstract
             }
 
             $off = 0;
-            while (($i2=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i2=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i2]), $ver);
                 $this->Notes[] = $tmp;

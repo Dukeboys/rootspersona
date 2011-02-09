@@ -1,6 +1,6 @@
 <?php
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/EntityAbstract.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Parser.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/rpParser.php');
 //require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Exceptions/Exception.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Exceptions/FileException.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Exceptions/InvalidFieldException.php');
@@ -15,14 +15,14 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Rec
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Records/SourceRecord.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Records/SubmissionRecord.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Records/SubmitterRecord.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Address.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpAddress.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Association.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/ChangeDate.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/CharacterSet.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Citation.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Corporation.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Data.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Event.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpData.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpEvent.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Fact.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/FamilyLink.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/GedC.php');
@@ -38,4 +38,4 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Str
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/RepositoryCitation.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/SourceData.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/SourceSystem.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Tags.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/rpTags.php');

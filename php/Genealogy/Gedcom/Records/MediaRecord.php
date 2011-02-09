@@ -103,7 +103,7 @@ class MediaRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::MEDIA;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::MEDIA;
             $lvl2 = $lvl + 1;
 
             for ($i=0; $i<count($this->MediaFiles); $i++) {
@@ -111,15 +111,15 @@ class MediaRecord extends EntityAbstract
             }
             for ($i=0; $i<count($this->UserRefNbrs); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::USERFILE . ' ' . $this->UserRefNbrs[$i]['Nbr'];
+                    . ' ' . rpTags::USERFILE . ' ' . $this->UserRefNbrs[$i]['Nbr'];
                 if (isset($this->UserRefNbrs[$i]['Type'])) {
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::TYPE . ' ' . $this->UserRefNbrs[$i]['Type'];
+                        . ' ' . rpTags::TYPE . ' ' . $this->UserRefNbrs[$i]['Type'];
                 }
             }
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID .' ' .$this->AutoRecId;
+                    . ' ' . rpTags::AUTORECID .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
@@ -150,44 +150,44 @@ class MediaRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::MEDIA);
+        $this->Id = parent::parseRefId($tree[0], rpTags::MEDIA);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::FILE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::FILE, $off))!==false) {
                 $tmp = new MediaFile();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->MediaFiles[] = $tmp;
                 $off = $i1 + 1;
 
             }
-            if (($i1=parent::findTag($sub2, Tags::USERFILE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::USERFILE))!==false) {
                 $this->UserRefNbrs[]['Nbr']
-                    = parent::parseText($sub2 [$i1], Tags::USERFILE);
+                    = parent::parseText($sub2 [$i1], rpTags::USERFILE);
                 if (isset($sub2[$i1][1])) {
-                    if (($i2=parent::findTag($sub2[$i1][1], Tags::TYPE)) !== false) {
+                    if (($i2=parent::findTag($sub2[$i1][1], rpTags::TYPE)) !== false) {
                         $this->UserRefNbrs[count($this->UserRefNbrs)-1]['Type']
-                            = parent::parseText($sub2 [$i1][1][$i2], Tags::TYPE);
+                            = parent::parseText($sub2 [$i1][1][$i2], rpTags::TYPE);
                     }
                 }
             }
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::CITE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::CITE, $off))!==false) {
                 $tmp = new Citation();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Citations[] = $tmp;
                 $off = $i1 + 1;
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;

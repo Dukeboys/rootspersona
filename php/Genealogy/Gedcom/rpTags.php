@@ -1,6 +1,6 @@
 <?php
 /**
- * \Genealogy\Gedcom\Parser
+ * \Genealogy\Gedcom\rpParser
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class Tags
+class rpTags
 {
     const ABBR = 'ABBR';
     const ADDRESS = 'ADDR';

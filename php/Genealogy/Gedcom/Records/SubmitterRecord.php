@@ -42,9 +42,9 @@ class SubmitterRecord extends EntityAbstract
     var $Name;
     /**
      *
-     * @var Address
+     * @var rpAddress
      */
-    var $Address;
+    var $rpAddress;
     /**
      *
      * @var array
@@ -84,7 +84,7 @@ class SubmitterRecord extends EntityAbstract
     public function __construct()
     {
         $this->ChangeDate = new ChangeDate();
-        $this->Address = new Address();
+        $this->rpAddress = new rpAddress();
     }
 
     /**
@@ -110,12 +110,12 @@ class SubmitterRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::SUBMITTER;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::SUBMITTER;
             $lvl2 = $lvl + 1;
             if (isset($this->Name) && $this->Name != '') {
-                $gedRec .= "\n" . $lvl2 . ' ' . Tags::NAME .' ' .$this->Name;
+                $gedRec .= "\n" . $lvl2 . ' ' . rpTags::NAME .' ' .$this->Name;
             }
-            $tmp = $this->Address->toGedcom($lvl2, $ver);
+            $tmp = $this->rpAddress->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
                 $gedRec .= "\n" . $tmp;
             }
@@ -127,7 +127,7 @@ class SubmitterRecord extends EntityAbstract
             }
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID
+                    . ' ' . rpTags::AUTORECID
                     .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
@@ -156,40 +156,40 @@ class SubmitterRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::SUBMITTER);
+        $this->Id = parent::parseRefId($tree[0], rpTags::SUBMITTER);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
-            if (($i1=parent::findTag($sub2, Tags::NAME))!==false) {
-                $this->Name = parent::parseText($sub2 [$i1], Tags::NAME);
+            if (($i1=parent::findTag($sub2, rpTags::NAME))!==false) {
+                $this->Name = parent::parseText($sub2 [$i1], rpTags::NAME);
             }
-            $this->Address->parseTree($sub2, $ver);
+            $this->rpAddress->parseTree($sub2, $ver);
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::MEDIA, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::MEDIA, $off))!==false) {
                 $tmp = new MediaLink();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->MediaLinks[] = $tmp;
                 $off = $i1 + 1;
             }
 
-            if (($i1=parent::findTag($sub2, Tags::LANGUAGE))!==false) {
-                $this->Language = parent::parseText($sub2 [$i1], Tags::LANGUAGE);
+            if (($i1=parent::findTag($sub2, rpTags::LANGUAGE))!==false) {
+                $this->Language = parent::parseText($sub2 [$i1], rpTags::LANGUAGE);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::RFN))!==false) {
-                $this->SubmitterRefNbr = parent::parseText($sub2 [$i1], Tags::RFN);
+            if (($i1=parent::findTag($sub2, rpTags::RFN))!==false) {
+                $this->SubmitterRefNbr = parent::parseText($sub2 [$i1], rpTags::RFN);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;
@@ -211,8 +211,8 @@ class SubmitterRecord extends EntityAbstract
     {
         $str = __CLASS__
         . '(Id->' . $this->Id
-        . ', Name->' . $this->Name
-        . ', Address->' . $this->Address;
+        . ', rpName->' . $this->rpName
+        . ', rpAddress->' . $this->rpAddress;
 
         for ($i=0; $i<count($this->MediaLinks); $i++) {
             $str .= "\n" . $this->MediaLinks[$i];

@@ -24,7 +24,7 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class GedcomManager extends Parser
+class GedcomManager extends rpParser
 {
     /**
      * Loads and parses a GEDCOM formatted file into

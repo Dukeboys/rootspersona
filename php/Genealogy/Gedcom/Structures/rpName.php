@@ -26,7 +26,7 @@
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
 
-class Name  extends EntityAbstract
+class rpName  extends EntityAbstract
 {
 
     /**
@@ -50,7 +50,7 @@ class Name  extends EntityAbstract
      */
     function __construct()
     {
-        $this->Pieces = new NamePieces();
+        $this->Pieces = new rpNamePieces();
     }
 
     /**
@@ -103,7 +103,7 @@ class Name  extends EntityAbstract
      * @access public
      * @since Method available since Release 0.0.1
      */
-    public function toGedcom($lvl, $ver, $top=Tags::FULL)
+    public function toGedcom($lvl, $ver, $top=rpTags::FULL)
     {
         if (!isset($ver) || $ver === '') {
             $ver = $this->Ver;
@@ -119,7 +119,7 @@ class Name  extends EntityAbstract
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl2 . ' ' . Tags::TYPE . ' ' .  $this->Type;
+                $gedRec .= $lvl2 . ' ' . rpTags::TYPE . ' ' .  $this->Type;
             }
             $str = $this->Pieces->toGedcom($lvl2, $ver);
             if (isset($str) && $str !='') {
@@ -143,15 +143,15 @@ class Name  extends EntityAbstract
      * @access public
      * @since Method available since Release 0.0.1
      */
-    public function parseTree($tree, $ver, $top=Tags::FULL)
+    public function parseTree($tree, $ver, $top=rpTags::FULL)
     {
         $this->Ver =$ver;
         if (($i1=parent::findTag($tree, $top))!==false) {
             $this->Full = parent::parseText($tree[$i1], $top);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::TYPE))!==false) {
-                    $this->Type = parent::parseText($sub2[$i2], Tags::TYPE);
+                if (($i2=parent::findTag($sub2, rpTags::TYPE))!==false) {
+                    $this->Type = parent::parseText($sub2[$i2], rpTags::TYPE);
                 }
 
                 $this->Pieces->parseTree($sub2, $ver);

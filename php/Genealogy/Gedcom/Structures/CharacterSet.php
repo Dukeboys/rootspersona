@@ -66,11 +66,11 @@ class CharacterSet extends EntityAbstract
         $gedRec = '';
 
         if (isset($this->CharacterSet) && $this->CharacterSet != '') {
-            $gedRec .= $lvl . ' ' . Tags::CHAR . ' ' . $this->CharacterSet;
+            $gedRec .= $lvl . ' ' . rpTags::CHAR . ' ' . $this->CharacterSet;
         }
         $lvl2 = $lvl + 1;
         if (isset($this->VerNbr) && $this->VerNbr != '') {
-            $gedRec .= "\n" . $lvl2 . ' ' . Tags::VERSION . ' ' . $this->VerNbr;
+            $gedRec .= "\n" . $lvl2 . ' ' . rpTags::VERSION . ' ' . $this->VerNbr;
         }
 
         return $gedRec;
@@ -92,13 +92,13 @@ class CharacterSet extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver = $ver;
-        if (($i1 = parent::findTag($tree, Tags::CHAR)) !== false) {
-            $this->CharacterSet = parent::parseText($tree [$i1], Tags::CHAR);
+        if (($i1 = parent::findTag($tree, rpTags::CHAR)) !== false) {
+            $this->CharacterSet = parent::parseText($tree [$i1], rpTags::CHAR);
         }
         if (isset($tree [$i1] [1])) {
             $sub2 = $tree [$i1] [1];
-            if (($i2 = parent::findTag($sub2, Tags::VERSION)) !== false) {
-                $this->VerNbr = parent::parseText($sub2 [$i2], Tags::VERSION);
+            if (($i2 = parent::findTag($sub2, rpTags::VERSION)) !== false) {
+                $this->VerNbr = parent::parseText($sub2 [$i2], rpTags::VERSION);
             }
         }
     }

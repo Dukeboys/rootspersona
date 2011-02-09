@@ -57,22 +57,22 @@ class Place extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Name) && $this->Name != '') {
-                $gedRec .= $lvl . ' ' . Tags::PLACE . ' ' . $this->Name;
+                $gedRec .= $lvl . ' ' . rpTags::PLACE . ' ' . $this->Name;
 
                 $lvl2 = $lvl+1;
                 if (isset($this->PlaceForm) && $this->PlaceForm != '') {
                     $gedRec .= "\n" . $lvl2
-                        . ' ' . Tags::FORM . ' ' . $this->PlaceForm;
+                        . ' ' . rpTags::FORM . ' ' . $this->PlaceForm;
                 }
                 if (isset($this->Coordinates['Latitude'])
                     && $this->Coordinates['Latitude']!= ''
                 ) {
-                    $gedRec .= "\n" . $lvl2 . ' ' . Tags::MAP;
+                    $gedRec .= "\n" . $lvl2 . ' ' . rpTags::MAP;
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::LATITUDE
+                        . ' ' . rpTags::LATITUDE
                         . ' ' . $this->Coordinates['Latitude'];
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::LONGITUDE
+                        . ' ' . rpTags::LONGITUDE
                         . ' ' . $this->Coordinates['Longitude'];
                 }
                 for ($i=0; $i<count($this->PhoneticNames); $i++) {
@@ -106,41 +106,41 @@ class Place extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::PLACE))!==false) {
-            $this->Name = parent::parseText($tree[$i1], Tags::PLACE);
+        if (($i1=parent::findTag($tree, rpTags::PLACE))!==false) {
+            $this->Name = parent::parseText($tree[$i1], rpTags::PLACE);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::FORM))!==false) {
-                    $this->PlaceForm = parent::parseText($sub2[$i2], Tags::FORM);
+                if (($i2=parent::findTag($sub2, rpTags::FORM))!==false) {
+                    $this->PlaceForm = parent::parseText($sub2[$i2], rpTags::FORM);
                 }
-                if (($i2=parent::findTag($sub2, Tags::MAP))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::MAP))!==false) {
                     $sub3 = $sub2[$i2][1];
-                    if (($i3=parent::findTag($sub3, Tags::LATITUDE))!==false) {
+                    if (($i3=parent::findTag($sub3, rpTags::LATITUDE))!==false) {
                         $this->Coordinates['Latitude']
-                            = parent::parseText($sub3[$i3], Tags::LATITUDE);
+                            = parent::parseText($sub3[$i3], rpTags::LATITUDE);
 
                     }
-                    if (($i3=parent::findTag($sub3, Tags::LONGITUDE))!==false) {
+                    if (($i3=parent::findTag($sub3, rpTags::LONGITUDE))!==false) {
                         $this->Coordinates['Longitude']
-                            = parent::parseText($sub3[$i3], Tags::LONGITUDE);
+                            = parent::parseText($sub3[$i3], rpTags::LONGITUDE);
                     }
                 }
                 $off = 0;
-                while (($i1=parent::findTag($sub2, Tags::PHONETIC, $off))!==false) {
-                    $name = new Name();
+                while (($i1=parent::findTag($sub2, rpTags::PHONETIC, $off))!==false) {
+                    $name = new rpName();
                     $name->parseTree(array($sub2[$i1]), $ver);
                     $this->PhoneticNames[] = $name;
                     $off = $i1 + 1;
                 }
                 $off = 0;
-                while (($i1=parent::findTag($sub2, Tags::ROMANIZED, $off))!==false) {
-                    $name = new Name();
+                while (($i1=parent::findTag($sub2, rpTags::ROMANIZED, $off))!==false) {
+                    $name = new rpName();
                     $name->parseTree(array($sub2[$i1]), $ver);
                     $this->RomanizedNames[] = $name;
                     $off = $i1 + 1;
                 }
                 $off = 0;
-                while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+                while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                     $tmp = new Note();
                     $tmp->parseTree(array($sub2[$i1]), $ver);
                     $this->Notes[] = $tmp;
@@ -162,7 +162,7 @@ class Place extends EntityAbstract
     public function __toString()
     {
         $str = __CLASS__ . '(Version->' . $this->Ver
-        . ', Name->' . $this->Name
+        . ', rpName->' . $this->rpName
         . ', PlaceForm->' . $this->PlaceForm
         . ', Coordinates->' . $this->Coordinates['Latitude']
         . ' by ' . $this->Coordinates['Longitude'];

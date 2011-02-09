@@ -51,9 +51,9 @@ class SourceSystem extends EntityAbstract
     var $Corporation;
     /**
      *
-     * @var Data
+     * @var rpData
      */
-    var $Data;
+    var $rpData;
 
     /**
      * constructor
@@ -61,7 +61,7 @@ class SourceSystem extends EntityAbstract
     function __construct()
     {
         $this->Corporation = new Corporation();
-        $this->Data = new Data();
+        $this->rpData = new rpData();
     }
 
     /**
@@ -83,20 +83,20 @@ class SourceSystem extends EntityAbstract
     {
         $gedRec = '';
         if (isset($this->SystemId) && $this->SystemId != '') {
-            $gedRec .= $lvl . ' ' . Tags::SOURCE . ' ' . $this->SystemId;
+            $gedRec .= $lvl . ' ' . rpTags::SOURCE . ' ' . $this->SystemId;
         }
         $lvl2 = $lvl + 1;
         if (isset($this->VerNbr) && $this->VerNbr != '') {
-            $gedRec .= "\n" . $lvl2 . ' ' . Tags::VERSION . ' ' . $this->VerNbr;
+            $gedRec .= "\n" . $lvl2 . ' ' . rpTags::VERSION . ' ' . $this->VerNbr;
         }
         if (isset($this->ProductName) && $this->ProductName != '') {
-            $gedRec .= "\n" . $lvl2 . ' ' . Tags::NAME . ' ' . $this->ProductName;
+            $gedRec .= "\n" . $lvl2 . ' ' . rpTags::NAME . ' ' . $this->ProductName;
         }
         $str = $this->Corporation->toGedcom($lvl2, null);
         if (isset($str) && $str !='') {
             $gedRec .= "\n" . $str;
         }
-        $str = $this->Data->toGedcom($lvl2, null);
+        $str = $this->rpData->toGedcom($lvl2, null);
         if (isset($str) && $str !='') {
             $gedRec .= "\n" . $str;
         }
@@ -118,18 +118,18 @@ class SourceSystem extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        if (($i1=parent::findTag($tree, Tags::SOURCE))!== false) {
-            $this->SystemId = parent::parseText($tree[$i1], Tags::SOURCE);
+        if (($i1=parent::findTag($tree, rpTags::SOURCE))!== false) {
+            $this->SystemId = parent::parseText($tree[$i1], rpTags::SOURCE);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree [$i1][1];
-                if (($i2 = parent::findTag($sub2, Tags::VERSION)) !== false) {
-                    $this->VerNbr = parent::parseText($sub2 [$i2], Tags::VERSION);
+                if (($i2 = parent::findTag($sub2, rpTags::VERSION)) !== false) {
+                    $this->VerNbr = parent::parseText($sub2 [$i2], rpTags::VERSION);
                 }
-                if (($i2 = parent::findTag($sub2, Tags::NAME)) !== false) {
-                    $this->ProductName = parent::parseText($sub2 [$i2], Tags::NAME);
+                if (($i2 = parent::findTag($sub2, rpTags::NAME)) !== false) {
+                    $this->ProductName = parent::parseText($sub2 [$i2], rpTags::NAME);
                 }
                 $this->Corporation->parseTree($sub2, $ver);
-                $this->Data->parseTree($sub2, $ver);
+                $this->rpData->parseTree($sub2, $ver);
             }
         }
     }
@@ -150,7 +150,7 @@ class SourceSystem extends EntityAbstract
         . ', VerNbr->' . $this->VerNbr
         . ', ProductName->' . $this->ProductName
         . ', Corporation->' . $this->Corporation
-        . ', Data->' . $this->Data
+        . ', rpData->' . $this->rpData
         . ')';
         return $str;
     }

@@ -54,9 +54,9 @@ class Note  extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Id) && $this->Id != '') {
-                $gedRec .= $lvl . ' ' . Tags::NOTE . ' @' . $this->Id . '@';
+                $gedRec .= $lvl . ' ' . rpTags::NOTE . ' @' . $this->Id . '@';
             } else if (isset($this->Text) && $this->Text != '') {
-                $gedRec .= parent::toConTag($this->Text, Tags::NOTE, $lvl);
+                $gedRec .= parent::toConTag($this->Text, rpTags::NOTE, $lvl);
             }
         }
         return $gedRec;
@@ -78,12 +78,12 @@ class Note  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::NOTE))!==false) {
-            $str = parent::parsePtrId($tree[$i1], Tags::NOTE);
+        if (($i1=parent::findTag($tree, rpTags::NOTE))!==false) {
+            $str = parent::parsePtrId($tree[$i1], rpTags::NOTE);
             if (isset($str) && $str != '') {
                 $this->Id = $str;
             } else {
-                $this->Text = parent::parseConTag($tree[$i1], Tags::NOTE);
+                $this->Text = parent::parseConTag($tree[$i1], rpTags::NOTE);
             }
         }
     }

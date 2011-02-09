@@ -114,42 +114,42 @@ class SubmissionRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::SUBMISSION;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::SUBMISSION;
             $lvl2 = $lvl + 1;
             if (isset($this->FamilyFileName) && $this->FamilyFileName != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::FAMILYFILE
+                    . ' ' . rpTags::FAMILYFILE
                     .' ' .$this->FamilyFileName;
             }
             if (isset($this->TempleCode) && $this->TempleCode != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::TEMPLECODE
+                    . ' ' . rpTags::TEMPLECODE
                     .' ' .$this->TempleCode;
             }
             if (isset($this->GenerationsAncestors)
                 && $this->GenerationsAncestors != ''
             ) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::ANCESTORS
+                    . ' ' . rpTags::ANCESTORS
                     .' ' .$this->GenerationsAncestors;
             }
             if (isset($this->GenerationsDescendants)
                 && $this->GenerationsDescendants != ''
             ) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::DESCENDANTS
+                    . ' ' . rpTags::DESCENDANTS
                     .' ' .$this->GenerationsDescendants;
             }
             if (isset($this->OrdinanceProcessFlag)
                 && $this->OrdinanceProcessFlag != ''
             ) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::ORDINANCEFLAG .' ' .$this->OrdinanceProcessFlag;
+                    . ' ' . rpTags::ORDINANCEFLAG .' ' .$this->OrdinanceProcessFlag;
             }
 
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID .' ' .$this->AutoRecId;
+                    . ' ' . rpTags::AUTORECID .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
@@ -177,44 +177,44 @@ class SubmissionRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::SUBMISSION);
+        $this->Id = parent::parseRefId($tree[0], rpTags::SUBMISSION);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
-            if (($i1=parent::findTag($sub2, Tags::SUBMITTER))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::SUBMITTER))!==false) {
                 $this->SubmitterId
-                    = parent::parsePtrId($sub2 [$i1], Tags::SUBMITTER);
+                    = parent::parsePtrId($sub2 [$i1], rpTags::SUBMITTER);
             }
-            if (($i1=parent::findTag($sub2, Tags::FAMILYFILE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::FAMILYFILE))!==false) {
                 $this->FamilyFileName
-                    = parent::parseText($sub2 [$i1], Tags::FAMILYFILE);
+                    = parent::parseText($sub2 [$i1], rpTags::FAMILYFILE);
             }
-            if (($i1=parent::findTag($sub2, Tags::TEMPLECODE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::TEMPLECODE))!==false) {
                 $this->TempleCode
-                    = parent::parseText($sub2 [$i1], Tags::TEMPLECODE);
+                    = parent::parseText($sub2 [$i1], rpTags::TEMPLECODE);
             }
-            if (($i1=parent::findTag($sub2, Tags::ANCESTORS))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::ANCESTORS))!==false) {
                 $this->GenerationsAncestors
-                    = parent::parseText($sub2 [$i1], Tags::ANCESTORS);
+                    = parent::parseText($sub2 [$i1], rpTags::ANCESTORS);
             }
-            if (($i1=parent::findTag($sub2, Tags::DESCENDANTS))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::DESCENDANTS))!==false) {
                 $this->GenerationsDescendants
-                    = parent::parseText($sub2 [$i1], Tags::DESCENDANTS);
+                    = parent::parseText($sub2 [$i1], rpTags::DESCENDANTS);
             }
-            if (($i1=parent::findTag($sub2, Tags::ORDINANCEFLAG))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::ORDINANCEFLAG))!==false) {
                 $this->OrdinanceProcessFlag
-                    = parent::parseText($sub2 [$i1], Tags::ORDINANCEFLAG);
+                    = parent::parseText($sub2 [$i1], rpTags::ORDINANCEFLAG);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;

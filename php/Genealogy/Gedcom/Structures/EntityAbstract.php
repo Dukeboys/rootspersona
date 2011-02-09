@@ -240,7 +240,7 @@ abstract class EntityAbstract
             $rem = 90;
             while ($rem < strlen($copy[0])) {
                 $gedRec .= "\n" . $lvlplus
-                . ' ' . Tags::CONC . ' ' . substr($copy [0], $rem, 90);
+                . ' ' . rpTags::CONC . ' ' . substr($copy [0], $rem, 90);
                 $rem += 90;
             }
         }
@@ -249,12 +249,12 @@ abstract class EntityAbstract
         //CONC before CONT since CONT contains the newline
         for ($i = 1; $i < count($copy); $i ++) {
             $gedRec .= "\n" . $lvlplus
-            . ' ' . Tags::CONT . ' ' . substr($copy [$i], 0, 90);
+            . ' ' . rpTags::CONT . ' ' . substr($copy [$i], 0, 90);
             if (strlen($copy[$i]) > 90) {
                 $rem = 90;
                 while ($rem < strlen($copy[$i])) {
                     $gedRec .= "\n" . $lvlplus
-                    . ' ' . Tags::CONC . ' ' . substr($copy [$i], $rem, 90);
+                    . ' ' . rpTags::CONC . ' ' . substr($copy [$i], $rem, 90);
                     $rem += 90;
                 }
             }

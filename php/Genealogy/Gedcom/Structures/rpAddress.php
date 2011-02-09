@@ -1,6 +1,6 @@
 <?php
 /**
- * \Genealogy\Gedcom\Address
+ * \Genealogy\Gedcom\rpAddress
  *
  * PHP version 5
  *
@@ -9,14 +9,14 @@
  * @author    Ed Thompson <ed4becky@gmail.com>
  * @copyright 2010 Ed Thompson
  * @license   http://www.opensource.org/licenses/apache2.0.php Apache License
- * @version   SVN: $Id: Address.php 291 2010-03-30 19:38:34Z ed4becky $
+ * @version   SVN: $Id: rpAddress.php 291 2010-03-30 19:38:34Z ed4becky $
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
 
 
 
 /**
- * Address class for Genealogy_Gedcom
+ * rpAddress class for Genealogy_Gedcom
  *
  * @category  File_Formats
  * @package   Genealogy_Gedcom_Structures
@@ -25,7 +25,7 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class Address extends EntityAbstract
+class rpAddress extends EntityAbstract
 {
     /**
      * One to four line representation of a mailing address
@@ -33,7 +33,7 @@ class Address extends EntityAbstract
      *
      * @var string
      */
-    var $Address;
+    var $rpAddress;
 
     /**
      * Break down of the mailing address into individual elements
@@ -98,39 +98,39 @@ class Address extends EntityAbstract
         }
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
-            if (isset($this->Address) && $this->Address != '') {
-                $addr =  explode("\n", $this->Address);
-                $gedRec .= $lvl . ' ' . Tags::ADDR . ' ' . $addr[0];
+            if (isset($this->rpAddress) && $this->rpAddress != '') {
+                $addr =  explode("\n", $this->rpAddress);
+                $gedRec .= $lvl . ' ' . rpTags::ADDR . ' ' . $addr[0];
                 $lvlplus = $lvl + 1;
                 for ($i=1;$i<count($addr);$i++) {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::CONT . ' ' .  $addr[$i];
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::CONT . ' ' .  $addr[$i];
                 }
                 if (isset($this->AddressLine1) && $this->AddressLine1 != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::ADDR1 . ' '
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::ADDR1 . ' '
                     .  $this->AddressLine1;
                 }
                 if (isset($this->AddressLine2) && $this->AddressLine2 != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::ADDR2 . ' '
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::ADDR2 . ' '
                     .  $this->AddressLine2;
                 }
                 if (isset($this->AddressLine3) && $this->AddressLine3 != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::ADDR3 . ' '
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::ADDR3 . ' '
                     .  $this->AddressLine3;
                 }
                 if (isset($this->City) && $this->City != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::CITY
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::CITY
                     . ' ' .  $this->City;
                 }
                 if (isset($this->State) && $this->State != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::STATE . ' '
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::STATE . ' '
                     .  $this->State;
                 }
                 if (isset($this->PostalCode) && $this->PostalCode != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::POSTAL
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::POSTAL
                     . ' ' .  $this->PostalCode;
                 }
                 if (isset($this->Country) && $this->Country != '') {
-                    $gedRec .= "\n" . $lvlplus . ' ' . Tags::CTRY . ' '
+                    $gedRec .= "\n" . $lvlplus . ' ' . rpTags::CTRY . ' '
                     .  $this->Country;
                 }
             }
@@ -138,25 +138,25 @@ class Address extends EntityAbstract
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::PHONE . ' ' .  $this->Phone;
+                $gedRec .= $lvl . ' ' . rpTags::PHONE . ' ' .  $this->Phone;
             }
             if (isset($this->Email) && $this->Email != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::EMAIL . ' ' .  $this->Email;
+                $gedRec .= $lvl . ' ' . rpTags::EMAIL . ' ' .  $this->Email;
             }
             if (isset($this->FAX) && $this->FAX != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::FAX . ' ' .  $this->FAX;
+                $gedRec .= $lvl . ' ' . rpTags::FAX . ' ' .  $this->FAX;
             }
             if (isset($this->WWW) && $this->WWW != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::WWW . ' ' .  $this->WWW;
+                $gedRec .= $lvl . ' ' . rpTags::WWW . ' ' .  $this->WWW;
             }
         }
         return $gedRec;
@@ -178,52 +178,52 @@ class Address extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::ADDR))!==false) {
-            $this->Address = parent::parseConTag($tree[$i1], Tags::ADDR);
+        if (($i1=parent::findTag($tree, rpTags::ADDR))!==false) {
+            $this->rpAddress = parent::parseConTag($tree[$i1], rpTags::ADDR);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
-                if (($i2=parent::findTag($sub2, Tags::ADDR1))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::ADDR1))!==false) {
                     $this->AddressLine1 = parent::parseText(
-                        $sub2[$i2], Tags::ADDR1
+                        $sub2[$i2], rpTags::ADDR1
                     );
                 }
-                if (($i2=parent::findTag($sub2, Tags::ADDR2))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::ADDR2))!==false) {
                     $this->AddressLine2 = parent::parseText(
-                        $sub2[$i2], Tags::ADDR2
+                        $sub2[$i2], rpTags::ADDR2
                     );
                 }
-                if (($i2=parent::findTag($sub2, Tags::ADDR3))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::ADDR3))!==false) {
                     $this->AddressLine3 = parent::parseText(
-                        $sub2[$i2], Tags::ADDR3
+                        $sub2[$i2], rpTags::ADDR3
                     );
                 }
-                if (($i2=parent::findTag($sub2, Tags::CITY))!==false) {
-                    $this->City = parent::parseText($sub2[$i2], Tags::CITY);
+                if (($i2=parent::findTag($sub2, rpTags::CITY))!==false) {
+                    $this->City = parent::parseText($sub2[$i2], rpTags::CITY);
                 }
-                if (($i2=parent::findTag($sub2, Tags::STATE))!==false) {
-                    $this->State = parent::parseText($sub2[$i2], Tags::STATE);
+                if (($i2=parent::findTag($sub2, rpTags::STATE))!==false) {
+                    $this->State = parent::parseText($sub2[$i2], rpTags::STATE);
                 }
-                if (($i2=parent::findTag($sub2, Tags::POSTAL))!==false) {
+                if (($i2=parent::findTag($sub2, rpTags::POSTAL))!==false) {
                     $this->PostalCode = parent::parseText(
-                        $sub2[$i2], Tags::POSTAL
+                        $sub2[$i2], rpTags::POSTAL
                     );
                 }
-                if (($i2=parent::findTag($sub2, Tags::CTRY))!==false) {
-                    $this->Country = parent::parseText($sub2[$i2], Tags::CTRY);
+                if (($i2=parent::findTag($sub2, rpTags::CTRY))!==false) {
+                    $this->Country = parent::parseText($sub2[$i2], rpTags::CTRY);
                 }
             }
         }
-        if (($i1=parent::findTag($tree, Tags::PHONE))!==false) {
-            $this->Phone = parent::parseText($tree[$i1], Tags::PHONE);
+        if (($i1=parent::findTag($tree, rpTags::PHONE))!==false) {
+            $this->Phone = parent::parseText($tree[$i1], rpTags::PHONE);
         }
-        if (($i1=parent::findTag($tree, Tags::EMAIL))!==false) {
-            $this->Email = parent::parseText($tree[$i1], Tags::EMAIL);
+        if (($i1=parent::findTag($tree, rpTags::EMAIL))!==false) {
+            $this->Email = parent::parseText($tree[$i1], rpTags::EMAIL);
         }
-        if (($i1=parent::findTag($tree, Tags::FAX))!==false) {
-            $this->FAX = parent::parseText($tree[$i1], Tags::FAX);
+        if (($i1=parent::findTag($tree, rpTags::FAX))!==false) {
+            $this->FAX = parent::parseText($tree[$i1], rpTags::FAX);
         }
-        if (($i1=parent::findTag($tree, Tags::WWW))!==false) {
-            $this->WWW = parent::parseText($tree[$i1], Tags::WWW);
+        if (($i1=parent::findTag($tree, rpTags::WWW))!==false) {
+            $this->WWW = parent::parseText($tree[$i1], rpTags::WWW);
         }
     }
 
@@ -240,7 +240,7 @@ class Address extends EntityAbstract
     {
         return __CLASS__
         . '(Version->' . $this->Ver
-        . ', Address->' . $this->Address
+        . ', rpAddress->' . $this->rpAddress
         . ', AddressLine1->' . $this->AddressLine1
         . ', AddressLine2->' . $this->AddressLine2
         . ', AddressLine3->' . $this->AddressLine3

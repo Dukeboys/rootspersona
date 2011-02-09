@@ -47,9 +47,9 @@ class RepositoryRecord extends EntityAbstract
     var $UserRefNbrs = array();
     /**
      *
-     * @var Address
+     * @var rpAddress
      */
-    var $Address;
+    var $rpAddress;
     /**
      *
      * @var string
@@ -73,7 +73,7 @@ class RepositoryRecord extends EntityAbstract
      */
     public function __construct()
     {
-        $this->Address = new Address();
+        $this->rpAddress = new rpAddress();
         $this->ChangeDate = new ChangeDate();
     }
 
@@ -100,28 +100,28 @@ class RepositoryRecord extends EntityAbstract
         }
 
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec = $lvl . ' @' .$this->Id. '@ ' . Tags::REPOSITORY;
+            $gedRec = $lvl . ' @' .$this->Id. '@ ' . rpTags::REPOSITORY;
             $lvl2 = $lvl + 1;
             if (isset($this->Name) && $this->Name != '') {
-                $gedRec .= "\n" . $lvl2 . ' ' . Tags::NAME .' ' .$this->Name;
+                $gedRec .= "\n" . $lvl2 . ' ' . rpTags::NAME .' ' .$this->Name;
             }
-            $str = $this->Address->toGedcom($lvl2, $ver);
+            $str = $this->rpAddress->toGedcom($lvl2, $ver);
             if (isset($str) && $str !='') {
                 $gedRec .= "\n" . $str;
             }
             for ($i=0; $i<count($this->UserRefNbrs); $i++) {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::USERFILE
+                    . ' ' . rpTags::USERFILE
                     . ' ' . $this->UserRefNbrs[$i]['Nbr'];
                 if (isset($this->UserRefNbrs[$i]['Type'])) {
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::TYPE
+                        . ' ' . rpTags::TYPE
                             . ' ' . $this->UserRefNbrs[$i]['Type'];
                 }
             }
             if (isset($this->AutoRecId) && $this->AutoRecId != '') {
                 $gedRec .= "\n" . $lvl2
-                    . ' ' . Tags::AUTORECID .' ' .$this->AutoRecId;
+                    . ' ' . rpTags::AUTORECID .' ' .$this->AutoRecId;
             }
             $tmp = $this->ChangeDate->toGedcom($lvl2, $ver);
             if (isset($tmp) && $tmp != '') {
@@ -149,33 +149,33 @@ class RepositoryRecord extends EntityAbstract
      */
     public function parseTree($tree, $ver)
     {
-        $this->Id = parent::parseRefId($tree[0], Tags::REPOSITORY);
+        $this->Id = parent::parseRefId($tree[0], rpTags::REPOSITORY);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
-            if (($i1=parent::findTag($sub2, Tags::NAME))!==false) {
-                $this->Name = parent::parseText($sub2 [$i1], Tags::NAME);
+            if (($i1=parent::findTag($sub2, rpTags::NAME))!==false) {
+                $this->Name = parent::parseText($sub2 [$i1], rpTags::NAME);
             }
-            $this->Address->parseTree($sub2, $ver);
-            if (($i1=parent::findTag($sub2, Tags::USERFILE))!==false) {
+            $this->rpAddress->parseTree($sub2, $ver);
+            if (($i1=parent::findTag($sub2, rpTags::USERFILE))!==false) {
                 $this->UserRefNbrs[]['Nbr']
-                    = parent::parseText($sub2 [$i1], Tags::USERFILE);
+                    = parent::parseText($sub2 [$i1], rpTags::USERFILE);
                 if (isset($sub2[$i1][1])) {
-                    if (($i2=parent::findTag($sub2[$i1][1], Tags::TYPE)) !== false) {
+                    if (($i2=parent::findTag($sub2[$i1][1], rpTags::TYPE)) !== false) {
                         $this->UserRefNbrs[count($this->UserRefNbrs)-1]['Type']
-                            = parent::parseText($sub2 [$i1][1][$i2], Tags::TYPE);
+                            = parent::parseText($sub2 [$i1][1][$i2], rpTags::TYPE);
                     }
                 }
             }
-            if (($i1=parent::findTag($sub2, Tags::AUTORECID))!==false) {
-                $this->AutoRecId = parent::parseText($sub2 [$i1], Tags::AUTORECID);
+            if (($i1=parent::findTag($sub2, rpTags::AUTORECID))!==false) {
+                $this->AutoRecId = parent::parseText($sub2 [$i1], rpTags::AUTORECID);
             }
 
-            if (($i1=parent::findTag($sub2, Tags::CHANGEDATE))!==false) {
+            if (($i1=parent::findTag($sub2, rpTags::CHANGEDATE))!==false) {
                 $this->ChangeDate->parseTree(array($sub2[$i1]), $ver);
             }
 
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i1=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i1]), $ver);
                 $this->Notes[] = $tmp;
@@ -197,8 +197,8 @@ class RepositoryRecord extends EntityAbstract
     {
         $str = __CLASS__
         . '(Id->' . $this->Id
-        . ', Name->' . $this->Name
-        . ', Address->' . $this->Address;
+        . ', rpName->' . $this->rpName
+        . ', rpAddress->' . $this->rpAddress;
 
         $str .= ', UserRefNbrs->(';
         for ($i=0; $i<count($this->UserRefNbrs); $i++) {

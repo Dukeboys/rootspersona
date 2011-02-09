@@ -49,7 +49,7 @@ class PersonalName extends EntityAbstract
      */
     public function __construct()
     {
-        $this->Name = new Name();
+        $this->Name = new rpName();
     }
 
     /**
@@ -58,7 +58,7 @@ class PersonalName extends EntityAbstract
      * @return string The full name
      */
     public function getName() {
-        return $this->Name->getFullName();
+        return $this->rpName->getFullName();
     }
 
     /**
@@ -83,8 +83,8 @@ class PersonalName extends EntityAbstract
         }
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
-            if (isset($this->Name) && $this->Name != '') {
-                $gedRec .= $this->Name->toGedcom($lvl, $ver);
+            if (isset($this->rpName) && $this->rpName != '') {
+                $gedRec .= $this->rpName->toGedcom($lvl, $ver);
             }
             $lvl2 = $lvl + 1;
             for ($i=0; $i<count($this->PhoneticNames); $i++) {
@@ -113,19 +113,19 @@ class PersonalName extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        $this->Name->parseTree($tree, $ver);
+        $this->rpName->parseTree($tree, $ver);
         if (isset($tree[0][1])) {
             $sub2 = $tree[0][1];
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::PHONETIC, $off))!==false) {
-                $name = new Name();
+            while (($i1=parent::findTag($sub2, rpTags::PHONETIC, $off))!==false) {
+                $name = new rpName();
                 $name->parseTree(array($sub2[$i1]), $ver);
                 $this->PhoneticNames[] = $name;
                 $off = $i1 + 1;
             }
             $off = 0;
-            while (($i1=parent::findTag($sub2, Tags::ROMANIZED, $off))!==false) {
-                $name = new Name();
+            while (($i1=parent::findTag($sub2, rpTags::ROMANIZED, $off))!==false) {
+                $name = new rpName();
                 $name->parseTree(array($sub2[$i1]), $ver);
                 $this->RomanizedNames[] = $name;
                 $off = $i1 + 1;
@@ -145,7 +145,7 @@ class PersonalName extends EntityAbstract
     {
         $str = __CLASS__
         . '(Version->' . $this->Ver
-        . ', Name->' . $this->Name;
+        . ', rpName->' . $this->rpName;
         for ($i=0; $i<count($this->PhoneticNames); $i++) {
             $str .= "\n" . $this->PhoneticNames;
         }

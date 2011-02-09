@@ -65,7 +65,7 @@ class FamilyLink  extends EntityAbstract
      * @access public
      * @since Method available since Release 0.0.1
      */
-    public function toGedcom($lvl, $ver, $tag=Tags::SPOUSEFAMILY)
+    public function toGedcom($lvl, $ver, $tag=rpTags::SPOUSEFAMILY)
     {
         if (!isset($ver) || $ver === '') {
             $ver = $this->Ver;
@@ -75,14 +75,14 @@ class FamilyLink  extends EntityAbstract
             if (isset($this->FamilyId) && $this->FamilyId != '') {
                 $gedRec .= $lvl . ' ' . $tag . ' @' . $this->FamilyId  . '@';
                 $lvl2 = $lvl+1;
-                if ($tag == Tags::CHILDFAMILY) {
+                if ($tag == rpTags::CHILDFAMILY) {
                     if (isset($this->LinkageType) && $this->LinkageType != '') {
                         $gedRec .= "\n"
-                        .$lvl2 . ' ' . Tags::LINKTYPE . ' ' . $this->LinkageType;
+                        .$lvl2 . ' ' . rpTags::LINKTYPE . ' ' . $this->LinkageType;
                     }
                     if (isset($this->LinkageStatus) && $this->LinkageStatus != '') {
                         $gedRec .= "\n" .$lvl2
-                        . ' ' . Tags::LINKSTATUS . ' ' . $this->LinkageStatus;
+                        . ' ' . rpTags::LINKSTATUS . ' ' . $this->LinkageStatus;
                     }
                 }
                 for ($i=0; $i<count($this->Notes); $i++) {
@@ -107,7 +107,7 @@ class FamilyLink  extends EntityAbstract
      * @access public
      * @since Method available since Release 0.0.1
      */
-    public function parseTree($tree, $ver, $tag=Tags::SPOUSEFAMILY)
+    public function parseTree($tree, $ver, $tag=rpTags::SPOUSEFAMILY)
     {
         $this->Ver =$ver;
         if (($i1=parent::findTag($tree, $tag))!==false) {
@@ -115,20 +115,20 @@ class FamilyLink  extends EntityAbstract
             if(isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
                 $off = 0;
-                while (($i2=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+                while (($i2=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                     $tmp = new Note();
                     $tmp->parseTree(array($sub2[$i2]), $ver);
                     $this->Notes[] = $tmp;
                     $off = $i2 + 1;
                 }
-                if ($tag==Tags::CHILDFAMILY) {
-                    if (($i2=parent::findTag($sub2, Tags::LINKTYPE))!==false) {
+                if ($tag==rpTags::CHILDFAMILY) {
+                    if (($i2=parent::findTag($sub2, rpTags::LINKTYPE))!==false) {
                         $this->LinkageType
-                        = parent::parseText($sub2[$i2], Tags::LINKTYPE);
+                        = parent::parseText($sub2[$i2], rpTags::LINKTYPE);
                     }
-                    if (($i2=parent::findTag($sub2, Tags::LINKSTATUS))!==false) {
+                    if (($i2=parent::findTag($sub2, rpTags::LINKSTATUS))!==false) {
                         $this->LinkageStatus
-                        = parent::parseText($sub2[$i2], Tags::LINKSTATUS);
+                        = parent::parseText($sub2[$i2], rpTags::LINKSTATUS);
                     }
                 }
             }

@@ -26,7 +26,7 @@
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
 
-class NamePieces extends EntityAbstract
+class rpNamePieces extends EntityAbstract
 {
 
     var $Prefix;
@@ -76,39 +76,39 @@ class NamePieces extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Prefix) && $this->Prefix != '') {
-                $gedRec .= $lvl . ' ' . Tags::PREFIX . ' ' . $this->Prefix;
+                $gedRec .= $lvl . ' ' . rpTags::PREFIX . ' ' . $this->Prefix;
             }
 
             if (isset($this->Given) && $this->Given != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::GIVEN . ' ' .  $this->Given;
+                $gedRec .= $lvl . ' ' . rpTags::GIVEN . ' ' .  $this->Given;
             }
             if (isset($this->NickName) && $this->NickName != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::NICK . ' ' .  $this->NickName;
+                $gedRec .= $lvl . ' ' . rpTags::NICK . ' ' .  $this->NickName;
             }
             if (isset($this->SurnamePrefix) && $this->SurnamePrefix != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::SURPREFIX
+                $gedRec .= $lvl . ' ' . rpTags::SURPREFIX
                 . ' ' .  $this->SurnamePrefix;
             }
             if (isset($this->Surname) && $this->Surname != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::SURNAME . ' ' .  $this->Surname;
+                $gedRec .= $lvl . ' ' . rpTags::SURNAME . ' ' .  $this->Surname;
             }
             if (isset($this->Suffix) && $this->Suffix != '') {
                 if ($gedRec != '') {
                     $gedRec .= "\n";
                 }
-                $gedRec .= $lvl . ' ' . Tags::SUFFIX . ' ' .  $this->Suffix;
+                $gedRec .= $lvl . ' ' . rpTags::SUFFIX . ' ' .  $this->Suffix;
             }
             for ($i=0; $i<count($this->Citations); $i++) {
                 $str .= "\n" . $this->Citations[$i]->toGedcom($lvl, $ver);
@@ -136,34 +136,34 @@ class NamePieces extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::PREFIX))!==false) {
-            $this->Prefix = parent::parseText($tree[$i1], Tags::PREFIX);
+        if (($i1=parent::findTag($tree, rpTags::PREFIX))!==false) {
+            $this->Prefix = parent::parseText($tree[$i1], rpTags::PREFIX);
         }
-        if (($i1=parent::findTag($tree, Tags::GIVEN))!==false) {
-            $this->Given = parent::parseText($tree[$i1], Tags::GIVEN);
+        if (($i1=parent::findTag($tree, rpTags::GIVEN))!==false) {
+            $this->Given = parent::parseText($tree[$i1], rpTags::GIVEN);
         }
-        if (($i1=parent::findTag($tree, Tags::NICK))!==false) {
-            $this->NickName = parent::parseText($tree[$i1], Tags::NICK);
+        if (($i1=parent::findTag($tree, rpTags::NICK))!==false) {
+            $this->NickName = parent::parseText($tree[$i1], rpTags::NICK);
         }
-        if (($i1=parent::findTag($tree, Tags::SURPREFIX))!==false) {
-            $this->SurnamePrefix = parent::parseText($tree[$i1], Tags::SURPREFIX);
+        if (($i1=parent::findTag($tree, rpTags::SURPREFIX))!==false) {
+            $this->SurnamePrefix = parent::parseText($tree[$i1], rpTags::SURPREFIX);
         }
-        if (($i1=parent::findTag($tree, Tags::SURNAME))!==false) {
-            $this->Surname = parent::parseText($tree[$i1], Tags::SURNAME);
+        if (($i1=parent::findTag($tree, rpTags::SURNAME))!==false) {
+            $this->Surname = parent::parseText($tree[$i1], rpTags::SURNAME);
         }
-        if (($i1=parent::findTag($tree, Tags::SUFFIX))!==false) {
-            $this->Suffix = parent::parseText($tree[$i1], Tags::SUFFIX);
+        if (($i1=parent::findTag($tree, rpTags::SUFFIX))!==false) {
+            $this->Suffix = parent::parseText($tree[$i1], rpTags::SUFFIX);
         }
 
         $off = 0;
-        while (($i1=parent::findTag($tree, Tags::NOTE, $off))!==false) {
+        while (($i1=parent::findTag($tree, rpTags::NOTE, $off))!==false) {
             $tmp = new Note();
             $this->Notes[] = $tmp->parseTree(array($tree[$i1]), $ver);
             $off = $i1 + 1;
         }
 
         $off = 0;
-        while (($i1=parent::findTag($tree, Tags::CITE, $off))!==false) {
+        while (($i1=parent::findTag($tree, rpTags::CITE, $off))!==false) {
             $tmp = new Citation();
             $this->Citations[] = $tmp->parseTree(array($tree[$i1]), $ver);
             $off = $i1 + 1;

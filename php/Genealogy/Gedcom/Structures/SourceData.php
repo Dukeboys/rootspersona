@@ -55,30 +55,30 @@ class SourceData  extends EntityAbstract
         }
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
-            $gedRec .= $lvl . ' ' . Tags::DATA;
+            $gedRec .= $lvl . ' ' . rpTags::DATA;
             for ($i=0; $i<count($this->RecordedEvents); $i++) {
                 $gedRec .= "\n" . ($lvl+1) . ' '
-                . Tags::EVENT . ' '
+                . rpTags::EVENT . ' '
                 . $this->RecordedEvents[$i]['Types'];
                 if (isset($this->RecordedEvents[$i]['Date'])
                     && $this->RecordedEvents[$i]['Date'] != ''
                 ) {
                     $gedRec .= "\n" . ($lvl+2) . ' '
-                    . Tags::DATE . ' '
+                    . rpTags::DATE . ' '
                     . $this->RecordedEvents[$i]['Date'];
                 }
                 if (isset($this->RecordedEvents[$i]['Jurisdiction'])
                     && $this->RecordedEvents[$i]['Jurisdiction'] != ''
                 ) {
                     $gedRec .= "\n" . ($lvl+2) . ' '
-                    . Tags::PLACE . ' '
+                    . rpTags::PLACE . ' '
                     . $this->RecordedEvents[$i]['Jurisdiction'];
                 }
             }
 
             if (isset($this->ResponsibleAgency)) {
                 $gedRec .= "\n" .($lvl+1)
-                    . ' ' . Tags::AGENCY . ' ' . $this->ResponsibleAgency;
+                    . ' ' . rpTags::AGENCY . ' ' . $this->ResponsibleAgency;
             }
             for ($i=0; $i<count($this->Notes); $i++) {
                 $gedRec .= "\n" . $this->Notes[$i]->toGedcom(($lvl+1), $ver);
@@ -104,32 +104,32 @@ class SourceData  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::DATA))!==false) {
+        if (($i1=parent::findTag($tree, rpTags::DATA))!==false) {
             $sub2 = $tree[$i1][1];
             $off = 0;
-            while (($i2=parent::findTag($sub2, Tags::EVENT, $off))!==false) {
+            while (($i2=parent::findTag($sub2, rpTags::EVENT, $off))!==false) {
                 $event = array('Types'=>'', 'Date'=>'', 'Jurisdiction'=>'');
-                $event['Types'] = parent::parseText($sub2[$i2], Tags::EVENT);
+                $event['Types'] = parent::parseText($sub2[$i2], rpTags::EVENT);
                 $sub2Sub = $sub2[$i2][1];
-                if (($i3=parent::findTag($sub2Sub, Tags::DATE))!==false) {
+                if (($i3=parent::findTag($sub2Sub, rpTags::DATE))!==false) {
                     $event['Date']
-                        = parent::parseText($sub2Sub[$i3], Tags::DATE);
+                        = parent::parseText($sub2Sub[$i3], rpTags::DATE);
                 }
-                if (($i3=parent::findTag($sub2Sub, Tags::PLACE))!==false) {
+                if (($i3=parent::findTag($sub2Sub, rpTags::PLACE))!==false) {
                     $event['Jurisdiction']
-                        = parent::parseText($sub2Sub[$i3], Tags::PLACE);
+                        = parent::parseText($sub2Sub[$i3], rpTags::PLACE);
                 }
                 $this->RecordedEvents[] = $event;
                 $off = $i2 + 1;
             }
 
-            if (($i2=parent::findTag($sub2, Tags::AGENCY))!==false) {
+            if (($i2=parent::findTag($sub2, rpTags::AGENCY))!==false) {
                 $this->ResponsibleAgency
-                    = parent::parseText($sub2[$i2], Tags::AGENCY);
+                    = parent::parseText($sub2[$i2], rpTags::AGENCY);
             }
 
             $off = 0;
-            while (($i2=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+            while (($i2=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                 $tmp = new Note();
                 $tmp->parseTree(array($sub2[$i2]), $ver);
                 $this->Notes[] = $tmp;

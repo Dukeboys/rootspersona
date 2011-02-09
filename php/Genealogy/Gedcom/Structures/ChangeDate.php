@@ -66,12 +66,12 @@ class ChangeDate  extends EntityAbstract
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
             if (isset($this->Date) && $this->Date != '') {
-                $gedRec .= $lvl . ' ' . Tags::CHANGEDATE;
+                $gedRec .= $lvl . ' ' . rpTags::CHANGEDATE;
                 $lvl2 = $lvl+1;
-                $gedRec .= "\n" . $lvl2 . ' ' . Tags::DATE . ' ' . $this->Date ;
+                $gedRec .= "\n" . $lvl2 . ' ' . rpTags::DATE . ' ' . $this->Date ;
                 if (isset($this->Time) && $this->Time != '') {
                     $gedRec .= "\n" .($lvl2+1)
-                        . ' ' . Tags::TIME . ' ' . $this->Time;
+                        . ' ' . rpTags::TIME . ' ' . $this->Time;
                 }
                 for ($i=0; $i<count($this->Notes); $i++) {
                     $gedRec .= "\n" . $this->Notes[$i]->toGedcom($lvl2, $ver);
@@ -97,18 +97,18 @@ class ChangeDate  extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver =$ver;
-        if (($i1=parent::findTag($tree, Tags::CHANGEDATE))!==false) {
+        if (($i1=parent::findTag($tree, rpTags::CHANGEDATE))!==false) {
             $sub2 = $tree[$i1][1];
-            if (($i2=parent::findTag($sub2, Tags::DATE))!==false) {
-                $this->Date = parent::parseText($sub2[$i2], Tags::DATE);
+            if (($i2=parent::findTag($sub2, rpTags::DATE))!==false) {
+                $this->Date = parent::parseText($sub2[$i2], rpTags::DATE);
                 if (isset($sub2[$i2][1])) {
-                    if (($i3=parent::findTag($sub2[$i2][1], Tags::TIME))!==false) {
+                    if (($i3=parent::findTag($sub2[$i2][1], rpTags::TIME))!==false) {
                         $this->Time
-                            = parent::parseText($sub2[$i2][1][$i3], Tags::TIME);
+                            = parent::parseText($sub2[$i2][1][$i3], rpTags::TIME);
                     }
                 }
                 $off = 0;
-                while (($i2=parent::findTag($sub2, Tags::NOTE, $off))!==false) {
+                while (($i2=parent::findTag($sub2, rpTags::NOTE, $off))!==false) {
                     $tmp = new Note();
                     $tmp->parseTree(array($sub2[$i2]), $ver);
                     $this->Notes[] = $tmp;

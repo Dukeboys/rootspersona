@@ -37,16 +37,16 @@ class Corporation extends EntityAbstract
 
     /**
      *
-     * @var Address
+     * @var rpAddress
      */
-    var $Address;
+    var $rpAddress;
 
     /**
      * constructor
      */
     function __construct()
     {
-        $this->Address = new Address();
+        $this->rpAddress = new rpAddress();
     }
 
     /**
@@ -68,10 +68,10 @@ class Corporation extends EntityAbstract
     {
         $gedRec = '';
         if (isset($this->Name) && $this->Name != '') {
-            $gedRec .= $lvl . ' ' . Tags::CORP . ' ' . $this->Name;
+            $gedRec .= $lvl . ' ' . rpTags::CORP . ' ' . $this->Name;
         }
         $lvl2 = $lvl + 1;
-        $str = $this->Address->toGedcom($lvl2, '5.5.1');
+        $str = $this->rpAddress->toGedcom($lvl2, '5.5.1');
         if (isset($str) && $str !='') {
             $gedRec .= "\n" . $str;
         }
@@ -94,12 +94,12 @@ class Corporation extends EntityAbstract
     public function parseTree($tree, $ver)
     {
         $this->Ver = $ver;
-        if (($i1 = parent::findTag($tree, Tags::CORP)) !== false) {
-            $this->Name = parent::parseText($tree [$i1], Tags::CORP);
+        if (($i1 = parent::findTag($tree, rpTags::CORP)) !== false) {
+            $this->Name = parent::parseText($tree [$i1], rpTags::CORP);
 
             $sub2 = $tree[$i1][1];
             if (isset($sub2)) {
-                $this->Address->parseTree($sub2, $ver);
+                $this->rpAddress->parseTree($sub2, $ver);
             }
         }
 
@@ -117,8 +117,8 @@ class Corporation extends EntityAbstract
     public function __toString()
     {
         $str = __CLASS__
-            . '(Name->' . $this->Name
-            . ", Address->" .$this->Address
+            . '(rpName->' . $this->rpName
+            . ", rpAddress->" .$this->rpAddress
             . ')';
         return $str;
     }
