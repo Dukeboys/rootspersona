@@ -32,7 +32,7 @@ class PersonalName extends EntityAbstract
      *
      * @var Name
      */
-    var $Name;
+    var $rpName;
     /**
      *
      * @var array
@@ -49,7 +49,7 @@ class PersonalName extends EntityAbstract
      */
     public function __construct()
     {
-        $this->Name = new rpName();
+        $this->rpName = new rpName();
     }
 
     /**

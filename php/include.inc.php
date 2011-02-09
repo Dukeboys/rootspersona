@@ -30,8 +30,8 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Str
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/LdsSealing.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/MediaFile.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/MediaLink.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Name.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/NamePieces.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpName.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpNamePieces.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Note.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/PersonalName.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Place.php');
