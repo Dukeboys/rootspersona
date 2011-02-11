@@ -183,21 +183,21 @@ class rpParser
         foreach ($tree as $row) {
             if (@preg_match('/0 HEAD/US', $row[0])) {
                 $this->_parseHeader($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ SUBN/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ SUBN/US', $row[0])) {
                 $this->_parseSubmission($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ FAM/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ FAM/US', $row[0])) {
                 $this->_parseFamily($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ INDI/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ INDI/US', $row[0])) {
                 $this->_parseIndividual($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ OBJE/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ OBJE/US', $row[0])) {
                 $this->_parseMedia($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ NOTE/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ NOTE/US', $row[0])) {
                 $this->_parseNote($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ REPO/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ REPO/US', $row[0])) {
                 $this->_parseRespository($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ SOUR/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ SOUR/US', $row[0])) {
                 $this->_parseSource($row);
-            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !]*@ SUBM/US', $row[0])) {
+            } else if (@preg_match('/0 @[A-Z, a-z, 0-9, :, !, -]*@ SUBM/US', $row[0])) {
                 $this->_parseSubmitter($row);
             }
         }

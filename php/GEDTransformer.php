@@ -136,31 +136,37 @@ class GEDTransformer {
 
 		$spouses = $person->SpouseFamilyLinks;
 		for($i = 0; $i < count($spouses); $i++) {
+
 			$spouse = $ged->getFamily($spouses[$i]->FamilyId);
-			if($person->Gender == 'M')
-			$sid = $spouse->Wife;
-			else
-			$sid = $spouse->Husband;
-			$sid = $sid==''?"p000":strtolower($sid);
-			$ev = $spouse->getEvent('MARR');
-			if($ev != null) {
-				$date = $ev->Date;
-				$place = $ev->Place->Name;
-				$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
-				$eventEl->setAttribute('type','marriage');
-				$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
-				$dateEl->appendChild($dom->createTextNode($date));
-				$eventEl->appendChild($dateEl);
-				$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
-				$placeEl->appendChild($dom->createTextNode($place));
-				$eventEl->appendChild($placeEl);
-				$p = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
-				$p->setAttribute('id',strtolower($sid));
-				$eventEl->appendChild($p);
-				if(!isset($eventsEl))
-				$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
-				$eventsEl->appendChild($eventEl);
-				$this->addCitations($ev,$eventEl, $dom, $sources);
+			if($spouse != null) {
+				if($person->Gender == 'M')
+					$sid = $spouse->Wife;
+				else
+					$sid = $spouse->Husband;
+				$sid = $sid==''?"p000":strtolower($sid);
+				//print_r($spouse . ' ' . $spouses[$i]->FamilyId);
+				$ev = $spouse->getEvent('MARR');
+				if($ev != null) {
+					$date = $ev->Date;
+					$place = $ev->Place->Name;
+					$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
+					$eventEl->setAttribute('type','marriage');
+					$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
+					$dateEl->appendChild($dom->createTextNode($date));
+					$eventEl->appendChild($dateEl);
+					$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
+					$placeEl->appendChild($dom->createTextNode($place));
+					$eventEl->appendChild($placeEl);
+					$p = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
+					$p->setAttribute('id',strtolower($sid));
+					$eventEl->appendChild($p);
+					if(!isset($eventsEl))
+					$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
+					$eventsEl->appendChild($eventEl);
+					$this->addCitations($ev,$eventEl, $dom, $sources);
+				}
+			} else {
+				//print($person->Id . "-" . $spouses[$i]->FamilyId ."\n");
 			}
 		}
 		if(isset($eventsEl)) $personEl->appendChild($eventsEl);
@@ -239,10 +245,8 @@ class GEDTransformer {
 
 	function addCitations($rec, $node, $dom, &$sources) {
 		if(count($rec->Citations) > 0) {
-//			if(!isset($cites)) {
-				$cites = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citations');
-				$node->appendChild($cites);
-//			}
+			$cites = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citations');
+			$node->appendChild($cites);
 			
 			for($i=0; $i<count($rec->Citations);$i++) {
 				$citation = $rec->Citations[$i];

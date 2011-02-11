@@ -160,7 +160,9 @@ class IndividualRecord extends EntityAbstract
      * @since Method available since Release 0.0.1
      */
     public function getFullName() {
-        return $this->Names[0]->rpName->getFullName();
+    	if(isset($this->Names[0]) && isset($this->Names[0]->rpName))
+        	return $this->Names[0]->rpName->getFullName();
+        else return null;
     }
 
     /**
@@ -171,7 +173,9 @@ class IndividualRecord extends EntityAbstract
      * @since Method available since Release 0.0.1
      */
     public function getSurname() {
-        return $this->Names[0]->rpName->getSurname();
+    	if(isset($this->Names[0]) && isset($this->Names[0]->rpName))
+        	return $this->Names[0]->rpName->getSurname();
+        else return null;
     }
     
     /**

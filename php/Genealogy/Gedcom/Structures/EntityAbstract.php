@@ -136,7 +136,7 @@ abstract class EntityAbstract
     protected function parsePtrId($tree, $tag)
     {
         $str = @preg_replace(
-            '/^[0-9][0-9]? ' . $tag . ' @([A-Z, a-z, 0-9, :, !]*)@/US',
+            '/^[0-9][0-9]? ' . $tag . ' @([A-Z, a-z, 0-9, :, !,-]*)@/US',
             '$1',
             $tree [0]
         );
@@ -160,7 +160,7 @@ abstract class EntityAbstract
     protected function parseRefId($tree, $tag)
     {
         $str = @preg_replace(
-            '/^[0-9][0-9]? @([A-Z,a-z,0-9,:,!]*)@ ' . $tag . '(.*?)/US',
+            '/^[0-9][0-9]? @([A-Z,a-z,0-9,:,!,-]*)@ ' . $tag . '(.*?)/US',
             '$1',
             $tree [0],
             1
