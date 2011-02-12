@@ -139,7 +139,9 @@ class GedcomManager extends rpParser
      */
     function getIndividual($identifier)
     {
+    	if(isset($this->gedcomObjects['IndiRecs'][$identifier]))
         return $this->gedcomObjects['IndiRecs'][$identifier];
+        else return null;
     }
 
     /**
@@ -152,7 +154,9 @@ class GedcomManager extends rpParser
      */
     function getFamily($identifier)
     {
+    	if(isset($this->gedcomObjects['FamRecs'][$identifier]))
         return $this->gedcomObjects['FamRecs'][$identifier];
+        else return null;
     }
 
     /**
@@ -165,12 +169,16 @@ class GedcomManager extends rpParser
      */
     function getObject($identifier)
     {
+    	if(isset($this->gedcomObjects['MediaRecs'][$identifier]))
         return $this->gedcomObjects['MediaRecs'][$identifier];
+        else return null;
     }
     
     function getSource($identifier)
     {
-        return $this->gedcomObjects['SrcRecs'][$identifier];
+    	if(isset($this->gedcomObjects['SrcRecs'][$identifier]))
+      	  return $this->gedcomObjects['SrcRecs'][$identifier];
+       else return null;
     }
     /**
      * Get the header object
@@ -232,13 +240,15 @@ class GedcomManager extends rpParser
 
         $ged .= "\n"
         . $this->gedcomObjects['SubnRec']->toGedcom(0, '5.5.1');
-
-        for ($i = 0; $i < count($this->gedcomObjects['IndiRecs']); $i++) {
+        
+		$cnt = count($this->gedcomObjects['IndiRecs']);
+        for ($i = 0; $i < $cnt; $i++) {
             $ged .= "\n"
             . $this->gedcomObjects['IndiRecs'][$i]->toGedcom(0, '5.5.1');
         }
 
-        for ($i = 0; $i < count($this->gedcomObjects['FamRecs']); $i++) {
+        $cnt =  count($this->gedcomObjects['FamRecs']);
+        for ($i = 0; $i <$cnt; $i++) {
             $ged .= "\n"
             . $this->gedcomObjects['FamRecs'][$i]->toGedcom(0, '5.5.1');
         }

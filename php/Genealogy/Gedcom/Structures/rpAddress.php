@@ -102,7 +102,8 @@ class rpAddress extends EntityAbstract
                 $addr =  explode("\n", $this->rpAddress);
                 $gedRec .= $lvl . ' ' . rpTags::ADDR . ' ' . $addr[0];
                 $lvlplus = $lvl + 1;
-                for ($i=1;$i<count($addr);$i++) {
+                $cnt = count($addr);
+                for ($i=1;$i<$cnt;$i++) {
                     $gedRec .= "\n" . $lvlplus . ' ' . rpTags::CONT . ' ' .  $addr[$i];
                 }
                 if (isset($this->AddressLine1) && $this->AddressLine1 != '') {

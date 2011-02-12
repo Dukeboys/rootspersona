@@ -89,10 +89,11 @@ abstract class EntityAbstract
      */
     function findTag($tree, $tag, $off = 0)
     {
-        for ($i = $off; $i < count($tree); $i++) {
-            if(is_array($tree[$i][0])) {
-                var_dump($tree[$i][0]);
-            }
+    	$cnt = count($tree);
+        for ($i = $off; $i < $cnt; $i++) {
+//            if(is_array($tree[$i][0])) {
+//                var_dump($tree[$i][0]);
+//            }
             if (preg_match('/^[0-9][0-9]? .*?' . $tag . "( |$)/US", $tree[$i][0])) {
                 return $i;
             }
@@ -190,7 +191,8 @@ abstract class EntityAbstract
 
         if (isset($tree [1])) {
             $sub2 = $tree [1];
-            for ($i = 0; $i < count($sub2); $i ++) {
+            $cnt = count($sub2);
+            for ($i = 0; $i < $cnt; $i ++) {
                 if (@preg_match('/^[0-9][0-9]? CONT (.*)/US', $sub2 [$i] [0])) {
                     $str .= "\n"
                         . @preg_replace(
@@ -238,7 +240,8 @@ abstract class EntityAbstract
         //check for CONC of first line
         if (strlen($copy[0]) > 90) {
             $rem = 90;
-            while ($rem < strlen($copy[0])) {
+            $len = strlen($copy[0]);
+            while ($rem < $len) {
                 $gedRec .= "\n" . $lvlplus
                 . ' ' . rpTags::CONC . ' ' . substr($copy [0], $rem, 90);
                 $rem += 90;
@@ -247,12 +250,14 @@ abstract class EntityAbstract
 
         //check for CONC of each line
         //CONC before CONT since CONT contains the newline
-        for ($i = 1; $i < count($copy); $i ++) {
+        $cnt =  count($copy);
+        for ($i = 1; $i <$cnt; $i ++) {
             $gedRec .= "\n" . $lvlplus
             . ' ' . rpTags::CONT . ' ' . substr($copy [$i], 0, 90);
             if (strlen($copy[$i]) > 90) {
                 $rem = 90;
-                while ($rem < strlen($copy[$i])) {
+                $len = strlen($copy[$i]);
+                while ($rem < $len) {
                     $gedRec .= "\n" . $lvlplus
                     . ' ' . rpTags::CONC . ' ' . substr($copy [$i], $rem, 90);
                     $rem += 90;

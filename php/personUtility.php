@@ -177,7 +177,8 @@ class PersonUtility {
 		$xpath->registerNamespace('map', "http://ed4becky.net/idMap");
 		$nodes = $xpath->query("/map:idMap/map:entry");
 		$ids = array();
-		for ($i=0; $i < $nodes->length; $i++)  {
+		$cnt = $nodes->length;
+		for ($i=0; $i < $cnt; $i++)  {
 			$node = $nodes->item($i);
 			$ids[$i] = $node->getAttribute('personId');
 		}
@@ -222,7 +223,7 @@ class PersonUtility {
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('persona', "http://ed4becky.net/rootsPersona");
 		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="name"]');
-		$name = $nodeList->length?$nodeList->item(0)->nodeValue:'';
+		$name = $nodeList->length>0?$nodeList->item(0)->nodeValue:'';
 		return $name;
 	}	/**
 	 * 
@@ -236,7 +237,7 @@ class PersonUtility {
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('persona', "http://ed4becky.net/rootsPersona");
 		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="surname"]');
-		$surname = $nodeList->length?$nodeList->item(0)->nodeValue:'';
+		$surname = $nodeList->length>0?$nodeList->item(0)->nodeValue:'';
 		return $surname;
 	}
 	
@@ -310,7 +311,8 @@ class PersonUtility {
 		} else {
 			$block = $block . "<form  action='$action' method='POST'>";
 			$block = $block . "<br/><select multiple name='fileNames[]' size='16'>";
-			for($i = 0; $i < count($files); $i++) {
+			$cnt = count($files);
+			for($i = 0; $i < $cnt; $i++) {
 				$name = $this->getName($files[$i], $dataDir);
   				$block = $block . "<option value='$files[$i]'>$name</option>";
 			}

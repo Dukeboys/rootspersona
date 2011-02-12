@@ -148,7 +148,8 @@ class rpParser
         // the first call is always at the right depth.
         $tree[] = array($records[$idx]);
         $idx++;
-        while ($idx < count($records)) {
+        $cnt = count($records);
+        while ($idx < $cnt) {
             // depth indicator can only be(0-99)
             // so we grab 2 digits or 1 digit and strip space
             $recDepth = trim(substr($records[$idx], 0, 2));

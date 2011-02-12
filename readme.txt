@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
@@ -82,6 +82,11 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.3.3 =
+Minor bug fixes for ancestry.com compatability
+Support for dashes in xref and ptrs
+Minor performance improvement
+
 = 1.3.2 =
 address potential namespace collisions in class names.
 
@@ -128,18 +133,12 @@ address potential namespace collisions in class names.
 * First release.
 
 == Upgrade Notice ==
+= 1.3.3 =
 = 1.3.2 =
-name collision fix - should be transparent to those not having the issue.
-
 = 1.3.1 =
 = 1.3.0 =
 = 1.2.0 =
-
 = 1.1.0 =
-BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  
-It is important to copy the rootsData directory BEFORE upgrading unless you want to start over.
-AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
-
 = 1.0.4 =
 BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  
 It is important to copy the rootsData directory BEFORE upgrading unless you want to start over.

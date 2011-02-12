@@ -1,4 +1,5 @@
 <?php
+//require_once ('temp.inc.php');
 require_once ('include.inc.php');
 
 class GEDTransformer {
@@ -49,7 +50,8 @@ class GEDTransformer {
 
 		$children = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:children');
 		$rootEl->appendChild($children);
-		for($i=0; $i<count($family->Children);$i++) {
+		$cnt = count($family->Children);
+		for($i=0; $i<$cnt;$i++) {
 			$child = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
 			$child->setAttribute('type','child');
 			$children->appendChild($child);
@@ -135,7 +137,8 @@ class GEDTransformer {
 		}
 
 		$spouses = $person->SpouseFamilyLinks;
-		for($i = 0; $i < count($spouses); $i++) {
+		$cnt =  count($spouses);
+		for($i = 0; $i <$cnt; $i++) {
 
 			$spouse = $ged->getFamily($spouses[$i]->FamilyId);
 			if($spouse != null) {
@@ -187,7 +190,8 @@ class GEDTransformer {
 			$familiesEl->appendChild($familyEl);
 		}
 		$fg = $person->SpouseFamilyLinks;
-		for($i=0; $i<count($fg);$i++)	{
+		$cnt = count($fg);
+		for($i=0; $i<$cnt;$i++)	{
 			$familyEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:familyGroup');
 			$familyEl->setAttribute('selfType','parent');
 			if(!isset($fg[$i]) || $fg[$i] == "")
@@ -247,8 +251,8 @@ class GEDTransformer {
 		if(count($rec->Citations) > 0) {
 			$cites = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citations');
 			$node->appendChild($cites);
-			
-			for($i=0; $i<count($rec->Citations);$i++) {
+			$cnt = count($rec->Citations);
+			for($i=0; $i<$cnt;$i++) {
 				$citation = $rec->Citations[$i];
 				$cite = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citation');
 				if(isset($citation->Page)) {
@@ -272,9 +276,11 @@ class GEDTransformer {
 			$source = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:source');
 			$evidence->appendChild($source);	
 			$src = $ged->getSource($tokStr[0]);	
-			$page = (count($tokStr)>1)?$tokStr[1]:'';
-			$source->appendChild($dom->createTextNode($src->Title . '; ' . $page));
-			$source->setAttribute('id',str_replace('@', '', $tokStr[0]));	
+			if(isset($src)) {
+				$page = (count($tokStr)>1)?$tokStr[1]:'';
+				$source->appendChild($dom->createTextNode($src->Title . '; ' . $page));
+				$source->setAttribute('id',str_replace('@', '', $tokStr[0]));	
+			}
 		}
 	}
 	
@@ -315,4 +321,8 @@ class GEDTransformer {
 		return ($html_output) ? htmlentities($xml) : $xml;
 	}
 }
+
+//$tr = new GEDTransformer();
+//$tr->transformToXML("C:\\Users\\ed\\Downloads\\The Chron_Cron Family Tree.ged", "C:\\Users\\ed\\Workspaces\\Eclipse 3.6 PDT\\rootspersona\\php\\out\\") 
+
 ?>

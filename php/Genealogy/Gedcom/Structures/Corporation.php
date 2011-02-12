@@ -97,8 +97,8 @@ class Corporation extends EntityAbstract
         if (($i1 = parent::findTag($tree, rpTags::CORP)) !== false) {
             $this->Name = parent::parseText($tree [$i1], rpTags::CORP);
 
-            $sub2 = $tree[$i1][1];
-            if (isset($sub2)) {
+            if(isset($tree[$i1][1])) {
+           		$sub2 = $tree[$i1][1];
                 $this->rpAddress->parseTree($sub2, $ver);
             }
         }
