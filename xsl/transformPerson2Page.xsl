@@ -1,6 +1,10 @@
 <xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:persona="http://ed4becky.net/rootsPersona"
     xmlns:map="http://ed4becky.net/idMap">
     <xsl:import href="./transformFamilyGroup.xsl" />
+    <xsl:import href="./transformAncestors.xsl" />
+    <xsl:import href="./transformPictures.xsl" />
+    <xsl:import href="./transformFacts.xsl" />
+    
     <xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
     <xsl:param name="site_url"/>
     <xsl:param name="data_dir"/>
@@ -26,8 +30,6 @@
     <xsl:param name="hideBanner"/>
     <xsl:param name="hideDates"/>
     <xsl:param name="hidePlaces"/>
-    <xsl:key name="person2Page" match="map:entry" use="@personId" />
-    <xsl:variable name="map-top" select="document(concat($data_dir,'idMap.xml'))/map:idMap" />
 
     <xsl:template match="/persona:person">
     	<xsl:if test="$hideHdr!='1'">
@@ -58,7 +60,7 @@
         	<div class="rp_banner">Evidence</div>
         </xsl:if>
         <div class="rp_truncate">
-		<div class="rp_facts">
+		<div class="rp_evidence">
         <ul>
             <xsl:for-each select="persona:evidence/persona:source">
 				<li><xsl:value-of select="text()"/></li>
@@ -114,67 +116,7 @@
       	  <div class="rp_banner">Facts</div>
       	</xsl:if>
         <div class="rp_truncate">
-		<div class="rp_facts">
-            <ul>
-                <xsl:for-each select="persona:characteristics/persona:characteristic">
-                    <xsl:if test="(@type!='name') and (@type!='gender') and (@type!='surname')">
-                        <li>
-                            <xsl:value-of select="text()" />
-                        </li>
-                    </xsl:if>
-                </xsl:for-each>
-                <xsl:for-each select="persona:events/persona:event">
-                    <xsl:if test="@type!='marriage'">
-                        <li>
-                        	<xsl:if test="$hideDates != '1'">
-                            	<xsl:value-of select="persona:date" />
-                            -
-                            </xsl:if>
-                            <xsl:value-of
-                                select="concat(translate(substring(@type,1,1),'abcdefghijklmnopqrstuvwxyz',
-                     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
-                     	<xsl:if test="$hidePlaces != '1'">
-                            &#160;in
-                            <span class="rp_place">
-                                <xsl:value-of select="persona:place" />
-                            </span>
-                        </xsl:if>
-                        </li>
-                    </xsl:if>
-                    <xsl:if test="@type='marriage'">
-                        <li>
-                        	<xsl:if test="$hideDates != '1'">
-                            <xsl:value-of select="persona:date" />
-                            -
-                            </xsl:if>
-                            <xsl:value-of
-                                select="concat(translate(substring(@type,1,1),'abcdefghijklmnopqrstuvwxyz',
-                     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
-                     		
-                            &#160;to
-                            <xsl:variable name="pid" select="persona:person/@id" />
-                            <xsl:if test="$pid!='p000' and $pid!=''">
-                                <a>
-                                    <xsl:attribute name="href">
-										<xsl:apply-templates select="$map-top">
-											<xsl:with-param name="curr-label" select="persona:person" />
-										</xsl:apply-templates>
-									</xsl:attribute>
-                                    <xsl:value-of
-                                        select="document(concat($data_dir,concat($pid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
-                                </a>
-                            </xsl:if>
-                            <xsl:if test="$hidePlaces != '1'">
-                            &#160;in
-                            <span class="rp_place">
-                                <xsl:value-of select="persona:place" />
-                            </span>
-                            </xsl:if>
-                        </li>
-                    </xsl:if>
-                </xsl:for-each>
-            </ul>
-		</div>
+                	<xsl:call-template name="factsPanel" />
         </div>
     </xsl:template>
     
@@ -183,101 +125,7 @@
         	<div class="rp_banner">Ancestors</div>
         </xsl:if>
         <div class="rp_truncate">
-		<div class="rp_ancestors">
-            <table cellpadding="0" cellspacing="0" class="ancestors">
-                <tbody>
-                    <xsl:variable name="fatherPid"
-                        select="persona:relations/persona:relation[@type='father']/persona:person/@id" />
-                    <xsl:variable name="fatherNode"
-                        select="document(concat($data_dir,concat($fatherPid,'.xml')))/persona:person" />
-                    <tr>
-                        <td colspan="2" rowspan="6">&#160;</td>
-                        <td colspan="3" rowspan="2">&#160;</td>
-                        <td>&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode"
-                                select="document(concat($data_dir,concat($fatherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
-                        </xsl:call-template>
-                    </tr>
-                    <tr>
-                        <td class="rp_topleft">&#160;</td>
-                    </tr>
-                    <tr>
-                        <td>&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode" select="$fatherNode" />
-                        </xsl:call-template>
-                        <td class="rp_bottom">&#160;</td>
-                        <td colspan="2" rowspan="2" class="rp_left">&#160;</td>
-                    </tr>
-                    <tr>
-                        <td class="rp_topleft">&#160;</td>
-                        <td>&#160;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" rowspan="6" class="rp_left">&#160;</td>
-                        <td class="rp_leftbottom">&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode"
-                                select="document(concat($data_dir,concat($fatherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
-                        </xsl:call-template>
-                    </tr>
-                    <tr>
-                        <td>&#160;</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2" class="rp_nameBox">
-                            <span style="color:blue">
-                                <xsl:value-of select="persona:characteristics/persona:characteristic[@type='name']/text()" />
-                            </span>
-                        </td>
-                        <td class="rp_bottom">&#160;</td>
-                        <td colspan="2" rowspan="2">&#160;</td>
-                    </tr>
-                    <tr>
-                        <td>&#160;</td>
-                    </tr>
-                    <xsl:variable name="motherPid"
-                        select="persona:relations/persona:relation[@type='mother']/persona:person/@id" />
-                    <xsl:variable name="motherNode"
-                        select="document(concat($data_dir,concat($motherPid,'.xml')))/persona:person" />
-                    <tr>
-                        <td colspan="2" rowspan="6">&#160;</td>
-                        <td>&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode"
-                                select="document(concat($data_dir,concat($motherNode/persona:relations/persona:relation[@type='father']/persona:person/@id,'.xml')))/persona:person" />
-                        </xsl:call-template>
-                    </tr>
-                    <tr>
-                        <td class="rp_topleft">&#160;</td>
-                    </tr>
-                    <tr>
-                        <td class="rp_leftbottom">&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode" select="$motherNode" />
-                        </xsl:call-template>
-                        <td class="rp_bottom">&#160;</td>
-                        <td colspan="2" rowspan="2" class="rp_left">&#160;</td>
-                    </tr>
-                    <tr>
-                        <td>&#160;</td>
-                        <td>&#160;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" rowspan="2">&#160;</td>
-                        <td class="rp_leftbottom">&#160;</td>
-                        <xsl:call-template name="personbox">
-                            <xsl:with-param name="personNode"
-                                select="document(concat($data_dir,concat($motherNode/persona:relations/persona:relation[@type='mother']/persona:person/@id,'.xml')))/persona:person" />
-                        </xsl:call-template>
-                    </tr>
-                    <tr>
-                        <td>&#160;</td>
-                    </tr>
-                </tbody>
-            </table>
-		</div>
+        	<xsl:call-template name="ancestorPanel" />
         </div>
     </xsl:template>
     
@@ -286,107 +134,8 @@
         	<div class="rp_banner">Pictures</div>
         </xsl:if>
         <div class="rp_truncate">
-		<div class="rp_pictures">
-            <table class="personGallery" cellspacing="5px">
-                <tbody>
-                    <tr>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic1" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic1" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic2" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic2" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic3" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic3" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic4" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic4" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic5" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic5" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                            <td class="rp_picture">
-                                <a>
-                                    <xsl:attribute name="href"><xsl:value-of select="$pic6" /></xsl:attribute>
-                                    <img>
-                                        <xsl:attribute name="src"><xsl:value-of select="$pic6" /></xsl:attribute>
-                                    </img>
-                                </a>
-                            </td>
-                    </tr>
-                    <tr>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap1" />
-                            </td>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap2" />
-                            </td>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap3" />
-                            </td>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap4" />
-                            </td>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap5" />
-                            </td>
-                            <td class="rp_caption">
-                                <xsl:value-of select="$cap6" />
-                            </td>
-                    </tr>
-                </tbody>
-            </table>
-		</div>
+                	<xsl:call-template name="picturePanel" />
         </div>
     </xsl:template>
-    
-    <xsl:template name="personbox">
-        <xsl:param name="personNode" />
-        <td rowspan="2" class="rp_nameBox">
-            <a>
-                <xsl:attribute name="href">
-                    <xsl:apply-templates select="$map-top">
-                        <xsl:with-param name="curr-label" select="$personNode" />
-                    </xsl:apply-templates>
-                </xsl:attribute>
-                <xsl:value-of select="$personNode/persona:characteristics/persona:characteristic[@type='name']/text()" />
-            </a>
-            <br />
-            <xsl:if test="$hideDates != '1'">
-            <xsl:value-of select="$personNode/persona:events/persona:event[@type='birth']/persona:date/text()" />
-            -
-            <xsl:value-of select="$personNode/persona:events/persona:event[@type='death']/persona:date/text()" />
-        	</xsl:if>
-        </td>
-    </xsl:template>
-    
-    <xsl:template match="map:idMap">
-        <xsl:param name="curr-label" />
-        <xsl:value-of select="$site_url" />/?page_id=<xsl:value-of select="key('person2Page', $curr-label/@id)/@pageId" />
-    </xsl:template>
+
 </xsl:transform>
