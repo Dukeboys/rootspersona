@@ -78,8 +78,10 @@ class rootsPersonaInstaller {
 		if (!isset($opt) || empty($opt))
 		add_option('rootsIsSystemOfRecord', 'false');
 		
-		if($currVersion < '1.4.0')
+		if($currVersion < '1.4.0') {
 			delete_option('rootsHideFamily');
+			unregister_setting( 'rootsPersonaOptions', 'rootsHideFamily');
+		}
 	}
 
 	function createDataDir($pluginDir, $rootsDataDir) {

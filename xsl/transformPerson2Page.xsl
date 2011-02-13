@@ -24,7 +24,8 @@
     <xsl:param name="hideHdr"/>
     <xsl:param name="hideFac"/>
     <xsl:param name="hideAnc"/>
-    <xsl:param name="hideFam"/>
+    <xsl:param name="hideFamC"/>
+    <xsl:param name="hideFamS"/>
     <xsl:param name="hidePic"/>
     <xsl:param name="hideEvi"/>
     <xsl:param name="hideBanner"/>
@@ -41,8 +42,10 @@
         <xsl:if test="$hideAnc!='1'">
         	<xsl:call-template name="ancestors" />
         </xsl:if>
-        <xsl:if test="$hideFam!='1'">
+        <xsl:if test="$hideFamC!='1'">
         	<xsl:call-template name="familyGroup-FAMC" />
+        </xsl:if>
+        <xsl:if test="$hideFamS!='1'">
         	<xsl:call-template name="familyGroup-FAMS" />
         </xsl:if>
         <xsl:if test="$hidePic!='1'">
