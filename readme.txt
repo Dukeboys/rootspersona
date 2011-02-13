@@ -23,6 +23,8 @@ rootsPersona creates one or more pages of family history using data imported fro
 - Sortable Index Page 
 - MANY customization options
 
+For detailed documentation, goto [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
+
 == Installation ==
 
 1. Install the plugin from the wordpress plugin site, or using the 'Add Plugin' link
@@ -30,11 +32,11 @@ rootsPersona creates one or more pages of family history using data imported fro
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. (optional) Set a *Parent Page* for the created pages on the rootsPersona Options page.
 
-At this point the plugin is ready to use.
+At this point the plugin is ready to use!
 
 Usage:
 
-For detailed documentation, got to [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
+For detailed documentation, goto [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
 
 To import your first Gedcom and create your first page(s):
 
