@@ -34,7 +34,7 @@ At this point the plugin is ready to use.
 
 Usage:
 
-For detailed documentation, got to <a href="http://ed4becky.net/plugins/rootsPersona">http://ed4becky.net/plugins/rootsPersona</a>
+For detailed documentation, got to [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
 
 To import your first Gedcom and create your first page(s):
 
