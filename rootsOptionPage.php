@@ -93,8 +93,8 @@ echo "<input type='radio' name='rootsHideAncestors' value='0' $no>No </td>";
 echo  "<td>" .  __('Skip the Ancestors panel on person pages.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
-echo  "<th scope='row'><label for='rootsHideFamily'>" .  __('Hide Family Group?') . "</label></th>";
-$yes = get_option('rootsHideFamily');
+echo  "<th scope='row'><label for='rootsHideFamilyC'>" .  __('Hide Child Family Group?') . "</label></th>";
+$yes = get_option('rootsHideFamilyC');
 if(isset($yes) && $yes == '1') {
 	$yes = 'checked';
 	$no = '';
@@ -102,10 +102,25 @@ if(isset($yes) && $yes == '1') {
 	$yes = '';
 	$no = 'checked';
 }
-echo  "<td><input type='radio' name='rootsHideFamily' value='1' $yes>Yes ";
-echo "<input type='radio' name='rootsHideFamily' value='0' $no>No </td>";
+echo  "<td><input type='radio' name='rootsHideFamilyC' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideFamilyC' value='0' $no>No </td>";
 
-echo  "<td>" .  __('Skip the Family Group panel on persona pages.'). "</td></tr>";
+echo  "<td>" .  __('Skip the Family Group panel where the person is a Child on persona pages.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideFamilyS'>" .  __('Hide Spousal Family Groups?') . "</label></th>";
+$yes = get_option('rootsHideFamilyS');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideFamilyS' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideFamilyS' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Skip the Family Group panels where the person is a Spouse on persona pages.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsHidePictures'>" .  __('Hide Picture?') . "</label></th>";

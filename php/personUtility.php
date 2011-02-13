@@ -435,7 +435,8 @@ class PersonUtility {
                 	$xp->setParameter('','hideHdr',get_option('rootsHideHeader'));
     				$xp->setParameter('','hideFac',get_option('rootsHideFacts'));
    					$xp->setParameter('','hideAnc',get_option('rootsHideAncestors'));
-    				$xp->setParameter('','hideFam',get_option('rootsHideFamily'));
+    				$xp->setParameter('','hideFamC',get_option('rootsHideFamilyC'));
+    				$xp->setParameter('','hideFamS',get_option('rootsHideFamilyC'));
     				$xp->setParameter('','hidePic',get_option('rootsHidePictures'));
     				$xp->setParameter('','hideEvi',get_option('rootsHideEvidence'));
     				$xp->setParameter('','hideBanner',0);
@@ -443,7 +444,8 @@ class PersonUtility {
                 	$xp->setParameter('','hideHdr',1);
     				$xp->setParameter('','hideFac',1);
    					$xp->setParameter('','hideAnc',1);
-    				$xp->setParameter('','hideFam',1);
+    				$xp->setParameter('','hideFamC',1);
+    				$xp->setParameter('','hideFamS',1);
     				$xp->setParameter('','hidePic',1);
     				$xp->setParameter('','hideEvi',1);
                		$xp->setParameter('','hideBanner',1);
@@ -453,8 +455,10 @@ class PersonUtility {
     					$xp->setParameter('','hideFac',0);              	
                 	} else if($callback == 'rootspersonaancestors') {
    						$xp->setParameter('','hideAnc',0);               	
-                	} else if($callback == 'rootspersonafamily') {
-    					$xp->setParameter('','hideFam',0);              	
+                	} else if($callback == 'rootspersonafamilyc') {
+    					$xp->setParameter('','hideFamC',0);  
+    				} else if($callback == 'rootspersonafamilys') {
+    					$xp->setParameter('','hideFamC',0);              	
   	              	} else if($callback == 'rootspersonapictures') {
     					$xp->setParameter('','hidePic',0);                	
 					} else if($callback == 'rootspersonaevidence') {

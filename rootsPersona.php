@@ -360,7 +360,8 @@ if (!class_exists("rootsPersona")) {
         		|| $this->rootsPersonaVersion != $currentVersion) {
 				$installer = new rootsPersonaInstaller();
 				$installer->rootsPersonaUpgrade(ABSPATH . $this->plugin_dir,
-												$this->rootsPersonaVersion);
+												$this->rootsPersonaVersion,
+												$currentVersion);
         	}
         }
         
@@ -395,7 +396,8 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsHideHeader');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFacts');
 			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
-			register_setting( 'rootsPersonaOptions', 'rootsHideFamily');
+			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyC');
+			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyS');
 			register_setting( 'rootsPersonaOptions', 'rootsHidePictures');	
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHideDates');				
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHidePlaces');				
@@ -423,7 +425,8 @@ if (isset($rootsPersonaplugin)) {
     add_shortcode('rootsPersonaHeader', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaFacts', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaAncestors', array($rootsPersonaplugin, 'rootsPersonaHandler'));
-    add_shortcode('rootsPersonaFamily', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaFamilyC', array($rootsPersonaplugin, 'rootsPersonaHandler'));
+    add_shortcode('rootsPersonaFamilyS', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaPictures', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaEvidence', array($rootsPersonaplugin, 'rootsPersonaHandler'));
     add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));

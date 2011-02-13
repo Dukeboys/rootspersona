@@ -22,7 +22,7 @@ class rootsPersonaInstaller {
 		add_option('rootsIsSystemOfRecord', 'false');
 	}
 
-	function rootsPersonaUpgrade($pluginDir, $version) {
+	function rootsPersonaUpgrade($pluginDir, $version, $currVersion) {
 		update_option('rootsPersonaVersion', $version);
 
 		$opt = get_option('rootsDataDir');
@@ -77,6 +77,9 @@ class rootsPersonaInstaller {
 		$opt = get_option('rootsIsSystemOfRecord');
 		if (!isset($opt) || empty($opt))
 		add_option('rootsIsSystemOfRecord', 'false');
+		
+		if($currVersion < '1.4.0')
+			delete_option('rootsHideFamily');
 	}
 
 	function createDataDir($pluginDir, $rootsDataDir) {
