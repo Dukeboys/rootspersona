@@ -42,7 +42,8 @@
         	<xsl:call-template name="ancestors" />
         </xsl:if>
         <xsl:if test="$hideFam!='1'">
-        	<xsl:call-template name="familyGroup" />
+        	<xsl:call-template name="familyGroup-FAMC" />
+        	<xsl:call-template name="familyGroup-FAMS" />
         </xsl:if>
         <xsl:if test="$hidePic!='1'">
         	<xsl:call-template name="pictures" />
@@ -70,16 +71,32 @@
         </div>
     </xsl:template> 
        
-    <xsl:template name="familyGroup">
+    <xsl:template name="familyGroup-FAMC">
     	<xsl:if test="$hideBanner != '1'">
-        	<div class="rp_banner">Family Group</div>
+        	<div class="rp_banner">Family Group - Child to Family</div>
         </xsl:if>
         <div class="rp_truncate">
             <xsl:for-each
-                select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup/@refId,'.xml')))">
-                <xsl:apply-templates />
+                select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup[@selfType='child']/@refId,'.xml')))">
+                	<xsl:call-template name="familyGroupPanel">
+						<xsl:with-param name="famType"  select="FAMC"/>
+					</xsl:call-template>
             </xsl:for-each>
         </div>
+    </xsl:template>
+    
+    <xsl:template name="familyGroup-FAMS">
+    <xsl:for-each select="persona:references/persona:familyGroups/persona:familyGroup[@selfType='parent']">
+        <div class="rp_banner">Family Group - Spouse to Family</div>
+        <div class="truncate">
+            <xsl:for-each
+                select="document(concat($data_dir,concat(@refId,'.xml')))">
+                	<xsl:call-template name="familyGroupPanel" >
+                		<xsl:with-param name="famType"  select="FAMS"/>
+                	</xsl:call-template>
+            </xsl:for-each>
+        </div>
+    </xsl:for-each>
     </xsl:template>
     
     <xsl:template name="personHeader">
