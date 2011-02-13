@@ -9,16 +9,6 @@ Stable tag: 1.3.3
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
 == Description ==
-**IF UPGRADING FROM VERSION PRIOR TO 1.04 PLEASE NOTE:**
-
-If upgrading from versions prior to 1.0.4 - All data could be lost!  
-It is important to copy the rootsData directory to a temporary vacation BEFORE 
-upgrading unless you want to start over. AFTER upgrading, copy the contents of 
-rootsData to wp-content/rootsPersonaData.
-
-Reloading your GEDCOM AFTER performing the above will support additional fucntionality 
-due to upgrades to the idMap.xml file.  Reloading a GEDCOM will not harm existing data.
-
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
 
 **Features**
@@ -43,6 +33,9 @@ rootsPersona creates one or more pages of family history using data imported fro
 At this point the plugin is ready to use.
 
 Usage:
+
+For detailed documentation, got to <a href="http://ed4becky.net/plugins/rootsPersona">http://ed4becky.net/plugins/rootsPersona</a>
+
 To import your first Gedcom and create your first page(s):
 
 1. Find the pageId of the *Upload Gedcom File* page under rootsPersona Options and navigate to that page.
