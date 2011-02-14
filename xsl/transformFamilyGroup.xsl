@@ -112,40 +112,40 @@
 			</td>
 		</tr>
 		<xsl:for-each select="$node/persona:events/persona:event[@type='marriage']">
-				<xsl:variable name="spid" select="persona:person/@id" />
-				<tr>
-					<td class="label">Marriage</td>
-					<td class="date">
-						&#160;
-						<xsl:if test="$hideDates != '1'">
-							<xsl:value-of select="persona:date/text()" />
-						</xsl:if>
-					</td>
-					<td class="notes">
-						&#160;
+			<xsl:variable name="spid" select="persona:person/@id" />
+			<tr>
+				<td class="label">Marriage</td>
+				<td class="date">
+					&#160;
+					<xsl:if test="$hideDates != '1'">
+						<xsl:value-of select="persona:date/text()" />
+					</xsl:if>
+				</td>
+				<td class="notes">
+					&#160;
 
-						<xsl:if test="$spid!='' and $spid !='p000'">
-							to
-							<a>
-								<xsl:attribute name="href">
+					<xsl:if test="$spid!='' and $spid !='p000'">
+						to
+						<a>
+							<xsl:attribute name="href">
 			     <xsl:apply-templates select="$map-top">
 				   <xsl:with-param name="curr-label" select="persona:person" />
 				 </xsl:apply-templates>
 			   </xsl:attribute>
-								<xsl:value-of
-									select="document(concat($data_dir,concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
+							<xsl:value-of
+								select="document(concat($data_dir,concat($spid,'.xml')))/persona:person/persona:characteristics/persona:characteristic[@type='name']/text()" />
 
-							</a>
+						</a>
+					</xsl:if>
+					<xsl:if test="$hidePlaces != '1'">
+						<xsl:variable name="mPlace" select="persona:place/text()" />
+						<xsl:if test="$mPlace!=''">
+							in
+							<xsl:value-of select="$mPlace" />
 						</xsl:if>
-						<xsl:if test="$hidePlaces != '1'">
-							<xsl:variable name="mPlace" select="persona:place/text()" />
-							<xsl:if test="$mPlace!=''">
-								in
-								<xsl:value-of select="$mPlace" />
-							</xsl:if>
-						</xsl:if>
-					</td>
-				</tr>
+					</xsl:if>
+				</td>
+			</tr>
 		</xsl:for-each>
 		<tr>
 			<td class="label">Father</td>
