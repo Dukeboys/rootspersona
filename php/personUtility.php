@@ -436,7 +436,7 @@ class PersonUtility {
     				$xp->setParameter('','hideFac',get_option('rootsHideFacts'));
    					$xp->setParameter('','hideAnc',get_option('rootsHideAncestors'));
     				$xp->setParameter('','hideFamC',get_option('rootsHideFamilyC'));
-    				$xp->setParameter('','hideFamS',get_option('rootsHideFamilyC'));
+    				$xp->setParameter('','hideFamS',get_option('rootsHideFamilyS'));
     				$xp->setParameter('','hidePic',get_option('rootsHidePictures'));
     				$xp->setParameter('','hideEvi',get_option('rootsHideEvidence'));
     				$xp->setParameter('','hideBanner',0);
