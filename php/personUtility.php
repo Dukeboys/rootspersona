@@ -292,8 +292,53 @@ class PersonUtility {
 				$my_post['post_title'] = $name;
 				wp_update_post( $my_post );
 			}
-			break; //only want first one
 		}
+	}
+	
+	public function updateExcluded($pid, $value, $dataDir ) {
+		// add to idMap.xml
+  		$dom = new DOMDocument();
+		$dom->load($dataDir . "idMap.xml");
+		$xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+        $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
+		foreach($nodeList as $entryEl) {
+			$entryEl->setAttribute('excludeLiving',$value);
+		}
+		$dom->formatOutput = true;
+		$dom->preserveWhiteSpace = false;
+		$dom->save($dataDir . "/idMap.xml");
+	}
+
+	public function getExcluded($dataDir ) {
+  		$dom = new DOMDocument();
+		$dom->load($dataDir . "idMap.xml");
+		$xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+        $nodeList = $xpath->query('/map:idMap/map:entry[@excludeLiving="true"]');
+        $persons = null;
+		$cnt = 0;
+		foreach($nodeList as $entryEl) {
+			$persons[$cnt]['name'] = $entryEl->nodeValue;
+			$persons[$cnt]['id'] = $entryEl->getAttribute('personId');
+			$cnt++;
+		}
+		return $persons;
+	}
+	
+	function deleteIdMapNode($pid, $dataDir) {
+  		$dom = new DOMDocument();
+		$dom->load($dataDir . "idMap.xml");
+		$xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+        $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
+        $root = $dom->documentElement;
+		foreach($nodeList as $entryEl) {
+			$root->removeChild($entryEl);
+		}
+		$dom->formatOutput = true;
+		$dom->preserveWhiteSpace = false;
+		$dom->save($dataDir . "/idMap.xml");		
 	}
 	
 	/**
@@ -327,7 +372,31 @@ class PersonUtility {
 		}
 		return $block;
 	}
-	
+
+	public function showIncludePageForm($action,$persons, $msg='') {
+		$block = "<br/><div class='personBanner'><br/></div>";
+		if(count($persons) == 0) {
+			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>"
+				. "All personas have been included.</div>";
+		} else {
+			$block = $block . "<form  action='$action' method='POST'>";
+			$block = $block . "<br/><select multiple name='persons[]' size='16'>";
+			$cnt = count($persons);
+			for($i = 0; $i < $cnt; $i++) {
+				$name = $persons[$i]['name'];
+  				$block = $block . "<option value='" . $persons[$i]['id'] . "'>$name</option>";
+			}
+			$block = $block . "</select><br/>";	
+			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
+		
+			$block = $block . "<br/><input type='submit' name='submitIncludePageForm' value='Include'/>";
+			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='Reset'/>";
+
+			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";
+			$block = $block . "</form>";
+		}
+		return $block;
+	}
 	/**
 	 * 
 	 * Enter description here ...
@@ -495,11 +564,35 @@ class PersonUtility {
                         $block = $html;
                         if((get_post_type($pageId) != 'post') && (current_user_can("edit_pages")))
                         {
-                            $block = $block . "<div style='margin-top:10px'><a href='"
-                            . $mysite . '/?page_id=' . get_option("rootsEditPage")
-                            . "&personId=" . $rootsPersonId
-                            . "&srcPage=" . $pageId
-                            . "'>Edit Person</a></div>";
+                        	
+							
+                        	$win1 = 'Page will be removed but supporting data will not be deleted.  Proceed?';
+                        	$win2 = 'Page will be removed and supporting data will be deleted.  Proceed?';
+                        	$win3 = 'Page will be viewable by logged in members only.  Proceed?';
+                        	$win4 = 'Page will be viewable by anyone.  Proceed?';
+                        	$editPage = $mysite . '/?page_id=' . get_option("rootsEditPage")
+                        	            . "&personId=" . $rootsPersonId
+                            			. "&srcPage=" . $pageId . "&action=";
+                            			
+                            $block = $block . "<div style='margin-top:10px;text-align: center ;'><a href='$editPage"
+                            . "edit'>Edit Person</a>"
+                            . "&#160;&#160;<a href='#'"
+                            . " onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"" 
+                            . $editPage . "exclude\");return false;'>Exclude Person</a>"
+                            . "&#160;&#160;<a href='#'"
+                            . " onClick='javascript:rootsConfirm(\"" . $win2 . "\",\"" 
+                            . $editPage . "delete\");return false;'>Delete Person</a>"                            
+                            . "&#160;&#160;<a href='#'";
+                            
+                            $perms = get_post_meta($pageId, 'permissions', true);
+                            if ( empty($perms) || $perms == 'false') {
+                            	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win3 . "\",\"" 
+                           		. $editPage . "makePrivate\");return false;'>Make Person Private</a>";     
+                            }  else {                      
+                            	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win4 . "\",\"" 
+                            	. $editPage . "makePublic\");return false;'>Make Person Public</a>" ; 
+                            }                                                     
+                            $block = $block .  "</div>";
                         }
                     } else {
                         $block = $this->returnDefaultEmpty('XSL transformation failed.',$pluginDir);
@@ -524,12 +617,8 @@ class PersonUtility {
          * @return string HTML content
          */
         function returnDefaultEmpty($input, $pluginDir) {
-            $block = "<div class='truncate'><img src='" . site_url . "/wp-content/plugins/rootspersona/images/boy-silhouette.gif' class='headerBox' />";
+            $block = "<div class='truncate'><img src='" . site_url() . "/wp-content/plugins/rootspersona/images/boy-silhouette.gif' class='headerBox' />";
             $block = $block . "<div class='headerBox'><span class='headerBox'>" . $input . "</span></div></div>";
-            $block = $block . "<br/><div class='personBanner'>Facts</div>";
-            $block = $block . "<br/><div class='personBanner'>Ancestors</div>";
-            $block = $block . "<br/><div class='personBanner'>Family Group</div>";
-            $block = $block . "<br/><div class='personBanner'>Pictures</div>";
             $block = $block . "<br/><div class='personBanner'><br/></div>";
             return $block;
         }

@@ -15,6 +15,8 @@ class rootsPersonaInstaller {
 		add_option('rootsCreatePage', $page);
 		$page = $this->createPage('Upload GEDCOM File','[rootsUploadGedcomForm/]');
 		add_option('rootsUploadGedcomPage', $page);
+		$page = $this->createPage('Include Person Page','[rootsIncludePageForm/]');
+		add_option('rootsIncludePage', $page);
 		$page = $this->createPage('Persona Index','[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
 		 
@@ -57,6 +59,15 @@ class rootsPersonaInstaller {
 			add_option('rootsUploadGedcomPage', $page);
 		} else {
 			$this->createPage('Upload GEDCOM File','[rootsUploadGedcomForm/]',$page);
+		}
+		
+		unset($page);
+		$page = get_option('rootsIncludePage');
+		if(!isset($page) || empty($page)) {
+			$page = $this->createPage('Include Person Page','[rootsIncludePageForm/]');
+			add_option('rootsIncludePage', $page);
+		} else {
+			$this->createPage('Include Page Form','[rootsIncludePageForm/]',$page);
 		}
 
 		unset($page);
@@ -133,6 +144,9 @@ class rootsPersonaInstaller {
 		$page = get_option('rootsUploadGedcomPage');
 		wp_delete_post($page);
 		delete_option('rootsUploadGedcomPage');
+		$page = get_option('rootsIncludePage');
+		wp_delete_post($page);
+		delete_option('rootsIncludePage');
 		$page = get_option('rootsPersonaIndexPage');
 		wp_delete_post($page);
 		delete_option('rootsPersonaIndexPage');

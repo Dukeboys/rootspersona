@@ -77,6 +77,10 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.4.0 =
+Cahnged Family Group to Family Group - Child to Family
+Added Family Group - Spouse to Family, of which there may be more than one for multiple marriages
+
 = 1.3.3 =
 Minor bug fixes for ancestry.com compatability
 Support for dashes in xref and ptrs
@@ -128,6 +132,9 @@ address potential namespace collisions in class names.
 * First release.
 
 == Upgrade Notice ==
+= 1.4.0 = 
+No special instructions
+
 = 1.3.3 =
 = 1.3.2 =
 = 1.3.1 =

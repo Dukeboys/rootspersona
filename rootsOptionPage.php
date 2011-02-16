@@ -42,6 +42,12 @@ echo  " value=' " . get_option('rootsUploadGedcomPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsUploadGedcomPage') . "'>" . __('Page') . "</a> " . __('with the  Upload GEDCOM page shortcode.  There is usually no need to change this.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsIncludePage'>" .  __('Include Person Page') . "</label></th>";
+echo  "<td><input type='text' size='5' name='rootsIncludePage' id='rootsIncludePage'";
+echo  " value=' " . get_option('rootsIncludePage'). " '/></td>";
+echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsIncludePage') . "'>" . __('Page') . "</a> " . __('with the  Include Person page shortcode.  There is usually no need to change this.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsIndexPage'>" .  __('Persona Index Page Id') . "</label></th>";
 echo  "<td><input type='text' size='5' name='rootsPersonaIndexPage' id='rootsPersonaIndexPage'";
 echo  " value=' " . get_option('rootsPersonaIndexPage'). " '/></td>";
