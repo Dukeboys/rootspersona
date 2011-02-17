@@ -500,7 +500,7 @@ class PersonUtility {
         function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pageId) {
         	$rootsPersonId = $atts["personid"];
             $block = "";
-            $fileName =  $dataDir . $rootsPersonId . ".xml";
+            $fileName =  ABSPATH . $dataDir . $rootsPersonId . ".xml";
             if(file_exists($fileName)) {
                 $xp = new XsltProcessor();
                 // create a DOM document and load the XSL stylesheet
@@ -514,7 +514,7 @@ class PersonUtility {
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
-                $xp->setParameter('','data_dir','../../../../' . $dataDir);
+                $xp->setParameter('','data_dir',strtr(ABSPATH,'\\','/') . $dataDir);
                 $callback = strtolower ($callback);
                 if($callback == 'rootspersona') {
                 	$xp->setParameter('','hideHdr',get_option('rootsHideHeader'));
@@ -543,7 +543,7 @@ class PersonUtility {
                 	} else if($callback == 'rootspersonafamilyc') {
     					$xp->setParameter('','hideFamC',0);  
     				} else if($callback == 'rootspersonafamilys') {
-    					$xp->setParameter('','hideFamC',0);              	
+    					$xp->setParameter('','hideFamS',0);              	
   	              	} else if($callback == 'rootspersonapictures') {
     					$xp->setParameter('','hidePic',0);                	
 					} else if($callback == 'rootspersonaevidence') {
@@ -556,7 +556,7 @@ class PersonUtility {
                 if(isset($atts['picfile1'])) {
                     $xp->setParameter('','pic0',$atts['picfile1']);
                 } else {
-                    $xp->setParameter('','pic0',site_url() . '/wp-content/plugins/rootspersona/images/boy-silhouette.gif');
+                    $xp->setParameter('','pic0',$mysite . '/wp-content/plugins/rootspersona/images/boy-silhouette.gif');
                 }
                 
                 for ($idx=1; $idx<7;$idx++) {

@@ -26,9 +26,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+require_once(ABSPATH . 'wp-includes/pluggable.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsOptionPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsToolsPage.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
 
 /**
@@ -401,21 +403,19 @@ if (!class_exists("rootsPersona")) {
 			return __CLASS__;
 		}
 
-		function rootsPersonaOptionsPage() {
+		function rootsPersonaMenus() {
 			add_options_page('rootsPersona Options',
 						'rootsPersona',
 						'manage_options',
 						'rootsPersona',
 						'buildRootsOptionsPage');
-		}
-		
-		function rootsPersonaToolPage() {
+			
 			add_submenu_page( 'tools.php', 
 								'rootsPersona Tools', 
 								'rootsPersona', 
 								'manage_options', 
 								'rootsPersona',
-								'buildRootsToolPage');
+								'buildRootsToolsPage');			
 		}
 
 		function rootsPersonaOptionsInit() {
@@ -469,8 +469,7 @@ if (isset($rootsPersonaplugin)) {
 	add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'addPageFormHandler'));
 	add_shortcode('rootsUploadGedcomForm', array($rootsPersonaplugin, 'uploadGedcomFormHandler'));
 	add_shortcode('rootsIncludePageForm', array($rootsPersonaplugin, 'includePageFormHandler'));
-	add_action('admin_menu', array($rootsPersonaplugin, 'rootsPersonaOptionsPage'));
-	add_submenu_page( 'tools.php', 'rootsPersona', 'rootsPersona', 'manage_options', 'rootsPersona', array($rootsPersonaplugin, 'rootsPersonaToolPage') ); 
+	add_action('admin_menu', array($rootsPersonaplugin, 'rootsPersonaMenus'));
 	add_action('wp_print_styles', array($rootsPersonaplugin, 'insertRootsPersonaStyles'));
 	add_action('wp_print_scripts', array($rootsPersonaplugin, 'insertRootsPersonaScripts'));
 	add_filter( 'the_content', array($rootsPersonaplugin, 'checkPermissions'), 2 );
