@@ -505,7 +505,8 @@ class PersonUtility {
                 $xp = new XsltProcessor();
                 // create a DOM document and load the XSL stylesheet
                 $xsl = new DomDocument;
-                $xslFile = $atts["xsl"];
+                if(isset($atts["xsl"]))
+                	$xslFile = $atts["xsl"];
                 if(!isset($xslFile) || $xslFile == '')
                 	$xslFile = $pluginDir . 'xsl/transformPerson2Page.xsl';
                 $xsl->load($xslFile);
