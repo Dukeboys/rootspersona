@@ -3,7 +3,7 @@
  Plugin Name: rootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 1.4.0
+ Version: 1.4.1
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  License: GPLv2
@@ -36,7 +36,7 @@ require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
  */
 if (!class_exists("rootsPersona")) {
 	class rootsPersona {
-		var $rootsPersonaVersion = '1.4.0';
+		var $rootsPersonaVersion = '1.4.1';
 		var $plugin_dir;
 		var $utility;
 
@@ -62,17 +62,16 @@ if (!class_exists("rootsPersona")) {
 		 */
 		function rootsPersonaHandler( $atts, $content = null, $callback) {
 			$rootsPersonId = $atts["personid"];
-
-			if($this->isExcluded($rootsPersonId))
-			return $this->utility->returnDefaultEmpty('Privacy Protected.',$this->plugin_dir);
-
-			$block = "rootsPersonaHandler: $rootsPersonId";
+			$block = "";
 			if(isset($rootsPersonId)) {
+				if($this->isExcluded($rootsPersonId))
+					return $this->utility->returnDefaultEmpty('Privacy Protected.',$this->plugin_dir);
+
 				$block = $this->utility->buildPersonaPage($atts, $callback,
-				site_url(),
-				$this->getDataDir(),
-				$this->plugin_dir,
-				$this->getPageId());
+															site_url(),
+															$this->getDataDir(),
+															$this->plugin_dir,
+															$this->getPageId());
 			}
 			return $block ;
 		}
@@ -423,7 +422,9 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyC');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyS');
+			register_setting( 'rootsPersonaOptions', 'rootsHideEvidence');			
 			register_setting( 'rootsPersonaOptions', 'rootsHidePictures');
+			register_setting( 'rootsPersonaOptions', 'rootsHideEditLinks');			
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHideDates');
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHidePlaces');
 		}

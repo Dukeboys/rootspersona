@@ -159,6 +159,7 @@ class rootsPersonaInstaller {
 		delete_option('rootsDisplayFamily');
 		delete_option('rootsDisplayPictures');
 		delete_option('rootsDisplayEvidence');
+		delete_option('rootsHideEditLinks');
 		
 		remove_action('admin_menu', 'rootsPersonaOptionsPage');
 	}

@@ -405,7 +405,19 @@ class PersonUtility {
 	 * @param  $msg
 	 */
 	public function showUploadGedcomForm($action,$msg='') {
+		$fullDataDir = ABSPATH .get_option('rootsDataDir');
+		
 		$block = "<br/><div class='personBanner'><br/></div><form enctype='multipart/form-data' action='$action' method='POST'>";
+		if(!is_dir($fullDataDir)) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
+				. $fullDataDir . " does not exist. Make sure wp-content is writable, then reactivate plugin.</p>";
+		} else if (!is_writable($fullDataDir)) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
+			. $fullDataDir . " is not writable. Update directory permissions, then reactivate plugin.</p>";
+		} else if (!is_writable(WP_PLUGIN_DIR . "/rootspersona/stage")) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
+			. WP_PLUGIN_DIR . "/rootspersona/stage" . " is not writable. Update directory permissions.</p>";			
+		}
 		$block = $block . "<br/>&#160;&#160;<input type='file' name='gedcomFile' size='70'/>";
 		$block = $block . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='Upload'/>";
 		$block = $block . "&#160;&#160;<input type='reset' name='reset' value='Reset'/>";
@@ -493,7 +505,10 @@ class PersonUtility {
                 $xp = new XsltProcessor();
                 // create a DOM document and load the XSL stylesheet
                 $xsl = new DomDocument;
-                $xsl->load($pluginDir . 'xsl/transformPerson2Page.xsl');
+                $xslFile = $atts["xsl"];
+                if(!isset($xslFile) || $xslFile == '')
+                	$xslFile = $pluginDir . 'xsl/transformPerson2Page.xsl';
+                $xsl->load($xslFile);
 
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
@@ -562,7 +577,9 @@ class PersonUtility {
                     // transform the XML into HTML using the XSL file
                     if (($html = $xp->transformToXML($xml_doc)) !== false) {
                         $block = $html;
-                        if((get_post_type($pageId) != 'post') && (current_user_can("edit_pages")))
+                        if((get_post_type($pageId) != 'post') 
+                        	&& (current_user_can("edit_pages"))
+                        	&& get_option('rootsHideEditLinks') != 1)
                         {
                         	
 							

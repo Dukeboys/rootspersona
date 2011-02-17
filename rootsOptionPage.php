@@ -2,7 +2,17 @@
 
 function buildRootsOptionsPage() {
 
+$dataDir =  get_option('rootsDataDir');
+$fullDataDir = ABSPATH .$dataDir;
+
 echo "<div class='wrap'><h2>rootsPersona</h2>";
+if(!is_dir($fullDataDir)) {
+echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
+	. $fullDataDir . " does not exist. Make sure wp-content is writable, then reactivate plugin.</p>";
+} else if (!is_writable($fullDataDir)) {
+	echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
+	. $fullDataDir . " is not writable. Update directory permissions, then reactivate plugin.</p>";
+}
 echo  "<form method='post' action='options.php'>";
 echo  "<table class='form-table'>";
 
@@ -20,7 +30,7 @@ echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsPersonaPare
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsDataDir'>" .  __('rootsPersona Data Directory') . "</label></th>";
 echo  "<td><input type='text' size='35' name='rootsDataDir' id='rootsDataDir'";
-echo  " value=' " . get_option('rootsDataDir'). " '/></td>";
+echo  " value=' " . $dataDir . " '/></td>";
 echo  "<td>" . __('Directory where data files are stored. There is usually no need to change this.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
@@ -189,6 +199,21 @@ echo "<input type='radio' name='rootsPersonaHidePlaces' value='0' $no>No </td>";
 echo  "<td>" .  __('Some people may want to hide locations for privacy purposes.  This is a global flag (impacts all persona pages).'). "</td></tr>";
 
 echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsHideEditLinks'>" .  __('Hide Edit Links?') . "</label></th>";
+$yes = get_option('rootsHideEditLinks');
+if(isset($yes) && $yes == '1') {
+	$yes = 'checked';
+	$no = '';
+} else {
+	$yes = '';
+	$no = 'checked';
+}
+echo  "<td><input type='radio' name='rootsHideEditLinks' value='1' $yes>Yes ";
+echo "<input type='radio' name='rootsHideEditLinks' value='0' $no>No </td>";
+
+echo  "<td>" .  __('Some people may want to hide the edit links at the bottom of the persona page.'). "</td></tr>";
+
+echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsIsSystemOfRecord'>" .  __('Is this the System Of Record?') . "</label></th>";
 $yes = get_option('rootsIsSystemOfRecord');
 if(isset($yes) && $yes == 'true') {
@@ -198,7 +223,7 @@ if(isset($yes) && $yes == 'true') {
 	$yes = '';
 	$no = 'checked';
 }
-echo  "<td><input type='radio' name='rootsIsSystemOfRecord' value='true' $yes>Yes ";
+echo  "<td><input type='radio' name='rootsIsSystemOfRecord' value='true' $yes disabled>Yes ";
 echo "<input type='radio' name='rootsIsSystemOfRecord' value='false' $no>No </td>";
 
 echo  "<td>" .  __('Only No is supported at this time (meaning some external program is the system of record).'). "</td></tr>";

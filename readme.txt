@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
@@ -23,7 +23,7 @@ rootsPersona creates one or more pages of family history using data imported fro
 - Sortable Index Page 
 - MANY customization options
 
-For detailed documentation, goto [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
+For detailed documentation, goto [http://ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona documentation)
 
 == Installation ==
 
@@ -36,7 +36,7 @@ At this point the plugin is ready to use!
 
 Usage:
 
-For detailed documentation, goto [htttp://ed4becky.net/plugins/rootsPersona"](http://ed4becky.net/plugins/rootsPersona documentation)
+For detailed documentation, goto [http://ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona documentation)
 
 To import your first Gedcom and create your first page(s):
 
@@ -77,17 +77,24 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.4.1 =
+* disabled Yes button on System of Record option
+* registered hideEvidence so it can be set properly
+* support hiding of edit links at bottom of persona pages.
+* add check that rootsPersona Data Directory exists and is writable on options and upload pages.
+* add optional *xsl* attribute to rootsPersona shortcode code to support custom panels 
+
 = 1.4.0 =
-Changed Family Group to Family Group - Child to Family
-Added Family Group - Spouse to Family, of which there may be more than one for multiple marriages
-Added Exclude, delete, Make Private, and Make Public at bottom opf Person page
-Added Include Person page to allow review/include of previously excluded persons
-Added options on options page to support the above.
+* Changed Family Group to Family Group - Child to Family
+* Added Family Group - Spouse to Family, of which there may be more than one for multiple marriages
+* Added Exclude, delete, Make Private, and Make Public at bottom opf Person page
+* Added Include Person page to allow review/include of previously excluded persons
+* Added options on options page to support the above.
 
 = 1.3.3 =
-Minor bug fixes for ancestry.com compatability
-Support for dashes in xref and ptrs
-Minor performance improvement
+* Minor bug fixes for ancestry.com compatability
+* Support for dashes in xref and ptrs
+* Minor performance improvement
 
 = 1.3.2 =
 address potential namespace collisions in class names.
@@ -135,9 +142,10 @@ address potential namespace collisions in class names.
 * First release.
 
 == Upgrade Notice ==
+= 1.4.1 = 
+No special instructions
 = 1.4.0 = 
 No special instructions
-
 = 1.3.3 =
 = 1.3.2 =
 = 1.3.1 =
