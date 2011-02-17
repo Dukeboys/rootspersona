@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
@@ -77,6 +77,10 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.4.2 =
+* added tool menu
+* adjusted path for XSL
+
 = 1.4.1 =
 * disabled Yes button on System of Record option
 * registered hideEvidence so it can be set properly
