@@ -20,7 +20,7 @@
 				<xsl:if test="@id!='f000'">
 					<table class="familygroup">
 						<tbody>
-							<xsl:apply-templates>
+							<xsl:apply-templates mode="fg">
 								<xsl:with-param name="famType" select="$famType" />
 							</xsl:apply-templates>
 						</tbody>
@@ -33,7 +33,7 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<xsl:template match="persona:parents/persona:relation">
+	<xsl:template match="persona:parents/persona:relation" mode="fg">
 		<xsl:param name="famType" />
 		<xsl:variable name="pid" select="persona:person/@id" />
 		<xsl:variable name="node"
@@ -48,7 +48,7 @@
 				)&#160;
 				<a>
 					<xsl:attribute name="href">
-                    <xsl:apply-templates select="$map-top">
+                    <xsl:apply-templates select="$map-top"> 
                         <xsl:with-param name="curr-label"
 						select="$node" />
                     </xsl:apply-templates>
@@ -128,7 +128,7 @@
 						to
 						<a>
 							<xsl:attribute name="href">
-			     <xsl:apply-templates select="$map-top">
+			     <xsl:apply-templates select="$map-top" >
 				   <xsl:with-param name="curr-label" select="persona:person" />
 				 </xsl:apply-templates>
 			   </xsl:attribute>
@@ -157,7 +157,7 @@
 						select="document(concat($data_dir,concat($fid,'.xml')))/persona:person" />
 					<a>
 						<xsl:attribute name="href">
-                 <xsl:apply-templates select="$map-top">
+                 <xsl:apply-templates select="$map-top"> 
                    <xsl:with-param name="curr-label"
 							select="$fNode" />
                  </xsl:apply-templates>
@@ -178,7 +178,7 @@
 						select="document(concat($data_dir,concat($mid,'.xml')))/persona:person" />
 					<a>
 						<xsl:attribute name="href">
-                 <xsl:apply-templates select="$map-top">
+                 <xsl:apply-templates select="$map-top"> 
                    <xsl:with-param name="curr-label"
 							select="$mNode" />
                  </xsl:apply-templates>
@@ -191,17 +191,17 @@
 		</tr>
 	</xsl:template>
 
-	<xsl:template match="persona:children">
+	<xsl:template match="persona:children" mode="fg">
 		<xsl:param name="famType" />
 		<tr>
 			<td class="full" colspan="4">CHILDREN</td>
 		</tr>
-		<xsl:apply-templates>
+		<xsl:apply-templates mode="fg">
 			<xsl:with-param name="famType" select="$famType" />
 		</xsl:apply-templates>
 	</xsl:template>
 
-	<xsl:template match="persona:relation">
+	<xsl:template match="persona:relation" mode="fg">
 		<xsl:param name="famType" />
 		<xsl:variable name="pid" select="persona:person/@id" />
 		<xsl:variable name="node"
@@ -214,7 +214,7 @@
 			<td class="child" colspan="3">
 				<a>
 					<xsl:attribute name="href">
-                    <xsl:apply-templates select="$map-top">
+                    <xsl:apply-templates select="$map-top" >
                         <xsl:with-param name="curr-label"
 						select="$node" />
                     </xsl:apply-templates>
@@ -283,7 +283,7 @@
 						to
 						<a>
 							<xsl:attribute name="href">
-			     <xsl:apply-templates select="$map-top">
+			     <xsl:apply-templates select="$map-top" >
 				   <xsl:with-param name="curr-label" select="persona:person" />
 				 </xsl:apply-templates>
 			   </xsl:attribute>
@@ -304,10 +304,4 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<xsl:template match="map:idMap">
-		<xsl:param name="curr-label" />
-		<xsl:value-of select="$site_url" />
-		/?page_id=
-		<xsl:value-of select="key('person2Page', $curr-label/@id)/@pageId" />
-	</xsl:template>
 </xsl:transform>
