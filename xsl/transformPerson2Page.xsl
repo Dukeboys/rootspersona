@@ -82,23 +82,28 @@
 	</xsl:template>
 
 	<xsl:template name="familyGroup-FAMC">
+		<xsl:for-each
+			select="persona:references/persona:familyGroups/persona:familyGroup[@selfType='child']">
 		<xsl:if test="$hideBanner != '1'">
 			<div class="rp_banner">Family Group - Child to Family</div>
 		</xsl:if>
 		<div class="rp_truncate">
 			<xsl:for-each
-				select="document(concat($data_dir,concat(persona:references/persona:familyGroups/persona:familyGroup[@selfType='child']/@refId,'.xml')))">
+				select="document(concat($data_dir,concat(@refId,'.xml')))">
 				<xsl:call-template name="familyGroupPanel">
 					<xsl:with-param name="famType" select="'FAMC'" />
 				</xsl:call-template>
 			</xsl:for-each>
 		</div>
+		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template name="familyGroup-FAMS">
 		<xsl:for-each
 			select="persona:references/persona:familyGroups/persona:familyGroup[@selfType='parent']">
-			<div class="rp_banner">Family Group - Spouse to Family</div>
+			<xsl:if test="$hideBanner != '1'">
+				<div class="rp_banner">Family Group - Spouse to Family</div>
+			</xsl:if>
 			<div class="truncate">
 				<xsl:for-each select="document(concat($data_dir,concat(@refId,'.xml')))">
 					<xsl:call-template name="familyGroupPanel">
