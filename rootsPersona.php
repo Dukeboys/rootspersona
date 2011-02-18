@@ -410,13 +410,17 @@ if (!class_exists("rootsPersona")) {
 						'rootsPersona',
 						'buildRootsOptionsPage');
 			
-			add_submenu_page( 'tools.php', 
+			$page = add_submenu_page( 'tools.php', 
 								'rootsPersona Tools', 
 								'rootsPersona', 
 								'manage_options', 
 								'rootsPersona',
 								'buildRootsToolsPage');			
+		       /* Using registered $page handle to hook stylesheet loading */
+		       add_action( 'admin_print_styles-' . $page, array($this,'insertRootsPersonaStyles') );
+
 		}
+
 
 		function rootsPersonaOptionsInit() {
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaParentPage', 'intval' );
