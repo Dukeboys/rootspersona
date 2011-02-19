@@ -47,7 +47,7 @@ if (!class_exists("rootsPersona")) {
 		 * Constructor
 		 */
 		function __construct() {
-			$this->plugin_dir = strtr(WP_PLUGIN_DIR,'\\','/') . "rootspersona/";
+			$this->plugin_dir = strtr(WP_PLUGIN_DIR,'\\','/') . "/rootspersona/";
 			$this->data_dir = strtr(ABSPATH,'\\','/') . get_option("rootsDataDir");
 			$this->utility = new personUtility();
 		}
