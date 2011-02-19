@@ -40,13 +40,15 @@ if (!class_exists("rootsPersona")) {
 	class rootsPersona {
 		var $rootsPersonaVersion = '1.4.2';
 		var $plugin_dir;
+		var $data_dir;
 		var $utility;
 
 		/**
 		 * Constructor
 		 */
 		function __construct() {
-			$this->plugin_dir = "wp-content/plugins/" . plugin_basename(dirname(__FILE__)) . "/";
+			$this->plugin_dir = strtr(WP_PLUGIN_DIR,'\\','/') . "rootspersona/";
+			$this->data_dir = strtr(ABSPATH,'\\','/') . get_option("rootsDataDir");
 			$this->utility = new personUtility();
 		}
 
@@ -67,11 +69,11 @@ if (!class_exists("rootsPersona")) {
 			$block = "";
 			if(isset($rootsPersonId)) {
 				if($this->isExcluded($rootsPersonId))
-					return $this->utility->returnDefaultEmpty('Privacy Protected.',$this->plugin_dir);
+					return $this->utility->returnDefaultEmpty( __('Privacy Protected.'),plugin_url(),$this->plugin_dir);
 
 				$block = $this->utility->buildPersonaPage($atts, $callback,
 															site_url(),
-															$this->getDataDir(),
+															$this->data_dir,
 															$this->plugin_dir,
 															$this->getPageId());
 			}
@@ -79,11 +81,10 @@ if (!class_exists("rootsPersona")) {
 		}
 
 		function rootsPersonaIndexHandler( $atts, $content = null ) {
-			$block = "";
 			$block = $this->utility->buildPersonaIndexPage($atts,
-			site_url(),
-			$this->getDataDir(),
-			$this->plugin_dir);
+						site_url(),
+						$this->data_dir,
+						$this->plugin_dir);
 			return $block;
 		}
 
@@ -106,12 +107,12 @@ if (!class_exists("rootsPersona")) {
 					if($editAction == 'edit') {
 						return $this->showEdit($id);
 					} elseif($editAction == 'exclude') {
-						$this->utility->updateExcluded($id, 'true', $this->getDataDir() );
+						$this->utility->updateExcluded($id, 'true', $this->data_dir );
 						return $this->showPage($srcPage);
 					} elseif($editAction == 'delete') {
 						wp_delete_post($srcPage);
-						$this->utility->deleteIdMapNode($id, $this->getDataDir() );
-						unlink($this->getDataDir()  . $id . '.xml');
+						$this->utility->deleteIdMapNode($id, $this->data_dir );
+						unlink($this->data_dir  . $id . '.xml');
 						return $this->showPage($srcPage);
 					} elseif($editAction == 'makePrivate') {
 						update_post_meta($srcPage, 'permissions', 'true');
@@ -121,7 +122,7 @@ if (!class_exists("rootsPersona")) {
 						return $this->showPage($srcPage);
 					}
 				} else {
-					return "Missing personId: $id";
+					return  __('Missing personId:') . $id;
 				}
 			} else {
 				return $this->processEdit();
@@ -132,8 +133,8 @@ if (!class_exists("rootsPersona")) {
 			$p = $this->utility->paramsFromHTML($_POST);
 			$isSystemOfRecord = get_option('rootsIsSystemOfRecord');
 			$msg = '';
-			if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>Invalid Id.";
-			if(strlen($p['personName']) < 1) $msg = $msg . "<br>Name required.";
+			if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>" . __('Invalid Id.');
+			if(strlen($p['personName']) < 1) $msg = $msg . "<br>" . __('Name required.');
 			if($isSystemOfRecord == 'false') {
 				$my_post = array();
 				$my_post['ID'] = $p['srcPage'];
@@ -155,7 +156,7 @@ if (!class_exists("rootsPersona")) {
 			}
 			$p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 			$p['isSystemOfRecord'] = $isSystemOfRecord;
-			return showEditForm($p, site_url() . "/wp-content/plugins/roostpersona/", "<div class='truncate'>" . $msg . "</div>");
+			return showEditForm($p, plugins_url() . "rootspersona/", "<div class='truncate'>" . $msg . "</div>");
 		}
 
 		function showPage($srcPage) {
@@ -167,7 +168,7 @@ if (!class_exists("rootsPersona")) {
 		}
 		
 		function showEdit($id) {
-			$fileName = $this->getDataDir()  . $id . '.xml';
+			$fileName = $this->data_dir  . $id . '.xml';
 			if(file_exists($fileName)) {
 				$xml_doc = new DomDocument;
 				$xml_doc->load($fileName);
@@ -197,9 +198,9 @@ if (!class_exists("rootsPersona")) {
 				$p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 				$p['isSystemOfRecord'] = get_option('rootsIsSystemOfRecord');
 			} else {
-				return "Missing file: $fileName";
+				return  __('Missing file:') . $fileName;
 			}
-			return showEditForm($p,site_url() . "/wp-content/plugins/rootspersona");
+			return showEditForm($p,plugins_url() . "rootspersona/");
 		}
 
 		/**
@@ -220,30 +221,30 @@ if (!class_exists("rootsPersona")) {
 				$fileNames  = $_POST['fileNames'];
 
 				if(!isset($fileNames) || count($fileNames) == 0) {
-					$msg = 'No files selected.';
+					$msg = __('No files selected.');
 				} else {
-					$dataDir = $this->getDataDir();
+					$dataDir = $this->data_dir;
 					foreach($fileNames as $fileName) {
 						$page = $this->utility->addPage($fileName, $dataDir);
-						if($page != false) $msg = $msg . "<br/>Page $page created for " . $fileName;
-						else $msg = $msg . "<br/>Error creating page for" . $fileName;
+						if($page != false) $msg = $msg . "<br/>" . __('Page created for ') . $fileName;
+						else $msg = $msg . "<br/>" . __('Error creating page for') . $fileName;
 					}
 				}
 			}
-			$files = $this->utility->getMissing($this->getDataDir());
-			return $this->utility->showAddPageForm($action,$files,$this->getDataDir(),$msg);
+			$files = $this->utility->getMissing($this->data_dir);
+			return $this->utility->showAddPageForm($action,$files,$this->data_dir,$msg);
 		}
 		
 		function includePageFormHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
-			$dataDir = $this->getDataDir();
+			$dataDir = $this->data_dir;
 			if (isset($_POST['submitIncludePageForm']))
 			{
 				$persons  = $_POST['persons'];
 
 				if(!isset($persons) || count($persons) == 0) {
-					$msg = 'No people selected.';
+					$msg = __('No people selected.');
 				} else {
 
 					foreach($persons as $person) {
@@ -267,11 +268,11 @@ if (!class_exists("rootsPersona")) {
 			if (isset($_POST['submitUploadGedcomForm']))
 			{
 				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name']))
-				$msg = 'Empty File.';
+				$msg =  __('Empty File.');
 				else {
 					$fileName = $_FILES['gedcomFile']['tmp_name'];
 					$stageDir = $this->plugin_dir . "stage/";
-					$this->utility->processGedcomForm($fileName, $stageDir, $this->getDataDir());
+					$this->utility->processGedcomForm($fileName, $stageDir, $this->data_dir);
 					unlink($_FILES['gedcomFile']['tmp_name']);
 
 				}
@@ -284,7 +285,7 @@ if (!class_exists("rootsPersona")) {
 				return '<script type="text/javascript">window.location="' . $location . '"; </script>';
 
 			} else {
-				return $this->utility->showUploadGedcomForm($action,$msg);
+				return $this->utility->showUploadGedcomForm($action,$this->data_dir,$stageDir,$msg);
 			}
 
 		}
@@ -302,7 +303,7 @@ if (!class_exists("rootsPersona")) {
 
 			$perms = get_post_meta($this->getPageId(), 'permissions', true);
 			if ( !empty($perms) && $perms == 'true' && !is_user_logged_in() ) {
-				$content = "<br/>Content reserved for registered members.<br/>"
+				$content = "<br/>" . __('Content reserved for registered members.') ."<br/>"
 				. "<br/><div class='personBanner'><br/></div>";
 			}
 			return $content;
@@ -340,7 +341,7 @@ if (!class_exists("rootsPersona")) {
 		 * @return boolean true indicates the person is to be excluded
 		 */
 		function isExcluded($personId) {
-			$fileName= $this->getDataDir() . "idMap.xml";
+			$fileName= $this->data_dir . "idMap.xml";
 			$mapDom = new DomDocument();
 			$mapDom->load($fileName);
 			$xpath = new DOMXPath($mapDom);
@@ -363,20 +364,11 @@ if (!class_exists("rootsPersona")) {
 		}
 
 		/**
-		 * Common method to retrieve the data directory
-		 *
-		 * @return string plugin directory containing person data files
-		 */
-		function getDataDir() {
-			return get_option("rootsDataDir");
-		}
-
-		/**
 		 * Install the plugin
 		 */
 		function rootsPersonaActivate () {
 			$installer = new rootsPersonaInstaller();
-			$installer->rootsPersonaInstall(ABSPATH . $this->plugin_dir,
+			$installer->rootsPersonaInstall($this->plugin_dir,
 			$this->rootsPersonaVersion);
 		}
 
@@ -385,7 +377,7 @@ if (!class_exists("rootsPersona")) {
 			if(!isset($currentVersion) || empty($currentVersion)
 			|| $this->rootsPersonaVersion != $currentVersion) {
 				$installer = new rootsPersonaInstaller();
-				$installer->rootsPersonaUpgrade(ABSPATH . $this->plugin_dir,
+				$installer->rootsPersonaUpgrade($this->plugin_dir,
 				$this->rootsPersonaVersion,
 				$currentVersion);
 			}

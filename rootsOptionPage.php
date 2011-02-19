@@ -3,15 +3,15 @@
 function buildRootsOptionsPage() {
 
 $dataDir =  get_option('rootsDataDir');
-$fullDataDir = ABSPATH .$dataDir;
+$fullDataDir = strtr(ABSPATH,'\\','/') .$dataDir;
 
 echo "<div class='wrap'><h2>rootsPersona</h2>";
 if(!is_dir($fullDataDir)) {
 echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
-	. $fullDataDir . " does not exist. Make sure wp-content is writable, then reactivate plugin.</p>";
+	. $fullDataDir . __(' does not exist. Make sure wp-content is writable, then reactivate plugin.')."</p>";
 } else if (!is_writable($fullDataDir)) {
 	echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
-	. $fullDataDir . " is not writable. Update directory permissions, then reactivate plugin.</p>";
+	. $fullDataDir . __(' is not writable. Update directory permissions, then reactivate plugin.')."</p>";
 }
 echo  "<form method='post' action='options.php'>";
 echo  "<table class='form-table'>";

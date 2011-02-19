@@ -352,20 +352,20 @@ class PersonUtility {
 	public function showAddPageForm($action,$files,$dataDir, $msg='') {
 		$block = "<br/><div class='personBanner'><br/></div>";
 		if(count($files) == 0) {
-			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>All available files have been added.</div>";
+			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>".__('All available files have been added.')."</div>";
 		} else {
-			$block = $block . "<form  action='$action' method='POST'>";
+			$block = $block . "<form  action='".$action." method='POST'>";
 			$block = $block . "<br/><select multiple name='fileNames[]' size='16'>";
 			$cnt = count($files);
 			for($i = 0; $i < $cnt; $i++) {
 				$name = $this->getName($files[$i], $dataDir);
-  				$block = $block . "<option value='$files[$i]'>$name</option>";
+  				$block = $block . "<option value='".$files[$i]."'>".$name."</option>";
 			}
 			$block = $block . "</select><br/>";	
-			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
+			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>".$msg."</div>";
 		
-			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='Submit'/>";
-			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='Reset'/>";
+			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='" .  __('Submit') . "'/>";
+			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset') ."'/>";
 
 			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";
 			$block = $block . "</form>";
@@ -377,9 +377,9 @@ class PersonUtility {
 		$block = "<br/><div class='personBanner'><br/></div>";
 		if(count($persons) == 0) {
 			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>"
-				. "All personas have been included.</div>";
+				.  __('All personas have been included.') ."</div>";
 		} else {
-			$block = $block . "<form  action='$action' method='POST'>";
+			$block = $block . "<form  action='".$action."' method='POST'>";
 			$block = $block . "<br/><select multiple name='persons[]' size='16'>";
 			$cnt = count($persons);
 			for($i = 0; $i < $cnt; $i++) {
@@ -389,8 +389,8 @@ class PersonUtility {
 			$block = $block . "</select><br/>";	
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
 		
-			$block = $block . "<br/><input type='submit' name='submitIncludePageForm' value='Include'/>";
-			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='Reset'/>";
+			$block = $block . "<br/><input type='submit' name='submitIncludePageForm' value='" . __('Include') ."'/>";
+			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset') ."'/>";
 
 			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";
 			$block = $block . "</form>";
@@ -404,23 +404,22 @@ class PersonUtility {
 	 * @param  $files
 	 * @param  $msg
 	 */
-	public function showUploadGedcomForm($action,$msg='') {
-		$fullDataDir = ABSPATH .get_option('rootsDataDir');
+	public function showUploadGedcomForm($action,$dataDir,$stageDir, $msg='') {
 		
 		$block = "<br/><div class='personBanner'><br/></div><form enctype='multipart/form-data' action='$action' method='POST'>";
-		if(!is_dir($fullDataDir)) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
-				. $fullDataDir . " does not exist. Make sure wp-content is writable, then reactivate plugin.</p>";
-		} else if (!is_writable($fullDataDir)) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
-			. $fullDataDir . " is not writable. Update directory permissions, then reactivate plugin.</p>";
-		} else if (!is_writable(WP_PLUGIN_DIR . "/rootspersona/stage")) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>Data Directory " 
-			. WP_PLUGIN_DIR . "/rootspersona/stage" . " is not writable. Update directory permissions.</p>";			
+		if(!is_dir($dataDir)) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ') 
+				. $dataDir  . __(' does not exist. Make sure wp-content is writable, then reactivate plugin.') ."</p>";
+		} else if (!is_writable($dataDir)) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ')
+			. $dataDir . __(' is not writable. Update directory permissions, then reactivate plugin.')."</p>";
+		} else if (!is_writable($stageDir)) {
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ')
+			. $stageDir . __(' is not writable. Update directory permissions.')."</p>";			
 		}
 		$block = $block . "<br/>&#160;&#160;<input type='file' name='gedcomFile' size='70'/>";
-		$block = $block . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='Upload'/>";
-		$block = $block . "&#160;&#160;<input type='reset' name='reset' value='Reset'/>";
+		$block = $block . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='".__('Upload')."'/>";
+		$block = $block . "&#160;&#160;<input type='reset' name='reset' value='".__('Reset')."'/>";
 		$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
 		$block = $block . "<br/><div class='personBanner'><br/></div>";
 		$block = $block . "</form>";
@@ -500,7 +499,7 @@ class PersonUtility {
         function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pageId) {
         	$rootsPersonId = $atts["personid"];
             $block = "";
-            $fileName =  ABSPATH . $dataDir . $rootsPersonId . ".xml";
+            $fileName =  $dataDir . $rootsPersonId . ".xml";
             if(file_exists($fileName)) {
                 $xp = new XsltProcessor();
                 // create a DOM document and load the XSL stylesheet
@@ -514,7 +513,7 @@ class PersonUtility {
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
-                $xp->setParameter('','data_dir',strtr(ABSPATH,'\\','/') . $dataDir);
+                $xp->setParameter('','data_dir',$dataDir);
                 $callback = strtolower ($callback);
                 if($callback == 'rootspersona') {
                 	$xp->setParameter('','hideHdr',get_option('rootsHideHeader'));
@@ -584,58 +583,56 @@ class PersonUtility {
                         {
                         	
 							
-                        	$win1 = 'Page will be removed but supporting data will not be deleted.  Proceed?';
-                        	$win2 = 'Page will be removed and supporting data will be deleted.  Proceed?';
-                        	$win3 = 'Page will be viewable by logged in members only.  Proceed?';
-                        	$win4 = 'Page will be viewable by anyone.  Proceed?';
+                        	$win1 = __('Page will be removed but supporting data will not be deleted.  Proceed?');
+                        	$win2 = __('Page will be removed and supporting data will be deleted.  Proceed?');
+                        	$win3 = __('Page will be viewable by logged in members only.  Proceed?');
+                        	$win4 = __('Page will be viewable by anyone.  Proceed?');
                         	$editPage = $mysite . '/?page_id=' . get_option("rootsEditPage")
                         	            . "&personId=" . $rootsPersonId
                             			. "&srcPage=" . $pageId . "&action=";
                             			
-                            $block = $block . "<div style='margin-top:10px;text-align: center ;'><a href='$editPage"
-                            . "edit'>Edit Person</a>"
+                            $block = $block . "<div style='margin-top:10px;text-align: center ;'><a href='".$editPage
+                            . "edit'>".__('Edit Person')."</a>"
                             . "&#160;&#160;<a href='#'"
                             . " onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"" 
-                            . $editPage . "exclude\");return false;'>Exclude Person</a>"
+                            . $editPage . "exclude\");return false;'>".__('Exclude Person')."</a>"
                             . "&#160;&#160;<a href='#'"
                             . " onClick='javascript:rootsConfirm(\"" . $win2 . "\",\"" 
-                            . $editPage . "delete\");return false;'>Delete Person</a>"                            
+                            . $editPage . "delete\");return false;'>".__('Delete Person')."</a>"                            
                             . "&#160;&#160;<a href='#'";
                             
                             $perms = get_post_meta($pageId, 'permissions', true);
                             if ( empty($perms) || $perms == 'false') {
                             	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win3 . "\",\"" 
-                           		. $editPage . "makePrivate\");return false;'>Make Person Private</a>";     
+                           		. $editPage . "makePrivate\");return false;'>".__('Make Person Private')."</a>";     
                             }  else {                      
                             	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win4 . "\",\"" 
-                            	. $editPage . "makePublic\");return false;'>Make Person Public</a>" ; 
+                            	. $editPage . "makePublic\");return false;'>".__('Make Person Public')."</a>" ; 
                             }                                                     
                             $block = $block .  "</div>";
                         }
                     } else {
-                        $block = $this->returnDefaultEmpty('XSL transformation failed.',$pluginDir);
+                        $block = $this->returnDefaultEmpty(__('XSL transformation failed.'),$mysite,$pluginDir);
                     } // if
 
                 } catch (Exception $e) {
-                    $block = $this->returnDefaultEmpty('No Information available.',$pluginDir);
+                    $block = $this->returnDefaultEmpty(__('No Information available.'),$mysite,$pluginDir);
                 }
             } else {
-                $block = $this->returnDefaultEmpty('No Information available.',$pluginDir);
+                $block = $this->returnDefaultEmpty(__('No Information available.'),$mysite,$pluginDir);
             }
-
-            $block = $block;
             return $block;
         }
         
 		/**
          * Return an empty person page
          *
-         * @param $input message to be displayed
+         * @param message to be displayed
          *
          * @return string HTML content
          */
-        function returnDefaultEmpty($input, $pluginDir) {
-            $block = "<div class='truncate'><img src='" . site_url() . "/wp-content/plugins/rootspersona/images/boy-silhouette.gif' class='headerBox' />";
+        function returnDefaultEmpty($input, $mysite, $pluginDir) {
+            $block = "<div class='truncate'><img src='" . $pluginUrl ."rootspersona/images/boy-silhouette.gif' class='headerBox' />";
             $block = $block . "<div class='headerBox'><span class='headerBox'>" . $input . "</span></div></div>";
             $block = $block . "<br/><div class='personBanner'><br/></div>";
             return $block;
@@ -656,7 +653,7 @@ class PersonUtility {
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
-                $xp->setParameter('','data_dir',strtr(ABSPATH,'\\','/') . $dataDir);
+                $xp->setParameter('','data_dir', $dataDir);
 
                 
                 // create a DOM document and load the XML data
@@ -668,14 +665,14 @@ class PersonUtility {
                     if (($html = $xp->transformToXML($xml_doc)) !== false) {
                         $block = $html;
                     } else {
-                        $block = 'XSL transformation failed.';
+                        $block = __('XSL transformation failed.');
                     } // if
 
                 } catch (Exception $e) {
-                    $block = 'No Information available.';
+                    $block = __('No Information available.');
                 }
             } else {
-                $block = 'No Information available.';
+                $block = __('No Information available.');
             }
 
             return $block;
