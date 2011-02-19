@@ -1,6 +1,8 @@
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:persona="http://ed4becky.net/rootsPersona" xmlns:map="http://ed4becky.net/idMap" version="1.0">
-
+<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+				xmlns:persona="http://ed4becky.net/rootsPersona" 
+				xmlns:map="http://ed4becky.net/idMap" version="1.0">
+				
 	<xsl:output method="html" indent="yes"/>
 	<xsl:param name="site_url"/>
 	<xsl:param name="data_dir"/>
@@ -42,4 +44,4 @@
 			</td>
 		</tr>
 	</xsl:template>
-</xsl:stylesheet>
+</xsl:transform>

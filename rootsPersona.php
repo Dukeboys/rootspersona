@@ -285,7 +285,7 @@ if (!class_exists("rootsPersona")) {
 				return '<script type="text/javascript">window.location="' . $location . '"; </script>';
 
 			} else {
-				return $this->utility->showUploadGedcomForm($action,$this->data_dir,$stageDir,$msg);
+				return $this->utility->showUploadGedcomForm($action,$this->data_dir,$this->plugin_dir . "stage/",$msg);
 			}
 
 		}

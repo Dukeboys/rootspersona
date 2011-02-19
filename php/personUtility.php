@@ -631,7 +631,7 @@ class PersonUtility {
          *
          * @return string HTML content
          */
-        function returnDefaultEmpty($input, $mysite, $pluginDir) {
+        function returnDefaultEmpty($input, $mysite, $pluginUrl) {
             $block = "<div class='truncate'><img src='" . $pluginUrl ."rootspersona/images/boy-silhouette.gif' class='headerBox' />";
             $block = $block . "<div class='headerBox'><span class='headerBox'>" . $input . "</span></div></div>";
             $block = $block . "<br/><div class='personBanner'><br/></div>";
@@ -649,7 +649,7 @@ class PersonUtility {
                 	$xslFile = $atts["xsl"];
                 if(!isset($xslFile) || $xslFile == '')
                 	$xslFile = $pluginDir . 'xsl/personaIndex.xsl';                
-
+                $xsl->load($xslFile);
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
