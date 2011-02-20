@@ -31,6 +31,11 @@ echo  "<tr style='vertical-align: top'>";
 echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsPersonaIndexPage') . "'>" . __('Name Index') . "</a></div></td>";
 echo  "<td style='vertical-align:middle'>" . __('View a sortable index table of all persons that you have created pages for.') . "</td></tr>";
 
-echo  "</table></div>";
+echo  "<tr style='vertical-align: top'>";
+echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "&utilityAction=validate'>" . __('Validate') . "</a></div></td>";
+echo  "<td style='vertical-align:middle'>" . __('Validate your rootsPersona setup. Confirms correct page creation for all persona pages.') . "</td></tr>";
+
+echo  "</table>";
+echo  "</div>";
 }
 ?>

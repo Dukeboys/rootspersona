@@ -19,7 +19,9 @@ class rootsPersonaInstaller {
 		add_option('rootsIncludePage', $page);
 		$page = $this->createPage(__('Persona Index'),'[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
-		 
+		$page = $this->createPage(__('Persona Utility'),'[rootsUtilityPage/]');
+		add_option('rootsUtilityPage', $page);
+		
 		add_option('rootsPersonaParentPage', "0");
 		add_option('rootsIsSystemOfRecord', 'false');
 	}
@@ -69,7 +71,16 @@ class rootsPersonaInstaller {
 		} else {
 			$this->createPage(__('Include Page Form'),'[rootsIncludePageForm/]',$page);
 		}
-
+		
+		unset($page);
+		$page = get_option('rootsUtilityPage');
+		if(!isset($page) || empty($page)) {
+			$page = $this->createPage(__('Persona Utility'),'[rootsUtilityPage/]');
+			add_option('rootsUtilityPage', $page);
+		} else {
+			$this->createPage(__('Persona Utility'),'[rootsUtilityPage/]',$page);
+		}
+		
 		unset($page);
 		$page = get_option('rootsPersonaIndexPage');
 		if(!isset($page) || empty($page)) {
@@ -149,6 +160,9 @@ class rootsPersonaInstaller {
 		delete_option('rootsIncludePage');
 		$page = get_option('rootsPersonaIndexPage');
 		wp_delete_post($page);
+		$page = get_option('rootsUtilityPage');
+		wp_delete_post($page);
+		delete_option('rootsUtilityPage');
 		delete_option('rootsPersonaIndexPage');
 
 		delete_option('rootsPersonaParentPage');

@@ -6,7 +6,7 @@ div.rp_banner {
 	font-size: larger;
 }
 
-div.rp_linkbutton {
+div.rp_linkbutton, span.rp_linkbutton {
 	margin: 10px 0;
 	padding: 5px 0px 5px 0px;
 	background: url("../images/button-standard-long.gif") no-repeat scroll left bottom transparent;

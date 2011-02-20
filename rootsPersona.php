@@ -3,7 +3,7 @@
  Plugin Name: rootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 1.4.2
+ Version: 1.4.3
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  License: GPLv2
@@ -29,6 +29,7 @@ require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 require_once(ABSPATH . 'wp-includes/pluggable.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaMender.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsOptionPage.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsToolsPage.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
@@ -38,7 +39,7 @@ require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
  */
 if (!class_exists("rootsPersona")) {
 	class rootsPersona {
-		var $rootsPersonaVersion = '1.4.2';
+		var $rootsPersonaVersion = '1.4.3';
 		var $plugin_dir;
 		var $data_dir;
 		var $utility;
@@ -254,7 +255,23 @@ if (!class_exists("rootsPersona")) {
 			}
 			$persons = $this->utility->getExcluded($dataDir);
 			return $this->utility->showIncludePageForm($action,$persons,$msg);
-		}		
+		}	
+		
+		function utilityPageHandler() {
+			$action =  site_url() . '/?page_id=' . $this->getPageId();
+			$msg ='';
+			$dataDir = $this->data_dir;
+			if (isset($_GET['utilityAction']))
+			{
+				$action  = $_GET['utilityAction'];
+
+				if($action == 'validate') {
+					$mender = new rootsPersonaMender();
+					return $mender->validate($dataDir); 
+				}
+			}
+			return 'For internal use only.<br/>';
+		}	
 
 		// shortcode [rootsUploadGedcomForm/]
 		function uploadGedcomFormHandler() {
@@ -422,6 +439,7 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsEditPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsUtilityPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsHideHeader');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFacts');
 			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
@@ -465,6 +483,7 @@ if (isset($rootsPersonaplugin)) {
 	add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'addPageFormHandler'));
 	add_shortcode('rootsUploadGedcomForm', array($rootsPersonaplugin, 'uploadGedcomFormHandler'));
 	add_shortcode('rootsIncludePageForm', array($rootsPersonaplugin, 'includePageFormHandler'));
+	add_shortcode('rootsUtilityPage', array($rootsPersonaplugin, 'utilityPageHandler'));
 	add_action('admin_menu', array($rootsPersonaplugin, 'rootsPersonaMenus'));
 	add_action('wp_print_styles', array($rootsPersonaplugin, 'insertRootsPersonaStyles'));
 	add_action('wp_print_scripts', array($rootsPersonaplugin, 'insertRootsPersonaScripts'));

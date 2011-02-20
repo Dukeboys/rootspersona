@@ -64,6 +64,12 @@ echo  " value=' " . get_option('rootsPersonaIndexPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsPersonaIndexPage') . "'>" . __('Page') . "</a> " . __('with the  Name Index shortcode.  There is usually no need to change this.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsUtilityPage'>" .  __('Persona Utility Page Id') . "</label></th>";
+echo  "<td><input type='text' size='5' name='rootsUtilityPage' id='rootsUtilityPage'";
+echo  " value=' " . get_option('rootsUtilityPage'). " '/></td>";
+echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "'>" . __('Page') . "</a> " . __('with the Utility page shortcode.  For internal use only (used to display output from various utility functions).'). "</td></tr>";
+
+echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsHideHeader'>" .  __('Hide Header?') . "</label></th>";
 $yes = get_option('rootsHideHeader');
 if(isset($yes) && $yes == '1') {

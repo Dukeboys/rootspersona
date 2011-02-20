@@ -77,6 +77,11 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.4.3 =
+* Fix bug with missing FAMC/FAMS
+* changed to use absolute paths
+* localization changes
+
 = 1.4.2 =
 * added tool menu
 * adjusted path for XSL
