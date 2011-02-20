@@ -70,7 +70,7 @@ if (!class_exists("rootsPersona")) {
 			$block = "";
 			if(isset($rootsPersonId)) {
 				if($this->isExcluded($rootsPersonId))
-					return $this->utility->returnDefaultEmpty( __('Privacy Protected.'),plugin_url(),$this->plugin_dir);
+					return $this->utility->returnDefaultEmpty( __('Privacy Protected.'),plugins_url(),$this->plugin_dir);
 
 				$block = $this->utility->buildPersonaPage($atts, $callback,
 															site_url(),
