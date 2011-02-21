@@ -52,7 +52,7 @@ echo  " value=' " . get_option('rootsUploadGedcomPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsUploadGedcomPage') . "'>" . __('Page') . "</a> " . __('with the  Upload GEDCOM page shortcode.  There is usually no need to change this.'). "</td></tr>";
 
 echo  "<tr valign='top'>";
-echo  "<th scope='row'><label for='rootsIncludePage'>" .  __('Include Person Page') . "</label></th>";
+echo  "<th scope='row'><label for='rootsIncludePage'>" .  __('Include Person Page Id') . "</label></th>";
 echo  "<td><input type='text' size='5' name='rootsIncludePage' id='rootsIncludePage'";
 echo  " value=' " . get_option('rootsIncludePage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsIncludePage') . "'>" . __('Page') . "</a> " . __('with the  Include Person page shortcode.  There is usually no need to change this.'). "</td></tr>";
@@ -69,7 +69,7 @@ echo  "<td><input type='text' size='5' name='rootsUtilityPage' id='rootsUtilityP
 echo  " value=' " . get_option('rootsUtilityPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "'>" . __('Page') . "</a> " . __('with the Utility page shortcode.  For internal use only (used to display output from various utility functions).'). "</td></tr>";
 
-echo  "<tr valign='top'>";
+echo  "<tr valign='top' style='border-top: solid black 1px;'>";
 echo  "<th scope='row'><label for='rootsHideHeader'>" .  __('Hide Header?') . "</label></th>";
 $yes = get_option('rootsHideHeader');
 if(isset($yes) && $yes == '1') {
@@ -79,7 +79,7 @@ if(isset($yes) && $yes == '1') {
 	$yes = '';
 	$no = 'checked';
 }
-echo  "<td><input type='radio' name='rootsHideHeader' value='1' $yes>Yes ";
+echo  "<td style='border-top: solid black 1px;'><input type='radio' name='rootsHideHeader' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsHideHeader' value='0' $no>No </td>";
 
 echo  "<td>" .  __('Skip the Header Panel on persona pages.'). "</td></tr>";
@@ -159,7 +159,7 @@ echo "<input type='radio' name='rootsHidePictures' value='0' $no>No </td>";
 
 echo  "<td>" .  __('Skip the pictures panel on perosna pages. Still displays the image in the Header panel.'). "</td></tr>";
 
-echo  "<tr valign='top'>";
+echo  "<tr valign='top' style='border-bottom: solid black 1px;'>";
 echo  "<th scope='row'><label for='rootsHideEvidence'>" .  __('Hide Evidence?') . "</label></th>";
 $yes = get_option('rootsHideEvidence');
 if(isset($yes) && $yes == '1') {

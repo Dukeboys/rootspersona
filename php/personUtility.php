@@ -354,7 +354,7 @@ class PersonUtility {
 		if(count($files) == 0) {
 			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>".__('All available files have been added.')."</div>";
 		} else {
-			$block = $block . "<form  action='".$action." method='POST'>";
+			$block = $block . "<form  action='".$action."' method='POST'>";
 			$block = $block . "<br/><select multiple name='fileNames[]' size='16'>";
 			$cnt = count($files);
 			for($i = 0; $i < $cnt; $i++) {

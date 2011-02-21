@@ -262,13 +262,21 @@ if (!class_exists("rootsPersona")) {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
 			$dataDir = $this->data_dir;
-			if (isset($_GET['utilityAction']))
-			{
+			if (isset($_GET['utilityAction'])) {
 				$action  = $_GET['utilityAction'];
 
 				if($action == 'validate') {
 					$mender = new rootsPersonaMender();
-					return $mender->validate($dataDir); 
+					return $mender->validate($dataDir, false); 
+				} else if($action == 'validatePages') {
+					$mender = new rootsPersonaMender();
+					return $mender->validatePages($dataDir, false); 
+				} else if($action == 'delete') {
+					$mender = new rootsPersonaMender();
+					return $mender->delete($this->plugin_dir, $dataDir); 
+				} else if($action == 'deleteFiles') {
+					$mender = new rootsPersonaMender();
+					return $mender->deleteFiles($this->plugin_dir, $dataDir); 
 				}
 			}
 			return 'For internal use only.<br/>';
