@@ -60,10 +60,10 @@ class GEDTransformer {
 			$person->setAttribute('id',strtolower($id));
 			$child->appendChild($person);
 		}
-		$this->addCitations($family,$rootEl, $dom, $sources);
-
-		if(count($sources) > 0)
-			$this->addEvidence($sources,$rootEl, $dom, $ged);
+//		$this->addCitations($family,$rootEl, $dom, $sources);
+//
+//		if(count($sources) > 0)
+//			$this->addEvidence($sources,$rootEl, $dom, $ged);
 			
 		$fileName = $dataDir . strtolower($family->Id) . '.xml';
 		$dom->formatOutput = true;
