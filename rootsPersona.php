@@ -187,12 +187,13 @@ if (!class_exists("rootsPersona")) {
            							, '$1'
            							, $content);
            							$pc = 'picCap' . $i;
-           							if(preg_match("/$pc/", $content)) {
+           							
+           					if(preg_match("/$pc/", $content)) {
            								$p[$pc] = @preg_replace(
            							'/.*?' . $pc . '=[\'|"](.*)[\'|"].*?/US'
            							, '$1'
            							, $content);
-           							}
+           					}
 						}
 					}
 				}
