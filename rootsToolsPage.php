@@ -39,8 +39,12 @@ echo  "<tr style='vertical-align: top'>";
 echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "&utilityAction=validatePages'>" . __('Validate persona Pages') . "</a></div></td>";
 echo  "<td style='vertical-align:middle'>" . __('Identify orphaned persona pages. Includes all pages with [rootsPersona/] shortcode and no reference in idMap.xml.') . "</td></tr>";
 
+$win1 = __('All persona pages will be deleted.  Does not include utilities.  Proceed?');
 echo  "<tr style='vertical-align: top'>";
-echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "&utilityAction=delete'>" . __('Delete persona Pages') . "</a></div></td>";
+echo  "<td style='width:200px;'><div class='rp_linkbutton'>";
+echo "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"" 
+	. site_url() . "?page_id=" . get_option('rootsUtilityPage') 
+	. "&utilityAction=delete\");return false;'>" . __('Delete persona Pages') . "</a></div></td>";
 echo  "<td style='vertical-align:middle'>" . __('Perform a bulk deletion of all persona pages.  Only deletes pages with the main [rootsPersona/] shortcode.') . "</td></tr>";
 
 echo  "</table>";
