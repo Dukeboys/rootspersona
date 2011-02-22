@@ -77,6 +77,10 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 5. Page for editing a Persona page
 
 == Changelog ==
+= 1.5.1 = 
+* a few more checks intehvalidation utilities
+* confirmation box before deleting pages
+
 = 1.5.0 =
 * Added several utilities to tools menu
 * fixed a few minor bugs
