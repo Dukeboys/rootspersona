@@ -453,6 +453,7 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsUploadGedcomPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsCreatePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsEditPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsIncludePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsUtilityPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsHideHeader');

@@ -3,6 +3,26 @@ require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 
 class rootsPersonaMender {
 	function validate ($dataDir, $isRepair=false) {
+                if(!is_file($dataDir . "idMap.xml")) {
+			echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>"
+				. __('Missing idMap.xml in ') . $dataDir ."</p>";	
+
+			echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+				.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+				. admin_url() . "tools.php?page=rootsPersona'>" . __('Return') . "</a></span>"
+				.  "</div>";
+			return;
+		} else if (!is_writable($dataDir . "idMap.xml")) {
+			echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>"
+				. __('idMap.xml is not writable in ') . $dataDir ."</p>";	
+
+			echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+				.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+				. admin_url() . "tools.php?page=rootsPersona'>" . __('Return') . "</a></span>"
+				.  "</div>";
+			return;
+		}
+
 		$utility = new personUtility();
 
   		$dom = new DOMDocument();
@@ -187,7 +207,7 @@ class rootsPersonaMender {
 			if($isPages) {
 				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
 					. site_url() . "?page_id=" . get_option('rootsUtilityPage') 
-					. "&utilityAction=repairPages'>" . __('Delete Orphaned Pages?') . "</a></span>"
+					. "&utilityAction=repairPages'>" . __('Delete Orphans?') . "</a></span>"
 					. "<span>&#160;&#160;</span>";			
 			} else {
 				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
@@ -203,49 +223,108 @@ class rootsPersonaMender {
 	}
 
 	function validatePages ($dataDir, $isRepair=false) {
-                $args = array( 'numberposts' => -1, 'post_type'=>'page');
+                $args = array( 'numberposts' => -1, 'post_type'=>'page', 'post_status'=>'any');
                 $pages = get_posts($args);
-				$cnt = 0;
-				$isFirst = true;
+		$cnt = 0;
+		$isFirst = true;
                 $dom = new DOMDocument();
                 $dom->load($dataDir . "idMap.xml");
                 $xpath = new DOMXPath($dom);
-				$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+		$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
 
-        foreach($pages as $page) {
+		foreach($pages as $page) {
 			$output = array();
 
-			if(!preg_match("/rootsPersona /", $page->post_content)) {
-				continue;
-			}
-			$pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US'
+			if(preg_match("/rootsPersona /i", $page->post_content)) {
+				$pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US'
 						, '$1'
 						, $page->post_content);
-			$nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
-			if($nodeList->length <= 0) {
-				if($isRepair) {
-					$output[] = __("Deleted orphaned page with no reference in idMap.xml.");	
-					wp_delete_post($page->ID);				
-				} else {
-					$output[] = __("No reference in idMap.xml.");
+				$nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
+				if($nodeList->length <= 0) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned page with no reference in idMap.xml.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("No reference in idMap.xml.");
+					}
+				}
+			} else if(preg_match("/rootsPersonaIndexPage/i", $page->post_content)) {
+				$pageId = get_option('rootsPersonaIndexPage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsPersonaIndexPage page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsPersonaIndexPage");
+					}
+				}
+			} else if(preg_match("/rootsEditPersonaForm/i", $page->post_content)) {
+                                $pageId = get_option('rootsEditPage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsEditPersonaForm page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsEditPersonaForm.");
+					}
+				}
+			} else if(preg_match("/rootsAddPageForm/i", $page->post_content)) {
+				$pageId = get_option('rootsCreatePage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsAddPageForm page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsAddPageForm");
+					}
+				}
+			} else if(preg_match("/rootsUploadGedcomForm/i", $page->post_content)) {
+                                $pageId = get_option('rootsUploadGedcomPage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsUploadGedcomForm page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsUploadGedcomForm.");
+					}
+				}
+			} else if(preg_match("/rootsIncludePageForm/i", $page->post_content)) {
+                                $pageId = get_option('rootsIncludePage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsIncludePage page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsIncludePage");
+					}
+				}
+			} else if(preg_match("/rootsUtilityPage/i", $page->post_content)) {
+                                $pageId = get_option('rootsUtilityPage');
+				if($pageId != $page->ID) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned rootsUtilityPage page.");	
+						wp_delete_post($page->ID);				
+					} else {
+						$output[] = __("Orphaned rootsUtilityPage");
+					}
 				}
 			}
 
-				foreach ($output as $line) {
-					if($isFirst) {
-						echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
-							. __('Issues found with your rootsPersona pages.')."</p>";	
-						$isFirst = false;			
-					}	
-					echo __("Page "). $page->ID . ": " .$line . "<br/>";
-				}
+			foreach ($output as $line) {
+				if($isFirst) {
+					echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
+						. __('Issues found with your rootsPersona pages.')."</p>";	
+					$isFirst = false;			
+				}	
+				echo __("Page "). $page->ID . ": " .$line . "<br/>";
+			}
 			$cnt++;
-                }
+	}
 		echo $this->getFooter($isFirst,false, $isRepair, true);
 	}
 
         function delete ($pluginDir, $rootsDataDir) {
-                $args = array( 'numberposts' => -1, 'post_type'=>'page');
+                $args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
                 $pages = get_posts($args);
 		$cnt = 0;
                 foreach($pages as $page) {

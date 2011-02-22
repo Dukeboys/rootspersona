@@ -114,7 +114,7 @@ class rootsPersonaInstaller {
 			copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
 			copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
 			copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
-			if(!is_file($pluginDir . "rootsData/idMap.xml"))
+			if(!is_file($rootsDataDir . "idMap.xml"))
 				copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
 		}
 	}
@@ -169,15 +169,28 @@ class rootsPersonaInstaller {
 
 		delete_option('rootsPersonaParentPage');
 		delete_option('rootsIsSystemOfRecord');
-		delete_option('rootsDisplayHeader');
-		delete_option('rootsDisplayFacts');
-		delete_option('rootsDisplayAncestors');
-		delete_option('rootsDisplayFamily');
-		delete_option('rootsDisplayPictures');
-		delete_option('rootsDisplayEvidence');
+		delete_option('rootsHideHeader');
+		delete_option('rootsHideFacts');
+		delete_option('rootsHideAncestors');
+		delete_option('rootsHideFamily');
+		delete_option('rootsHideFamilyC');
+		delete_option('rootsHideFamilyS');
+		delete_option('rootsHidePictures');
+		delete_option('rootsHideEvidence');
+		delete_option('rootsPersonaHideDates');
+		delete_option('rootsPersonaHidePlaces');
 		delete_option('rootsHideEditLinks');
 		
 		remove_action('admin_menu', 'rootsPersonaOptionsPage');
+
+	        $args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
+                $pages = get_posts($args);
+                foreach($pages as $page) {
+                        if(preg_match("/rootsPersona/", $page->post_content)) {
+                                wp_delete_post($page->ID);
+                        }
+                }
+	
 	}
 
 	function recurse_copy($src,$dst) {
