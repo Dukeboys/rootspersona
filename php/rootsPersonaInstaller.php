@@ -114,6 +114,8 @@ class rootsPersonaInstaller {
 			copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
 			copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
 			copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
+			if(!is_file($pluginDir . "rootsData/idMap.xml"))
+				copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
 		}
 	}
 	
