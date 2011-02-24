@@ -70,7 +70,7 @@ if (!class_exists("rootsPersona")) {
 			$block = "";
 			if(isset($rootsPersonId)) {
 				if($this->isExcluded($rootsPersonId))
-					return $this->utility->returnDefaultEmpty( __('Privacy Protected.'),plugins_url(),$this->plugin_dir);
+					return $this->utility->returnDefaultEmpty( __('Privacy Protected.', 'rootspersona'),plugins_url(),$this->plugin_dir);
 
 				$block = $this->utility->buildPersonaPage($atts, $callback,
 															site_url(),
@@ -123,7 +123,7 @@ if (!class_exists("rootsPersona")) {
 						return $this->showPage($srcPage);
 					}
 				} else {
-					return  __('Missing personId:') . $id;
+					return  __('Missing', 'rootspersona') . " personId:". $id;
 				}
 			} else {
 				return $this->processEdit();
@@ -134,8 +134,8 @@ if (!class_exists("rootsPersona")) {
 			$p = $this->utility->paramsFromHTML($_POST);
 			$isSystemOfRecord = get_option('rootsIsSystemOfRecord');
 			$msg = '';
-			if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>" . __('Invalid Id.');
-			if(strlen($p['personName']) < 1) $msg = $msg . "<br>" . __('Name required.');
+			if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>" . __('Invalid Id.', 'rootspersona');
+			if(strlen($p['personName']) < 1) $msg = $msg . "<br>" . __('Name required.', 'rootspersona');
 			if($isSystemOfRecord == 'false') {
 				$my_post = array();
 				$my_post['ID'] = $p['srcPage'];
@@ -200,7 +200,7 @@ if (!class_exists("rootsPersona")) {
 				$p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 				$p['isSystemOfRecord'] = get_option('rootsIsSystemOfRecord');
 			} else {
-				return  __('Missing file:') . $fileName;
+				return  __('Missing file:', 'rootspersona') . $fileName;
 			}
 			return showEditForm($p,plugins_url() . "rootspersona/");
 		}
@@ -223,13 +223,13 @@ if (!class_exists("rootsPersona")) {
 				$fileNames  = $_POST['fileNames'];
 
 				if(!isset($fileNames) || count($fileNames) == 0) {
-					$msg = __('No files selected.');
+					$msg = __('No files selected.', 'rootspersona');
 				} else {
 					$dataDir = $this->data_dir;
 					foreach($fileNames as $fileName) {
 						$page = $this->utility->addPage($fileName, $dataDir);
-						if($page != false) $msg = $msg . "<br/>" . __('Page created for ') . $fileName;
-						else $msg = $msg . "<br/>" . __('Error creating page for') . $fileName;
+						if($page != false) $msg = $msg . "<br/>" . __('Page created for', 'rootspersona') . " " .$fileName;
+						else $msg = $msg . "<br/>" . __('Error creating page for', 'rootspersona') . " " .$fileName;
 					}
 				}
 			}
@@ -246,7 +246,7 @@ if (!class_exists("rootsPersona")) {
 				$persons  = $_POST['persons'];
 
 				if(!isset($persons) || count($persons) == 0) {
-					$msg = __('No people selected.');
+					$msg = __('No people selected.', 'rootspersona');
 				} else {
 
 					foreach($persons as $person) {
@@ -291,7 +291,7 @@ if (!class_exists("rootsPersona")) {
 		// shortcode [rootsUploadGedcomForm/]
 		function uploadGedcomFormHandler() {
 			if (!current_user_can('upload_files'))
-			wp_die(__('You do not have permission to upload files.'));
+			wp_die(__('You do not have permission to upload files.', 'rootspersona'));
 
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 
@@ -300,7 +300,7 @@ if (!class_exists("rootsPersona")) {
 			if (isset($_POST['submitUploadGedcomForm']))
 			{
 				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name']))
-				$msg =  __('Empty File.');
+				$msg =  __('Empty File.', 'rootspersona');
 				else {
 					$fileName = $_FILES['gedcomFile']['tmp_name'];
 					$stageDir = $this->plugin_dir . "stage/";
@@ -335,7 +335,7 @@ if (!class_exists("rootsPersona")) {
 
 			$perms = get_post_meta($this->getPageId(), 'permissions', true);
 			if ( !empty($perms) && $perms == 'true' && !is_user_logged_in() ) {
-				$content = "<br/>" . __('Content reserved for registered members.') ."<br/>"
+				$content = "<br/>" . __('Content reserved for registered members.', 'rootspersona') ."<br/>"
 				. "<br/><div class='personBanner'><br/></div>";
 			}
 			return $content;

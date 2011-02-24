@@ -352,7 +352,7 @@ class PersonUtility {
 	public function showAddPageForm($action,$files,$dataDir, $msg='') {
 		$block = "<br/><div class='personBanner'><br/></div>";
 		if(count($files) == 0) {
-			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>".__('All available files have been added.')."</div>";
+			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>".__('All available files have been added.', 'rootspersona')."</div>";
 		} else {
 			$block = $block . "<form  action='".$action."' method='POST'>";
 			$block = $block . "<br/><select multiple name='fileNames[]' size='16'>";
@@ -364,8 +364,8 @@ class PersonUtility {
 			$block = $block . "</select><br/>";	
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>".$msg."</div>";
 		
-			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='" .  __('Submit') . "'/>";
-			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset') ."'/>";
+			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='" .  __('Submit', 'rootspersona') . "'/>";
+			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset', 'rootspersona') ."'/>";
 
 			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";
 			$block = $block . "</form>";
@@ -377,7 +377,7 @@ class PersonUtility {
 		$block = "<br/><div class='personBanner'><br/></div>";
 		if(count($persons) == 0) {
 			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>"
-				.  __('All personas have been included.') ."</div>";
+				.  printf(__('All %s have been included.', 'rootspersona'),"personas") ."</div>";
 		} else {
 			$block = $block . "<form  action='".$action."' method='POST'>";
 			$block = $block . "<br/><select multiple name='persons[]' size='16'>";
@@ -389,8 +389,8 @@ class PersonUtility {
 			$block = $block . "</select><br/>";	
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
 		
-			$block = $block . "<br/><input type='submit' name='submitIncludePageForm' value='" . __('Include') ."'/>";
-			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset') ."'/>";
+			$block = $block . "<br/><input type='submit' name='submitIncludePageForm' value='" . __('Include', 'rootspersona') ."'/>";
+			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset', 'rootspersona') ."'/>";
 
 			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";
 			$block = $block . "</form>";
@@ -408,18 +408,18 @@ class PersonUtility {
 		
 		$block = "<br/><div class='personBanner'><br/></div><form enctype='multipart/form-data' action='$action' method='POST'>";
 		if(!is_dir($dataDir)) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ') 
-				. $dataDir  . __(' does not exist. Make sure wp-content is writable, then reactivate plugin.') ."</p>";
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory', 'rootspersona') ." "
+				. $dataDir  ." ". printf(__('does not exist. Make sure %s is writable, then reactivate plugin.', 'rootspersona'),"wp-content") ."</p>";
 		} else if (!is_writable($dataDir)) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ')
-			. $dataDir . __(' is not writable. Update directory permissions, then reactivate plugin.')."</p>";
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory', 'rootspersona')." "
+			. $dataDir ." ".__('is not writable. Update directory permissions, then reactivate plugin.', 'rootspersona')."</p>";
 		} else if (!is_writable($stageDir)) {
-			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory ')
-			. $stageDir . __(' is not writable. Update directory permissions.')."</p>";			
+			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory', 'rootspersona')." "
+			. $stageDir . " ".__('is not writable. Update directory permissions.', 'rootspersona')."</p>";			
 		}
 		$block = $block . "<br/>&#160;&#160;<input type='file' name='gedcomFile' size='70'/>";
-		$block = $block . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='".__('Upload')."'/>";
-		$block = $block . "&#160;&#160;<input type='reset' name='reset' value='".__('Reset')."'/>";
+		$block = $block . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='".__('Upload', 'rootspersona')."'/>";
+		$block = $block . "&#160;&#160;<input type='reset' name='reset' value='".__('Reset', 'rootspersona')."'/>";
 		$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>";
 		$block = $block . "<br/><div class='personBanner'><br/></div>";
 		$block = $block . "</form>";
@@ -583,43 +583,43 @@ class PersonUtility {
                         {
                         	
 							
-                        	$win1 = __('Page will be removed but supporting data will not be deleted.  Proceed?');
-                        	$win2 = __('Page will be removed and supporting data will be deleted.  Proceed?');
-                        	$win3 = __('Page will be viewable by logged in members only.  Proceed?');
-                        	$win4 = __('Page will be viewable by anyone.  Proceed?');
+                        	$win1 = __('Page will be removed but supporting data will not be deleted.  Proceed?', 'rootspersona');
+                        	$win2 = __('Page will be removed and supporting data will be deleted.  Proceed?', 'rootspersona');
+                        	$win3 = __('Page will be viewable by logged in members only.  Proceed?', 'rootspersona');
+                        	$win4 = __('Page will be viewable by anyone.  Proceed?', 'rootspersona');
                         	$editPage = $mysite . '/?page_id=' . get_option("rootsEditPage")
                         	            . "&personId=" . $rootsPersonId
                             			. "&srcPage=" . $pageId . "&action=";
                             			
                             $block = $block . "<div style='margin-top:10px;text-align: center ;'><a href='".$editPage
-                            . "edit'>".__('Edit Person')."</a>"
+                            . "edit'>".__('Edit Person', 'rootspersona')."</a>"
                             . "&#160;&#160;<a href='#'"
                             . " onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"" 
-                            . $editPage . "exclude\");return false;'>".__('Exclude Person')."</a>"
+                            . $editPage . "exclude\");return false;'>".__('Exclude Person', 'rootspersona')."</a>"
                             . "&#160;&#160;<a href='#'"
                             . " onClick='javascript:rootsConfirm(\"" . $win2 . "\",\"" 
-                            . $editPage . "delete\");return false;'>".__('Delete Person')."</a>"                            
+                            . $editPage . "delete\");return false;'>".__('Delete Person', 'rootspersona')."</a>"                            
                             . "&#160;&#160;<a href='#'";
                             
                             $perms = get_post_meta($pageId, 'permissions', true);
                             if ( empty($perms) || $perms == 'false') {
                             	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win3 . "\",\"" 
-                           		. $editPage . "makePrivate\");return false;'>".__('Make Person Private')."</a>";     
+                           		. $editPage . "makePrivate\");return false;'>".__('Make Person Private', 'rootspersona')."</a>";     
                             }  else {                      
                             	$block = $block .  " onClick='javascript:rootsConfirm(\"" . $win4 . "\",\"" 
-                            	. $editPage . "makePublic\");return false;'>".__('Make Person Public')."</a>" ; 
+                            	. $editPage . "makePublic\");return false;'>".__('Make Person Public', 'rootspersona')."</a>" ; 
                             }                                                     
                             $block = $block .  "</div>";
                         }
                     } else {
-                        $block = $this->returnDefaultEmpty(__('XSL transformation failed.'),$mysite,$pluginDir);
+                        $block = $this->returnDefaultEmpty(__('XSL transformation failed.', 'rootspersona'),$mysite,$pluginDir);
                     } // if
 
                 } catch (Exception $e) {
-                    $block = $this->returnDefaultEmpty(__('No Information available.'),$mysite,$pluginDir);
+                    $block = $this->returnDefaultEmpty(__('No Information available.', 'rootspersona'),$mysite,$pluginDir);
                 }
             } else {
-                $block = $this->returnDefaultEmpty(__('No Information available.'),$mysite,$pluginDir);
+                $block = $this->returnDefaultEmpty(__('No Information available.', 'rootspersona'),$mysite,$pluginDir);
             }
             return $block;
         }
@@ -665,14 +665,14 @@ class PersonUtility {
                     if (($html = $xp->transformToXML($xml_doc)) !== false) {
                         $block = $html;
                     } else {
-                        $block = __('XSL transformation failed.');
+                        $block = __('XSL transformation failed.', 'rootspersona');
                     } // if
 
                 } catch (Exception $e) {
-                    $block = __('No Information available.');
+                    $block = __('No Information available.', 'rootspersona');
                 }
             } else {
-                $block = __('No Information available.');
+                $block = __('No Information available.', 'rootspersona');
             }
 
             return $block;

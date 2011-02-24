@@ -9,17 +9,17 @@ class rootsPersonaInstaller {
 
 		add_option('rootsDataDir', "wp-content/rootsPersonaData/");
 		 
-		$page = $this->createPage(__('Edit Person Page'),'[rootsEditPersonaForm/]');
+		$page = $this->createPage(__('Edit Person Page', 'rootspersona'),'[rootsEditPersonaForm/]');
 		add_option('rootsEditPage', $page);
-		$page = $this->createPage(__('Add Person Pages'),'[rootsAddPageForm/]');
+		$page = $this->createPage(__('Add Person Pages', 'rootspersona'),'[rootsAddPageForm/]');
 		add_option('rootsCreatePage', $page);
-		$page = $this->createPage(__('Upload GEDCOM File'),'[rootsUploadGedcomForm/]');
+		$page = $this->createPage(__('Upload GEDCOM File', 'rootspersona'),'[rootsUploadGedcomForm/]');
 		add_option('rootsUploadGedcomPage', $page);
-		$page = $this->createPage(__('Include Person Page'),'[rootsIncludePageForm/]');
+		$page = $this->createPage(__('Include Person Page', 'rootspersona'),'[rootsIncludePageForm/]');
 		add_option('rootsIncludePage', $page);
-		$page = $this->createPage(__('Persona Index'),'[rootsPersonaIndexPage/]');
+		$page = $this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
-		$page = $this->createPage(__('Persona Utility'),'[rootsUtilityPage/]');
+		$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
 		add_option('rootsUtilityPage', $page);
 		
 		add_option('rootsPersonaParentPage', "0");
@@ -39,55 +39,55 @@ class rootsPersonaInstaller {
 
 		$page = get_option('rootsEditPage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Edit Person Page'),'[rootsEditPersonaForm/]');
+			$page = $this->createPage(__('Edit Person Page', 'rootspersona'),'[rootsEditPersonaForm/]');
 			add_option('rootsEditPage', $page);
 		} else {
-			$this->createPage(__('Edit Person Page'),'[rootsEditPersonaForm/]',$page);
+			$this->createPage(__('Edit Person Page', 'rootspersona'),'[rootsEditPersonaForm/]',$page);
 		}
 
 		unset($page);
 		$page = get_option('rootsCreatePage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Add Person Page'),'[rootsAddPageForm/]');
+			$page = $this->createPage(__('Add Person Page', 'rootspersona'),'[rootsAddPageForm/]');
 			add_option('rootsCreatePage', $page);
 		} else {
-			$this->createPage(__('Add Person Page'),'[rootsAddPageForm/]',$page);
+			$this->createPage(__('Add Person Page', 'rootspersona'),'[rootsAddPageForm/]',$page);
 		}
 
 		unset($page);
 		$page = get_option('rootsUploadGedcomPage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Upload GEDCOM File'),'[rootsUploadGedcomForm/]');
+			$page = $this->createPage(__('Upload GEDCOM File', 'rootspersona'),'[rootsUploadGedcomForm/]');
 			add_option('rootsUploadGedcomPage', $page);
 		} else {
-			$this->createPage(__('Upload GEDCOM File'),'[rootsUploadGedcomForm/]',$page);
+			$this->createPage(__('Upload GEDCOM File', 'rootspersona'),'[rootsUploadGedcomForm/]',$page);
 		}
 		
 		unset($page);
 		$page = get_option('rootsIncludePage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Include Person Page'),'[rootsIncludePageForm/]');
+			$page = $this->createPage(__('Include Person Page', 'rootspersona'),'[rootsIncludePageForm/]');
 			add_option('rootsIncludePage', $page);
 		} else {
-			$this->createPage(__('Include Page Form'),'[rootsIncludePageForm/]',$page);
+			$this->createPage(__('Include Page Form', 'rootspersona'),'[rootsIncludePageForm/]',$page);
 		}
 		
 		unset($page);
 		$page = get_option('rootsUtilityPage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Persona Utility'),'[rootsUtilityPage/]');
+			$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
 			add_option('rootsUtilityPage', $page);
 		} else {
-			$this->createPage(__('Persona Utility'),'[rootsUtilityPage/]',$page);
+			$this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]',$page);
 		}
 		
 		unset($page);
 		$page = get_option('rootsPersonaIndexPage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Persona Index'),'[rootsPersonaIndexPage/]');
+			$page = $this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]');
 			add_option('rootsPersonaIndexPage', $page);
 		} else {
-			$this->createPage(__('Persona Index'),'[rootsPersonaIndexPage/]',$page);
+			$this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]',$page);
 		}
 
 		unset($opt);
@@ -181,7 +181,10 @@ class rootsPersonaInstaller {
 		delete_option('rootsPersonaHidePlaces');
 		delete_option('rootsHideEditLinks');
 		
-		remove_action('admin_menu', 'rootsPersonaOptionsPage');
+		//remove_action('admin_menu', 'rootsPersonaOptionsPage');
+		//remove_action('wp_print_styles', 'insertRootsPersonaStyles');
+		//remove_action('wp_print_scripts', 'insertRootsPersonaScripts');
+		//remove_filter( 'the_content', 'checkPermissions');
 
 	        $args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
                 $pages = get_posts($args);
