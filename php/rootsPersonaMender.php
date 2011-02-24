@@ -40,11 +40,11 @@ class rootsPersonaMender {
 			$personId = $entryEl->getAttribute('personId');
 			if(!isset($personId) || $personId == '') {
 				if($isRepair) {
-					$output[] = printf(__("Invalid %s, deleting element from idMap.xml", 'rootspersona'),"personId");	
+					$output[] = sprintf(__("Invalid %s, deleting element from idMap.xml", 'rootspersona'),"personId");	
 					$entryEl->parentNode->removeChild($entryEl);
 					break;		
 				} else {
-					$output[] = printf(__("Invalid %s in idMap.xml", 'rootspersona'),"personId");
+					$output[] = sprintf(__("Invalid %s in idMap.xml", 'rootspersona'),"personId");
 				}
 			} else {
 				$fileName =  $dataDir . $personId . ".xml";
@@ -64,20 +64,20 @@ class rootsPersonaMender {
 			if(!isset($pageId) || $pageId == '') {
 				if(!isset($exclude) || $exclude != 'true') {
 					if($isRepair) {
-						$output[] = printf(__("Invalid %s, deleting element from idMap.xml", 'rootspersona'),"pageId");	
+						$output[] = sprintf(__("Invalid %s, deleting element from idMap.xml", 'rootspersona'),"pageId");	
 						$entryEl->parentNode->removeChild($entryEl);
 						break;		
 					} else {
-						$output[] = printf(__("Invalid %s in idMap.xml", 'rootspersona'),"pageId");
+						$output[] = sprintf(__("Invalid %s in idMap.xml", 'rootspersona'),"pageId");
 					}
 				} 
 			} elseif (isset($exclude) && $exclude == 'true') {
 					if($isRepair) {
-						$output[] = printf(__("%s defined for excluded person, deleting page and removing %s.", 'rootspersona'),"pageId","pageId");	
+						$output[] = sprintf(__("%s defined for excluded person, deleting page and removing %s.", 'rootspersona'),"pageId","pageId");	
 						wp_delete_post($pageId);
 						$entryEl->setAttribute('pageId', '');		
 					} else {
-						$output[] = printf(__("%s defined in idMap.xml for excluded person.", 'rootspersona'),"pageId");	
+						$output[] = sprintf(__("%s defined in idMap.xml for excluded person.", 'rootspersona'),"pageId");	
 					}
 			}
 
@@ -148,11 +148,11 @@ class rootsPersonaMender {
 				$content = $post->post_content;
 				if(!preg_match("/rootsPersona /", $content)) {
 					if($isRepair) {
-						$output[] = printf(__("Invalid %s page: deleting element from idMap.xml", 'rootspersona'),"persona");	
+						$output[] = sprintf(__("Invalid %s page: deleting element from idMap.xml", 'rootspersona'),"persona");	
 						$entryEl->parentNode->removeChild($entryEl);
 						break;		
 					} else {
-						$output[] = printf(__("Invalid %s page for", 'rootspersona'),"persona")." ". $fullName  
+						$output[] = sprintf(__("Invalid %s page for", 'rootspersona'),"persona")." ". $fullName  
 							." (".__("page", 'rootspersona')." ".$pageId .")";
 					}
 				}
@@ -163,11 +163,11 @@ class rootsPersonaMender {
            							, $content);
            		if($pagePerson != $personId) {
            			if($isRepair) {
-						$output[] = printf(__("%s out of synch with %s on page: deleting element from idMap.xml", 'rootspersona'),"personId","personId");	
+						$output[] = sprintf(__("%s out of synch with %s on page: deleting element from idMap.xml", 'rootspersona'),"personId","personId");	
 						$entryEl->parentNode->removeChild($entryEl);
 						break;		
 					} else {
- 						$output[] = printf(__("%s referenced in idMap.xml", 'rootspersona'),"personId")." (".$personId.") ".__("does not reference", 'rootspersona') . " ". $fullName  
+ 						$output[] = sprintf(__("%s referenced in idMap.xml", 'rootspersona'),"personId")." (".$personId.") ".__("does not reference", 'rootspersona') . " ". $fullName  
 							." (pageId ".$pageId . ", personId ".$pagePerson.")";   
 					}       			
            		}
@@ -178,7 +178,7 @@ class rootsPersonaMender {
 				foreach ($output as $line) {
 					if($isFirst) {
 						echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
-							. printf(__('Issues found with your %s map file.', 'rootspersona'),"rootsPersona")."</p>";	
+							. sprintf(__('Issues found with your %s map file.', 'rootspersona'),"rootsPersona")."</p>";	
 						$isFirst = false;			
 					}	
 					echo __("Entry", 'rootspersona')." ". $cnt . ": " .$line . "<br/>";
@@ -201,7 +201,7 @@ class rootsPersonaMender {
 				. "<span>&#160;&#160;</span>";
 		} else if($isValid) {
 			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
-				. printf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
+				. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
 				. "<span>&#160;&#160;</span>";
 		} else if(!$isRepaired) {
 			if($isPages) {
@@ -252,7 +252,7 @@ class rootsPersonaMender {
 				$pageId = get_option('rootsPersonaIndexPage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsPersonaIndexPage");	
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsPersonaIndexPage");	
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned", 'rootspersona') . " rootsPersonaIndexPage.";
@@ -262,7 +262,7 @@ class rootsPersonaMender {
                                 $pageId = get_option('rootsEditPage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsEditPersonaForm");	
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsEditPersonaForm");	
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned", 'rootspersona')." rootsEditPersonaForm.";
@@ -272,7 +272,7 @@ class rootsPersonaMender {
 				$pageId = get_option('rootsCreatePage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsAddPageForm");		
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsAddPageForm");		
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned", 'rootspersona') ." rootsAddPageForm.";
@@ -282,7 +282,7 @@ class rootsPersonaMender {
                                 $pageId = get_option('rootsUploadGedcomPage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsUploadGedcomForm");		
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsUploadGedcomForm");		
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned.", 'rootspersona') . " rootsUploadGedcomForm.";
@@ -292,7 +292,7 @@ class rootsPersonaMender {
                                 $pageId = get_option('rootsIncludePage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsIncludePage");		
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsIncludePage");		
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned", 'rootspersona') ." rootsIncludePage.";
@@ -302,7 +302,7 @@ class rootsPersonaMender {
                                 $pageId = get_option('rootsUtilityPage');
 				if($pageId != $page->ID) {
 					if($isRepair) {
-						$output[] = printf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsUtilityPage");	
+						$output[] = sprintf(__("Deleted orphaned %s page.", 'rootspersona'),"rootsUtilityPage");	
 						wp_delete_post($page->ID);				
 					} else {
 						$output[] = __("Orphaned", 'rootspersona')." rootsUtilityPage.";
@@ -313,7 +313,7 @@ class rootsPersonaMender {
 			foreach ($output as $line) {
 				if($isFirst) {
 					echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
-						. printf(__('Issues found with your %s pages.', 'rootspersona'),"rootsPersona")."</p>";	
+						. sprintf(__('Issues found with your %s pages.', 'rootspersona'),"rootsPersona")."</p>";	
 					$isFirst = false;			
 				}	
 				echo __("Page", 'rootspersona')." ". $page->ID . ": " .$line . "<br/>";
@@ -340,7 +340,7 @@ class rootsPersonaMender {
 		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
 			. "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage') 
-			. "&utilityAction=deleteFiles'>" . printf(__('Delete %s files as well?', 'rootspersona'),"persona") . "</a></span>"
+			. "&utilityAction=deleteFiles'>" . sprintf(__('Delete %s files as well?', 'rootspersona'),"persona") . "</a></span>"
 			. "<span>&#160;&#160;</span>"
 			.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' " 
 			. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"

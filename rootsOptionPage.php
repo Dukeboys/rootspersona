@@ -8,7 +8,7 @@ $fullDataDir = strtr(ABSPATH,'\\','/') .$dataDir;
 echo "<div class='wrap'><h2>rootsPersona</h2>";
 if(!is_dir($fullDataDir)) {
 echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>" .__("Data Directory", 'rootspersona') . " " 
-	. $fullDataDir . " " . printf(__('does not exist. Make sure %s is writable, then reactivate plugin.', 'rootspersona'),"wp-content")."</p>";
+	. $fullDataDir . " " . sprintf(__('does not exist. Make sure %s is writable, then reactivate plugin.', 'rootspersona'),"wp-content")."</p>";
 } else if (!is_writable($fullDataDir)) {
 	echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>" .__("Data Directory", 'rootspersona') . " "
 	. $fullDataDir . " " . __('is not writable. Update directory permissions, then reactivate plugin.', 'rootspersona')."</p>";
@@ -26,7 +26,7 @@ echo  "<th scope='row'><label for='rootsPersonaParentPage'>rootsPersona " .  __(
 echo  "<td><input type='text' size='5' name='rootsPersonaParentPage' id='rootsPersonaParentPage'";
 echo  " value=' " . get_option('rootsPersonaParentPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsPersonaParentPage') . "'>" . __('Page', 'rootspersona') 
-		. "</a> " . printf(__('you want %s pages to be organized under in a menu structure.  0 indicates no parent page.', 'rootspersona'),"persona")
+		. "</a> " . sprintf(__('you want %s pages to be organized under in a menu structure.  0 indicates no parent page.', 'rootspersona'),"persona")
 		. "</td></tr>";			
 
 echo  "<tr valign='top'>";
@@ -167,7 +167,7 @@ if(isset($yes) && $yes == '1') {
 echo  "<td><input type='radio' name='rootsHidePictures' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsHidePictures' value='0' $no>No </td>";
 
-echo  "<td>" .  printf(__('Skip the pictures panel on %s pages. Still displays the image in the Header panel.', 'rootspersona'),"persona"). "</td></tr>";
+echo  "<td>" .  sprintf(__('Skip the pictures panel on %s pages. Still displays the image in the Header panel.', 'rootspersona'),"persona"). "</td></tr>";
 
 echo  "<tr valign='top' style='border-bottom: solid black 1px;'>";
 echo  "<th scope='row'><label for='rootsHideEvidence'>" .  __('Hide Evidence?', 'rootspersona') . "</label></th>";
@@ -197,7 +197,7 @@ if(isset($yes) && $yes == '1') {
 echo  "<td><input type='radio' name='rootsPersonaHideDates' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsPersonaHideDates' value='0' $no>No </td>";
 
-echo  "<td>" .  printf(__('Some people may want to hide dates for privacy purposes.  This is a global flag (impacts all %s pages).', 'rootspersona'),"persona"). "</td></tr>";
+echo  "<td>" .  sprintf(__('Some people may want to hide dates for privacy purposes.  This is a global flag (impacts all %s pages).', 'rootspersona'),"persona"). "</td></tr>";
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsPersonaHidePlaces'>" .  __('Hide Locations?', 'rootspersona') . "</label></th>";
@@ -212,7 +212,7 @@ if(isset($yes) && $yes == '1') {
 echo  "<td><input type='radio' name='rootsPersonaHidePlaces' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsPersonaHidePlaces' value='0' $no>No </td>";
 
-echo  "<td>" .  printf(__('Some people may want to hide locations for privacy purposes.  This is a global flag (impacts all %s pages).', 'rootspersona'),"persona"). "</td></tr>";
+echo  "<td>" .  sprintf(__('Some people may want to hide locations for privacy purposes.  This is a global flag (impacts all %s pages).', 'rootspersona'),"persona"). "</td></tr>";
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsHideEditLinks'>" .  __('Hide Edit Links?', 'rootspersona') . "</label></th>";
@@ -227,7 +227,7 @@ if(isset($yes) && $yes == '1') {
 echo  "<td><input type='radio' name='rootsHideEditLinks' value='1' $yes>Yes ";
 echo "<input type='radio' name='rootsHideEditLinks' value='0' $no>No </td>";
 
-echo  "<td>" .  printf(__('Some people may want to hide the edit links at the bottom of the %s page.', 'rootspersona'),"persona"). "</td></tr>";
+echo  "<td>" .  sprintf(__('Some people may want to hide the edit links at the bottom of the %s page.', 'rootspersona'),"persona"). "</td></tr>";
 
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsIsSystemOfRecord'>" .  __('Is this the System Of Record?', 'rootspersona') . "</label></th>";

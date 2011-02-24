@@ -377,7 +377,7 @@ class PersonUtility {
 		$block = "<br/><div class='personBanner'><br/></div>";
 		if(count($persons) == 0) {
 			$block = $block . "<br/><div style='text-align:center;color:red;font-weight:bold'>"
-				.  printf(__('All %s have been included.', 'rootspersona'),"personas") ."</div>";
+				.  sprintf(__('All %s have been included.', 'rootspersona'),"personas") ."</div>";
 		} else {
 			$block = $block . "<form  action='".$action."' method='POST'>";
 			$block = $block . "<br/><select multiple name='persons[]' size='16'>";
@@ -409,7 +409,7 @@ class PersonUtility {
 		$block = "<br/><div class='personBanner'><br/></div><form enctype='multipart/form-data' action='$action' method='POST'>";
 		if(!is_dir($dataDir)) {
 			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory', 'rootspersona') ." "
-				. $dataDir  ." ". printf(__('does not exist. Make sure %s is writable, then reactivate plugin.', 'rootspersona'),"wp-content") ."</p>";
+				. $dataDir  ." ". sprintf(__('does not exist. Make sure %s is writable, then reactivate plugin.', 'rootspersona'),"wp-content") ."</p>";
 		} else if (!is_writable($dataDir)) {
 			$block = $block .  "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>".__('Data Directory', 'rootspersona')." "
 			. $dataDir ." ".__('is not writable. Update directory permissions, then reactivate plugin.', 'rootspersona')."</p>";
