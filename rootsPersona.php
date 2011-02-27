@@ -504,6 +504,6 @@ if (isset($rootsPersonaplugin)) {
 	add_action('wp_print_styles', array($rootsPersonaplugin, 'insertRootsPersonaStyles'));
 	add_action('wp_print_scripts', array($rootsPersonaplugin, 'insertRootsPersonaScripts'));
 	add_filter( 'the_content', array($rootsPersonaplugin, 'checkPermissions'), 2 );
-	load_plugin_textdomain('rootspersona', null, "/wp-content/plugins/rootspersona/localization/");
+	load_plugin_textdomain('rootspersona', null, "rootspersona/localization/");
 }
 ?>
