@@ -75,6 +75,9 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 
 == Changelog ==
 
+= 1.5.2 =
+* added more events to teh Facts panel
+
 = 1.5.1 = 
 * a few more checks in the validation utilities
 * confirmation box before deleting pages
@@ -108,54 +111,3 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 * Added Exclude, delete, Make Private, and Make Public at bottom opf Person page
 * Added Include Person page to allow review/include of previously excluded persons
 * Added options on options page to support the above.
-
-= 1.3.3 =
-* Minor bug fixes for ancestry.com compatability
-* Support for dashes in xref and ptrs
-* Minor performance improvement
-
-= 1.3.2 =
-address potential namespace collisions in class names.
-
-= 1.3.1 =
-* cleaned up style sheets for compatability with more themes
-
-= 1.3.0 =
-* Added new shortcodes for use in posts when you want to display only a single panel in a post
-	rootsPersonaHeader
-    rootsPersonaFacts
-    rootsPersonaAncestors
-    rootsPersonaFamily
-    rootsPersonaPictures
-    rootsPersonaEvidence
-* Added global flags for hiding dates and locations
-* Flags for selecting whcih of the panels on the persona page to display (if you don't want them all)
-    
-= 1.2.0 =
-* refactor deprecated Wordpress functions
-* update style sheets to use .page selector instead of #content selector
-  (works with more themes)
-* add citations and sources to XML files
-* added Evidence panel
-
-= 1.1.0 =
-* Added a sortable Index Page
-* Removed deprecated pass-by-reference usage.
-
-= 1.0.4 =
-* removed extraneous slash from FileException and InvalidFieldException
-* moved default rootsDataDir to wp-content/rootsPersonaData so data would not be lost on upgrade
-* added surname to idMap.xml and person.xml files
-* parametized data_dir in XSL files
-* fixed defect to allow images and captions to display properly
-* update page title and idMap.xml when gedcom is reloaded (in case name changed or new attribute in idMap)
-
-= 1.0.3 =
-* removed PHP 5.3 dependency.
-
-= 1.0.2 =
-* fixed directory issue that caused "[function.require-once]: failed to open stream" error.
-
-= 1.0.1 =
-* First release.
-

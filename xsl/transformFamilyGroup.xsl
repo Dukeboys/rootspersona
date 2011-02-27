@@ -63,11 +63,11 @@
 				<xsl:choose>
 					<xsl:when test="$famType = 'FAMC'">
 						<xsl:value-of
-							select="4 + count($node/persona:events/persona:event[@type='marriage'])" />
+							select="4 + count($node/persona:events/persona:event[@type='Marriage'])" />
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of
-							select="4 + count($node/persona:events/persona:event[@type='marriage'])" />
+							select="4 + count($node/persona:events/persona:event[@type='Marriage'])" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -76,14 +76,14 @@
 			<td class="date">
 				<xsl:if test="$hideDates != '1'">
 					<xsl:value-of
-						select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" />
+						select="$node/persona:events/persona:event[@type='Birth']/persona:date/text()" />
 				</xsl:if>
 			</td>
 			<td class="notes">
 				&#160;
 				<xsl:if test="$hidePlaces != '1'">
 					<xsl:variable name="bPlace"
-						select="$node/persona:events/persona:event[@type='birth']/persona:place/text()" />
+						select="$node/persona:events/persona:event[@type='Birth']/persona:place/text()" />
 					<xsl:if test="$bPlace!=''">
 						in
 						<xsl:value-of select="$bPlace" />
@@ -96,14 +96,14 @@
 			<td class="date">
 				<xsl:if test="$hideDates != '1'">
 					<xsl:value-of
-						select="$node/persona:events/persona:event[@type='death']/persona:date/text()" />
+						select="$node/persona:events/persona:event[@type='Death']/persona:date/text()" />
 				</xsl:if>
 			</td>
 			<td class="notes">
 				&#160;
 				<xsl:if test="$hidePlaces != '1'">
 					<xsl:variable name="dPlace"
-						select="$node/persona:events/persona:event[@type='death']/persona:place/text()" />
+						select="$node/persona:events/persona:event[@type='Death']/persona:place/text()" />
 					<xsl:if test="$dPlace!=''">
 						in
 						<xsl:value-of select="$dPlace" />
@@ -111,7 +111,7 @@
 				</xsl:if>
 			</td>
 		</tr>
-		<xsl:for-each select="$node/persona:events/persona:event[@type='marriage']">
+		<xsl:for-each select="$node/persona:events/persona:event[@type='Marriage']">
 			<xsl:variable name="spid" select="persona:person/@id" />
 			<tr>
 				<td class="label">Marriage</td>
@@ -226,20 +226,20 @@
 		</tr>
 		<tr>
 			<xsl:variable name="myRows"
-				select="2 + count($node/persona:events/persona:event[@type='marriage'])" />
+				select="2 + count($node/persona:events/persona:event[@type='Marriage'])" />
 			<td class="inset" rowspan="{$myRows}" />
 			<td class="label">Birth</td>
 			<td class="date">
 				<xsl:if test="$hideDates != '1'">
 					<xsl:value-of
-						select="$node/persona:events/persona:event[@type='birth']/persona:date/text()" />
+						select="$node/persona:events/persona:event[@type='Birth']/persona:date/text()" />
 				</xsl:if>
 			</td>
 			<td class="notes">
 				&#160;
 				<xsl:if test="$hidePlaces != '1'">
 					<xsl:variable name="bPlace"
-						select="$node/persona:events/persona:event[@type='birth']/persona:place/text()" />
+						select="$node/persona:events/persona:event[@type='Birth']/persona:place/text()" />
 					<xsl:if test="$bPlace!=''">
 						in
 						<xsl:value-of select="$bPlace" />
@@ -252,14 +252,14 @@
 			<td class="date">
 				<xsl:if test="$hideDates != '1'">
 					<xsl:value-of
-						select="$node/persona:events/persona:event[@type='death']/persona:date/text()" />
+						select="$node/persona:events/persona:event[@type='Death']/persona:date/text()" />
 				</xsl:if>
 			</td>
 			<td class="notes">
 				&#160;
 				<xsl:if test="$hidePlaces != '1'">
 					<xsl:variable name="dPlace"
-						select="$node/persona:events/persona:event[@type='death']/persona:place/text()" />
+						select="$node/persona:events/persona:event[@type='Death']/persona:place/text()" />
 					<xsl:if test="$dPlace!=''">
 						in
 						<xsl:value-of select="$dPlace" />
@@ -267,7 +267,7 @@
 				</xsl:if>
 			</td>
 		</tr>
-		<xsl:for-each select="$node/persona:events/persona:event[@type='marriage']">
+		<xsl:for-each select="$node/persona:events/persona:event[@type='Marriage']">
 			<tr>
 				<td class="label">Marriage</td>
 				<td class="date">

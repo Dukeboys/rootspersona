@@ -23,7 +23,7 @@ require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Str
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Corporation.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpData.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpEvent.php');
-require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/Fact.php');
+require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/rpFact.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/FamilyLink.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/GedC.php');
 require_once(ABSPATH . 'wp-content/plugins/rootspersona/php/Genealogy/Gedcom/Structures/LdsOrdinance.php');

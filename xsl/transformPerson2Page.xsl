@@ -142,11 +142,11 @@
 					<xsl:if test="$hideDates != '1'">
 						b:
 						<xsl:value-of
-							select="persona:events/persona:event[@type='birth']/persona:date/text()" />
+							select="persona:events/persona:event[@type='Birth']/persona:date/text()" />
 						<br />
 						d:
 						<xsl:value-of
-							select="persona:events/persona:event[@type='death']/persona:date/text()" />
+							select="persona:events/persona:event[@type='Death']/persona:date/text()" />
 					</xsl:if>
 				</div>
 			</div>

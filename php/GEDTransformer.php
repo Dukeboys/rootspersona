@@ -50,28 +50,30 @@ class GEDTransformer {
 
 		$personEl->appendChild($charsEl);
 
-	    $events = $this->Events;
-        $idx = 1;
-        foreach($events as $event) {
-        	$tag = $event->Tag;
-        	if($tag === 'EVEN')
-        		$tag = $event->Type;
-        	$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
-			$eventEl->setAttribute('type',$event->_TYPES[$tag]);
-			if($event->Date != null) {
-				$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
-				$dateEl->appendChild($dom->createTextNode($ev->Date));
-				$eventEl->appendChild($dateEl);
-			}
-			if($ev->Place != null) {
-				$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
-				$placeEl->appendChild($dom->createTextNode($ev->Place->Name));
-				$eventEl->appendChild($placeEl);
-			}
+	    $events = $person->Events;
+        if($events != null) {
+        	$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
+	        foreach($events as $event) {
+    	    	$tag = $event->Tag;
+        		if($tag === 'EVEN')
+        			$tag = $event->Type;
+	        	$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
+    	    	$type = isset($event->_TYPES[$tag])?$event->_TYPES[$tag]:$tag;
+				$eventEl->setAttribute('type',$type);
+				if($event->Date != null) {
+					$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
+					$dateEl->appendChild($dom->createTextNode($event->Date));
+					$eventEl->appendChild($dateEl);
+				}
+				if($event->Place != null) {
+					$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
+					$placeEl->appendChild($dom->createTextNode($event->Place->Name));
+					$eventEl->appendChild($placeEl);
+				}
 
-			$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
-			$eventsEl->appendChild($eventEl);
-			$this->addCitations($ev,$eventEl, $dom, $sources);
+				$eventsEl->appendChild($eventEl);
+				$this->addCitations($event,$eventEl, $dom, $sources);
+        	}
         }
 
 		$spouses = $person->SpouseFamilyLinks;
@@ -91,7 +93,7 @@ class GEDTransformer {
 					$date = $ev->Date;
 					$place = $ev->Place->Name;
 					$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
-					$eventEl->setAttribute('type','marriage');
+					$eventEl->setAttribute('type','Marriage');
 					$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
 					$dateEl->appendChild($dom->createTextNode($date));
 					$eventEl->appendChild($dateEl);
@@ -264,7 +266,8 @@ class GEDTransformer {
 			$src = $ged->getSource($tokStr[0]);	
 			if(isset($src)) {
 				$page = (count($tokStr)>1)?$tokStr[1]:'';
-				$source->appendChild($dom->createTextNode($src->Title . '; ' . $page));
+				if(isset($page) && !empty($page)) $page = ';' . $page;
+				$source->appendChild($dom->createTextNode($src->Title . $page));
 				$source->setAttribute('id',str_replace('@', '', $tokStr[0]));	
 			}
 		}
