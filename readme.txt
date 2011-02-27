@@ -12,18 +12,18 @@ rootsPersona creates one or more pages of family history using data imported fro
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
 
 **Features**
-- Support for Gedcom Version 5.5
-- Ability to upload more than one Gedcom file from the same source and link families together
-- Ability to select which persons from the Gedcom file to create pages for
-- As updates are made, Gedcom files can be reloaded and existing pages will be updated
-- Each page includes links to children and spouses
-- Each page displays a visual family tree that includes three generations
-- Ability to link pictures uploaded to Wordpress to each person (up to 7)
-- Pages identifed as 'Permission Required' will only be displayed to users who are logged into your Wordpress site
-- Sortable Index Page 
-- MANY customization options
+1. Support for Gedcom Version 5.5
+2. Ability to upload more than one Gedcom file from the same source and link families together
+3. Ability to select which persons from the Gedcom file to create pages for
+4. As updates are made, Gedcom files can be reloaded and existing pages will be updated
+5. Each page includes links to children and spouses
+6. Each page displays a visual family tree that includes three generations
+7. Ability to link pictures uploaded to Wordpress to each person (up to 7)
+8. Pages identifed as 'Permission Required' will only be displayed to users who are logged into your Wordpress site
+9. Sortable Index Page 
+10. MANY customization options
 
-For detailed documentation, goto [http://ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona documentation)
+For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4becky.net/plugins/rootsPersona "Documentation")
 
 == Installation ==
 
@@ -36,7 +36,7 @@ At this point the plugin is ready to use!
 
 Usage:
 
-For detailed documentation, goto [http://ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona documentation)
+For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4becky.net/plugins/rootsPersona "Documentation")
 
 To import your first Gedcom and create your first page(s):
 
@@ -44,7 +44,7 @@ To import your first Gedcom and create your first page(s):
 2. Browse for a Gedcom file on your local PC and select 'Upload'.
 3. Select one or more persons to create pages for and select 'Submit'
 
-Your Wordpress site will now have an information page for each person selected!
+Your Wordpress site will now have an *persona* page for each person selected!
 
 *Note: importing Gedcom files from different programs can have unexpected consequences.
 rootsPersona uses the ids generated in the gedcom file, and different programs may assign the same ids to different people.
@@ -72,11 +72,9 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 
 1. 1st half of main Persona page
 2. 2nd half of main Persona page
-3. Page for uploading a GEDCOM file
-4. Page for adding pages after a GEDCOM upload
-5. Page for editing a Persona page
 
 == Changelog ==
+
 = 1.5.1 = 
 * a few more checks intehvalidation utilities
 * confirmation box before deleting pages
@@ -160,30 +158,3 @@ address potential namespace collisions in class names.
 = 1.0.1 =
 * First release.
 
-== Upgrade Notice ==
-= 1.4.1 = 
-No special instructions
-= 1.4.0 = 
-No special instructions
-= 1.3.3 =
-= 1.3.2 =
-= 1.3.1 =
-= 1.3.0 =
-= 1.2.0 =
-= 1.1.0 =
-= 1.0.4 =
-BEWARE - if upgrading from versions prior to 1.0.4 - All data will be lost!  
-It is important to copy the rootsData directory BEFORE upgrading unless you want to start over.
-AFTER upgrading, copy the contents of rootsData to wp-content/rootsPersonaData.
-
-Reloading your gedcom AFTER performing the above will support additional fucntionality 
-due to upgrades to the idMap.xml file.  Reloading a gedcom will not harm exisiting data.
-
-= 1.0.3 =
-Previous version required PHP 5.3 for namespace support.  This version does not.
-
-= 1.0.2 =
-Previous version had a directory problem - did not realize that Wordpress site would not be case sensitve when distributing plugins.  I have fixed this.
-
-= 1.0.1 =
-Initial Version
