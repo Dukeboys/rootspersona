@@ -80,6 +80,8 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 = 1.5.1 = 
 * a few more checks intehvalidation utilities
 * confirmation box before deleting pages
+* added localization for dutch
+* only display frames in the Picture panel if there is a picture.
 
 = 1.5.0 =
 * Added several utilities to tools menu
