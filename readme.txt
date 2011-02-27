@@ -76,7 +76,8 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 == Changelog ==
 
 = 1.5.2 =
-* added more events to teh Facts panel
+* added more events to the Facts panel
+* added validation of parent page assignment to page validation
 
 = 1.5.1 = 
 * a few more checks in the validation utilities
