@@ -76,7 +76,7 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 == Changelog ==
 
 = 1.5.1 = 
-* a few more checks intehvalidation utilities
+* a few more checks in the validation utilities
 * confirmation box before deleting pages
 * added localization for dutch
 * only display frames in the Picture panel if there is a picture.
