@@ -87,6 +87,7 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 
 = 1.4.3 =
 * Fix bug with missing FAMC/FAMS
+* chnaged shortcode rootsPersonaFamily to rootsPersonaFamilyC and added rootsPersonaFamilyS
 * changed to use absolute paths
 * localization changes
 
@@ -124,7 +125,7 @@ address potential namespace collisions in class names.
 	rootsPersonaHeader
     rootsPersonaFacts
     rootsPersonaAncestors
-    rootsPersonaPamily
+    rootsPersonaFamily
     rootsPersonaPictures
     rootsPersonaEvidence
 * Added global flags for hiding dates and locations
