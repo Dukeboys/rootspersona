@@ -23,54 +23,6 @@ class GEDTransformer {
 		}
 	}
 
-	public function createXMLFamily($family, $ged, $dataDir) {
-		$sources = array();
-		$dom = new DomDocument('1.0', 'UTF-8');
-		$rootEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:familyGroup');
-		$rootEl->setAttributeNS  ( 'http://www.w3.org/2001/XMLSchema-instance'  , 'xsi:schemaLocation', 'http://ed4becky.net/rootsPersona ../schema/person.xsd');
-		$rootEl->setAttribute('id',strtolower($family->Id));
-		$dom->appendChild($rootEl);
-		$parents = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:parents');
-		$rootEl->appendChild($parents);
-		$parent = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
-		$parent->setAttribute('type','father');
-		$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
-		$id = $family->Husband == ''?"p000":$family->Husband;
-		$person->setAttribute('id',strtolower($id));
-		$parent->appendChild($person);
-		$parents->appendChild($parent);
-
-		$parent = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
-		$parent->setAttribute('type','mother');
-		$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
-		$id = $family->Wife == ''?"p000":$family->Wife;
-		$person->setAttribute('id',strtolower($id));
-		$parent->appendChild($person);
-		$parents->appendChild($parent);
-
-		$children = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:children');
-		$rootEl->appendChild($children);
-		$cnt = count($family->Children);
-		for($i=0; $i<$cnt;$i++) {
-			$child = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
-			$child->setAttribute('type','child');
-			$children->appendChild($child);
-			$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
-			$id = $family->Children[$i] == ''?"p000":$family->Children[$i];
-			$person->setAttribute('id',strtolower($id));
-			$child->appendChild($person);
-		}
-//		$this->addCitations($family,$rootEl, $dom, $sources);
-//
-//		if(count($sources) > 0)
-//			$this->addEvidence($sources,$rootEl, $dom, $ged);
-			
-		$fileName = $dataDir . strtolower($family->Id) . '.xml';
-		$dom->formatOutput = true;
-		$dom->preserveWhiteSpace = false;
-		$dom->save($fileName);
-	}
-
 	public function createXMLPerson($person, $ged, $dataDir) {
 		$sources = array();
 		$dom = new DomDocument('1.0', 'UTF-8');
@@ -98,43 +50,29 @@ class GEDTransformer {
 
 		$personEl->appendChild($charsEl);
 
-		//events
-		$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
-		$eventEl->setAttribute('type','birth');
-		$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
-		$ev = $person->getEvent('BIRT');
-		if($ev != null) {
-			$dateEl->appendChild($dom->createTextNode($ev->Date));
-			$eventEl->appendChild($dateEl);
+	    $events = $this->Events;
+        $idx = 1;
+        foreach($events as $event) {
+        	$tag = $event->Tag;
+        	if($tag === 'EVEN')
+        		$tag = $event->Type;
+        	$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
+			$eventEl->setAttribute('type',$event->_TYPES[$tag]);
+			if($event->Date != null) {
+				$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
+				$dateEl->appendChild($dom->createTextNode($ev->Date));
+				$eventEl->appendChild($dateEl);
+			}
 			if($ev->Place != null) {
-				
 				$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
 				$placeEl->appendChild($dom->createTextNode($ev->Place->Name));
 				$eventEl->appendChild($placeEl);
 			}
-			if(!isset($eventsEl))
-			$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
-			$eventsEl->appendChild($eventEl);
-			$this->addCitations($ev,$eventEl, $dom, $sources);
-		}
 
-		$ev = $person->getEvent('DEAT');
-		if ($ev != null) {
-			$eventEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:event');
-			$eventEl->setAttribute('type','death');
-			$dateEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:date');
-			$dateEl->appendChild($dom->createTextNode($ev->Date));
-			$eventEl->appendChild($dateEl);
-			if($ev->Place != null) {
-				$placeEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:place');
-				$placeEl->appendChild($dom->createTextNode($ev->Place->Name));
-				$eventEl->appendChild($placeEl);
-			}
-			if(!isset($eventsEl))
 			$eventsEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:events');
 			$eventsEl->appendChild($eventEl);
 			$this->addCitations($ev,$eventEl, $dom, $sources);
-		}
+        }
 
 		$spouses = $person->SpouseFamilyLinks;
 		$cnt =  count($spouses);
@@ -247,6 +185,54 @@ class GEDTransformer {
 		$dom->save($fileName);
 	}
 
+	public function createXMLFamily($family, $ged, $dataDir) {
+		$sources = array();
+		$dom = new DomDocument('1.0', 'UTF-8');
+		$rootEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:familyGroup');
+		$rootEl->setAttributeNS  ( 'http://www.w3.org/2001/XMLSchema-instance'  , 'xsi:schemaLocation', 'http://ed4becky.net/rootsPersona ../schema/person.xsd');
+		$rootEl->setAttribute('id',strtolower($family->Id));
+		$dom->appendChild($rootEl);
+		$parents = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:parents');
+		$rootEl->appendChild($parents);
+		$parent = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
+		$parent->setAttribute('type','father');
+		$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
+		$id = $family->Husband == ''?"p000":$family->Husband;
+		$person->setAttribute('id',strtolower($id));
+		$parent->appendChild($person);
+		$parents->appendChild($parent);
+
+		$parent = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
+		$parent->setAttribute('type','mother');
+		$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
+		$id = $family->Wife == ''?"p000":$family->Wife;
+		$person->setAttribute('id',strtolower($id));
+		$parent->appendChild($person);
+		$parents->appendChild($parent);
+
+		$children = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:children');
+		$rootEl->appendChild($children);
+		$cnt = count($family->Children);
+		for($i=0; $i<$cnt;$i++) {
+			$child = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:relation');
+			$child->setAttribute('type','child');
+			$children->appendChild($child);
+			$person = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:person');
+			$id = $family->Children[$i] == ''?"p000":$family->Children[$i];
+			$person->setAttribute('id',strtolower($id));
+			$child->appendChild($person);
+		}
+//		$this->addCitations($family,$rootEl, $dom, $sources);
+//
+//		if(count($sources) > 0)
+//			$this->addEvidence($sources,$rootEl, $dom, $ged);
+			
+		$fileName = $dataDir . strtolower($family->Id) . '.xml';
+		$dom->formatOutput = true;
+		$dom->preserveWhiteSpace = false;
+		$dom->save($fileName);
+	}
+	
 	function addCitations($rec, $node, $dom, &$sources) {
 		if(count($rec->Citations) > 0) {
 			$cites = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:citations');
@@ -323,6 +309,6 @@ class GEDTransformer {
 }
 
 //$tr = new GEDTransformer();
-//$tr->transformToXML("C:\\Users\\ed\\Downloads\\The Chron_Cron Family Tree.ged", "C:\\Users\\ed\\Workspaces\\Eclipse 3.6 PDT\\rootspersona\\php\\out\\") 
+//$tr->transformToXML("C:\\Users\\ed\\Desktop\\20110208.ged", "C:\\Users\\ed\\Workspaces\\Eclipse 3.6 PDT\\rootspersona\\php\\out\\") 
 
 ?>

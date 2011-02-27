@@ -348,7 +348,7 @@ class IndividualRecord extends EntityAbstract
 
             $tmp = new rpEvent();
             $this->Events = $tmp->parseTreeToArray($sub2, $ver);
-            $tmp = new Fact();
+            $tmp = new rpFact();
             $this->Attributes = $tmp->parseTreeToArray($sub2, $ver);
             //TODO add support for LdsOrdinances
             //$this->LdsOrdinances = LdsOrdinance::parseTreeToArray($sub2, $ver);

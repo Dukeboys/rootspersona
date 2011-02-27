@@ -25,7 +25,7 @@
  * @license   http://www.opensource.org/licenses/Apache2.0.php Apache License
  * @link      http://svn.php.net/repository/Genealogy_Gedcom
  */
-class Fact extends FactDetail
+class rpFact extends FactDetail
 {
     var $_TYPES = array(
     'CAST' => 'Caste',
@@ -68,7 +68,7 @@ class Fact extends FactDetail
         foreach ($keys as $tag) {
             $off = 0;
             while (($i1=parent::findTag($tree, $tag, $off))!==false) {
-                $fact = new Fact();
+                $fact = new rpFact();
                 $fact->Ver = $ver;
                 $fact->Tag = $tag;
                 $fact->Descr = parent::parseText($tree[$i1], $tag);
