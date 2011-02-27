@@ -207,7 +207,7 @@ class rootsPersonaMender {
 			if($isPages) {
 				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
 					. site_url() . "?page_id=" . get_option('rootsUtilityPage') 
-					. "&utilityAction=repairPages'>" . __('Delete Orphans?', 'rootspersona') . "</a></span>"
+					. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
 					. "<span>&#160;&#160;</span>";			
 			} else {
 				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
@@ -223,14 +223,15 @@ class rootsPersonaMender {
 	}
 
 	function validatePages ($dataDir, $isRepair=false) {
-                $args = array( 'numberposts' => -1, 'post_type'=>'page', 'post_status'=>'any');
-                $pages = get_posts($args);
+        $args = array( 'numberposts' => -1, 'post_type'=>'page', 'post_status'=>'any');
+        $pages = get_posts($args);
 		$cnt = 0;
 		$isFirst = true;
-                $dom = new DOMDocument();
-                $dom->load($dataDir . "idMap.xml");
-                $xpath = new DOMXPath($dom);
+        $dom = new DOMDocument();
+        $dom->load($dataDir . "idMap.xml");
+        $xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+		$parent = get_option('rootsPersonaParentPage');
 
 		foreach($pages as $page) {
 			$output = array();
@@ -247,6 +248,16 @@ class rootsPersonaMender {
 					} else {
 						$output[] = __("No reference in idMap.xml.", 'rootspersona');
 					}
+				} else if($page->post_parent != $parent) {
+					if($isRepair) {
+						$output[] = sprintf(__("Updated parent page to %s.", 'rootspersona'),$parent);	
+						$my_post = array();
+  						$my_post['ID'] = $page->ID;
+						$my_post['post_parent'] = $parent;
+						wp_update_post( $my_post );				
+					} else {
+						$output[] = sprintf(__("Parent page out of synch %s", 'rootspersona')," (" . $parent . ").");
+					}					
 				}
 			} else if(preg_match("/rootsPersonaIndexPage/i", $page->post_content)) {
 				$pageId = get_option('rootsPersonaIndexPage');

@@ -37,7 +37,8 @@ echo  "<td style='vertical-align:middle'>" . sprintf(__('Validate your %s setup.
 
 echo  "<tr style='vertical-align: top'>";
 echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "&utilityAction=validatePages'>" . __('Validate persona Pages', 'rootspersona') . "</a></div></td>";
-echo  "<td style='vertical-align:middle'>" . sprintf(__('Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in idMap.xml.', 'rootspersona'),"persona","[rootsPersona/]") . "</td></tr>";
+echo  "<td style='vertical-align:middle'>" . sprintf(__('Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in idMap.xml.', 'rootspersona'),"persona","[rootsPersona/]") 
+		. "<br/>" . __("Will also identify/sync pages with the wrong parent page assigned.") . "</td></tr>";
 
 $win1 = __('All persona pages will be deleted.  Does not include utilities.  Proceed?', 'rootspersona');
 echo  "<tr style='vertical-align: top'>";
