@@ -3,30 +3,31 @@
 			targetNamespace="http://ed4becky.net/evidence"
 			xmlns="http://ed4becky.net/evidence">
 			
-  <xs:element name="citation">
+  <xs:element name="source">
     <xs:complexType mixed="true">
       <xs:sequence>
         <xs:element ref="abbr" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="title" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="detail" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="persons" minOccurs="0" maxOccurs="1" />        
+        <xs:element ref="title" minOccurs="0" maxOccurs="1" />     
+        <xs:element ref="citation" minOccurs="0" maxOccurs="unbounded" />    
       </xs:sequence>
-      <xs:attribute name="pageId" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="pageId" type="xs:NMTOKEN"/>
       <xs:attribute name="sourceId" type="xs:NMTOKEN" use="required" />
     </xs:complexType>
   </xs:element>
-
+  
+  <xs:element name="citation">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="detail" minOccurs="0" maxOccurs="1" />
+        <xs:element ref="person" minOccurs="0" maxOccurs="unbounded" />        
+      </xs:sequence>
+      <xs:attribute name="sourceId" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="abbr" type="xs:token"/>
   <xs:element name="title" type="xs:token"/>
   <xs:element name="detail" type="xs:token"/>
-  
-  <xs:element name="persons">
-      <xs:complexType>
-      	<xs:sequence>
-      		<xs:element ref="person" minOccurs="1" maxOccurs="unbounded" />
-      	</xs:sequence>
-      </xs:complexType>
-  </xs:element>
   
   <xs:element name="person">
       <xs:complexType>
@@ -37,7 +38,7 @@
   <xs:element name="evidence">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="citation" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="source" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
