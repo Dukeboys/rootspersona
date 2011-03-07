@@ -171,7 +171,9 @@ class PersonUtility {
 	 */
 	public function getMapPersonIds($dataDir) {
 		$dom = new DOMDocument();
-		$dom->load($dataDir . "/idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('map', "http://ed4becky.net/idMap");
@@ -219,13 +221,17 @@ class PersonUtility {
 	 */
 	public function getName($fileName, $dataDir) {
 		$dom = new DOMDocument();
-		$dom->load($dataDir . "/" . $fileName);
+		if($dom->load($dataDir . "/" . $fileName) === false) {
+			throw new Exception("Unable to load " . $dataDir . "/" . $fileName);
+		}
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('persona', "http://ed4becky.net/rootsPersona");
 		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="name"]');
 		$name = $nodeList->length>0?$nodeList->item(0)->nodeValue:'';
 		return $name;
-	}	/**
+	}	
+	
+	/**
 	 * 
 	 * Enter description here ...
 	 * @param  $fileName
@@ -233,7 +239,9 @@ class PersonUtility {
 	 */
 	public function getSurname($fileName, $dataDir) {
 		$dom = new DOMDocument();
-		$dom->load($dataDir . "/" . $fileName);
+		if($dom->load($dataDir . "/" . $fileName) === false) {
+			throw new Exception("Unable to load " . $dataDir . "/" . $fileName);
+		}
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('persona', "http://ed4becky.net/rootsPersona");
 		$nodeList = $xpath->query('/persona:person/persona:characteristics/persona:characteristic[@type="surname"]');
@@ -253,7 +261,9 @@ class PersonUtility {
 	public function createMapEntry($pid, $page, $name, $surname, $dataDir ) {
 		// add to idMap.xml
   		$dom = new DOMDocument();
-		$dom->load("$dataDir/idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('map', "http://ed4becky.net/idMap");
 
@@ -273,7 +283,9 @@ class PersonUtility {
 	public function updateNames($pid, $name, $surname, $dataDir ) {
 		// add to idMap.xml
   		$dom = new DOMDocument();
-		$dom->load($dataDir . "idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
         $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
         $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
@@ -298,7 +310,9 @@ class PersonUtility {
 	public function updateExcluded($pid, $value, $dataDir ) {
 		// add to idMap.xml
   		$dom = new DOMDocument();
-		$dom->load($dataDir . "idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
         $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
         $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
@@ -312,7 +326,9 @@ class PersonUtility {
 
 	public function getExcluded($dataDir ) {
   		$dom = new DOMDocument();
-		$dom->load($dataDir . "idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
         $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
         $nodeList = $xpath->query('/map:idMap/map:entry[@excludeLiving="true"]');
@@ -328,7 +344,9 @@ class PersonUtility {
 	
 	function deleteIdMapNode($pid, $dataDir) {
   		$dom = new DOMDocument();
-		$dom->load($dataDir . "idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
         $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
         $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
@@ -465,7 +483,7 @@ class PersonUtility {
          */
 		function processGedcomForm($fileName, $stageDir, $dataDir) {
 			$transformer = new GEDTransformer();
-			$transformer->transformToXML($fileName, $stageDir);
+			$transformer->transformToXML($fileName, $stageDir, $dataDir);
 			
 			// open this directory 
 			$myDirectory = opendir($stageDir);
@@ -508,8 +526,10 @@ class PersonUtility {
                 	$xslFile = $atts["xsl"];
                 if(!isset($xslFile) || $xslFile == '')
                 	$xslFile = $pluginDir . 'xsl/transformPerson2Page.xsl';
-                $xsl->load($xslFile);
-
+            	if($xsl->load($xslFile) === false) {
+					throw new Exception("Unable to load " . $xslFile);
+				}
+				
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
@@ -572,10 +592,14 @@ class PersonUtility {
                 // create a DOM document and load the XML data
                 $xml_doc = new DomDocument;
                 try {
-                    $xml_doc->load($fileName);
+                	if($xml_doc->load($fileName) === false)
+					{
+						throw new Exception('Unable to load ' . $fileName);  
+					}
 
                     // transform the XML into HTML using the XSL file
-                    if (($html = $xp->transformToXML($xml_doc)) !== false) {
+                    if ((($html = $xp->transformToXML($xml_doc)) !== false)
+                    	 || empty($html)) {
                         $block = $html;
                         if((get_post_type($pageId) != 'post') 
                         	&& (current_user_can("edit_pages"))
@@ -648,8 +672,11 @@ class PersonUtility {
                 if(isset($atts["xsl"]))
                 	$xslFile = $atts["xsl"];
                 if(!isset($xslFile) || $xslFile == '')
-                	$xslFile = $pluginDir . 'xsl/personaIndex.xsl';                
-                $xsl->load($xslFile);
+                	$xslFile = $pluginDir . 'xsl/personaIndex.xsl';     
+               	if($dom->load($xslFile) === false)
+				{
+					throw new Exception('Unable to load ' . $xslFile);  
+				}	           
                 // import the XSL stylesheet into the XSLT process
                 $xp->importStylesheet($xsl);
                 $xp->setParameter('','site_url',$mysite);
@@ -659,7 +686,10 @@ class PersonUtility {
                 // create a DOM document and load the XML data
                 $xml_doc = new DomDocument;
                 try {
-                    $xml_doc->load($fileName);
+                    if($dom->load($fileName) === false)
+					{
+						throw new Exception('Unable to load ' . $fileName);  
+					}                    
 
                     // transform the XML into HTML using the XSL file
                     if (($html = $xp->transformToXML($xml_doc)) !== false) {

@@ -26,7 +26,9 @@ class rootsPersonaMender {
 		$utility = new personUtility();
 
   		$dom = new DOMDocument();
-		$dom->load($dataDir . "idMap.xml");
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
 		$nodeList = $xpath->query('/map:idMap/map:entry');
@@ -347,7 +349,7 @@ class rootsPersonaMender {
 		// since we know we just deleted everyting, 
 		//	just copy over the idMap.xml template.
 		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
-		echo $cnt  ." ". __('pages deleted.', 'rootspersona')."br/>";
+		echo $cnt  ." ". __('pages deleted.', 'rootspersona')."<br/>";
 		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
 			. "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' " 
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage') 
@@ -358,27 +360,26 @@ class rootsPersonaMender {
 			.  "</div>";
         }
         function deleteFiles ($pluginDir, $rootsDataDir) {
-                $dir = opendir($rootsDataDir);
-		$cnt = 0;
-                while(false !== ( $file = readdir($dir)) ) {
-                        if (is_file($rootsDataDir . '/' .$file)) {
-				unlink($rootsDataDir . '/' . $file);
-				$cnt++;
-                        }
+        	$dir = opendir($rootsDataDir);
+			$cnt = 0;
+            while(false !== ( $file = readdir($dir)) ) {
+            	if (is_file($rootsDataDir . '/' .$file)) {
+					unlink($rootsDataDir . '/' . $file);
+					$cnt++;
                 }
-                closedir($dir);
-		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
-		copy($pluginDir . "rootsData/p000.xml", $rootsDataDir ."p000.xml");
-		copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
-		copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
-		copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
+            }
+            closedir($dir);
+			copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
+			copy($pluginDir . "rootsData/p000.xml", $rootsDataDir ."p000.xml");
+			copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
+			copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
+			copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
 
-		echo ($cnt-5)  . __(' files deleted.<br/>', 'rootspersona');
-		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
-			.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' " 
-			. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
-			.  "</div>";
-
+			echo ($cnt-5)  . __(' files deleted.<br/>', 'rootspersona');
+			echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+				.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' " 
+				. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
+				.  "</div>";
 	}
 }
 ?>

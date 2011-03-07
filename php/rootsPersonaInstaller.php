@@ -19,6 +19,8 @@ class rootsPersonaInstaller {
 		add_option('rootsIncludePage', $page);
 		$page = $this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
+		$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]');
+		add_option('rootsEvidencePage', $page);
 		$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
 		add_option('rootsUtilityPage', $page);
 		
@@ -73,6 +75,15 @@ class rootsPersonaInstaller {
 		}
 		
 		unset($page);
+		$page = get_option('rootsEvidencePage');
+		if(!isset($page) || empty($page)) {
+			$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]');
+			add_option('rootsEvidencePage', $page);
+		} else {
+			$this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]',$page);
+		}
+		
+		unset($page);
 		$page = get_option('rootsUtilityPage');
 		if(!isset($page) || empty($page)) {
 			$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
@@ -116,6 +127,8 @@ class rootsPersonaInstaller {
 			copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
 			if(!is_file($rootsDataDir . "idMap.xml"))
 				copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
+			if(!is_file($rootsDataDir . "evidence.xml"))
+				copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir ."evidence.xml");				
 		}
 	}
 	
@@ -162,11 +175,14 @@ class rootsPersonaInstaller {
 		delete_option('rootsIncludePage');
 		$page = get_option('rootsPersonaIndexPage');
 		wp_delete_post($page);
+		delete_option('rootsPersonaIndexPage');
 		$page = get_option('rootsUtilityPage');
 		wp_delete_post($page);
 		delete_option('rootsUtilityPage');
-		delete_option('rootsPersonaIndexPage');
-
+		$page = get_option('rootsEvidencePage');
+		wp_delete_post($page);
+		delete_option('rootsEvidencePage');
+		
 		delete_option('rootsPersonaParentPage');
 		delete_option('rootsIsSystemOfRecord');
 		delete_option('rootsHideHeader');
