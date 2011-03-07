@@ -39,7 +39,7 @@ require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
  */
 if (!class_exists("rootsPersona")) {
 	class rootsPersona {
-		var $rootsPersonaVersion = '1.5.1';
+		var $rootsPersonaVersion = '1.5.3';
 		var $plugin_dir;
 		var $data_dir;
 		var $utility;
@@ -287,7 +287,13 @@ if (!class_exists("rootsPersona")) {
 			}
 			return 'For internal use only.<br/>';
 		}	
-
+				
+		function evidencePageHandler() {
+			$action =  site_url() . '/?page_id=' . $this->getPageId();
+			$msg ='';
+			$dataDir = $this->data_dir;
+		}	
+		
 		// shortcode [rootsUploadGedcomForm/]
 		function uploadGedcomFormHandler() {
 			if (!current_user_can('upload_files'))
@@ -456,6 +462,7 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsIncludePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaIndexPage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsUtilityPage', 'intval' );
+			register_setting( 'rootsPersonaOptions', 'rootsEvidencePage', 'intval' );
 			register_setting( 'rootsPersonaOptions', 'rootsHideHeader');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFacts');
 			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
@@ -496,6 +503,7 @@ if (isset($rootsPersonaplugin)) {
 	add_shortcode('rootsPersonaEvidence', array($rootsPersonaplugin, 'rootsPersonaHandler'));
 	add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
 	add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'editPersonFormHandler'));
+	add_shortcode('rootsEvidencePage', array($rootsPersonaplugin, 'evidencePageHandler'));
 	add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'addPageFormHandler'));
 	add_shortcode('rootsUploadGedcomForm', array($rootsPersonaplugin, 'uploadGedcomFormHandler'));
 	add_shortcode('rootsIncludePageForm', array($rootsPersonaplugin, 'includePageFormHandler'));

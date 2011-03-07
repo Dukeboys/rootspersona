@@ -6,9 +6,9 @@
 	<xsl:import href="./transformAncestors.xsl" />
 	<xsl:import href="./transformPictures.xsl" />
 	<xsl:import href="./transformFacts.xsl" />
+	<xsl:import href="./transformEvidence.xsl" />	
 
-	<xsl:output indent="yes" encoding="utf-8"
-		omit-xml-declaration="yes" />
+	<xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
 	<xsl:param name="site_url" />
 	<xsl:param name="data_dir" />
 	<xsl:param name="pic0" />
@@ -69,15 +69,7 @@
 			<div class="rp_banner">Evidence</div>
 		</xsl:if>
 		<div class="rp_truncate">
-			<div class="rp_evidence">
-				<ul>
-					<xsl:for-each select="persona:evidence/persona:source">
-						<li>
-							<xsl:value-of select="text()" />
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
+			<xsl:call-template name="evidencePanel" />
 		</div>
 	</xsl:template>
 

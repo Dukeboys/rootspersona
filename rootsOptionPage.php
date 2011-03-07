@@ -71,7 +71,14 @@ echo  "<td><input type='text' size='5' name='rootsPersonaIndexPage' id='rootsPer
 echo  " value=' " . get_option('rootsPersonaIndexPage'). " '/></td>";
 echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsPersonaIndexPage') . "'>" . __('Page', 'rootspersona') . "</a> " 
 	. __('with the Name Index shortcode.  There is usually no need to change this.', 'rootspersona'). "</td></tr>";
-
+	
+echo  "<tr valign='top'>";
+echo  "<th scope='row'><label for='rootsEvidencePage'>" .  __('Evidence Page Id', 'rootspersona') . "</label></th>";
+echo  "<td><input type='text' size='5' name='rootsEvidencePage' id='rootsEvidencePage'";
+echo  " value=' " . get_option('rootsEvidencePage'). " '/></td>";
+echo  "<td><a href=' " . site_url() . "?page_id=" . get_option('rootsEvidencePage') . "'>" . __('Page', 'rootspersona') . "</a> " 
+	. __('with the Evidence Index shortcode.  There is usually no need to change this.', 'rootspersona'). "</td></tr>";
+	
 echo  "<tr valign='top'>";
 echo  "<th scope='row'><label for='rootsUtilityPage'>" .  __('Persona Utility Page Id', 'rootspersona') . "</label></th>";
 echo  "<td><input type='text' size='5' name='rootsUtilityPage' id='rootsUtilityPage'";
