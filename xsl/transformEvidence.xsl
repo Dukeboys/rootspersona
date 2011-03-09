@@ -5,16 +5,17 @@
 		omit-xml-declaration="yes" />
 	<xsl:param name="site_url" />
 	<xsl:param name="data_dir" />
+	
 	<xsl:template name="evidencePanel">
+		<div class="rp_evidence">
 		<xsl:variable name="currPerson" select="@id" />
-		<xsl:value-of select="$currPerson" />
 		<table class="rp_evi">
 
 			<xsl:variable name="eviNode" select="document(concat($data_dir,'evidence.xml'))/cite:evidence"/>
 			<xsl:for-each select="$eviNode//cite:citation/cite:person[@id=$currPerson]/ancestor::cite:source/cite:title">
 				<tr>
 					<td class="rp_evilink">
-						<a>
+						<sup><a>
 							<xsl:attribute name="href">
 									<xsl:variable name="page"
 								select="ancestor::cite:source[@pageId]" />
@@ -25,12 +26,12 @@
 							[
 							<xsl:value-of select="ancestor::cite:source/@sourceId" />
 							]
-						</a>
+						</a></sup>
 					</td>
 
-					<td class="rp_evisrc">
+					<td><div class="rp_evisrc">
 						<xsl:value-of select="text()" />
-					</td>
+					</div></td>
 				</tr>
 
 				<xsl:for-each
@@ -38,15 +39,16 @@
 					<xsl:variable name="cite" select="text()" />
 					<xsl:if test="$cite != 'Unspecified'">
 						<tr>
-							<td class="rp_eviempty"></td>
-							<td class="rp_evicite">
+							<td><div class="rp_eviempty"></div></td>
+							<td><div class="rp_evicite">
 								<xsl:value-of select="$cite" />
-							</td>
+							</div></td>
 						</tr>
 					</xsl:if>
 				</xsl:for-each>
 			</xsl:for-each>
 		</table>
+		</div>
 	</xsl:template>
 </xsl:transform>
 
