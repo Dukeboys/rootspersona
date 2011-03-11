@@ -207,7 +207,9 @@ class PersonUtility {
 			$dom = DOMDocument::load($dataDir . "/" . $filename);
 			$root = $dom->documentElement;;
 			if(isset($root) && $root->tagName == "persona:person") {
-    			$files[] = $filename;
+				//$pid = substr($filename,0,-4);
+				//if(!$this->isExcluded($pid, $dataDir))
+    				$files[] = $filename;
 			}
 		}
 		return $files;
@@ -316,12 +318,12 @@ class PersonUtility {
 		$xpath = new DOMXPath($dom);
         $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
         $nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $pid . '"]');
-		foreach($nodeList as $entryEl) {
-			$entryEl->setAttribute('excludeLiving',$value);
+		if($nodeList->length > 0) {
+			$nodeList->item(0)->setAttribute('excludeLiving',$value);
+			$dom->formatOutput = true;
+			$dom->preserveWhiteSpace = false;
+			$dom->save($dataDir . "/idMap.xml");
 		}
-		$dom->formatOutput = true;
-		$dom->preserveWhiteSpace = false;
-		$dom->save($dataDir . "/idMap.xml");
 	}
 
 	public function getExcluded($dataDir ) {
@@ -340,6 +342,18 @@ class PersonUtility {
 			$cnt++;
 		}
 		return $persons;
+	}
+	
+	public function isExcluded($pid, $dataDir ) {
+  		$dom = new DOMDocument();
+		if($dom->load($dataDir . "/idMap.xml") === false) {
+			throw new Exception("Unable to load " . $dataDir . "/idMap.xml");
+		}
+		$xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
+        $q = "/map:idMap/map:entry[@personId=$pid and @excludeLiving='true']";
+        $nodeList = $xpath->query($q);
+		return $nodeList->length > 0;;
 	}
 	
 	function deleteIdMapNode($pid, $dataDir) {
@@ -382,7 +396,8 @@ class PersonUtility {
 			$block = $block . "</select><br/>";	
 			$block = $block . "<div style='text-align:center;color:red;font-weight:bold'>".$msg."</div>";
 		
-			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='" .  __('Submit', 'rootspersona') . "'/>";
+			$block = $block . "<br/><input type='submit' name='submitAddPageForm' value='" .  __('Add', 'rootspersona') . "'/>";
+			//$block = $block . "&#160;&#160;<input type='submit' name='submitExcPageForm' value='" .  __('Exclude', 'rootspersona') . "'/>";
 			$block = $block . "&#160;&#160;<input type='reset' name='reset' value='" . __('Reset', 'rootspersona') ."'/>";
 
 			$block = $block . "<br/><br/><div class='personBanner'><br/></div>";

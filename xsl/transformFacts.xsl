@@ -26,7 +26,7 @@
                                 select="concat(translate(substring(@type,1,1),'abcdefghijklmnopqrstuvwxyz',
                      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(@type,2))" />
                      	<xsl:if test="$hidePlaces != '1'">
-                            &#160;in
+                            ;
                             <span class="rp_place">
                                 <xsl:value-of select="persona:place" />
                             </span>

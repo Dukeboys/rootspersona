@@ -70,22 +70,22 @@ if (!class_exists("rootsPersona")) {
 			$block = "";
 			if(isset($rootsPersonId)) {
 				if($this->isExcluded($rootsPersonId))
-					return $this->utility->returnDefaultEmpty( __('Privacy Protected.', 'rootspersona'),plugins_url(),$this->plugin_dir);
+				return $this->utility->returnDefaultEmpty( __('Privacy Protected.', 'rootspersona'),plugins_url(),$this->plugin_dir);
 
 				$block = $this->utility->buildPersonaPage($atts, $callback,
-															site_url(),
-															$this->data_dir,
-															$this->plugin_dir,
-															$this->getPageId());
+				site_url(),
+				$this->data_dir,
+				$this->plugin_dir,
+				$this->getPageId());
 			}
 			return $block ;
 		}
 
 		function rootsPersonaIndexHandler( $atts, $content = null ) {
 			$block = $this->utility->buildPersonaIndexPage($atts,
-						site_url(),
-						$this->data_dir,
-						$this->plugin_dir);
+			site_url(),
+			$this->data_dir,
+			$this->plugin_dir);
 			return $block;
 		}
 
@@ -161,13 +161,13 @@ if (!class_exists("rootsPersona")) {
 		}
 
 		function showPage($srcPage) {
-				$location = site_url() . '/?page_id=' . $srcPage;
-				// The wp_redirect command uses a PHP redirect at its core,
-				// therefore, it will not work either after header information
-				// has been defined for a page.
-				return '<script type="text/javascript">window.location="' . $location . '"; </script>';			
+			$location = site_url() . '/?page_id=' . $srcPage;
+			// The wp_redirect command uses a PHP redirect at its core,
+			// therefore, it will not work either after header information
+			// has been defined for a page.
+			return '<script type="text/javascript">window.location="' . $location . '"; </script>';
 		}
-		
+
 		function showEdit($id) {
 			$fileName = $this->data_dir  . $id . '.xml';
 			if(file_exists($fileName)) {
@@ -187,13 +187,13 @@ if (!class_exists("rootsPersona")) {
            							, '$1'
            							, $content);
            							$pc = 'picCap' . $i;
-           							
-           					if(preg_match("/$pc/", $content)) {
+
+           							if(preg_match("/$pc/", $content)) {
            								$p[$pc] = @preg_replace(
            							'/.*?' . $pc . '=[\'|"](.*)[\'|"].*?/US'
            							, '$1'
            							, $content);
-           					}
+           							}
 						}
 					}
 				}
@@ -232,11 +232,26 @@ if (!class_exists("rootsPersona")) {
 						else $msg = $msg . "<br/>" . __('Error creating page for', 'rootspersona') . " " .$fileName;
 					}
 				}
+			} /*else if (isset($_POST['submitExcPageForm']))
+			{
+			$fileNames  = $_POST['fileNames'];
+
+			if(!isset($fileNames) || count($fileNames) == 0) {
+			$msg = __('No persons selected.', 'rootspersona');
+			} else {
+
+			$dataDir = $this->data_dir;
+			foreach($fileNames as $fileName) {
+			$pid = substr($fileName,0,-4);
+			$this->utility->updateExcluded($pid, "ture", $dataDir);
+			$msg = $msg . "<br/>" . sprintf(__('Person %s excluded.', 'rootspersona'),$pid);
 			}
+			}
+			}*/
 			$files = $this->utility->getMissing($this->data_dir);
 			return $this->utility->showAddPageForm($action,$files,$this->data_dir,$msg);
 		}
-		
+
 		function includePageFormHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
@@ -256,8 +271,8 @@ if (!class_exists("rootsPersona")) {
 			}
 			$persons = $this->utility->getExcluded($dataDir);
 			return $this->utility->showIncludePageForm($action,$persons,$msg);
-		}	
-		
+		}
+
 		function utilityPageHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
@@ -267,33 +282,72 @@ if (!class_exists("rootsPersona")) {
 
 				if($action == 'validate') {
 					$mender = new rootsPersonaMender();
-					return $mender->validate($dataDir, false); 
+					return $mender->validate($dataDir, false);
 				} else if($action == 'repair') {
 					$mender = new rootsPersonaMender();
-					return $mender->validate($dataDir, true); 
+					return $mender->validate($dataDir, true);
 				} else if($action == 'validatePages') {
 					$mender = new rootsPersonaMender();
-					return $mender->validatePages($dataDir, false); 
+					return $mender->validatePages($dataDir, false);
 				}else if($action == 'repairPages') {
 					$mender = new rootsPersonaMender();
-					return $mender->validatePages($dataDir, true); 
+					return $mender->validatePages($dataDir, true);
+				} else if($action == 'validateEvidencePages') {
+					$mender = new rootsPersonaMender();
+					return $mender->validateEvidencePages($dataDir, false);
+				} else if($action == 'repairEvidencePages') {
+					$mender = new rootsPersonaMender();
+					return $mender->validateEvidencePages($dataDir, true);
 				} else if($action == 'delete') {
 					$mender = new rootsPersonaMender();
-					return $mender->delete($this->plugin_dir, $dataDir); 
+					return $mender->delete($this->plugin_dir, $dataDir);
 				} else if($action == 'deleteFiles') {
 					$mender = new rootsPersonaMender();
-					return $mender->deleteFiles($this->plugin_dir, $dataDir); 
+					return $mender->deleteFiles($this->plugin_dir, $dataDir);
 				}
 			}
 			return 'For internal use only.<br/>';
-		}	
-				
-		function evidencePageHandler() {
-			$action =  site_url() . '/?page_id=' . $this->getPageId();
-			$msg ='';
-			$dataDir = $this->data_dir;
-		}	
-		
+		}
+
+		function evidencePageHandler($atts, $content = null, $callback) {
+			$xp = new XsltProcessor();
+			// create a DOM document and load the XSL stylesheet
+			$xsl = new DomDocument;
+			if(isset($atts["xsl"]))
+			$xslFile = $atts["xsl"];
+			if(!isset($xslFile) || $xslFile == '')
+			$xslFile = $this->plugin_dir . 'xsl/evidencePage.xsl';
+			if($xsl->load($xslFile) === false) {
+				throw new Exception("Unable to load " . $xslFile);
+			}
+
+			// import the XSL stylesheet into the XSLT process
+			$xp->importStylesheet($xsl);
+			$xp->setParameter('','site_url',site_url());
+			$xp->setParameter('','data_dir',$this->data_dir);
+			$xp->setParameter('','sid',$atts['sourceid']);
+
+			// create a DOM document and load the XML data
+			$xml_doc = new DomDocument;
+			$fileName =  $this->data_dir . '/evidence.xml';
+			try {
+               	if($xml_doc->load($fileName) === false)
+				{
+					throw new Exception('Unable to load ' . $fileName);  
+				}
+				// transform the XML into HTML using the XSL file
+				if ((($html = $xp->transformToXML($xml_doc)) !== false)
+					|| empty($html)) {
+						$block = $html;
+				} else {
+					$block = '';
+				}
+			} catch (Exception $e) {
+				$block = $this->returnDefaultEmpty(__('No Information available.', 'rootspersona'),$mysite,$pluginDir);
+			}
+			return $block;
+		}
+
 		// shortcode [rootsUploadGedcomForm/]
 		function uploadGedcomFormHandler() {
 			if (!current_user_can('upload_files'))
@@ -439,15 +493,15 @@ if (!class_exists("rootsPersona")) {
 						'manage_options',
 						'rootsPersona',
 						'buildRootsOptionsPage');
-			
-			$page = add_submenu_page( 'tools.php', 
+
+			$page = add_submenu_page( 'tools.php',
 								'rootsPersona Tools', 
 								'rootsPersona', 
 								'manage_options', 
 								'rootsPersona',
 								'buildRootsToolsPage');			
-		       /* Using registered $page handle to hook stylesheet loading */
-		       add_action( 'admin_print_styles-' . $page, array($this,'insertRootsPersonaStyles') );
+			/* Using registered $page handle to hook stylesheet loading */
+			add_action( 'admin_print_styles-' . $page, array($this,'insertRootsPersonaStyles') );
 
 		}
 
@@ -468,9 +522,9 @@ if (!class_exists("rootsPersona")) {
 			register_setting( 'rootsPersonaOptions', 'rootsHideAncestors');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyC');
 			register_setting( 'rootsPersonaOptions', 'rootsHideFamilyS');
-			register_setting( 'rootsPersonaOptions', 'rootsHideEvidence');			
+			register_setting( 'rootsPersonaOptions', 'rootsHideEvidence');
 			register_setting( 'rootsPersonaOptions', 'rootsHidePictures');
-			register_setting( 'rootsPersonaOptions', 'rootsHideEditLinks');			
+			register_setting( 'rootsPersonaOptions', 'rootsHideEditLinks');
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHideDates');
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaHidePlaces');
 		}

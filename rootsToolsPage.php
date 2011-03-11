@@ -16,6 +16,10 @@ echo "<p style='padding: .5em; background-color: red; color: white; font-weight:
 echo  "<table class='form-table'>";
 
 echo  "<tr style='vertical-align: top'>";
+echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsUtilityPage') . "&utilityAction=validateEvidencePages'>" . __('Validate Evidence Pages', 'rootspersona') . "</a></div></td>";
+echo  "<td style='vertical-align:middle'>" . __('Identify missing/unreferenced evidence pages.', 'rootspersona') . "</td></tr>";
+
+echo  "<tr style='vertical-align: top'>";
 echo  "<td style='width:200px;'><div class='rp_linkbutton'><a href=' " . site_url() . "?page_id=" . get_option('rootsCreatePage') . "'>" . __('Add Uploaded Persons', 'rootspersona') . "</a></div></td>";
 echo  "<td style='vertical-align:middle'>" . __('Review the list of people you have uploaded but not created pages for.', 'rootspersona') . "</td></tr>";
 
