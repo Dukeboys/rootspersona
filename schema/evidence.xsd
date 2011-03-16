@@ -9,6 +9,7 @@
         <xs:element ref="abbr" minOccurs="0" maxOccurs="1" />
         <xs:element ref="title" minOccurs="0" maxOccurs="1" />     
         <xs:element ref="citation" minOccurs="0" maxOccurs="unbounded" />    
+        <xs:element ref="note" minOccurs="0" maxOccurs="unbounded" /> 
       </xs:sequence>
       <xs:attribute name="pageId" type="xs:NMTOKEN"/>
       <xs:attribute name="sourceId" type="xs:NMTOKEN" use="required" />
@@ -28,6 +29,7 @@
   <xs:element name="abbr" type="xs:token"/>
   <xs:element name="title" type="xs:token"/>
   <xs:element name="detail" type="xs:token"/>
+    <xs:element name="note" type="xs:token"/>
   
   <xs:element name="person">
       <xs:complexType>

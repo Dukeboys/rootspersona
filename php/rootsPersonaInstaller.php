@@ -77,10 +77,10 @@ class rootsPersonaInstaller {
 		unset($page);
 		$page = get_option('rootsEvidencePage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]');
+			$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]','','publish');
 			add_option('rootsEvidencePage', $page);
 		} else {
-			$this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]',$page);
+			$this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]',$page,'publish');
 		}
 		
 		unset($page);
@@ -132,7 +132,7 @@ class rootsPersonaInstaller {
 		}
 	}
 	
-	function createPage($title, $contents,$page='') {
+	function createPage($title, $contents,$page='',$status='private') {
 		// Create post object
 		$my_post = array();
 		$my_post['post_title'] = $title;

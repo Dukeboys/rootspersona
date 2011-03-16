@@ -216,8 +216,6 @@ class rootsPersonaMender {
 			return;
 		}
 
-		$utility = new personUtility();
-
 		$dom = new DOMDocument();
 		if($dom->load($dataDir . "/evidence.xml") === false) {
 			throw new Exception("Unable to load " . $dataDir . "/evidence.xml");
@@ -233,10 +231,12 @@ class rootsPersonaMender {
 			$output = array();
 			while(sizeof($output) == 0) {
 				$sourceId = $entryEl->getAttribute('sourceId');
-				$pageId = $entryEl->getAttribute('pageId');				
+				$pageId = $entryEl->getAttribute('pageId');		
 				if(!isset($pageId) || empty($pageId)) {
 					if($isRepair) {
 						$output[] = sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
+						$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+						$entryEl->setAttribute('pageId',$pageId);
 						break;
 					} else {
 						$output[] = sprintf(__("No page exists for %s.", 'rootspersona'),$sourceId);
@@ -249,7 +249,9 @@ class rootsPersonaMender {
 						if($isRepair) {
 							$output[] = __("Page does not exist. ", 'rootspersona') 
 								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							break;
+							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+						$entryEl->setAttribute('pageId',$pageId);
+						break;
 						} else {
 							$output[] = sprintf(__("Page %s does not exist for %s.", 'rootspersona'), $pageId, $sourceId);
 						}
@@ -260,7 +262,9 @@ class rootsPersonaMender {
 						if($isRepair) {
 							$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
 								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							break;
+							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+						$entryEl->setAttribute('pageId',$pageId);
+						break;
 						} else {
 							$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
 						}
@@ -274,18 +278,20 @@ class rootsPersonaMender {
            				if($isRepair) {
 							$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
 								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							break;
+							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));	
+						$entryEl->setAttribute('pageId',$pageId);
+						break;
 						} else {
 							$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
 						}
            			}
 				
-					if($post->post_title != '???') {
+					if($post->post_title != $sourceId) {
 						if($isRepair) {
 							$output[] = __("Page title out of synch: updating page title.", 'rootspersona');
 							$my_post = array();
 							$my_post['ID'] = $pageId;
-							$my_post['post_title'] = '???';
+							$my_post['post_title'] = $sourceId;
 							wp_update_post( $my_post );
 						} else {
 							$output[] = __("Page title", 'rootspersona') ." (".$post->post_title
@@ -306,14 +312,54 @@ class rootsPersonaMender {
 			}
 			$cnt++;
 		}
+		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
+		if($isFirst) {
+			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+					. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")
+					."</p><span>&#160;&#160;</span>";
+		} else if(!$isRepair) {
+				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
+				. site_url() . "?page_id=" 
+				. get_option('rootsUtilityPage')
+				. "&utilityAction=repairEvidencePages'>" . __('Repair Inconsistencies?', 'rootspersona') 
+				. "</a></span><span>&#160;&#160;</span>";
+		}
+		
+		echo $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+				. admin_url() . "tools.php?page=rootsPersona'>" 
+				. __('Return', 'rootspersona') . "</a></span>"
+				.  "</div>";
+		
 		if(!$isFirst && $isRepair) {
 			$dom->formatOutput = true;
 			$dom->preserveWhiteSpace = false;
 			$dom->save($dataDir . "/evidence.xml");
 		}
-		//echo $this->getFooter($isFirst,$isEmpty, $isRepair);
 	}
+	
+	function createPage($title, $contents,$page='') {
+		// Create post object
+		$my_post = array();
+		$my_post['post_title'] = $title;
+		$my_post['post_content'] = $contents;
+		$my_post['post_status'] = 'publish';
+		$my_post['post_author'] = 0;
+		$my_post['post_type'] = 'page';
+		$my_post['ping_status'] = 'closed';
+		$my_post['comment_status'] = 'closed';
+		$my_post['post_parent'] = get_option('rootsEvidencePage');;
 
+		$pageID = '';
+		if(empty($page)) {
+			$pageID = wp_insert_post( $my_post );
+		} else {
+			$my_post['ID'] = $page;
+			wp_update_post( $my_post );
+			$pageID = $page;
+		}
+		return $pageID;
+	}
+	
 	function getFooter($isValid,$isEmpty, $isRepaired, $isPages=false) {
 		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
 		if($isEmpty) {

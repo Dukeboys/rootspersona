@@ -18,7 +18,7 @@
 						<sup><a>
 							<xsl:attribute name="href">
 									<xsl:variable name="page"
-								select="ancestor::cite:source[@pageId]" />
+								select="ancestor::cite:source/@pageId" />
 									<xsl:if test="$page = ''">#</xsl:if>
 									<xsl:if test="$page != ''"><xsl:value-of
 								select="concat(concat($site_url,'/?page_id='),$page)" /></xsl:if>	

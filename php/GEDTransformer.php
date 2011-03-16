@@ -259,6 +259,7 @@ class GEDTransformer {
 
 
 	public function createXMLEvidence($source, $dom, $nodes) {
+		$entryEl = null;
 		if($nodes->length > 0) {
 			$entryEl = $nodes->item(0);
 			$aNodes = $entryEl->getElementsByTagName ('abbr');
@@ -267,6 +268,11 @@ class GEDTransformer {
 			$tNodes = $entryEl->getElementsByTagName ('title');
 			$titleEl = $tNodes->item(0);
 			$titleEl->nodeValue = htmlentities ($source->Title);
+			$nList = $entryEl->getElementsByTagName ('note');
+			$cnt = $nList->length;
+			for($i = 0; $i<$cnt; $i++) {
+				$entryEl->removeChild($nList->item($i));
+			}
 		} else {
 			$rootNode = $dom->documentElement;
 			$entryEl = $dom->createElementNS('http://ed4becky.net/evidence', 'cite:source');
@@ -279,6 +285,12 @@ class GEDTransformer {
 			$titleEl = $dom->createElementNS('http://ed4becky.net/evidence', 'cite:title');
 			$titleEl->nodeValue = htmlentities ($source->Title);
 			$entryEl->appendChild($titleEl);
+		}
+		
+		foreach ($source->Notes as $note) {
+			$noteEl = $dom->createElementNS('http://ed4becky.net/evidence', 'cite:note');
+			$noteEl->nodeValue = htmlentities ($note->Text);
+			$entryEl->appendChild($noteEl);				
 		}
 	}
 
