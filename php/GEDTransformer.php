@@ -1,4 +1,4 @@
-<?php
+ <?php
 //require_once ('temp.inc.php');
 require_once ('include.inc.php');
 
@@ -25,7 +25,7 @@ class GEDTransformer {
 
 			foreach ($g->gedcomObjects['SrcRecs'] as $obj) {
 				$nodeList = $xpath->query("/cite:evidence/cite:source[@sourceId='"
-				. $obj->Id . "']");
+				. strtolower($obj->Id) . "']");
 				$this->createXMLEvidence($obj, $dom, $nodeList);
 			}
 
@@ -62,7 +62,9 @@ class GEDTransformer {
 
 		$charEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:characteristic');
 		$charEl->setAttribute('type','surname');
-		$charEl->appendChild($dom->createTextNode(str_replace('/','',$person->getSurname())));
+		$surname = str_replace('/','',$person->getSurname());
+		if (empty($surname)) $surname = 'Unknown';
+		$charEl->appendChild($dom->createTextNode($surname));
 		$charsEl->appendChild($charEl);
 
 		$charEl = $dom->createElementNS('http://ed4becky.net/rootsPersona', 'persona:characteristic');
@@ -246,10 +248,6 @@ class GEDTransformer {
 			$person->setAttribute('id',strtolower($id));
 			$child->appendChild($person);
 		}
-		//		$this->addCitations($family,$rootEl, $dom, $sources);
-		//
-		//		if(count($sources) > 0)
-		//			$this->addEvidence($sources,$rootEl, $dom, $ged);
 			
 		$fileName = $stageDir . strtolower($family->Id) . '.xml';
 		$dom->formatOutput = true;

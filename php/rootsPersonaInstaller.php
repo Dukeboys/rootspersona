@@ -5,10 +5,11 @@ require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 class rootsPersonaInstaller {
 	function rootsPersonaInstall ($pluginDir, $version) {
 		add_option('rootsPersonaVersion', $version);
-		$this->createDataDir($pluginDir, WP_CONTENT_DIR ."/rootsPersonaData/");
+		$utility = new PersonUtility();
+		$utility->createDataDir($pluginDir, WP_CONTENT_DIR ."/rootsPersonaData/");
 
 		add_option('rootsDataDir', "wp-content/rootsPersonaData/");
-		 
+			
 		$page = $this->createPage(__('Edit Person Page', 'rootspersona'),'[rootsEditPersonaForm/]');
 		add_option('rootsEditPage', $page);
 		$page = $this->createPage(__('Add Person Pages', 'rootspersona'),'[rootsAddPageForm/]');
@@ -19,11 +20,11 @@ class rootsPersonaInstaller {
 		add_option('rootsIncludePage', $page);
 		$page = $this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
-		$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]');
+		$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]','','publish');
 		add_option('rootsEvidencePage', $page);
 		$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
 		add_option('rootsUtilityPage', $page);
-		
+
 		add_option('rootsPersonaParentPage', "0");
 		add_option('rootsIsSystemOfRecord', 'false');
 	}
@@ -32,11 +33,12 @@ class rootsPersonaInstaller {
 		update_option('rootsPersonaVersion', $version);
 
 		$opt = get_option('rootsDataDir');
+		$utility = new PersonUtility();
 		if(!isset($opt) || empty($opt) || !is_dir($opt)) {
-			$this->createDataDir($pluginDir, WP_CONTENT_DIR ."/rootsPersonaData/");
+			$utility->createDataDir($pluginDir, WP_CONTENT_DIR ."/rootsPersonaData/");
 			add_option('rootsDataDir', "wp-content/rootsPersonaData/");
 		} else {
-			$this->createDataDir($pluginDir, $opt);
+			$utility->createDataDir($pluginDir, $opt);
 		}
 
 		$page = get_option('rootsEditPage');
@@ -64,7 +66,7 @@ class rootsPersonaInstaller {
 		} else {
 			$this->createPage(__('Upload GEDCOM File', 'rootspersona'),'[rootsUploadGedcomForm/]',$page);
 		}
-		
+
 		unset($page);
 		$page = get_option('rootsIncludePage');
 		if(!isset($page) || empty($page)) {
@@ -73,7 +75,7 @@ class rootsPersonaInstaller {
 		} else {
 			$this->createPage(__('Include Page Form', 'rootspersona'),'[rootsIncludePageForm/]',$page);
 		}
-		
+
 		unset($page);
 		$page = get_option('rootsEvidencePage');
 		if(!isset($page) || empty($page)) {
@@ -82,7 +84,7 @@ class rootsPersonaInstaller {
 		} else {
 			$this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]',$page,'publish');
 		}
-		
+
 		unset($page);
 		$page = get_option('rootsUtilityPage');
 		if(!isset($page) || empty($page)) {
@@ -91,7 +93,7 @@ class rootsPersonaInstaller {
 		} else {
 			$this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]',$page);
 		}
-		
+
 		unset($page);
 		$page = get_option('rootsPersonaIndexPage');
 		if(!isset($page) || empty($page)) {
@@ -110,29 +112,14 @@ class rootsPersonaInstaller {
 		$opt = get_option('rootsIsSystemOfRecord');
 		if (!isset($opt) || empty($opt))
 		add_option('rootsIsSystemOfRecord', 'false');
-		
+
 		if($currVersion < '1.4.0') {
 			delete_option('rootsHideFamily');
 			unregister_setting( 'rootsPersonaOptions', 'rootsHideFamily');
 		}
 	}
 
-	function createDataDir($pluginDir, $rootsDataDir) {
-		if(!is_dir($rootsDataDir)) {
-			$this->recurse_copy($pluginDir . "rootsData/", $rootsDataDir);
-		} else {
-			copy($pluginDir . "rootsData/p000.xml", $rootsDataDir ."p000.xml");
-			copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
-			copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
-			copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
-			if(!is_file($rootsDataDir . "idMap.xml"))
-				copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
-			if(!is_file($rootsDataDir . "evidence.xml"))
-				copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir ."evidence.xml");				
-		}
-	}
-	
-	function createPage($title, $contents,$page='',$status='private') {
+	function createPage($title, $contents, $page='',$status='private') {
 		// Create post object
 		$my_post = array();
 		$my_post['post_title'] = $title;
@@ -182,7 +169,7 @@ class rootsPersonaInstaller {
 		$page = get_option('rootsEvidencePage');
 		wp_delete_post($page);
 		delete_option('rootsEvidencePage');
-		
+
 		delete_option('rootsPersonaParentPage');
 		delete_option('rootsIsSystemOfRecord');
 		delete_option('rootsHideHeader');
@@ -196,36 +183,15 @@ class rootsPersonaInstaller {
 		delete_option('rootsPersonaHideDates');
 		delete_option('rootsPersonaHidePlaces');
 		delete_option('rootsHideEditLinks');
-		
-		//remove_action('admin_menu', 'rootsPersonaOptionsPage');
-		//remove_action('wp_print_styles', 'insertRootsPersonaStyles');
-		//remove_action('wp_print_scripts', 'insertRootsPersonaScripts');
-		//remove_filter( 'the_content', 'checkPermissions');
 
-	        $args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
-                $pages = get_posts($args);
-                foreach($pages as $page) {
-                        if(preg_match("/rootsPersona/", $page->post_content)) {
-                                wp_delete_post($page->ID);
-                        }
-                }
-	
-	}
-
-	function recurse_copy($src,$dst) {
-		$dir = opendir($src);
-		@mkdir($dst);
-		while(false !== ( $file = readdir($dir)) ) {
-			if (( $file != '.' ) && ( $file != '..' )) {
-				if ( is_dir($src . '/' . $file) ) {
-					$this->recurse_copy($src . '/' . $file,$dst . '/' . $file);
-				}
-				else {
-					copy($src . '/' . $file,$dst . '/' . $file);
-				}
+		$args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
+		$pages = get_posts($args);
+		foreach($pages as $page) {
+			if(preg_match("/rootsPersona/", $page->post_content)) {
+				wp_delete_post($page->ID);
 			}
 		}
-		closedir($dir);
+
 	}
 }
 ?>

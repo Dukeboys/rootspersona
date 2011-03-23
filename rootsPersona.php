@@ -9,7 +9,7 @@
  License: GPLv2
  */
 
-/*  Copyright 2010  Ed Thompson  (email : ed@ed4becky.org)
+/*  Copyright 2010-2011  Ed Thompson  (email : ed@ed4becky.org)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -30,9 +30,14 @@ require_once(ABSPATH . 'wp-includes/pluggable.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaInstaller.php');
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/rootsPersonaMender.php');
-require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsOptionPage.php');
-require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsToolsPage.php');
-require_once(WP_PLUGIN_DIR  . '/rootspersona/rootsEditPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsOptionPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsToolsPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsEditPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsAddPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsIncludePage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsUploadPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsIndexPage.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/pages/rootsPersonaPage.php');
 
 /**
  * First, make sure class exists
@@ -69,10 +74,10 @@ if (!class_exists("rootsPersona")) {
 			$rootsPersonId = $atts["personid"];
 			$block = "";
 			if(isset($rootsPersonId)) {
-				if($this->isExcluded($rootsPersonId))
+				if($this->utility->isExcluded($rootsPersonId, $this->data_dir))
 				return $this->utility->returnDefaultEmpty( __('Privacy Protected.', 'rootspersona'),plugins_url(),$this->plugin_dir);
 
-				$block = $this->utility->buildPersonaPage($atts, $callback,
+				$block = buildPersonaPage($atts, $callback,
 				site_url(),
 				$this->data_dir,
 				$this->plugin_dir,
@@ -81,8 +86,8 @@ if (!class_exists("rootsPersona")) {
 			return $block ;
 		}
 
-		function rootsPersonaIndexHandler( $atts, $content = null ) {
-			$block = $this->utility->buildPersonaIndexPage($atts,
+		function rootsIndexPageHandler( $atts, $content = null ) {
+			$block = buildPersonaIndexPage($atts,
 			site_url(),
 			$this->data_dir,
 			$this->plugin_dir);
@@ -99,7 +104,7 @@ if (!class_exists("rootsPersona")) {
 		 *
 		 * @example [rootsEditPersonaForm/]
 		 */
-		function editPersonFormHandler() {
+		function rootsEditPersonaPageHandler() {
 			if (!isset($_POST['submitPersonForm'])) {
 				$id  = isset($_GET['personId'])  ? trim(esc_attr($_GET['personId']))  : '';
 				$editAction = isset($_GET['action'])  ? trim(esc_attr($_GET['action']))  : '';
@@ -126,39 +131,10 @@ if (!class_exists("rootsPersona")) {
 					return  __('Missing', 'rootspersona') . " personId:". $id;
 				}
 			} else {
-				return $this->processEdit();
+				return processEdit();
 			}
 		}
 
-		function processEdit() {
-			$p = $this->utility->paramsFromHTML($_POST);
-			$isSystemOfRecord = get_option('rootsIsSystemOfRecord');
-			$msg = '';
-			if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>" . __('Invalid Id.', 'rootspersona');
-			if(strlen($p['personName']) < 1) $msg = $msg . "<br>" . __('Name required.', 'rootspersona');
-			if($isSystemOfRecord == 'false') {
-				$my_post = array();
-				$my_post['ID'] = $p['srcPage'];
-				$content = "[rootsPersona personId='" . $p['personId'] . "'";
-				for ($i= 1;$i <= 7; $i++) {
-					$pf = 'picFile' . $i;
-					if(isset($p[$pf]) && !empty($p[$pf])) {
-						$content = $content . ' ' . $pf . "='" . $p[$pf] . "'";
-						$pc = 'picCap' . $i;
-						if(isset($p[$pc]) && !empty($p[$pc])) {
-							$content = $content . ' ' . $pc . "='" . $p[$pc] . "'";
-						}
-					}
-				}
-				$content = $content . "/]";
-				$my_post['post_content'] = $content;
-				wp_update_post( $my_post );
-				return $this->showPage($p['srcPage']);
-			}
-			$p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
-			$p['isSystemOfRecord'] = $isSystemOfRecord;
-			return showEditForm($p, plugins_url() . "rootspersona/", "<div class='truncate'>" . $msg . "</div>");
-		}
 
 		function showPage($srcPage) {
 			$location = site_url() . '/?page_id=' . $srcPage;
@@ -215,7 +191,7 @@ if (!class_exists("rootsPersona")) {
 		 *
 		 * @example [rootsAddPageForm/]
 		 */
-		function addPageFormHandler() {
+		function rootsAddPageHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
 			if (isset($_POST['submitAddPageForm']))
@@ -249,10 +225,10 @@ if (!class_exists("rootsPersona")) {
 			}
 			}*/
 			$files = $this->utility->getMissing($this->data_dir);
-			return $this->utility->showAddPageForm($action,$files,$this->data_dir,$msg);
+			return showAddPageForm($action,$files,$this->data_dir,$msg);
 		}
 
-		function includePageFormHandler() {
+		function rootsIncludePageHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
 			$dataDir = $this->data_dir;
@@ -270,10 +246,10 @@ if (!class_exists("rootsPersona")) {
 				}
 			}
 			$persons = $this->utility->getExcluded($dataDir);
-			return $this->utility->showIncludePageForm($action,$persons,$msg);
+			return showIncludePageForm($action,$persons,$msg);
 		}
 
-		function utilityPageHandler() {
+		function rootsUtilityPageHandler() {
 			$action =  site_url() . '/?page_id=' . $this->getPageId();
 			$msg ='';
 			$dataDir = $this->data_dir;
@@ -282,7 +258,7 @@ if (!class_exists("rootsPersona")) {
 
 				if($action == 'validate') {
 					$mender = new rootsPersonaMender();
-					return $mender->validate($dataDir, false);
+					return $mender->validateMap($dataDir, false);
 				} else if($action == 'repair') {
 					$mender = new rootsPersonaMender();
 					return $mender->validate($dataDir, true);
@@ -300,7 +276,7 @@ if (!class_exists("rootsPersona")) {
 					return $mender->validateEvidencePages($dataDir, true);
 				} else if($action == 'delete') {
 					$mender = new rootsPersonaMender();
-					return $mender->delete($this->plugin_dir, $dataDir);
+					return $mender->deletePages($this->plugin_dir, $dataDir);
 				} else if($action == 'deleteFiles') {
 					$mender = new rootsPersonaMender();
 					return $mender->deleteFiles($this->plugin_dir, $dataDir);
@@ -309,7 +285,7 @@ if (!class_exists("rootsPersona")) {
 			return 'For internal use only.<br/>';
 		}
 
-		function evidencePageHandler($atts, $content = null, $callback) {
+		function rootsEvidencePageHandler($atts, $content = null, $callback) {
 			$block = null;
 			if(isset($atts['sourceid'])) {
 				$xp = new XsltProcessor();
@@ -354,7 +330,7 @@ if (!class_exists("rootsPersona")) {
 		}
 
 		// shortcode [rootsUploadGedcomForm/]
-		function uploadGedcomFormHandler() {
+		function rootsUploadGedcomHandler() {
 			if (!current_user_can('upload_files'))
 			wp_die(__('You do not have permission to upload files.', 'rootspersona'));
 
@@ -364,8 +340,9 @@ if (!class_exists("rootsPersona")) {
 
 			if (isset($_POST['submitUploadGedcomForm']))
 			{
-				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name']))
-				$msg =  __('Empty File.', 'rootspersona');
+				if(!is_uploaded_file($_FILES['gedcomFile']['tmp_name'])) {
+					$msg =  __('Empty File.', 'rootspersona');
+				}
 				else {
 					$fileName = $_FILES['gedcomFile']['tmp_name'];
 					$stageDir = $this->plugin_dir . "stage/";
@@ -382,7 +359,7 @@ if (!class_exists("rootsPersona")) {
 				return '<script type="text/javascript">window.location="' . $location . '"; </script>';
 
 			} else {
-				return $this->utility->showUploadGedcomForm($action,$this->data_dir,$this->plugin_dir . "stage/",$msg);
+				return showUploadGedcomForm($action,$this->data_dir,$this->plugin_dir . "stage/",$msg);
 			}
 
 		}
@@ -430,24 +407,6 @@ if (!class_exists("rootsPersona")) {
 			wp_enqueue_script('rootsUtilities');
 		}
 
-		/**
-		 * Determines if a person is flagged as excluded
-		 *
-		 * @param $personId
-		 *
-		 * @return boolean true indicates the person is to be excluded
-		 */
-		function isExcluded($personId) {
-			$fileName= $this->data_dir . "idMap.xml";
-			$mapDom = new DomDocument();
-			$mapDom->load($fileName);
-			$xpath = new DOMXPath($mapDom);
-			$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
-			$nodeList = $xpath->query('/map:idMap/map:entry[@personId="' . $personId . '"]');
-			$node = $nodeList->item(0);
-			$isExcluded = $node->getAttribute('excludeLiving');
-			return $isExcluded=='true'?true:false;
-		}
 
 		/**
 		 * Common method to get the current page id
@@ -560,13 +519,13 @@ if (isset($rootsPersonaplugin)) {
 	add_shortcode('rootsPersonaFamilyS', array($rootsPersonaplugin, 'rootsPersonaHandler'));
 	add_shortcode('rootsPersonaPictures', array($rootsPersonaplugin, 'rootsPersonaHandler'));
 	add_shortcode('rootsPersonaEvidence', array($rootsPersonaplugin, 'rootsPersonaHandler'));
-	add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsPersonaIndexHandler'));
-	add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'editPersonFormHandler'));
-	add_shortcode('rootsEvidencePage', array($rootsPersonaplugin, 'evidencePageHandler'));
-	add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'addPageFormHandler'));
-	add_shortcode('rootsUploadGedcomForm', array($rootsPersonaplugin, 'uploadGedcomFormHandler'));
-	add_shortcode('rootsIncludePageForm', array($rootsPersonaplugin, 'includePageFormHandler'));
-	add_shortcode('rootsUtilityPage', array($rootsPersonaplugin, 'utilityPageHandler'));
+	add_shortcode('rootsPersonaIndexPage', array($rootsPersonaplugin, 'rootsIndexPageHandler'));
+	add_shortcode('rootsEditPersonaForm', array($rootsPersonaplugin, 'rootsEditPersonaPageHandler'));
+	add_shortcode('rootsEvidencePage', array($rootsPersonaplugin, 'rootsEvidencePageHandler'));
+	add_shortcode('rootsAddPageForm', array($rootsPersonaplugin, 'rootsAddPageHandler'));
+	add_shortcode('rootsUploadGedcomForm', array($rootsPersonaplugin, 'rootsUploadGedcomHandler'));
+	add_shortcode('rootsIncludePageForm', array($rootsPersonaplugin, 'rootsIncludePageHandler'));
+	add_shortcode('rootsUtilityPage', array($rootsPersonaplugin, 'rootsUtilityPageHandler'));
 	add_action('admin_menu', array($rootsPersonaplugin, 'rootsPersonaMenus'));
 	add_action('wp_print_styles', array($rootsPersonaplugin, 'insertRootsPersonaStyles'));
 	add_action('wp_print_scripts', array($rootsPersonaplugin, 'insertRootsPersonaScripts'));

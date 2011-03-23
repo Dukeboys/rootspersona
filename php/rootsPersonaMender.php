@@ -2,7 +2,7 @@
 require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 
 class rootsPersonaMender {
-	function validate ($dataDir, $isRepair=false) {
+	function validateMap ($dataDir, $isRepair=false) {
 		if(!is_file($dataDir . "idMap.xml")) {
 			echo "<p style='padding: .5em; background-color: red; color: white; font-weight: bold;'>"
 			. __('Missing idMap.xml in', 'rootspersona') ." ". $dataDir ."</p>";
@@ -84,7 +84,7 @@ class rootsPersonaMender {
 				}
 
 				$surName = $entryEl->getAttribute('surName');
-				if(!isset($surName) || $surName == '') {
+				if(!isset($surName) || empty($surName)) {
 					if($isRepair) {
 						$surName = $utility->getSurname($personId . '.xml', $dataDir);
 						if(empty($surName)) $surName = 'Unknown';
@@ -96,7 +96,7 @@ class rootsPersonaMender {
 				}
 					
 				$fullName = $entryEl->nodeValue;
-				if(!isset($fullName) || $fullName == '') {
+				if(!isset($fullName) || empty($fullName)) {
 					if($isRepair) {
 						$fullName = $utility->getName($personId . '.xml', $dataDir);
 						$output[] = __("Invalid name: updating name in idMap.xml to ", 'rootspersona') . $fullName;
@@ -192,7 +192,25 @@ class rootsPersonaMender {
 			$dom->preserveWhiteSpace = false;
 			$dom->save($dataDir . "/idMap.xml");
 		}
-		echo $this->getFooter($isFirst,$isEmpty, $isRepair);
+		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
+		if($isEmpty) {
+			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. __('idMap.xml is empty.', 'rootspersona')."</p>"
+			. "<span>&#160;&#160;</span>";
+		} else if($isValid) {
+			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
+			. "<span>&#160;&#160;</span>";
+		} else if(!$isRepaired) {
+			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
+			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
+			. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
+			. "<span>&#160;&#160;</span>";
+		}
+		$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
+		.  "</div>";
+		echo $footer;
 	}
 
 	function validateEvidencePages ($dataDir, $isRepair=false) {
@@ -231,72 +249,73 @@ class rootsPersonaMender {
 			$output = array();
 			while(sizeof($output) == 0) {
 				$sourceId = $entryEl->getAttribute('sourceId');
-				$pageId = $entryEl->getAttribute('pageId');		
+				$pageId = $entryEl->getAttribute('pageId');
 				if(!isset($pageId) || empty($pageId)) {
 					if($isRepair) {
 						$output[] = sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-						$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+						$pageId = $this->createEvidencePage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
 						$entryEl->setAttribute('pageId',$pageId);
 						break;
 					} else {
 						$output[] = sprintf(__("No page exists for %s.", 'rootspersona'),$sourceId);
 					}
-				} 
+				}
 
 				if(isset($pageId) && !empty($pageId)) {
 					$post = get_post($pageId);
 					if(!isset($post)) {
 						if($isRepair) {
-							$output[] = __("Page does not exist. ", 'rootspersona') 
-								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
-						$entryEl->setAttribute('pageId',$pageId);
-						break;
+							$output[] = __("Page does not exist. ", 'rootspersona')
+							. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
+							$pageId = $this->createEvidencePage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+							$entryEl->setAttribute('pageId',$pageId);
+							break;
 						} else {
 							$output[] = sprintf(__("Page %s does not exist for %s.", 'rootspersona'), $pageId, $sourceId);
 						}
-					}
+					} else {
 
-					$content = $post->post_content;
-					if(!preg_match("/rootsEvidencePage/i", $content)) {
-						if($isRepair) {
-							$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
+						$content = $post->post_content;
+						if(!preg_match("/rootsEvidencePage/i", $content)) {
+							if($isRepair) {
+								$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
 								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
-						$entryEl->setAttribute('pageId',$pageId);
-						break;
-						} else {
-							$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
+								$pageId = $this->createEvidencePage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+								$entryEl->setAttribute('pageId',$pageId);
+								break;
+							} else {
+								$output[] = sprintf(__("Invalid shortcode for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
+							}
 						}
-					}
 
-					$pageSource = @preg_replace(
+						$pageSource = @preg_replace(
            							'/.*?sourceId=[\'|"](.*)[\'|"].*?/US'
            							, '$1'
            							, $content);
-           			if($pageSource != $sourceId) {
-           				if($isRepair) {
-							$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
-								. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
-							$pageId = $this->createPage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));	
-						$entryEl->setAttribute('pageId',$pageId);
-						break;
-						} else {
-							$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
-						}
-           			}
-				
-					if($post->post_title != $sourceId) {
-						if($isRepair) {
-							$output[] = __("Page title out of synch: updating page title.", 'rootspersona');
-							$my_post = array();
-							$my_post['ID'] = $pageId;
-							$my_post['post_title'] = $sourceId;
-							wp_update_post( $my_post );
-						} else {
-							$output[] = __("Page title", 'rootspersona') ." (".$post->post_title
-							.") ".__("does not reflect the name in evidence.xml", 'rootspersona')." (".'???' .")";
-						}
+           							if($pageSource != $sourceId) {
+           								if($isRepair) {
+           									$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId)
+           									. sprintf(__("Creating page for %s.", 'rootspersona'),$sourceId);
+           									$pageId = $this->createEvidencePage($sourceId, sprintf("[rootsEvidencePage sourceId='%s'/]", $sourceId));
+           									$entryEl->setAttribute('pageId',$pageId);
+           									break;
+           								} else {
+           									$output[] = sprintf(__("Invalid evidence page for %s (page %s). ", 'rootspersona'), $sourceId, $pageId);
+           								}
+           							}
+
+           							if($post->post_title != $sourceId) {
+           								if($isRepair) {
+           									$output[] = __("Page title out of synch: updating page title.", 'rootspersona');
+           									$my_post = array();
+           									$my_post['ID'] = $pageId;
+           									$my_post['post_title'] = $sourceId;
+           									wp_update_post( $my_post );
+           								} else {
+           									$output[] = __("Page title", 'rootspersona') ." (".$post->post_title
+           									.") ".__("does not reflect the name in evidence.xml", 'rootspersona')." (".'???' .")";
+           								}
+           							}
 					}
 				}
 				break;
@@ -305,39 +324,92 @@ class rootsPersonaMender {
 			foreach ($output as $line) {
 				if($isFirst) {
 					echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
-						. __('Issues found with your evidence file.', 'rootspersona')."</p>";
+					. __('Issues found with your evidence file.', 'rootspersona')."</p>";
 					$isFirst = false;
 				}
 				echo __("Entry", 'rootspersona')." ". $cnt . ": " .$line . "<br/>";
 			}
 			$cnt++;
 		}
-		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
-		if($isFirst) {
-			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
-					. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")
-					."</p><span>&#160;&#160;</span>";
-		} else if(!$isRepair) {
-				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
-				. site_url() . "?page_id=" 
-				. get_option('rootsUtilityPage')
-				. "&utilityAction=repairEvidencePages'>" . __('Repair Inconsistencies?', 'rootspersona') 
-				. "</a></span><span>&#160;&#160;</span>";
-		}
-		
-		echo $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
-				. admin_url() . "tools.php?page=rootsPersona'>" 
-				. __('Return', 'rootspersona') . "</a></span>"
-				.  "</div>";
-		
+
 		if(!$isFirst && $isRepair) {
 			$dom->formatOutput = true;
 			$dom->preserveWhiteSpace = false;
 			$dom->save($dataDir . "/evidence.xml");
 		}
+
+		$args = array( 'numberposts' => -1, 'post_type'=>'page', 'post_status'=>'any');
+		$pages = get_posts($args);
+		$dom = new DOMDocument();
+		$dom->load($dataDir . "evidence.xml");
+		$xpath = new DOMXPath($dom);
+		$xpath->registerNamespace('cite', 'http://ed4becky.net/evidence');
+		$parent = get_option('rootsEvidencePage');
+
+		foreach($pages as $page) {
+			$output = array();
+
+			if(preg_match("/rootsEvidencePage *sourceId=.*/i", $page->post_content)) {
+				$sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US'
+				, '$1'
+				, $page->post_content);
+				$nodeList = $xpath->query('/cite:evidence/cite:source[@sourceId="' . $sid . '"]');
+				if($nodeList->length <= 0) {
+					if($isRepair) {
+						$output[] = __("Deleted orphaned page with no reference in evidence.xml.", 'rootspersona');
+						wp_delete_post($page->ID);
+					} else {
+						$output[] = __("No reference in evidence.xml.", 'rootspersona');
+					}
+				} else if($page->post_parent != $parent) {
+					if($isRepair) {
+						$output[] = sprintf(__("Updated parent page to %s.", 'rootspersona'),$parent);
+						$my_post = array();
+						$my_post['ID'] = $page->ID;
+						$my_post['post_parent'] = $parent;
+						wp_update_post( $my_post );
+					} else {
+						$output[] = sprintf(__("Parent page out of synch %s", 'rootspersona')," (" . $parent . ").");
+					}
+				}
+
+			}
+			foreach ($output as $line) {
+				if($isFirst) {
+					echo "<p style='padding: .5em; background-color: yellow; color: black; font-weight: bold;'>"
+					. sprintf(__('Issues found with your %s pages.', 'rootspersona'),"rootsPersona")."</p>";
+					$isFirst = false;
+				}
+				echo __("Page", 'rootspersona')." ". $page->ID . ": " .$line . "<br/>";
+			}
+		}
+		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
+		if($isEmpty) {
+			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. __('evidence.xml is empty.', 'rootspersona')."</p>"
+			. "<span>&#160;&#160;</span>";
+		}
+		else if($isFirst) {
+			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")
+			."</p><span>&#160;&#160;</span>";
+		} else if(!$isRepair) {
+			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
+			. site_url() . "?page_id="
+			. get_option('rootsUtilityPage')
+			. "&utilityAction=repairEvidencePages'>" . __('Repair Inconsistencies?', 'rootspersona')
+			. "</a></span><span>&#160;&#160;</span>";
+		}
+
+		echo $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+		. admin_url() . "tools.php?page=rootsPersona'>"
+		. __('Return', 'rootspersona') . "</a></span>"
+		.  "</div>";
+
+
 	}
-	
-	function createPage($title, $contents,$page='') {
+
+	function createEvidencePage($title, $contents, $page='') {
 		// Create post object
 		$my_post = array();
 		$my_post['post_title'] = $title;
@@ -347,7 +419,7 @@ class rootsPersonaMender {
 		$my_post['post_type'] = 'page';
 		$my_post['ping_status'] = 'closed';
 		$my_post['comment_status'] = 'closed';
-		$my_post['post_parent'] = get_option('rootsEvidencePage');;
+		$my_post['post_parent'] = get_option('rootsEvidencePage');
 
 		$pageID = '';
 		if(empty($page)) {
@@ -358,35 +430,6 @@ class rootsPersonaMender {
 			$pageID = $page;
 		}
 		return $pageID;
-	}
-	
-	function getFooter($isValid,$isEmpty, $isRepaired, $isPages=false) {
-		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
-		if($isEmpty) {
-			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
-			. __('idMap.xml is empty.', 'rootspersona')."</p>"
-			. "<span>&#160;&#160;</span>";
-		} else if($isValid) {
-			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
-			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
-			. "<span>&#160;&#160;</span>";
-		} else if(!$isRepaired) {
-			if($isPages) {
-				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
-				. site_url() . "?page_id=" . get_option('rootsUtilityPage')
-				. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
-				. "<span>&#160;&#160;</span>";
-			} else {
-				$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
-				. site_url() . "?page_id=" . get_option('rootsUtilityPage')
-				. "&utilityAction=repair'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
-				. "<span>&#160;&#160;</span>";
-			}
-		}
-		$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
-		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
-		.  "</div>";
-		return $footer;
 	}
 
 	function validatePages ($dataDir, $isRepair=false) {
@@ -498,22 +541,41 @@ class rootsPersonaMender {
 			}
 			$cnt++;
 		}
-		echo $this->getFooter($isFirst,false, $isRepair, true);
+		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
+		if($isEmpty) {
+			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. __('idMap.xml is empty.', 'rootspersona')."</p>"
+			. "<span>&#160;&#160;</span>";
+		} else if($isValid) {
+			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
+			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
+			. "<span>&#160;&#160;</span>";
+		} else if(!$isRepaired) {
+			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
+			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
+			. "&utilityAction=repair'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
+			. "<span>&#160;&#160;</span>";
+		}
+		$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
+		.  "</div>";
+		echo $footer;
 	}
 
-	function delete ($pluginDir, $rootsDataDir) {
+	function deletePages ($pluginDir, $rootsDataDir) {
 		$args = array( 'numberposts' => -1, 'post_type'=>'page','post_status'=>'any');
 		$pages = get_posts($args);
 		$cnt = 0;
 		foreach($pages as $page) {
-			if(preg_match("/rootsPersona /", $page->post_content)) {
+			if(preg_match("/rootsPersona |rootsEvidencePage /", $page->post_content)) {
 				wp_delete_post($page->ID);
 				$cnt++;
 			}
 		}
 		// since we know we just deleted everyting,
-		//	just copy over the idMap.xml template.
+		//	just reseed the idMap.xml and evidence.xml templates.
 		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
+		copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir ."evidence.xml");
 		echo $cnt  ." ". __('pages deleted.', 'rootspersona')."<br/>";
 		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
 		. "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
@@ -524,23 +586,20 @@ class rootsPersonaMender {
 		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
 		.  "</div>";
 	}
-	function deleteFiles ($pluginDir, $rootsDataDir) {
-		$dir = opendir($rootsDataDir);
-		$cnt = 0;
-		while(false !== ( $file = readdir($dir)) ) {
-			if (is_file($rootsDataDir . '/' .$file)) {
-				unlink($rootsDataDir . '/' . $file);
-				$cnt++;
-			}
-		}
-		closedir($dir);
-		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
-		copy($pluginDir . "rootsData/p000.xml", $rootsDataDir ."p000.xml");
-		copy($pluginDir . "rootsData/f000.xml", $rootsDataDir ."f000.xml");
-		copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir ."templatePerson.xml");
-		copy($pluginDir . "rootsData/README.txt", $rootsDataDir ."README.txt");
 
-		echo ($cnt-5)  . __(' files deleted.<br/>', 'rootspersona');
+	function deleteFiles ($pluginDir, $rootsDataDir) {
+		unlink($rootsDataDir);
+		$utility = new PersonUtility();
+		$utility->createDataDir($pluginDir, WP_CONTENT_DIR . get_option('rootsDataDir'));
+
+		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
+		copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir . "evidence.xml");
+		copy($pluginDir . "rootsData/p000.xml", $rootsDataDir . "p000.xml");
+		copy($pluginDir . "rootsData/f000.xml", $rootsDataDir . "f000.xml");
+		copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir . "templatePerson.xml");
+		copy($pluginDir . "rootsData/README.txt", $rootsDataDir . "README.txt");
+
+		echo __('Files deleted.<br/>', 'rootspersona');
 		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
 		.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
 		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
