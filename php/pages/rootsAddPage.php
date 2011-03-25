@@ -18,7 +18,8 @@ function showAddPageForm($action,$files,$dataDir, $msg='') {
 		$block = $block . "<br/><select multiple name='fileNames[]' size='16'>";
 		$cnt = count($files);
 		for($i = 0; $i < $cnt; $i++) {
-			$name = $this->getName($files[$i], $dataDir);
+			$utility = new PersonUtility();
+			$name = $utility->getName($files[$i], $dataDir);
 			$block = $block . "<option value='".$files[$i]."'>".$name."</option>";
 		}
 		$block = $block . "</select><br/>";
