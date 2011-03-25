@@ -18,12 +18,7 @@ class PersonUtility {
 			copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir ."evidence.xml");
 		}
 	}
-	/**
-	 *
-	 * used by getMissing
-	 *
-	 * @param unknown_type $dataDir
-	 */
+
 	public function getMapPersonIds($dataDir) {
 		$dom = new DOMDocument();
 		if($dom->load($dataDir . "/idMap.xml") === false) {
@@ -42,12 +37,6 @@ class PersonUtility {
 		return $ids;
 	}
 
-	/**
-	 *
-	 * get list of files without entires in idMap
-	 *
-	 * @param  $dataDir
-	 */
 	public function getMissing($dataDir) {
 		$ids = $this->getMapPersonIds($dataDir);
 		$dh  = opendir($dataDir);
@@ -70,12 +59,6 @@ class PersonUtility {
 		return $files;
 	}
 
-	/**
-	 *
-	 * Enter description here ...
-	 * @param  $fileName
-	 * @param  $dataDir
-	 */
 	public function getName($fileName, $dataDir) {
 		$dom = new DOMDocument();
 		if($dom->load($dataDir . "/" . $fileName) === false) {
@@ -88,12 +71,6 @@ class PersonUtility {
 		return $name;
 	}
 
-	/**
-	 *
-	 * Enter description here ...
-	 * @param  $fileName
-	 * @param  $dataDir
-	 */
 	public function getSurname($fileName, $dataDir) {
 		$dom = new DOMDocument();
 		if($dom->load($dataDir . "/" . $fileName) === false) {
@@ -106,15 +83,6 @@ class PersonUtility {
 		return $surname;
 	}
 
-	/**
-	 *
-	 * add entry to idMap
-	 *
-	 * @param  $pid
-	 * @param  $page
-	 * @param  $name
-	 * @param  $dataDir
-	 */
 	public function createMapEntry($pid, $page, $name, $surname, $dataDir ) {
 		// add to idMap.xml
 		$dom = new DOMDocument();
@@ -228,13 +196,6 @@ class PersonUtility {
 		$dom->save($dataDir . "/idMap.xml");
 	}
 
-	/**
-	 * Create a page in wordpress
-	 *
-	 * @param $fileName
-	 *
-	 * @return string $pageID
-	 */
 	function addPage($fileName, $dataDir) {
 		$name = $this->getName($fileName, $dataDir);
 		$pid = substr($fileName,0,-4);
@@ -258,13 +219,6 @@ class PersonUtility {
 		return $pageID;
 	}
 
-	/**
-	 *
-	 * Enter description here ...
-	 *
-	 * @param  $fileName
-	 * @param  $destDir
-	 */
 	function processGedcomForm($fileName, $stageDir, $dataDir) {
 		$transformer = new GEDTransformer();
 		$transformer->transformToXML($fileName, $stageDir, $dataDir);

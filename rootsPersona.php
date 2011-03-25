@@ -135,7 +135,6 @@ if (!class_exists("rootsPersona")) {
 			}
 		}
 
-
 		function showPage($srcPage) {
 			$location = site_url() . '/?page_id=' . $srcPage;
 			// The wp_redirect command uses a PHP redirect at its core,
@@ -468,7 +467,6 @@ if (!class_exists("rootsPersona")) {
 			add_action( 'admin_print_styles-' . $page, array($this,'insertRootsPersonaStyles') );
 
 		}
-
 
 		function rootsPersonaOptionsInit() {
 			register_setting( 'rootsPersonaOptions', 'rootsPersonaParentPage', 'intval' );

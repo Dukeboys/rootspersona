@@ -1,15 +1,9 @@
- <?php
+<?php
 //require_once ('temp.inc.php');
 require_once ('include.inc.php');
 
 class GEDTransformer {
 
-	/**
-	 * Parse a GEDCOM file into individual XML files
-	 *
-	 * @param $gedcomFile
-	 * @param $stageDir
-	 */
 	public function transformToXML($gedcomFile, $stageDir, $dataDir) {
 		$g = new GedcomManager();
 		$g->parse($gedcomFile);
@@ -43,7 +37,6 @@ class GEDTransformer {
 		}
 		print_r(memory_get_peak_usage (true));
 	}
-
 
 	public function createXMLPerson($person, $ged, $stageDir, $dataDir) {
 		$sources = array();
@@ -255,7 +248,6 @@ class GEDTransformer {
 		$dom->save($fileName);
 	}
 
-
 	public function createXMLEvidence($source, $dom, $nodes) {
 		$entryEl = null;
 		if($nodes->length > 0) {
@@ -357,10 +349,6 @@ class GEDTransformer {
 		}
 	}
 
-	/** Prettifies an XML string into a human-readable and indented work of art
-	 *  @param string $xml The XML as a string
-	 *  @param boolean $html_output True if the output should be escaped (for use in HTML)
-	 */
 	function xmlpp($xml, $html_output=false) {
 		$xml_obj = new SimpleXMLElement($xml);
 		$level = 5;

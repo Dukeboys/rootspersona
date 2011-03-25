@@ -1,6 +1,7 @@
 <?php
 
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/personUtility.php');
 
 class rootsPersonaInstaller {
 	function rootsPersonaInstall ($pluginDir, $version) {
@@ -119,7 +120,7 @@ class rootsPersonaInstaller {
 		}
 	}
 
-	function createPage($title, $contents, $page='',$status='private') {
+	function createPage($title, $contents, $page='', $status='private') {
 		// Create post object
 		$my_post = array();
 		$my_post['post_title'] = $title;
@@ -142,9 +143,6 @@ class rootsPersonaInstaller {
 		return $pageID;
 	}
 
-	/**
-	 * Uninstall (cleanup) the plugin
-	 */
 	function rootsPersonaUninstall() {
 		delete_option('rootsPersonaVersion');
 		delete_option('rootsDataDir');

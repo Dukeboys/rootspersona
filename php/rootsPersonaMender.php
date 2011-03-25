@@ -437,6 +437,7 @@ class rootsPersonaMender {
 		$pages = get_posts($args);
 		$cnt = 0;
 		$isFirst = true;
+		$isEmpty = $pages->length <= 0;
 		$dom = new DOMDocument();
 		$dom->load($dataDir . "idMap.xml");
 		$xpath = new DOMXPath($dom);
@@ -544,13 +545,13 @@ class rootsPersonaMender {
 		$footer =   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
 		if($isEmpty) {
 			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
-			. __('idMap.xml is empty.', 'rootspersona')."</p>"
+			. __('No persona pages found.', 'rootspersona')."</p>"
 			. "<span>&#160;&#160;</span>";
-		} else if($isValid) {
+		} else if($isFirst) {
 			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
 			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
 			. "<span>&#160;&#160;</span>";
-		} else if(!$isRepaired) {
+		} else if(!$isRepair) {
 			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
 			. "&utilityAction=repair'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
@@ -590,7 +591,7 @@ class rootsPersonaMender {
 	function deleteFiles ($pluginDir, $rootsDataDir) {
 		unlink($rootsDataDir);
 		$utility = new PersonUtility();
-		$utility->createDataDir($pluginDir, WP_CONTENT_DIR . get_option('rootsDataDir'));
+		$utility->createDataDir($pluginDir, $rootsDataDir);
 
 		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
 		copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir . "evidence.xml");
