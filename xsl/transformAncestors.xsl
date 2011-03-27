@@ -120,9 +120,9 @@
             </a>
             <br />
             <xsl:if test="$hideDates != '1'">
-            <xsl:value-of select="$personNode/persona:events/persona:event[@type='birth']/persona:date/text()" />
+            <xsl:value-of select="$personNode/persona:events/persona:event[@type='Birth']/persona:date/text()" />
             -
-            <xsl:value-of select="$personNode/persona:events/persona:event[@type='death']/persona:date/text()" />
+            <xsl:value-of select="$personNode/persona:events/persona:event[@type='Death']/persona:date/text()" />
         	</xsl:if>
         </td>
     </xsl:template>

@@ -90,8 +90,6 @@ function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pag
 				&& (current_user_can("edit_pages"))
 				&& get_option('rootsHideEditLinks') != 1)
 				{
-						
-						
 					$win1 = __('Page will be removed but supporting data will not be deleted.  Proceed?', 'rootspersona');
 					$win2 = __('Page will be removed and supporting data will be deleted.  Proceed?', 'rootspersona');
 					$win3 = __('Page will be viewable by logged in members only.  Proceed?', 'rootspersona');
@@ -132,5 +130,4 @@ function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pag
 	}
 	return $block;
 }
-
 ?>
