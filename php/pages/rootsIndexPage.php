@@ -23,7 +23,7 @@ function buildPersonaIndexPage($atts,  $mysite, $dataDir, $pluginDir) {
 		// create a DOM document and load the XML data
 		$xml_doc = new DomDocument;
 		try {
-			if($dom->load($fileName) === false)
+			if($xml_doc->load($fileName) === false)
 			{
 				throw new Exception('Unable to load ' . $fileName);
 			}
