@@ -205,6 +205,7 @@ if (!class_exists("rootsPersona")) {
 						$page = $this->utility->addPage($fileName, $dataDir);
 						if($page != false) $msg = $msg . "<br/>" . __('Page created for', 'rootspersona') . " " .$fileName;
 						else $msg = $msg . "<br/>" . __('Error creating page for', 'rootspersona') . " " .$fileName;
+						set_time_limit(60);
 					}
 				}
 			} /*else if (isset($_POST['submitExcPageForm']))

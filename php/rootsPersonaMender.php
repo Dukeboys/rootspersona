@@ -34,9 +34,10 @@ class rootsPersonaMender {
 		$nodeList = $xpath->query('/map:idMap/map:entry');
 		$cnt = 1;
 		$isFirst = true;
-		$isEmpty = $nodeList->length<= 0;
+		$isEmpty = true;
 
 		foreach($nodeList as $entryEl) {
+			$isEmpty = false;
 			$output = array();
 			while(sizeof($output) == 0) {
 				$personId = $entryEl->getAttribute('personId');
@@ -197,11 +198,11 @@ class rootsPersonaMender {
 			$footer =  $footer . "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
 			. __('idMap.xml is empty.', 'rootspersona')."</p>"
 			. "<span>&#160;&#160;</span>";
-		} else if($isValid) {
+		} else if($isFirst) {
 			$footer =$footer .  "<p style='padding: .5em;margin-top:.5em; background-color: green; color: white; font-weight: bold;'>"
 			. sprintf(__('Your %s setup is VALID.', 'rootspersona'),"rootsPersona")."</p>"
 			. "<span>&#160;&#160;</span>";
-		} else if(!$isRepaired) {
+		} else if(!$isRepair) {
 			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
 			. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
@@ -243,7 +244,7 @@ class rootsPersonaMender {
 		$nodeList = $xpath->query('/cite:evidence/cite:source');
 		$cnt = 1;
 		$isFirst = true;
-		$isEmpty = $nodeList->length<= 0;
+		$isEmpty = true;
 
 		foreach($nodeList as $entryEl) {
 			$output = array();
@@ -348,7 +349,7 @@ class rootsPersonaMender {
 
 		foreach($pages as $page) {
 			$output = array();
-
+			$isEmpty = false;
 			if(preg_match("/rootsEvidencePage *sourceId=.*/i", $page->post_content)) {
 				$sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US'
 				, '$1'
@@ -437,7 +438,7 @@ class rootsPersonaMender {
 		$pages = get_posts($args);
 		$cnt = 0;
 		$isFirst = true;
-		$isEmpty = $pages->length <= 0;
+		$isEmpty = true;;
 		$dom = new DOMDocument();
 		$dom->load($dataDir . "idMap.xml");
 		$xpath = new DOMXPath($dom);
@@ -445,6 +446,7 @@ class rootsPersonaMender {
 		$parent = get_option('rootsPersonaParentPage');
 
 		foreach($pages as $page) {
+			$isEmpty = false;
 			$output = array();
 
 			if(preg_match("/rootsPersona /i", $page->post_content)) {
@@ -571,6 +573,7 @@ class rootsPersonaMender {
 			if(preg_match("/rootsPersona |rootsEvidencePage /", $page->post_content)) {
 				wp_delete_post($page->ID);
 				$cnt++;
+				set_time_limit(60);
 			}
 		}
 		// since we know we just deleted everyting,
@@ -589,22 +592,37 @@ class rootsPersonaMender {
 	}
 
 	function deleteFiles ($pluginDir, $rootsDataDir) {
-		unlink($rootsDataDir);
-		$utility = new PersonUtility();
-		$utility->createDataDir($pluginDir, $rootsDataDir);
-
-		copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
-		copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir . "evidence.xml");
-		copy($pluginDir . "rootsData/p000.xml", $rootsDataDir . "p000.xml");
-		copy($pluginDir . "rootsData/f000.xml", $rootsDataDir . "f000.xml");
-		copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir . "templatePerson.xml");
-		copy($pluginDir . "rootsData/README.txt", $rootsDataDir . "README.txt");
-
-		echo __('Files deleted.<br/>', 'rootspersona');
-		echo   "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+		$returnLink = "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
 		.  "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
 		. admin_url() . "tools.php?page=rootsPersona'>" . __('Return', 'rootspersona') . "</a></span>"
 		.  "</div>";
+		try {
+			$dir = opendir($rootsDataDir);
+			$cnt = 0;
+			while(false !== ( $file = readdir($dir)) ) {
+				if (is_file($rootsDataDir . '/' .$file)) {
+					unlink($rootsDataDir . '/' . $file);
+					$cnt++;
+					set_time_limit(60);
+				}
+			}
+			closedir($dir);
+
+			$utility = new PersonUtility();
+			$utility->createDataDir($pluginDir, $rootsDataDir);
+			copy($pluginDir . "rootsData/idMap.xml", $rootsDataDir ."idMap.xml");
+			copy($pluginDir . "rootsData/evidence.xml", $rootsDataDir . "evidence.xml");
+			copy($pluginDir . "rootsData/p000.xml", $rootsDataDir . "p000.xml");
+			copy($pluginDir . "rootsData/f000.xml", $rootsDataDir . "f000.xml");
+			copy($pluginDir . "rootsData/templatePerson.xml", $rootsDataDir . "templatePerson.xml");
+			copy($pluginDir . "rootsData/README.txt", $rootsDataDir . "README.txt");
+		} catch (Exception $e) {
+			echo $e;
+			echo   $returnLink;
+		}
+
+		echo $cnt . " " .__('file(s) deleted.<br/>', 'rootspersona');
+		echo  $returnLink;
 	}
 }
 ?>

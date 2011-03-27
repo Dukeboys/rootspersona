@@ -240,6 +240,7 @@ class PersonUtility {
 					$this->updateNames($pid, $name, $surname, $dataDir );
 				}
 				rename($stageDir . $entryName, $dataDir . $entryName);
+				set_time_limit(60);
 			}
 		}
 

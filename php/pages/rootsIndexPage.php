@@ -11,7 +11,7 @@ function buildPersonaIndexPage($atts,  $mysite, $dataDir, $pluginDir) {
 		$xslFile = $atts["xsl"];
 		if(!isset($xslFile) || $xslFile == '')
 		$xslFile = $pluginDir . 'xsl/personaIndex.xsl';
-		if($dom->load($xslFile) === false)
+		if($xsl->load($xslFile) === false)
 		{
 			throw new Exception('Unable to load ' . $xslFile);
 		}
@@ -19,7 +19,6 @@ function buildPersonaIndexPage($atts,  $mysite, $dataDir, $pluginDir) {
 		$xp->importStylesheet($xsl);
 		$xp->setParameter('','site_url',$mysite);
 		$xp->setParameter('','data_dir', $dataDir);
-
 
 		// create a DOM document and load the XML data
 		$xml_doc = new DomDocument;
