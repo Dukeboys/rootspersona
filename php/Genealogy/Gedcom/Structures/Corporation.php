@@ -37,7 +37,7 @@ class Corporation extends EntityAbstract
 
     /**
      *
-     * @var rpAddress
+     * @var Address
      */
     var $rpAddress;
 
@@ -117,8 +117,8 @@ class Corporation extends EntityAbstract
     public function __toString()
     {
         $str = __CLASS__
-            . '(rpName->' . $this->rpName
-            . ", rpAddress->" .$this->rpAddress
+            . '(Name->' . $this->Name
+            . ", rpAddress->" . $this->rpAddress
             . ')';
         return $str;
     }

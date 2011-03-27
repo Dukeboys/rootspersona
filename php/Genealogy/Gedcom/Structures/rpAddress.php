@@ -33,7 +33,7 @@ class rpAddress extends EntityAbstract
      *
      * @var string
      */
-    var $rpAddress;
+    var $Address;
 
     /**
      * Break down of the mailing address into individual elements
@@ -98,8 +98,8 @@ class rpAddress extends EntityAbstract
         }
         $gedRec = '';
         if (strpos($ver, '5.5.1') == 0) {
-            if (isset($this->rpAddress) && $this->rpAddress != '') {
-                $addr =  explode("\n", $this->rpAddress);
+            if (isset($this->Address) && $this->Address != '') {
+                $addr =  explode("\n", $this->Address);
                 $gedRec .= $lvl . ' ' . rpTags::ADDR . ' ' . $addr[0];
                 $lvlplus = $lvl + 1;
                 $cnt = count($addr);
@@ -180,7 +180,7 @@ class rpAddress extends EntityAbstract
     {
         $this->Ver =$ver;
         if (($i1=parent::findTag($tree, rpTags::ADDR))!==false) {
-            $this->rpAddress = parent::parseConTag($tree[$i1], rpTags::ADDR);
+            $this->Address = parent::parseConTag($tree[$i1], rpTags::ADDR);
             if (isset($tree[$i1][1])) {
                 $sub2 = $tree[$i1][1];
                 if (($i2=parent::findTag($sub2, rpTags::ADDR1))!==false) {
@@ -241,7 +241,7 @@ class rpAddress extends EntityAbstract
     {
         return __CLASS__
         . '(Version->' . $this->Ver
-        . ', rpAddress->' . $this->rpAddress
+        . ', Address->' . $this->Address
         . ', AddressLine1->' . $this->AddressLine1
         . ', AddressLine2->' . $this->AddressLine2
         . ', AddressLine3->' . $this->AddressLine3

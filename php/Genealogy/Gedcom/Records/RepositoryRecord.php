@@ -197,7 +197,7 @@ class RepositoryRecord extends EntityAbstract
     {
         $str = __CLASS__
         . '(Id->' . $this->Id
-        . ', rpName->' . $this->rpName
+        . ', Name->' . $this->Name
         . ', rpAddress->' . $this->rpAddress;
 
         $str .= ', UserRefNbrs->(';

@@ -162,7 +162,7 @@ class Place extends EntityAbstract
     public function __toString()
     {
         $str = __CLASS__ . '(Version->' . $this->Ver
-        . ', rpName->' . $this->rpName
+        . ', Name->' . $this->Name
         . ', PlaceForm->' . $this->PlaceForm
         . ', Coordinates->' . $this->Coordinates['Latitude']
         . ' by ' . $this->Coordinates['Longitude'];
