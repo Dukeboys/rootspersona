@@ -292,31 +292,31 @@ if (!class_exists("rootsPersona")) {
 				// create a DOM document and load the XSL stylesheet
 				$xsl = new DomDocument;
 				if(isset($atts["xsl"]))
-					$xslFile = $atts["xsl"];
+				$xslFile = $atts["xsl"];
 				if(!isset($xslFile) || $xslFile == '')
-					$xslFile = $this->plugin_dir . 'xsl/evidencePage.xsl';
+				$xslFile = $this->plugin_dir . 'xsl/evidencePage.xsl';
 				if($xsl->load($xslFile) === false) {
 					throw new Exception("Unable to load " . $xslFile);
 				}
-	
+
 				// import the XSL stylesheet into the XSLT process
 				$xp->importStylesheet($xsl);
 				$xp->setParameter('','site_url',site_url());
 				$xp->setParameter('','data_dir',$this->data_dir);
 				$xp->setParameter('','sid',$atts['sourceid']);
-	
+
 				// create a DOM document and load the XML data
 				$xml_doc = new DomDocument;
 				$fileName =  $this->data_dir . '/evidence.xml';
 				try {
-	               	if($xml_doc->load($fileName) === false)
+					if($xml_doc->load($fileName) === false)
 					{
-						throw new Exception('Unable to load ' . $fileName);  
+						throw new Exception('Unable to load ' . $fileName);
 					}
 					// transform the XML into HTML using the XSL file
 					if ((($html = $xp->transformToXML($xml_doc)) !== false)
-						|| empty($html)) {
-							$block = $html;
+					|| empty($html)) {
+						$block = $html;
 					} else {
 						$block = '';
 					}
@@ -324,7 +324,39 @@ if (!class_exists("rootsPersona")) {
 					$block = $this->returnDefaultEmpty(__('No Information available.', 'rootspersona'),$mysite,$pluginDir);
 				}
 			} else {
-				// index page
+				$xp = new XsltProcessor();
+				// create a DOM document and load the XSL stylesheet
+				$xsl = new DomDocument;
+				if(isset($atts["xsl"]))
+				$xslFile = $atts["xsl"];
+				if(!isset($xslFile) || $xslFile == '')
+				$xslFile = $this->plugin_dir . 'xsl/evidenceIndexPage.xsl';
+				if($xsl->load($xslFile) === false) {
+					throw new Exception("Unable to load " . $xslFile);
+				}
+
+				// import the XSL stylesheet into the XSLT process
+				$xp->importStylesheet($xsl);
+				$xp->setParameter('','site_url',site_url());
+				$xp->setParameter('','data_dir',$this->data_dir);
+								// create a DOM document and load the XML data
+				$xml_doc = new DomDocument;
+				$fileName =  $this->data_dir . '/evidence.xml';
+				try {
+					if($xml_doc->load($fileName) === false)
+					{
+						throw new Exception('Unable to load ' . $fileName);
+					}
+					// transform the XML into HTML using the XSL file
+					if ((($html = $xp->transformToXML($xml_doc)) !== false)
+					|| empty($html)) {
+						$block = $html;
+					} else {
+						$block = '';
+					}
+				} catch (Exception $e) {
+					$block = $this->returnDefaultEmpty(__('No Information available.', 'rootspersona'),$mysite,$pluginDir);
+				}
 			}
 			return $block;
 		}

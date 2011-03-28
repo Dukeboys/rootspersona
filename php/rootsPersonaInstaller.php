@@ -21,7 +21,7 @@ class rootsPersonaInstaller {
 		add_option('rootsIncludePage', $page);
 		$page = $this->createPage(__('Persona Index', 'rootspersona'),'[rootsPersonaIndexPage/]');
 		add_option('rootsPersonaIndexPage', $page);
-		$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]','','publish');
+		$page = $this->createPage(__('Evidence', 'rootspersona'),'[rootsEvidencePage/]','','publish');
 		add_option('rootsEvidencePage', $page);
 		$page = $this->createPage(__('Persona Utility', 'rootspersona'),'[rootsUtilityPage/]');
 		add_option('rootsUtilityPage', $page);
@@ -80,7 +80,7 @@ class rootsPersonaInstaller {
 		unset($page);
 		$page = get_option('rootsEvidencePage');
 		if(!isset($page) || empty($page)) {
-			$page = $this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]','','publish');
+			$page = $this->createPage(__('Evidence', 'rootspersona'),'[rootsEvidencePage/]','','publish');
 			add_option('rootsEvidencePage', $page);
 		} else {
 			$this->createPage(__('Evidence Page', 'rootspersona'),'[rootsEvidencePage/]',$page,'publish');
@@ -125,7 +125,7 @@ class rootsPersonaInstaller {
 		$my_post = array();
 		$my_post['post_title'] = $title;
 		$my_post['post_content'] = $contents;
-		$my_post['post_status'] = 'private';
+		$my_post['post_status'] = $status;
 		$my_post['post_author'] = 0;
 		$my_post['post_type'] = 'page';
 		$my_post['ping_status'] = 'closed';
