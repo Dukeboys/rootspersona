@@ -1,5 +1,12 @@
 <?php
-
+require_once(WP_PLUGIN_DIR  . '/rootspersona/php/paramParser.php');
+function showPage($srcPage) {
+	$location = site_url() . '/?page_id=' . $srcPage;
+	// The wp_redirect command uses a PHP redirect at its core,
+	// therefore, it will not work either after header information
+	// has been defined for a page.
+	return '<script type="text/javascript">window.location="' . $location . '"; </script>';
+}
 function showEditForm($p,$imgBase, $msg='') {
 	$block = "<form  action='" . $p['action'] . "' method='POST'><div class='truncate'>";
 
@@ -104,7 +111,7 @@ function systemOfRecordForm($p) {
 
 
 function processEdit() {
-	$p = $this->utility->paramsFromHTML($_POST);
+	$p = paramsFromHTML($_POST);
 	$isSystemOfRecord = get_option('rootsIsSystemOfRecord');
 	$msg = '';
 	if(strlen($p['personId']) < 1) $msg =  $msg .  "<br>" . __('Invalid Id.', 'rootspersona');
@@ -126,7 +133,7 @@ function processEdit() {
 		$content = $content . "/]";
 		$my_post['post_content'] = $content;
 		wp_update_post( $my_post );
-		return $this->showPage($p['srcPage']);
+		return showPage($p['srcPage']);
 	}
 	$p['action'] =  site_url() . '/?page_id=' . $this->getPageId();
 	$p['isSystemOfRecord'] = $isSystemOfRecord;

@@ -1,6 +1,7 @@
 <?php
 require_once 'GEDTransformer.php';
 
+
 class PersonUtility {
 
 	function createDataDir($pluginDir, $rootsDataDir) {

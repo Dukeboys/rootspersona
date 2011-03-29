@@ -20,12 +20,13 @@
 	<xsl:param name="cap6" />
 
 	<xsl:template name="picturePanel">
+
 		<div class="rp_pictures">
 			<table class="personGallery" cellspacing="5px">
 				<tbody>
 					<tr>
 						<td>
-							<xsl:if test="$pic1!=null and $pic1!=''">
+							<xsl:if test="$pic1 and $pic1!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of
@@ -38,7 +39,7 @@
 							</xsl:if>
 						</td>
 						<td>
-							<xsl:if test="$pic2!=null and $pic2!=''">
+							<xsl:if test="$pic2 and $pic2!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of
@@ -51,7 +52,7 @@
 							</xsl:if>
 						</td>
 						<td>
-							<xsl:if test="$pic3!=null and $pic3!=''">
+							<xsl:if test="$pic3 and $pic3!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of
@@ -64,7 +65,7 @@
 							</xsl:if>
 						</td>
 						<td>
-							<xsl:if test="$pic4!=null and $pic4!=''">
+							<xsl:if test="$pic4 and $pic4!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of
@@ -77,7 +78,7 @@
 							</xsl:if>
 						</td>
 						<td>
-							<xsl:if test="$pic5!=null and $pic5!=''">
+							<xsl:if test="$pic5 and $pic5!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of
@@ -90,7 +91,7 @@
 							</xsl:if>
 						</td>
 						<td>
-							<xsl:if test="$pic6!=null and $pic6!=''">
+							<xsl:if test="$pic6 and $pic6!=''">
 								<xsl:attribute name="class">rp_picture</xsl:attribute>
 								<a>
 									<xsl:attribute name="href"><xsl:value-of

@@ -86,6 +86,7 @@ div.rp_evidence table.rp_evi {
 	border-collapse: separate !important;
 	border-spacing: 0px !important;
 	text-indent: 0 !important;
+	width: 100% !important;
 }
 
 div.rp_evidence table.rp_evi td {

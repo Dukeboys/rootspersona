@@ -66,6 +66,7 @@ function buildPersonaPage($atts,  $callback, $mysite, $dataDir, $pluginDir, $pag
 		for ($idx=1; $idx<7;$idx++) {
 			$pic = 'picfile' . ($idx+1);
 			if(isset($atts[$pic])) {
+				//echo $atts[$pic];
 				$xp->setParameter('','pic'.$idx,$atts[$pic]);
 				$cap = 'piccap' . ($idx+1);
 				if(isset($atts[$cap])) {
