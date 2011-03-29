@@ -13,7 +13,7 @@
 		<table>
 		<tr><th>Source ID</th><th>Abbreviated Title</th></tr>
 		<xsl:for-each select="cite:source">
-			<xsl:sort select="@id"/>
+			<xsl:sort select="cite:abbr/text()"/>
 				<tr>
 					<xsl:variable name="page" select="@pageId" />
 					<td>
