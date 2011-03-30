@@ -1,13 +1,13 @@
 <xsl:transform version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cite="http://ed4becky.net/evidence">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:cite="http://ed4becky.net/evidence">
 
-	<xsl:output indent="yes" encoding="utf-8"
-		omit-xml-declaration="yes" />
+	<xsl:output indent="yes" encoding="utf-8" omit-xml-declaration="yes" />
 	<xsl:param name="site_url" />
 	<xsl:param name="data_dir" />
 
 	<xsl:template name="evidencePanel">
-		<div class="rp_evidence">
+	<div class="rp_evidence">
 			<xsl:variable name="currPerson" select="@id" />
 			<xsl:variable name="eviNode"
 				select="document(concat($data_dir,'evidence.xml'))/cite:evidence" />
@@ -36,7 +36,7 @@
 
 							<td>
 								<div class="rp_evisrc">
-									<xsl:value-of select="text()" />
+									<xsl:value-of disable-output-escaping="yes" select="text()" />
 								</div>
 							</td>
 						</tr>

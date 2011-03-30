@@ -340,7 +340,8 @@ if (!class_exists("rootsPersona")) {
 				$xp->importStylesheet($xsl);
 				$xp->setParameter('','site_url',site_url());
 				$xp->setParameter('','data_dir',$this->data_dir);
-								// create a DOM document and load the XML data
+				
+				// create a DOM document and load the XML data
 				$xml_doc = new DomDocument;
 				$fileName =  $this->data_dir . '/evidence.xml';
 				try {

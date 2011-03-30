@@ -74,8 +74,11 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 2. 2nd half of main Persona page
 
 == Changelog ==
-= 1.6.1 =
+= 1.6.2 =
+* sorting Evidence Index by title
+* formatting Evidence title
 
+= 1.6.1 =
 * sorry, few bugs in 1.6
 
 = 1.6 =
