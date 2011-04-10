@@ -262,7 +262,7 @@ if (!class_exists("rootsPersona")) {
 					return $mender->validateMap($dataDir, false);
 				} else if($action == 'repair') {
 					$mender = new rootsPersonaMender();
-					return $mender->validate($dataDir, true);
+					return $mender->validateMap($dataDir, true);
 				} else if($action == 'validatePages') {
 					$mender = new rootsPersonaMender();
 					return $mender->validatePages($dataDir, false);
@@ -340,7 +340,7 @@ if (!class_exists("rootsPersona")) {
 				$xp->importStylesheet($xsl);
 				$xp->setParameter('','site_url',site_url());
 				$xp->setParameter('','data_dir',$this->data_dir);
-				
+
 				// create a DOM document and load the XML data
 				$xml_doc = new DomDocument;
 				$fileName =  $this->data_dir . '/evidence.xml';
@@ -493,11 +493,11 @@ if (!class_exists("rootsPersona")) {
 						'buildRootsOptionsPage');
 
 			$page = add_submenu_page( 'tools.php',
-								'rootsPersona Tools', 
-								'rootsPersona', 
-								'manage_options', 
+								'rootsPersona Tools',
 								'rootsPersona',
-								'buildRootsToolsPage');			
+								'manage_options',
+								'rootsPersona',
+								'buildRootsToolsPage');
 			/* Using registered $page handle to hook stylesheet loading */
 			add_action( 'admin_print_styles-' . $page, array($this,'insertRootsPersonaStyles') );
 
