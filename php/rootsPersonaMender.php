@@ -61,7 +61,7 @@ class rootsPersonaMender {
 						}
 					}
 				}
-					
+
 				$pageId = $entryEl->getAttribute('pageId');
 				$exclude = $entryEl->getAttribute('excludeLiving');
 				if(!isset($pageId) || $pageId == '') {
@@ -95,7 +95,7 @@ class rootsPersonaMender {
 						$output[] = __("Missing surName in idMap.xml.", 'rootspersona');
 					}
 				}
-					
+
 				$fullName = $entryEl->nodeValue;
 				if(!isset($fullName) || empty($fullName)) {
 					if($isRepair) {
@@ -205,7 +205,7 @@ class rootsPersonaMender {
 		} else if(!$isRepair) {
 			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
-			. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
+			. "&utilityAction=repair'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
 			. "<span>&#160;&#160;</span>";
 		}
 		$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
@@ -556,7 +556,7 @@ class rootsPersonaMender {
 		} else if(!$isRepair) {
 			$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
 			. site_url() . "?page_id=" . get_option('rootsUtilityPage')
-			. "&utilityAction=repair'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
+			. "&utilityAction=repairPages'>" . __('Repair Inconsistencies?', 'rootspersona') . "</a></span>"
 			. "<span>&#160;&#160;</span>";
 		}
 		$footer = $footer . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
