@@ -47,6 +47,7 @@ class PersonUtility {
 			if(strpos($filename,"xml") <= 0
 			|| $filename == "p000.xml"
 			|| $filename == "templatePerson.xml"
+			|| $filename == "evidence.xml"
 			|| $filename == "f000.xml"
 			|| $filename == "idMap.xml") continue;
 			$dom = DOMDocument::load($dataDir . "/" . $filename);
@@ -223,10 +224,10 @@ class PersonUtility {
 	function processGedcomForm($fileName, $stageDir, $dataDir) {
 		$transformer = new GEDTransformer();
 		$transformer->transformToXML($fileName, $stageDir, $dataDir);
-			
+
 		// open this directory
 		$myDirectory = opendir($stageDir);
-			
+
 		// get each entry
 		while($entryName = readdir($myDirectory)) {
 			if (strpos($entryName, "xml") > 0) {
