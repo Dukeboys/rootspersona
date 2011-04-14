@@ -34,8 +34,8 @@
 				<xsl:value-of select="text()"/>
 			</td>
 			<td>
-				<xsl:value-of select="$personNode/persona:events/persona:event[@type='birth']/persona:date/text()"/>-
-				<xsl:value-of select="$personNode/persona:events/persona:event[@type='death']/persona:date/text()"/>
+				<xsl:value-of select="$personNode/persona:events/persona:event[@type='Birth']/persona:date/text()"/>-
+				<xsl:value-of select="$personNode/persona:events/persona:event[@type='Death']/persona:date/text()"/>
 			</td>
 			<td>
 				<a>
