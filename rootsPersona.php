@@ -45,7 +45,7 @@ require_once(WP_PLUGIN_DIR  . '/rootspersona/php/paramParser.php');
  */
 if (!class_exists("rootsPersona")) {
 	class rootsPersona {
-		var $rootsPersonaVersion = '1.6.5';
+		var $rootsPersonaVersion = '1.6.6';
 		var $plugin_dir;
 		var $data_dir;
 		var $utility;
