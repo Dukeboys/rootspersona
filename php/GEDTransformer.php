@@ -35,7 +35,7 @@ class GEDTransformer {
 		foreach ($g->gedcomObjects['FamRecs'] as $obj) {
 			$this->createXMLFamily($obj, $g, $stageDir, $dataDir);
 		}
-		print_r(memory_get_peak_usage (true));
+
 	}
 
 	public function createXMLPerson($person, $ged, $stageDir, $dataDir) {
@@ -241,7 +241,7 @@ class GEDTransformer {
 			$person->setAttribute('id',strtolower($id));
 			$child->appendChild($person);
 		}
-			
+
 		$fileName = $stageDir . strtolower($family->Id) . '.xml';
 		$dom->formatOutput = true;
 		$dom->preserveWhiteSpace = false;
@@ -276,11 +276,11 @@ class GEDTransformer {
 			$titleEl->nodeValue = htmlentities ($source->Title);
 			$entryEl->appendChild($titleEl);
 		}
-		
+
 		foreach ($source->Notes as $note) {
 			$noteEl = $dom->createElementNS('http://ed4becky.net/evidence', 'cite:note');
 			$noteEl->nodeValue = htmlentities ($note->Text);
-			$entryEl->appendChild($noteEl);				
+			$entryEl->appendChild($noteEl);
 		}
 	}
 
@@ -384,6 +384,6 @@ class GEDTransformer {
 }
 
 //$tr = new GEDTransformer();
-//$tr->transformToXML("C:\\Users\\ed\\Desktop\\20110208.ged", "C:\\development\\xampp\\htdocs\\wpuser1\\wp-content\\plugins\\rootspersona\\php\\out\\","C:\\development\\xampp\\htdocs\\wpuser1\\wp-content\\plugins\\rootspersona\\rootsData\\") 
+//$tr->transformToXML("C:\\Users\\ed\\Desktop\\20110208.ged", "C:\\development\\xampp\\htdocs\\wpuser1\\wp-content\\plugins\\rootspersona\\php\\out\\","C:\\development\\xampp\\htdocs\\wpuser1\\wp-content\\plugins\\rootspersona\\rootsData\\")
 
 ?>

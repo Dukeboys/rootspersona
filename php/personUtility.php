@@ -176,7 +176,7 @@ class PersonUtility {
 		}
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('map', 'http://ed4becky.net/idMap');
-		$q = "/map:idMap/map:entry[@personId=$pid and @excludeLiving='true']";
+		$q = "/map:idMap/map:entry[@personId='$pid' and @excludeLiving='true']";
 		$nodeList = $xpath->query($q);
 		return $nodeList->length > 0;;
 	}
