@@ -461,7 +461,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                         $event['associated_person_id'] = $id2;
                     } else {
                         $event['spouse2'] = $persona;
-                        $event['associated_person_id'] = $id2;
+                        $event['associated_person_id'] = $id1;
                     }
                     $families[$idx] = $event;
                 }

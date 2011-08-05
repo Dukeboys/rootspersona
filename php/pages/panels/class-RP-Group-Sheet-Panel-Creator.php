@@ -10,7 +10,11 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     public static function create_group_child( $ancestors, $children, $options ) {
-        $block = '<div class="rp_truncate">' . '<div class="rp_family"><table class="familygroup"><tbody>' . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[2], $ancestors[4], $ancestors[5], $options ) . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[3], $ancestors[6], $ancestors[7], $options ) . RP_Group_Sheet_Panel_Creator::show_children( $children, $options ) . '</tbody></table></div></div>';
+        $block = '<div class="rp_truncate">' . '<div class="rp_family"><table class="familygroup"><tbody>' 
+               . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[2], $ancestors[4], $ancestors[5], $options ) 
+               . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[3], $ancestors[6], $ancestors[7], $options ) 
+               . RP_Group_Sheet_Panel_Creator::show_children( $children, $options ) 
+               . '</tbody></table></div></div>';
         return $block;
     }
 
@@ -123,7 +127,10 @@ class RP_Group_Sheet_Panel_Creator {
             $spouse = '';
             if ( isset( $associated )
             && ! empty( $associated->full_name ) ) {
-                $spouse = __( 'to' ) . ' <a href="' . $options['home_url'] . '?page_id=' . $associated->page . '">' . $associated->full_name . '</a> ';
+                $spouse = __( 'to' ) 
+                        . ' <a href="' . $options['home_url'] 
+                        . '?page_id=' . $associated->page . '">' 
+                        . $associated->full_name . '</a> ';
             }
             $place = '';
             if ( isset( $marriage['place'] )
@@ -131,7 +138,10 @@ class RP_Group_Sheet_Panel_Creator {
             && ! ( $options['hide_places'] == 1 ) ) {
                 $place = ' ' . __( 'at', 'rootspersona' ) . ' ' . $marriage['place'];
             }
-            $block .= '<tr><td class="label">' . __( 'Marriage', 'rootspersona' ) . '</td><td class="date">' . ( $options['hide_dates'] == 1 ? '' : $marriage['date'] ) . '</td><td class="notes">' . $spouse . $place . '</td></tr>';
+            $block .= '<tr><td class="label">' . __( 'Marriage', 'rootspersona' ) 
+                    . '</td><td class="date">' 
+                    . ( $options['hide_dates'] == 1 ? '' : $marriage['date'] ) 
+                    . '</td><td class="notes">' . $spouse . $place . '</td></tr>';
         }
         return $block;
     }
