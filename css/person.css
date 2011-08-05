@@ -1,0 +1,127 @@
+div.rp_banner {
+    padding: 3px 0px 3px 8px;
+    background-image: url("../images/personBanner.jpg");
+    color: black;
+    font-weight: bold;
+    font-size: larger;
+}
+
+div.rp_linkbutton, span.rp_linkbutton {
+    margin: 10px 0;
+    padding: 5px 0px 5px 0px;
+    background: url("../images/button-standard-long.gif") no-repeat scroll left bottom transparent;
+    text-align: center;
+    width: 160px;
+    display: inline-block;
+}
+
+ span.rp_linkbutton {
+     font-size:smaller;
+ }
+
+div.rp_pictures {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 0 none !important;
+    border-collapse: separate !important;
+    border-spacing: 2px !important;
+    text-indent: 0;
+    overflow:hidden;
+}
+
+div.rp_pictures div.rp_picture {
+    float:left;
+    margin: 3px;
+}
+
+div.rp_pictures div.rp_picture img {
+    width: 100px !important;
+    border: 4px ridge brown !important;
+    padding: 1px !important;
+}
+
+div.rp_pictures div.rp_picture a,
+div.rp_pictures div.rp_picture a img {
+    text-decoration: none;
+    border: none;
+    vertical-align: top;
+}
+
+div.rp_pictures div.rp_caption {
+    border: 0 none !important;
+    text-align: center !important;
+    width: 100px;
+}
+
+div.rp_truncate {
+    overflow: hidden !important;
+}
+
+div.rp_header div.rp_headerbox {
+    padding: 25px 5px 5px;
+    float: left;
+}
+
+div.rp_header span.rp_headerbox {
+    font-size: larger;
+    font-weight: bold;
+    color: black;
+}
+
+div.rp_truncate div.rp_header img.rp_headerbox {
+    border: 4px ridge brown;
+    margin: 0px 10px 10px 0px ! important;
+    padding: 5px;
+    width: 100px ! important;
+    text-align: center;
+    float: left;
+}
+
+div.rp_facts span.rp_place {
+    font-style: italic
+}
+
+div.rp_evidence table.rp_evi {
+    margin: 10px !important;
+    margin-bottom: 10px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0px !important;
+    border: 0px none !important;
+    border-collapse: separate !important;
+    border-spacing: 0px !important;
+    text-indent: 0 !important;
+    width: 100% !important;
+}
+
+div.rp_evidence table.rp_evi td {
+
+    border: 0px none !important;
+    border-collapse: separate !important;
+    border-spacing: 0px !important;
+    margin: 0px !important;;
+    padding: 0px !important;
+    text-indent: 0 !important;
+}
+
+div.rp_evidence table.rp_evi td div.rp_evisrc {
+    margin-top: 0.5em !important;
+}
+
+div.rp_evidence table.rp_evi td.rp_evilink {
+    white-space:nowrap;
+    text-align: right;
+}
+div.rp_evidence table.rp_evi td.rp_evilink a {
+    padding-right: 0.5em;
+    text-decoration: none;
+}
+
+div.rp_evidence table.rp_evi td div.rp_evicite {
+    margin-left: 2em !important;
+}
+
+div.rp_evidence table.rp_evi td div.rp_eviempty {
+}

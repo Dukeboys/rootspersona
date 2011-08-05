@@ -3,25 +3,42 @@ Contributors: ed4becky
 Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, gedcom, ancestors, family
 Requires at least: 3.0
-Tested up to: 3.1
+Tested up to: 3.2
 Stable tag: 1.6.6
 
 rootsPersona creates one or more pages of family history using data imported from a Gedcom file (version 5.5).
 
 == Description ==
 rootsPersona creates one or more pages of family history using data imported from one or more Gedcom files.
+It allows an administrator to create pages featuring people or evidence with a variety of panels that can
+be mixed and matched for optimum customization.
 
 **Features**
-1. Support for Gedcom Version 5.5
-2. Ability to upload more than one Gedcom file from the same source and link families together
-3. Ability to select which persons from the Gedcom file to create pages for
-4. As updates are made, Gedcom files can be reloaded and existing pages will be updated
-5. Each page includes links to children and spouses
-6. Each page displays a visual family tree that includes three generations
-7. Ability to link pictures uploaded to Wordpress to each person (up to 7)
-8. Pages identifed as 'Permission Required' will only be displayed to users who are logged into your Wordpress site
-9. Sortable Index Page 
-10. MANY customization options
+<ul>
+<li>1. Support for Gedcom Version 5.5
+<li>2. Ability to upload more than one Gedcom file from the same source and link families together
+<li>3. Ability to select which persons from the Gedcom file to create pages for
+<li>4. As updates are made, Gedcom files can be reloaded and existing pages will be updated
+<li>5. Each page includes links to children and spouses
+<li>6. Each page displays a visual family tree that includes three generations
+<li>7. Ability to link pictures uploaded to Wordpress to each person (up to 7)
+<li>8. Flexible privacy options, including Public, Member Only, and Private
+<li>9. MANY customization options...
+</ul>
+
+** New in 2.0! **
+<ul>
+<li>changed the underlying code to be database driven
+<li>added more flexible privacy options
+<li>picture selection now interfaces with the WordPress media picker
+<li>pictures now wrap on the persona page
+<li>no more xsl processing
+<li>plugin processes with less memory
+<li>improved localization, available in more languages
+<li>indexes now paginated (but sorting is gone)
+<li>you can now customize the banner (the divider between persona panels) to be more consistent with your theme
+<li>support for multiple character encodings
+</ul>
 
 For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4becky.net/plugins/rootsPersona "Documentation")
 
@@ -40,11 +57,11 @@ For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4
 
 To import your first Gedcom and create your first page(s):
 
-1. Find the pageId of the *Upload Gedcom File* page under rootsPersona Options and navigate to that page.
+1. Find the *Upload Gedcom File* page link under rootsPersona Options.
 2. Browse for a Gedcom file on your local PC and select 'Upload'.
 3. Select one or more persons to create pages for and select 'Submit'
 
-Your Wordpress site will now have an *persona* page for each person selected!
+Your Wordpress site will now have one or more *persona* pages for the people you selected!
 
 *Note: importing Gedcom files from different programs can have unexpected consequences.
 rootsPersona uses the ids generated in the gedcom file, and different programs may assign the same ids to different people.
@@ -66,7 +83,11 @@ However, if you are like me, you will soon end up with hundreds of persons on yo
 
 = I only want people who are logged in to see certain people on my site. =
 
-On the Edit Page screen, add a Custom Field with name permissions and value of true
+You can change the default privacy setting on the Options page, or override the setting on a page by page basis.
+
+= When I try to upload a file, the screen goes blank. =
+
+This is usually a timeout issue on your site.  See the explanation on the upload page.
 
 == Screenshots ==
 
@@ -74,8 +95,20 @@ On the Edit Page screen, add a Custom Field with name permissions and value of t
 2. 2nd half of main Persona page
 
 == Changelog ==
-= 1.6.3-1.6.6 =
-Misc bug fixes
+= 2.0.0 =
+* changed the underlying code to be database driven
+* added more flexible privacy options
+* pictures now wrap on the persona page
+* No more xsl processing
+* plugin processes with less memory
+* picture selection now interfaces with the WordPress media picker
+* improved localization
+* indexes now paginated (but sorting is gone)
+* you can now customize the banner (the divider between persona panels) to be more consistent with your theme
+* support for multiple character encodings
+
+= 1.6.6 =
+* misc bug fixes
 
 = 1.6.2 =
 * sorting Evidence Index by title
@@ -92,36 +125,3 @@ Misc bug fixes
 * added error checking for file not found, empty HTML pages
 * added Evidence pages
 
-= 1.5.1 = 
-* a few more checks in the validation utilities
-* confirmation box before deleting pages
-* added localization for dutch
-* only display frames in the Picture panel if there is a picture.
-
-= 1.5.0 =
-* Added several utilities to tools menu
-* fixed a few minor bugs
-
-= 1.4.3 =
-* Fix bug with missing FAMC/FAMS
-* chnaged shortcode rootsPersonaFamily to rootsPersonaFamilyC and added rootsPersonaFamilyS
-* changed to use absolute paths
-* localization changes
-
-= 1.4.2 =
-* added tool menu
-* adjusted path for XSL
-
-= 1.4.1 =
-* disabled Yes button on System of Record option
-* registered hideEvidence so it can be set properly
-* support hiding of edit links at bottom of persona pages.
-* add check that rootsPersona Data Directory exists and is writable on options and upload pages.
-* add optional *xsl* attribute to rootsPersona shortcode code to support custom panels 
-
-= 1.4.0 =
-* Changed Family Group to Family Group - Child to Family
-* Added Family Group - Spouse to Family, of which there may be more than one for multiple marriages
-* Added Exclude, delete, Make Private, and Make Public at bottom opf Person page
-* Added Include Person page to allow review/include of previously excluded persons
-* Added options on options page to support the above.

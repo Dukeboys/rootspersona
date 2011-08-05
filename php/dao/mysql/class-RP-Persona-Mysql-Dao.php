@@ -1,0 +1,609 @@
+<?php
+
+
+/**
+ * @todo Description of class RP_RpPersonaMySqlDao
+ * @author ed4becky
+ * @copyright 2010-2011  Ed Thompson  (email : ed@ed4becky.org)
+ * @version 2.0.x
+ * @package rootspersona_php
+ * @subpackage
+ * @category rootsPersona
+ * @link www.ed4becky.net
+ * @since 2.0.0
+ * @license http://www.opensource.org/licenses/GPL-2.0
+ */
+class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
+
+    private static $_pcache = array();
+    private static $_fcache = array();
+
+    /**
+     * @todo Description of function deletePersona
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function delete_persona( $id, $batch_id ) {
+        RP_Dao_Factory::get_rp_indi_note_dao( $this->prefix )
+                ->delete_by_indi_id( $id, $batch_id );
+        RP_Dao_Factory::get_rp_indi_event_dao( $this->prefix )
+                ->delete_by_indi_id( $id, $batch_id );
+        RP_Dao_Factory::get_rp_indi_cite_dao( $this->prefix )
+                ->delete_by_indi_id( $id, $batch_id );
+        RP_Dao_Factory::get_rp_indi_name_dao( $this->prefix )
+                ->delete_by_indi_id( $id, $batch_id );
+        RP_Dao_Factory::get_rp_indi_dao( $this->prefix )
+                ->delete( $id, $batch_id );
+    }
+
+    /**
+     * @todo Description of function updatePersonaPrivacy
+     * @param  $id
+     * @param  $batchId
+     * @param  $privacy
+     * @return
+     */
+    public function update_persona_privacy( $id, $batch_id, $privacy, $name ) {
+        $sql = 'INSERT INTO rp_indi_option'
+            . ' (indi_id,indi_batch_id,privacy_code,excluded_name,update_datetime)'
+            . ' VALUES (?, ?, ?, ?, now())'
+            . ' ON DUPLICATE KEY UPDATE privacy_code = ?, excluded_name = ?, update_datetime = now()';
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $privacy );
+        $sql_query->set( $privacy=='Exc' ? $name : '' );
+        $sql_query->set( $privacy );
+        $sql_query->set( $privacy=='Exc' ? $name : '' );
+        return $this->execute_update( $sql_query );
+    }
+
+    /**
+     * @todo Description of function getPersonaPrivacy
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_persona_privacy( $id, $batch_id ) {
+        $sql = 'SELECT privacy_code'
+            . ' FROM rp_indi_option rio'
+            . ' WHERE rio.indi_batch_id = ? AND rio.indi_id = ?';
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $id );
+        $code = $this->query_single_result( $sql_query );
+        return $code;
+    }
+
+    /**
+     * @todo Description of function getIndexedPageCnt
+     * @param  $batchId
+     * @return
+     */
+    public function get_indexed_page_cnt( $batch_id ) {
+        $sql = 'SELECT count(*)'
+            . ' FROM rp_indi ri'
+            . ' LEFT OUTER JOIN rp_indi_option rio'
+            . ' ON rio.indi_batch_id = ri.batch_id AND rio.indi_id = ri.id'
+            . ' JOIN rp_indi_name rip'
+            . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
+            . ' WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null'
+            . " AND IFNULL(rio.privacy_code,'Def') != '"
+            . RP_Persona_Helper::EXC . "'";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $cnt = $this->query_single_result( $sql_query );
+        return $cnt;
+    }
+
+    public function get_indexed_page( $batch_id, $page, $per_page ) {
+        $sql = 'SELECT ri.id AS id'
+                . ',rnp.surname AS surname'
+                . ',rnp.given AS given'
+                . ',ri.wp_page_id AS page'
+                . ' FROM rp_indi ri'
+                . ' LEFT OUTER JOIN rp_indi_option rio'
+                . ' ON rio.indi_batch_id = ri.batch_id AND rio.indi_id = ri.id'
+                . ' JOIN rp_indi_name rip'
+                . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
+                . ' JOIN rp_name_personal rnp ON rip.name_id = rnp.id'
+                . " WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null"
+                . " AND IFNULL(rio.privacy_code,'Def') != '"
+                . RP_Persona_Helper::EXC
+                . "' ORDER BY rnp.surname, rnp.given"
+                . " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $persons = array();
+        if ( $rows > 0 ) {
+            $cnt = count( $rows );
+            for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $persona = new RP_Persona();
+                $persona->surname = $rows[$idx]['surname'];
+                $persona->given = $rows[$idx]['given'];
+                $persona->page = $rows[$idx]['page'];
+                $persona->birth_date = $this->get_birth_date( $batch_id, $rows[$idx]['id'] );
+                $persona->death_date = $this->get_death_date( $batch_id, $rows[$idx]['id'] );
+                $persons[$idx] = $persona;
+            }
+        }
+        return $persons;
+    }
+
+    public function get_indexed_sources( $batch_id, $page, $per_page ) {
+         $sql = 'SELECT rs.abbr AS title'
+                . ',rs.wp_page_id AS page'
+                . ' FROM rp_source rs'
+                . " WHERE rs.batch_id = ? AND rs.wp_page_id IS NOT null"
+                . " ORDER BY rs.abbr"
+                . " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $sources = array();
+        if ( $rows > 0 ) {
+            $cnt = count( $rows );
+            for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $evi = new RP_Evidence();
+                $evi->title = $rows[$idx]['title'];
+                $evi->page = $rows[$idx]['page'];
+                $sources[$idx] = $evi;
+            }
+        }
+        return $sources;
+    }
+
+    public function get_indexed_source_cnt( $batch_id ) {
+         $sql = 'SELECT count(*)'
+                . ' FROM rp_source rs'
+                . ' WHERE rs.batch_id = ? AND rs.wp_page_id IS NOT null';
+
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $cnt = $this->query_single_result( $sql_query );
+        return $cnt;
+    }
+
+    public function get_excluded( $batch_id ) {
+        $sql = 'SELECT rio.indi_id AS id,'
+                . 'replace(rio.excluded_name,"/","") AS full_name'
+                . ' FROM rp_indi_option rio'
+                . " WHERE rio.privacy_code = '"
+                . RP_Persona_Helper::EXC
+                . "' AND rio.indi_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $persons = array();
+        $cnt = count( $rows );
+        for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $persona = new RP_Persona();
+                $persona->full_name = $rows[$idx]['full_name'];
+                $persona->id = $rows[$idx]['id'];
+                $persons[$idx] = $persona;
+        }
+        return $persons;
+    }
+
+    /**
+     * @todo Description of function getBirthAndDeathDates
+     * @param  $batchId
+     * @param  $id
+     * @return
+     */
+    public function get_birth_and_death_dates( $batch_id, $id ) {
+        $sql = "SELECT 'birth' AS type, event_date AS date, place"
+        . " FROM rp_indi_event rie"
+        . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Birth'"
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?"
+        . " UNION SELECT 'death' AS type,  event_date As date, place"
+        . " FROM rp_indi_event rie"
+        . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Death'"
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        return RP_Query_Executor::execute( $sql_query );
+    }
+
+    /**
+     * @todo Description of function getBirthDate
+     * @param  $batchId
+     * @param  $id
+     * @return
+     */
+    public function get_birth_date( $batch_id, $id ) {
+        $sql = "SELECT event_date AS birth_date"
+            . " FROM rp_indi_event rie"
+                . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Birth'"
+                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        return $this->query_single_result( $sql_query );
+    }
+
+    /**
+     * @todo Description of function getDeathDate
+     * @param  $batchId
+     * @param  $id
+     * @return
+     */
+    public function get_death_date( $batch_id, $id ) {
+        $sql = "SELECT event_date As death_date"
+                . " FROM rp_indi_event rie"
+                . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Death'"
+                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        return $this->query_single_result( $sql_query );
+    }
+
+    /**
+     * @todo Description of function get_fullname
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_fullname( $id, $batch_id ) {
+        $sql = "SELECT replace(rnp.personal_name,'/','') AS fullname"
+            . " FROM rp_indi ri"
+            . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id"
+            . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
+            . " WHERE ri.id = ? AND ri.batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        return $this->query_single_result( $sql_query );
+    }
+
+    /**
+     * @todo Description of function getPage
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_page( $id, $batch_id ) {
+        $sql = "SELECT ri.wp_page_id AS page" . " FROM rp_indi ri"
+                . " WHERE ri.id = ? AND ri.batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        return $this->query_single_result( $sql_query );
+    }
+
+    /**
+     * @todo Description of function getPersonsNoPage
+     * @param  $batchId
+     * @return
+     */
+    public function get_persons_no_page( $batch_id ) {
+        $sql = "SELECT ri.id AS id, ri.batch_id AS batch_id"
+        . ", rnp.given AS given, rnp.surname AS surname"
+        . " FROM rp_indi ri"
+        . " LEFT OUTER JOIN rp_indi_option rio ON rio.indi_batch_id = ri.id AND rio.indi_id = ri.batch_id"
+        . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id"
+        . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
+        . " WHERE ri.wp_page_id IS null AND ri.batch_id = ? AND rip.seq_nbr = 1"
+        . " AND rio.privacy_code IS null OR rio.privacy_code != '"
+        . RP_Persona_Helper::EXC . "' ORDER BY rnp.surname,rnp.given";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $persons = array();
+        if ( $rows > 0 ) {
+            $cnt = count( $rows );
+            for ( $idx = 0;
+            $idx < $cnt;
+            $idx++ ) {
+                $person = array();
+                $person['id'] = $rows[$idx]['id'];
+                $person['batch_id'] = $rows[$idx]['batch_id'];
+                $person['given'] = $rows[$idx]['given'];
+                $person['surname'] = $rows[$idx]['surname'];
+                $persons[$idx] = $person;
+            }
+        }
+        return $persons;
+    }
+
+    /**
+     * @todo Description of function getPersona
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_persona( $id, $batch_id ) {
+        $persona = null;
+        if ( ! isset( $id ) || empty( $id ) || $id == '0' ) {
+            $persona = RP_Persona_Helper::get_unknown();
+        } else if ( isset( self::$_pcache[$batch_id] )
+        && isset( self::$_pcache[$batch_id][$id] ) ) {
+            $persona = &self::$_pcache[$batch_id][$id];
+        } else {
+            $sql1 = "SELECT ri.id AS id, ri.batch_id AS batch_id,"
+            . "IFNULL(rio.privacy_code,'Def') AS privacy"
+            . ",replace(rnp.personal_name,'/','') AS full_name"
+            . ",ri.gender AS gender"
+            . ",rf.spouse1 AS father"
+            . ",rf.spouse2 AS mother"
+            . ",rfc.fam_id AS famc"
+            . ",ri.wp_page_id AS page"
+            . " FROM rp_indi ri"
+            . " LEFT OUTER JOIN rp_indi_option rio ON rio.indi_id = ri.id AND rio.indi_batch_id = ri.batch_id"
+            . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id AND rip.seq_nbr = 1"
+            . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
+            . " LEFT OUTER JOIN rp_fam_child rfc ON ri.id = rfc.child_id AND ri.batch_id = rfc.indi_batch_id"
+            . " LEFT OUTER JOIN rp_fam rf ON rfc.fam_id = rf.id AND rfc.fam_batch_id = rf.batch_id"
+            . " WHERE ri.id = ? AND ri.batch_id = ? "
+            . " AND IFNULL(rio.privacy_code,'Def') != '"
+            . RP_Persona_Helper::EXC . "'";
+            $sql_query = new RP_Sql_Query( $sql1, $this->prefix );
+            $sql_query->set( $id );
+            $sql_query->set_number( $batch_id );
+            $persona = $this->get_row( $sql_query );
+            if ( ! isset( $persona )
+            || empty( $persona ) ) {
+                $persona = RP_Persona_Helper::get_unknown();
+            } else {
+                $rows = $this->get_birth_and_death_dates( $batch_id, $id );
+                if ( isset( $rows[0] ) ) {
+                    if ( $rows[0]['type'] == 'birth' ) {
+                        $persona->birth_date = $rows[0]['date'];
+                        $persona->birth_place = $rows[0]['place'];
+                        if ( isset( $rows[1] ) ) {
+                            $persona->death_date = $rows[1]['date'];
+                            $persona->death_place = $rows[1]['place'];
+                        }
+
+                    } else {
+                        $persona->death_date = $rows[0]['date'];
+                        $persona->death_place = $rows[0]['place'];
+                        if ( isset( $rows[1] ) ) {
+                            $persona->birth_date = $rows[1]['date'];
+                            $persona->birth_place = $rows[1]['place'];
+                        }
+                    }
+                }
+            }
+            if ( ! isset( self::$_pcache[$batch_id] ) ) {
+                self::$_pcache[$batch_id] = array();
+            }
+            self::$_pcache[$batch_id][$id] = $persona;
+            $persona = &self::$_pcache[$batch_id][$id];
+        }
+        return $persona;
+    }
+
+    /**
+     * @todo Description of function getPersonaEvents
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_persona_events( $id, $batch_id ) {
+        $sql = "SELECT event_type, event_date, place"
+            . " FROM rp_indi_event rie"
+            . " JOIN rp_event_detail red ON red.id = rie.event_id"
+            . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $cnt = count( $rows );
+        $events = null;
+        if ( $rows > 0 ) {
+            $events = array();
+            for ( $idx = 0;
+            $idx < $cnt;
+            $idx++ ) {
+                $event = array();
+                $event['type'] = $rows[$idx]['event_type'];
+                $event['date'] = $rows[$idx]['event_date'];
+                $event['place'] = $rows[$idx]['place'];
+                $event['associated_person'] = null; //array('name'=>'', 'isPrivate'=> false);
+                $events[$idx] = $event;
+            }
+        }
+        return $events;
+    }
+
+    /**
+     * @todo Description of function getMarriages
+     * @param  $persona
+     * @return
+     */
+    public function get_marriages( $persona ) {
+        $id = $persona->id;
+        $batch_id = $persona->batch_id;
+        $families = null;
+        if ( isset( self::$_fcache[$batch_id] )
+        && isset( self::$_fcache[$batch_id][$id] ) ) {
+            $families = & self::$_fcache[$batch_id][$id];
+        } else {
+            $sql = "SELECT rf.id as id, rf.spouse1 AS s1, rf.spouse2 AS s2,"
+                . "red.event_date AS event_date, red.place AS place"
+                . " FROM rp_fam rf"
+                . " LEFT OUTER JOIN rp_fam_event rfe ON rf.id = rfe.fam_id"
+                . " LEFT OUTER JOIN rp_event_detail red ON red.id = rfe.event_id"
+                . " WHERE ((rf.spouse1 = ? AND rf.indi_batch_id_1 = ?)"
+                . " OR (rf.spouse2 = ? AND rf.indi_batch_id_2 = ?))"
+                . " AND (red.event_type = ? OR red.event_type IS null)";
+            $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+            $sql_query->set( $id );
+            $sql_query->set_number( $batch_id );
+            $sql_query->set( $id );
+            $sql_query->set_number( $batch_id );
+            $sql_query->set( 'Marriage' );
+            $rows = RP_Query_Executor::execute( $sql_query );
+            $cnt = count( $rows );
+            $families = null;
+            if ( $cnt > 0 ) {
+                $families = array();
+                for ( $idx = 0;
+                $idx < $cnt;
+                $idx++ ) {
+                    $event = array();
+                    $event['fams'] = $rows[$idx]['id'];
+                    $event['type'] = 'Marriage';
+                    $event['date'] = $rows[$idx]['event_date'];
+                    $event['place'] = $rows[$idx]['place'];
+                    $id1 = $rows[$idx]['s1'];
+                    $id2 = $rows[$idx]['s2'];
+                    if ( $id1 == $persona->id ) {
+                        $event['spouse1'] = $persona;
+                        $event['associated_person_id'] = $id2;
+                    } else {
+                        $event['spouse2'] = $persona;
+                        $event['associated_person_id'] = $id2;
+                    }
+                    $families[$idx] = $event;
+                }
+                if ( ! isset( self::$_fcache[$batch_id] ) )self::$_fcache[$batch_id] = array();
+                self::$_fcache[$batch_id][$id] = $families;
+                $families = & self::$_fcache[$batch_id][$id];
+            }
+        }
+        return $families;
+    }
+
+    /**
+     * @todo Description of function getChildren
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_children( $id, $batch_id ) {
+        $sql = "SELECT rfc.child_id AS kid"
+            . " FROM rp_fam_child rfc"
+            . " WHERE rfc.fam_id = ? AND rfc.fam_batch_id = ?";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $cnt = count( $rows );
+        $kids = null;
+        if ( $rows > 0 ) {
+            $kids = array();
+            for ( $idx = 0;
+            $idx < $cnt;
+            $idx++ ) {
+                $kids[] = $rows[$idx]['kid'];
+            }
+        }
+        return $kids;
+    }
+
+    /**
+     * @todo Description of function getPersonaSources
+     * @param  $id
+     * @param  $batchId
+     * @return
+     */
+    public function get_persona_sources( $id, $batch_id ) {
+        $sql = 'SELECT DISTINCT id,page,title,abbr FROM'
+            . ' (SELECT rs.id AS id, rs.wp_page_id AS page,rs.source_title AS title,rs.abbr AS abbr'
+                . ' FROM rp_indi_cite ric'
+                . ' JOIN rp_source_cite rsc ON ric.cite_id = rsc.id'
+                . ' JOIN rp_source rs ON rs.id = rsc.source_id AND rs.batch_id = rsc.source_batch_id'
+                . ' WHERE ric.indi_id = ? AND ric.indi_batch_id = ?'
+            . ' UNION'
+            . ' SELECT rs.id AS id, rs.wp_page_id AS page,rs.source_title AS title,rs.abbr AS abbr'
+                . ' FROM rp_indi_event rie'
+                . ' JOIN rp_event_cite rec ON rie.event_id = rec.event_id'
+                . ' JOIN rp_source_cite rsc ON rsc.id = rec.cite_id'
+                . ' JOIN rp_source rs ON rs.id = rsc.source_id AND rs.batch_id = rsc.source_batch_id'
+                . ' WHERE rie.indi_id = ? AND rie.indi_batch_id = ?'
+            . ' UNION'
+            . ' SELECT rs.id AS id, rs.wp_page_id AS page,rs.source_title AS title,rs.abbr AS abbr'
+                . ' FROM rp_indi_fam rif'
+                . ' JOIN rp_fam_cite rfc ON rfc.fam_id = rif.fam_id AND rfc.fam_batch_id = rif.fam_batch_id'
+                . ' JOIN rp_source_cite rsc ON rsc.id = rfc.cite_id'
+                . ' JOIN rp_source rs ON rs.id = rsc.source_id AND rs.batch_id = rsc.source_batch_id'
+                . ' WHERE rif.indi_id = ? AND rif.indi_batch_id = ?'
+            . ' UNION'
+            . ' SELECT rs.id AS id, rs.wp_page_id AS page,rs.source_title AS title,rs.abbr AS abbr'
+                . ' FROM rp_indi_name rin'
+                . ' JOIN rp_name_cite rnc ON rnc.name_id = rin.name_id'
+                . ' JOIN rp_source_cite rsc ON rsc.id = rnc.cite_id'
+                . ' JOIN rp_source rs ON rs.id = rsc.source_id AND rs.batch_id = rsc.source_batch_id'
+                . ' WHERE rin.indi_id = ? AND rin.indi_batch_id = ? ) AS t1';
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $cnt = count( $rows );
+        $sources = null;
+        if ( $cnt > 0 ) {
+            $sources = array();
+            for ( $idx = 0;
+            $idx < $cnt;
+            $idx++ ) {
+                $src = array();
+                $src['src_id'] = $rows[$idx]['id'];
+                $src['src_title'] = $rows[$idx]['title'];
+                $src['src_abbr'] = $rows[$idx]['abbr'];
+                $src['page_id'] = $rows[$idx]['page'];
+                $sources[$idx] = $src;
+            }
+        }
+        return $sources;
+    }
+
+    public function get_persons_with_pages() {
+        $sql = "SELECT ri.id AS id, ri.batch_id AS batch_id"
+            . ",replace(rnp.personal_name,'/','') AS full_name"
+            . ",ri.wp_page_id AS page"
+            . " FROM rp_indi ri"
+            . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id AND rip.seq_nbr = 1"
+            . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
+            . " WHERE ri.wp_page_id IS NOT NULL";
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $cnt = count( $rows );
+        $persons = null;
+        if ( $cnt > 0 ) {
+            $persons = array();
+            for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $p = array();
+                $p['id'] = $rows[$idx]['id'];
+                $p['batch_id'] = $rows[$idx]['batch_id'];
+                $p['name'] = $rows[$idx]['full_name'];
+                $p['page_id'] = $rows[$idx]['page'];
+                $persons[$idx] = $p;
+            }
+        }
+        return $persons;
+    }
+
+    /**
+     * @todo Description of function readRow
+     * @param  $row
+     * @return
+     */
+    protected function read_row( $row ) {
+        $rp_persona = new RP_Persona();
+        $rp_persona->id = $row['id'];
+        $rp_persona->batch_id = $row['batch_id'];
+        $rp_persona->gender = $row['gender'];
+        $rp_persona->full_name = $row['full_name'];
+        $rp_persona->father = $row['father'];
+        $rp_persona->mother = $row['mother'];
+        $rp_persona->famc = $row['famc'];
+        $rp_persona->page = $row['page'];
+        $rp_persona->privacy = $row['privacy'];
+        return $rp_persona;
+    }
+}

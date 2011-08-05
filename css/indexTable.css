@@ -1,0 +1,114 @@
+/* Copyright 2006 Joost de Valk */
+div#personaIndex table#personaIndexTable a img {
+    border: 0;
+}
+
+div#personaIndex table#personaIndexTable {
+    border-spacing: 0;
+    border: 1px solid #000;
+    border-collapse: collapse;
+    margin: 0px;
+    width: 100%;
+}
+
+div#personaIndex table#personaIndexTable th,div#personaIndex table#personaIndexTable td
+    {
+    text-align: left;
+    padding: 2px 4px 2px 4px;
+    width: 25%;
+    border-style: solid;
+    border-color: #444;
+}
+
+div#personaIndex table#personaIndexTable th.dates,div#personaIndex table#personaIndexTable td.dates
+    {
+    width: 38%;
+}
+
+div#personaIndex table#personaIndexTable th.page,div#personaIndex table#personaIndexTable td.page
+    {
+    width: 12%;
+    text-align: center;
+}
+
+div#personaIndex table#personaIndexTable th {
+    border-width: 0px 1px 1px 1px;
+    background-color: #ccc;
+}
+
+div#personaIndex table#personaIndexTable td {
+    border-width: 0px 1px 0px 1px;
+}
+
+div#personaIndex table#personaIndexTable tr.odd td {
+    background-color: #ddd;
+}
+
+div#personaIndex table#personaIndexTable tr.even td {
+    background-color: #fff;
+}
+
+div#personaIndex table#personaIndexTable tr#sortbottom td {
+    border-top: 1px solid #444;
+    background-color: #ccc;
+    font-weight: bold;
+}
+
+div#personaIndex div.pagination {
+    padding: 3px;
+    margin: 3px;
+    text-align: center;
+}
+
+div#personaIndex div.pagination a {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #AAAADD;
+    text-decoration: none; /* no underline */
+    color: #000099;
+}
+
+div#personaIndex div.pagination a:hover,div#personaIndex div.pagination a:active
+    {
+    border: 1px solid #000099;
+    color: #000;
+}
+
+div#personaIndex div.pagination span.current {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #000099;
+    font-weight: bold;
+    background-color: #000099;
+    color: #FFF;
+}
+
+div#personaIndex div.pagination span.disabled {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #EEE;
+    color: #DDD;
+}
+
+div#personaIndex div.xofy {
+    text-align: center;
+    font-size: smaller;
+    color: #888;
+    padding: 2px 5px 5px 5px;
+}
+
+span.optionsHdr {
+    float: left;
+    padding-right: 8px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: larger;
+/*    width: 10.1%;*/
+}
+
+hr.optionsHdr {
+    margin-top: 1.5em;
+    margin-bottom: 0em;
+    float: left;
+    width: 70%;
+}
