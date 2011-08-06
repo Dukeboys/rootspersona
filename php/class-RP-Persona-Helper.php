@@ -84,6 +84,7 @@ class RP_Persona_Helper {
                 }
             }
         }
+        $persona->pscore = $score;
         return $score;
     }
 
