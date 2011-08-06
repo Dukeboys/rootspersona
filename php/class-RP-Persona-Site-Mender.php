@@ -39,11 +39,11 @@ class RP_Persona_Site_Mender {
                 if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
                     if ( $is_repair ) {
                         $output[] =
-                            __( "Deleted orphaned page with no reference in rp_indi.",
-                                'rootspersona' );
+                            __( "Deleted orphaned page with no reference in",
+                                'rootspersona' )  . ' rp_indi.';;
                         wp_delete_post( $page->ID );
                     } else {
-                        $output[] = __( "No reference in rp_indi.", 'rootspersona' );
+                        $output[] = __( "No reference in", 'rootspersona' ) . ' rp_indi.';
                     }
                 } else if ( $page->post_parent != $parent ) {
                     if ( $is_repair ) {
@@ -100,7 +100,7 @@ class RP_Persona_Site_Mender {
                                 'rootsUploadGedcomForm' );
                         wp_delete_post( $page->ID );
                     } else {
-                        $output[] = __( "Orphaned.", 'rootspersona' ) . " rootsUploadGedcomForm.";
+                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsUploadGedcomForm.";
                     }
                 }
             } else if ( preg_match( "/rootsIncludePageForm/i", $page->post_content ) ) {
