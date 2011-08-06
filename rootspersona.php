@@ -568,7 +568,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return array $options
          */
         function persona_options_validate( $input ) {
-            $options = get_option('persona_plugin');
+            $options = get_option( 'persona_plugin' );
             $options['version'] = trim( esc_attr( $this->persona_version ) );
             $options['parent_page'] = intval( $input['parent_page'] );
             $options['is_system_of_record']  = 0;//( $input['is_system_of_record'] == 1 ? 1 : 0 );
@@ -595,7 +595,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_dates'] = ( $input['hide_dates'] == 1 ? 1 : 0 );
             $options['privacy_default'] =
                 in_array( $input['privacy_default'], array( 'Pub', 'Pvt', 'Mbr' ) )
-                    ?$input['privacy_default'] : 'Pub';
+                    ? $input['privacy_default'] : 'Pub';
             $options['privacy_living'] =
                 in_array( $input['privacy_living'], array( 'Pub', 'Pvt', 'Mbr', 'Exc' ) )
                     ? $input['privacy_living'] : 'Mbr';

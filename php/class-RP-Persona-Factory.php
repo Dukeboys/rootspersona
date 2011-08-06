@@ -33,7 +33,7 @@ class RP_Persona_Factory {
         || $options['hide_family_c'] == 0
         || $options['hide_family_s'] == 0 ) {
             // need the real thing
-            $persona = $this->get_persona( $id, $batch_id, $uscore );
+            $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
         } else {
             // just need a container
             $persona = new RP_Persona();
@@ -80,13 +80,13 @@ class RP_Persona_Factory {
                                     = $this->get_marriages( $persona->marriages[$idx]['spouse1'], $uscore );
                         }
                         $persona->marriages[$idx]['spouse2']->f_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->father, $batch_id, $uscore );
+                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->father, $batch_id, $uscore, $options );
                         $persona->marriages[$idx]['spouse2']->m_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->mother, $batch_id, $uscore );
+                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->mother, $batch_id, $uscore, $options );
                         $persona->marriages[$idx]['spouse1']->f_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->father, $batch_id, $uscore );
+                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->father, $batch_id, $uscore, $options );
                         $persona->marriages[$idx]['spouse1']->m_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->mother, $batch_id, $uscore );
+                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->mother, $batch_id, $uscore, $options );
                     }
                 }
             }
@@ -125,9 +125,9 @@ class RP_Persona_Factory {
      * @param integer $uscore
      * @return RP_Persona
      */
-    protected function get_persona( $id, $batch_id, $uscore ) {
+    protected function get_persona( $id, $batch_id, $uscore, $options ) {
         $persona = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->get_persona( $id, $batch_id, $uscore );
-        $this->check_permission( $persona, $uscore );
+        $this->check_permission( $persona, $uscore, $options );
         return $persona;
     }
 
@@ -143,9 +143,9 @@ class RP_Persona_Factory {
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
             if ( isset( $marriages[$idx]['spouse1'] )
             && $marriages[$idx]['spouse1']->id == $persona->id ) {
-                $marriages[$idx]['spouse2'] = $this->get_persona( $marriages[$idx]['associated_person_id'], $persona->batch_id, $uscore );
+                $marriages[$idx]['spouse2'] = $this->get_persona( $marriages[$idx]['associated_person_id'], $persona->batch_id, $uscore, $options );
             } else {
-                $marriages[$idx]['spouse1'] = $this->get_persona( $marriages[$idx]['associated_person_id'], $persona->batch_id, $uscore );
+                $marriages[$idx]['spouse1'] = $this->get_persona( $marriages[$idx]['associated_person_id'], $persona->batch_id, $uscore, $options );
             }
         }
         return $marriages;
@@ -163,7 +163,7 @@ class RP_Persona_Factory {
         $children = array();
         $kids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->get_children( $fam_id, $batch_id );
         foreach ( $kids as $kid ) {
-            $children[] = $this->get_persona( $kid, $batch_id, $uscore );
+            $children[] = $this->get_persona( $kid, $batch_id, $uscore, $options );
         }
         return $children;
     }
@@ -182,7 +182,7 @@ class RP_Persona_Factory {
             if ( $sib == $persona->id ) {
                 $siblings[] = $persona;
             } else {
-                $p = $this->get_persona( $sib, $persona->batch_id, $uscore );
+                $p = $this->get_persona( $sib, $persona->batch_id, $uscore, $options );
                 $p->marriages = $this->get_marriages( $p, $uscore );
                 $siblings[] = $p;
             }
@@ -196,10 +196,10 @@ class RP_Persona_Factory {
      * @param RP_Persona $persona
      * @param inteter $uscore
      */
-    protected function check_permission( $persona, $uscore ) {
-        if ( $persona->id != 0 ) {
+    protected function check_permission( $persona, $uscore, $options ) {
+        if ( $persona->id != '0' ) {
             if ( ! isset( $persona->pscore ) ) {
-               RP_Persona_Helper::score_persona( $persona );
+               RP_Persona_Helper::score_persona( $persona, $options );
             }
             if ( RP_Persona_Helper::is_restricted( $uscore, $persona->pscore ) ) {
                 $this->privatize( $persona );
@@ -230,22 +230,22 @@ class RP_Persona_Factory {
         $ancestors = array();
         $ancestors[1] = $persona;
         if ( ! empty( $persona->father ) ) {
-            $ancestors[2] = $this->get_persona( $persona->father, $persona->batch_id, $uscore );
+            $ancestors[2] = $this->get_persona( $persona->father, $persona->batch_id, $uscore, $options );
         }
         if ( ! empty( $persona->mother ) ) {
-            $ancestors[3] = $this->get_persona( $persona->mother, $persona->batch_id, $uscore );
+            $ancestors[3] = $this->get_persona( $persona->mother, $persona->batch_id, $uscore, $options );
         }
         if ( ! empty( $ancestors[2] ) ) {
             if ( ! empty( $ancestors[2]->father ) )$ancestors[4] =
-                    $this->get_persona( $ancestors[2]->father, $persona->batch_id, $uscore );
+                    $this->get_persona( $ancestors[2]->father, $persona->batch_id, $uscore, $options );
             if ( ! empty( $ancestors[2]->mother ) )$ancestors[5]
-                    = $this->get_persona( $ancestors[2]->mother, $persona->batch_id, $uscore );
+                    = $this->get_persona( $ancestors[2]->mother, $persona->batch_id, $uscore, $options );
         }
         if ( ! empty( $ancestors[3] ) ) {
             if ( ! empty( $ancestors[3]->father ) )$ancestors[6]
-                    = $this->get_persona( $ancestors[3]->father, $persona->batch_id, $uscore );
+                    = $this->get_persona( $ancestors[3]->father, $persona->batch_id, $uscore, $options );
             if ( ! empty( $ancestors[3]->mother ) )$ancestors[7]
-                    = $this->get_persona( $ancestors[3]->mother, $persona->batch_id, $uscore );
+                    = $this->get_persona( $ancestors[3]->mother, $persona->batch_id, $uscore, $options );
         }
         for ( $idx = 1; $idx <= 7; $idx++ ) {
             if ( ! isset( $ancestors[$idx] )
@@ -269,7 +269,7 @@ class RP_Persona_Factory {
         $persona = null;
         $uscore = $options['uscore'];
         $transaction = new RP_Transaction( $this->credentials, true );
-        $persona = $this->get_persona( $id, $batch_id, $uscore );
+        $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
         $transaction->close();
 
         $persona->picFiles = array();
