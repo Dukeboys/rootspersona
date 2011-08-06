@@ -126,7 +126,8 @@ class RP_Persona_Factory {
      * @return RP_Persona
      */
     protected function get_persona( $id, $batch_id, $uscore, $options ) {
-        $persona = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->get_persona( $id, $batch_id, $uscore );
+        $persona = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                ->get_persona( $id, $batch_id );
         $this->check_permission( $persona, $uscore, $options );
         return $persona;
     }
@@ -161,7 +162,8 @@ class RP_Persona_Factory {
     protected function get_children( $fam_id, $batch_id, $options ) {
         $uscore = $options['uscore'];
         $children = array();
-        $kids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->get_children( $fam_id, $batch_id );
+        $kids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                ->get_children( $fam_id, $batch_id );
         foreach ( $kids as $kid ) {
             $children[] = $this->get_persona( $kid, $batch_id, $uscore, $options );
         }
@@ -177,7 +179,8 @@ class RP_Persona_Factory {
     protected function get_siblings( $persona, $options ) {
         $uscore = $options['uscore'];
         $siblings = array();
-        $sibs = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->get_children( $persona->famc, $persona->batch_id, $options );
+        $sibs = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                ->get_children( $persona->famc, $persona->batch_id, $options );
         foreach ( $sibs as $sib ) {
             if ( $sib == $persona->id ) {
                 $siblings[] = $persona;
@@ -287,4 +290,3 @@ class RP_Persona_Factory {
         return $persona;
     }
 }
-?>
