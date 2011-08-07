@@ -650,7 +650,7 @@ if ( isset( $roots_persona_plugin ) ) {
     add_action( 'wp_print_styles', array( $roots_persona_plugin, 'insert_persona_styles' ) );
     add_action( 'wp_print_scripts', array( $roots_persona_plugin, 'insert_persona_scripts' ) );
     add_filter( 'the_content', array( $roots_persona_plugin, 'check_permissions' ), 2 );
-    load_plugin_textdomain( 'rootspersona', null, 'rootspersona/localization/' );
+    load_plugin_textdomain('rootspersona', false, WP_PLUGIN_DIR . '/rootspersona/localization');
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
 }
 ?>
