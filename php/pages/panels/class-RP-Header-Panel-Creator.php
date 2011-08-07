@@ -20,18 +20,37 @@ class RP_Header_Panel_Creator {
         } else {
             $default = $persona->picFiles[0];
         }
-        $block = '<div class="rp_truncate">' . '<div class="rp_header">'
-        . '<a href="' . $default . '">'
-        . '<img class="rp_headerbox" src="' . $default . '"/></a>'
-        . '<div class="rp_headerbox">' . '<span class="rp_headerbox">'
-        . $persona->full_name . '</span>'
-        . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2">'
-        . $persona->id . '</span>';
-        if ( ! $options['hide_dates'] ) {
-            $block .= '<br/>b: ' . $persona->birth_date
-                    . '<br/>d: ' . $persona->death_date;
+        $block = '<div class="rp_truncate">' . '<div class="rp_header">';
+        $cnt = count( $persona->notes );
+        if( ! isset ( $options['header_style'] )  || $options['header_style'] == '1' || $cnt == 0 ) {
+            // original style
+            $block .= '<a href="' . $default . '">'
+            . '<img class="rp_headerbox" src="' . $default . '"/></a>'
+            . '<div class="rp_headerbox">' . '<span class="rp_headerbox">'
+            . $persona->full_name . '</span>'
+            . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2">'
+            . $persona->id . '</span>';
+            if ( ! $options['hide_dates'] ) {
+                $block .= '<br/>b: ' . $persona->birth_date
+                        . '<br/>d: ' . $persona->death_date;
+            }
+            $block .= '</div>';
+        } else if ( $options['header_style'] == '2' ) {
+            // bio style
+            $block .= '<a href="' . $default . '">'
+                    . '<img class="rp_headerbox" style="margin:0px 30px 0px 0px !important;width:150px !important;" src="' 
+                    . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
+                    . $persona->full_name . '</span><br/>';
+            if ( ! $options['hide_dates'] ) {
+                $block .= $persona->birth_date
+                        . '- ' . $persona->death_date . '<br/>';
+            }
+            $cnt = count( $persona->notes );
+            for ($idx = 0; $idx < $cnt; $idx++) {
+                $block .= str_replace( "\n", "<br/>", $persona->notes[$idx]->note );         
+            }
         }
-        $block .= '</div>' . '</div>' . '</div>';
+        $block .= '</div></div>';
         return $block;
     }
 

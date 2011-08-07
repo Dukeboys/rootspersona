@@ -32,6 +32,14 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 		$sql_query->set_number( $id );
 		return $this->get_row( $sql_query );
 	}
+    
+    public function query_by_indi_id( $id, $batch_id ) {
+		$sql = 'SELECT * FROM rp_indi_note WHERE indi_id = ? AND indi_batch_id = ?';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $id );
+        $sql_query->set_number( $batch_id );
+		return $this->get_list( $sql_query );
+	}
 
 	/**
 	 * Delete record FROM table

@@ -41,6 +41,14 @@ class RP_Persona_Factory {
         }
         $pscore = $persona->pscore;
         if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
+            if ( $options['hide_header'] == 0 || $options['hide_bio'] == 0 ) {
+                if( ( isset ( $options['header_style'] ) && $options['header_style'] == '2' ) 
+                        || $options['hide_bio'] == 0 ) {
+                    $persona->notes = RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
+                            ->query_by_indi_id($persona->id, $persona->batch_id);
+                }  
+            }
+            
             if ( $options['hide_facts'] == 0 ) {
                 $persona->facts = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                         ->get_persona_events( $id, $batch_id );

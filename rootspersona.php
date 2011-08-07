@@ -583,8 +583,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['utility_page'] = intval( $input['utility_page'] );
             $options['evidence_page'] = intval( $input['evidence_page'] );
             //$input['hide_banner'] = ( $input['hide_banner'] == 1 ? 1 : 0 );
+            $options['header_style'] = ( $input['header_style'] == 2 ? 2 : 1 );
             $options['hide_header'] = ( $input['hide_header'] == 1 ? 1 : 0 );
             $options['hide_facts'] = ( $input['hide_facts'] == 1 ? 1 : 0 );
+            $options['hide_bio'] = ( $input['hide_bio'] == 1 ? 1 : 0 );
             $options['hide_ancestors'] = ( $input['hide_ancestors'] == 1 ? 1 : 0 );
             $options['hide_family_c'] = ( $input['hide_family_c'] == 1 ? 1 : 0 );
             $options['hide_family_s'] = ( $input['hide_family_s'] == 1 ? 1 : 0 );

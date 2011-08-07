@@ -23,6 +23,7 @@ class RP_Persona extends Rp_Simple_Person {
     var $pscore;
     var $picFiles = array();
     var $picCaps = array();
+    var $notes = array();
 
     /**
      * @todo Description of function __construct

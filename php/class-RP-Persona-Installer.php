@@ -63,6 +63,7 @@ class RP_Persona_Installer {
             $options['privacy_living'] = 'Mbr';
             $options['hide_header'] = 0;
             $options['hide_facts'] = 0;
+            $options['hide_bio'] = 0;
             $options['hide_ancestors'] = 0;
             $options['hide_family_c'] = 0;
             $options['hide_family_s'] = 0;

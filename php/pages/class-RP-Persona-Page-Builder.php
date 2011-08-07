@@ -1,5 +1,6 @@
 <?php
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Header-Panel-Creator.php' );
+require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Bio-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Facts-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Ancestors-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Picture-Panel-Creator.php' );
@@ -21,21 +22,25 @@ class RP_Persona_Page_Builder {
             $block .= RP_Header_Panel_Creator::create( $persona, $options );
         }
 
+        if ( $options['hide_bio'] == 0 ) {
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Biography', 'rootspersona' ) );
+            $block .= RP_Bio_Panel_Creator::create( $persona->notes, $options );
+        }
         if ( $options['hide_facts'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Facts');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Facts', 'rootspersona' ));
             $block .= RP_Facts_Panel_Creator::create( $persona->facts, $options );
         }
         if ( $options['hide_ancestors'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Ancestors');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Ancestors', 'rootspersona' ));
             $creator = new RP_Ancestors_Panel_Creator();
             $block .= $creator->create( $persona->ancestors, $options );
         }
         if ( $options['hide_family_c'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Family Group Sheet - Child');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Child', 'rootspersona' ));
             $block .= RP_Group_Sheet_Panel_Creator::create_group_child( $persona->ancestors, $persona->siblings, $options );
         }
         if ( $options['hide_family_s'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Family Group Sheet - Spouse');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Spouse', 'rootspersona' ));
             $cnt = count( $persona->marriages );
             for ( $idx = 0; $idx < $cnt; $idx++ ) {
                 $marriage = $persona->marriages[$idx];
@@ -43,11 +48,11 @@ class RP_Persona_Page_Builder {
             }
         }
         if ( $options['hide_pictures'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Picture Gallery');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Picture Gallery', 'rootspersona' ) );
             $block .= RP_Picture_Panel_Creator::create( $persona, $options );
         }
         if ( $options['hide_evidence'] == 0 ) {
-            $block .= RP_Persona_Helper::get_banner($options, 'Evidence');
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Evidence', 'rootspersona' ) );
             $block .= RP_Evidence_Panel_Creator::create( $persona, $options );
         }
         $block .= RP_Persona_Helper::get_banner($options, '');
