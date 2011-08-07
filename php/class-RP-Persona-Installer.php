@@ -61,6 +61,7 @@ class RP_Persona_Installer {
             $options['is_system_of_record'] = 0;
             $options['privacy_default'] = 'Pub';
             $options['privacy_living'] = 'Mbr';
+            $options['hide_style'] = 1;
             $options['hide_header'] = 0;
             $options['hide_facts'] = 0;
             $options['hide_bio'] = 0;
@@ -103,6 +104,8 @@ class RP_Persona_Installer {
             $options['utility_page'] = get_option( 'rootsUtilityPage' );
             $options['evidence_page'] = get_option( 'rootsEvidencePage' );
             $options['hide_header'] = get_option( 'rootsHideHeader', 0 );
+            $options['hide_bio'] = 0;
+            $options['header_style'] = 1;
             $options['hide_facts'] = get_option( 'rootsHideFacts', 0 );
             $options['hide_ancestors'] = get_option( 'rootsHideAncestors', 0 );
             $options['hide_family_c'] = get_option( 'rootsHideFamilyC', 0 );
