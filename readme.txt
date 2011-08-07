@@ -38,6 +38,8 @@ be mixed and matched for optimum customization.
 <li>indexes now paginated (but sorting is gone)
 <li>you can now customize the banner (the divider between persona panels) to be more consistent with your theme
 <li>support for multiple character encodings
+<li>added a second panel design for the header panel that display a bio
+<li>added an optional bio panel
 </ul>
 
 For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4becky.net/plugins/rootsPersona "Documentation")
@@ -106,6 +108,8 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 * indexes now paginated (but sorting is gone)
 * you can now customize the banner (the divider between persona panels) to be more consistent with your theme
 * support for multiple character encodings
+* added a second panel design for the header panel that display a bio
+* added an optional bio panel
 
 = 1.6.6 =
 * misc bug fixes

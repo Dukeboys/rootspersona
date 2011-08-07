@@ -635,6 +635,7 @@ if ( isset( $roots_persona_plugin ) ) {
 
     add_shortcode( 'rootsPersona', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaHeader', array( $roots_persona_plugin, 'persona_handler' ) );
+    add_shortcode( 'rootsPersonaBio', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaFacts', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaAncestors', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaFamilyC', array( $roots_persona_plugin, 'persona_handler' ) );
