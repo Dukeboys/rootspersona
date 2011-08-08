@@ -20,7 +20,10 @@ class RP_Evidence_Panel_Creator {
                     . $persona->sources[$idx]['page_id'] . '">'
                     . '[' . $persona->sources[$idx]['src_id'] . ']</a>';
             } else {
-                $link = '<a href="">'
+               $win1 = sprintf ( __( 'Evidence page has not yet been created for this source',
+                'rootspersona' ), 'persona' )
+               . ".";
+                $link = "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"\");return false;'>"
                     . '[' . $persona->sources[$idx]['src_id'] . ']</a>';                
             }
                 

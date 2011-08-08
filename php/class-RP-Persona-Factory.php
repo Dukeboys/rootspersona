@@ -39,6 +39,8 @@ class RP_Persona_Factory {
             $persona = new RP_Persona();
             $persona->pscore = RP_Persona_Helper::ANYONE;
         }
+        $persona->picFiles = array();
+        $persona->picCaps = array();
         $pscore = $persona->pscore;
         if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
             if ( $options['hide_header'] == 0 || $options['hide_bio'] == 0 ) {
@@ -105,24 +107,24 @@ class RP_Persona_Factory {
                                     ->get_persona_sources( $id, $batch_id );
                 }
             }
+            
+
+            for ( $idx = 1; $idx <= 7; $idx++ ) {
+                $pic = 'picfile' . $idx ;
+                if ( isset( $options[$pic] ) ) {
+                    $persona->picFiles[$idx-1] = $options[$pic];
+                    $cap = 'piccap' . $idx;
+                    if ( isset( $options[$cap] ) ) {
+                        $persona->picCaps[$idx-1] = $options[$cap];
+                    }
+                }
+            }
         } else {
             $p = new RP_Persona();
             $persona = $this->privatize( $p );
         }
         $transaction->close();
 
-        $persona->picFiles = array();
-        $persona->picCaps = array();
-        for ( $idx = 1; $idx <= 7; $idx++ ) {
-            $pic = 'picfile' . $idx ;
-            if ( isset( $options[$pic] ) ) {
-                $persona->picFiles[$idx-1] = $options[$pic];
-                $cap = 'piccap' . $idx;
-                if ( isset( $options[$cap] ) ) {
-                    $persona->picCaps[$idx-1] = $options[$cap];
-                }
-            }
-        }
         return $persona;
     }
 
