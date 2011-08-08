@@ -53,9 +53,13 @@ class RP_Group_Sheet_Panel_Creator {
         $death_date = isset( $parent->death_date ) ? $parent->death_date : '';
         $death_place = isset( $parent->death_place ) ? $parent->death_place : '';
 
-        $block = '<tr><td class="full" colspan="4">' . __( 'PARENT', 'rootspersona' )
-        . ' (' . $parent->gender . ') ' . '<a href="' . $options['home_url'] . '?page_id='
-        . $parent->page . '">' . $parent->full_name . '</a></td></tr>'
+        $block = '<tr><td class="full" colspan="4">' 
+                . __( 'PARENT', 'rootspersona' )
+                . ' (' . $parent->gender . ') ' 
+                . '<a href="' . $options['home_url'] . '?page_id='
+                . $parent->page . '">' 
+                . $parent->full_name . '</a></td></tr>'
+                
         . '<tr><td class="inset" rowspan="' . $row_span . '"/><td class="label">'
         . __( 'Birth', 'rootspersona' ) . '</td>' . '<td class="date">'
         . ( $options['hide_dates'] == 1 ? '' : $birth_date ) . '</td>'

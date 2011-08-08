@@ -9,7 +9,15 @@ class RP_Ancestors_Panel_Creator {
      * @return string
      */
 	public static function create( $ancestors, $options ) {
-		$block = '<div class="rp_truncate">' . '<div class="rp_ancestors">' . '<table cellpadding="0" cellspacing="0" class="ancestors"><tbody>' . '<tr><td colspan="2" rowspan="6">&#160;</td>' . '<td colspan="3" rowspan="2">&#160;</td><td>&#160;</td>' . '<td rowspan="2" class="rp_nameBox">' . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[4]->page . '">' . $ancestors[4]->full_name . '</a><br/>';
+		$block = '<div class="rp_truncate">' 
+                . '<div class="rp_ancestors">' 
+                . '<table cellpadding="0" cellspacing="0" class="ancestors"><tbody>' 
+                . '<tr><td colspan="2" rowspan="6">&#160;</td>' 
+                . '<td colspan="3" rowspan="2">&#160;</td><td>&#160;</td>' 
+                . '<td rowspan="2" class="rp_nameBox">' 
+                . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[4]->page . '">' 
+                . $ancestors[4]->full_name . '</a><br/>';
+        
 		if ( ! $options['hide_dates'] ) {
 			$block .= $ancestors[4]->birth_date . ' - ' . $ancestors[4]->death_date;
 		}
