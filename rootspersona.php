@@ -203,8 +203,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             } else {
                 $persona_id  = isset( $_POST['personId'] )  ? trim( esc_attr( $_POST['personId'] ) )  : '';
                 $name  = isset( $_POST['fullName'] )  ? trim( esc_attr( $_POST['fullName'] ) )  : '';
-                $opt = in_array( $_POST['privacy_grp'], array( 'Exc', 'Pub', 'Pvt', 'Mbr' ) )
-                        ? $_POST['privacy_grp'] : '';
+                $opt = ( in_array( $_POST['privacy_grp'], array( 'Exc', 'Pub', 'Pvt', 'Mbr' ) )
+                        ? $_POST['privacy_grp'] : '' );
                 $src_page = isset( $_POST['srcPage'] )  ? trim( esc_attr( $_POST['srcPage'] ) )  : '';
                 $transaction = new RP_Transaction( $this->credentials, false );
                 if ( $opt == 'Exc' ) {

@@ -156,7 +156,7 @@ DROP TABLE IF EXISTS rp_indi_option;
 CREATE TABLE IF NOT EXISTS rp_indi_option (
   indi_id varchar(22) NOT null,
   indi_batch_id tinyint(4) NOT null,
-  privacy_code int(11) NOT null,
+  privacy_code char(3) NOT null,
   excluded_name varchar(120),
   update_datetime datetime NOT null,
   PRIMARY KEY (indi_id,indi_batch_id)
