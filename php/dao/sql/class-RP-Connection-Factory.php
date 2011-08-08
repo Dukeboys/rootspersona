@@ -13,7 +13,7 @@
  * @copyright 2010-2011  Ed Thompson  (email : ed@ed4becky.org)
  * @version 2.0.x
  * @package rootspersona_php
- * @subpackage 
+ * @subpackage
  * @category rootsPersona
  * @link www.ed4becky.net
  * @since 2.0.0
@@ -26,7 +26,8 @@ class RP_Connection_Factory {
 	 * @return polaczenie
 	 */
 	static public function get_connection( $credentials ) {
-		$conn = mysql_connect( $credentials->hostname, $credentials->dbuser, $credentials->dbpassword );
+        $new_link = true;
+		$conn = mysql_connect( $credentials->hostname, $credentials->dbuser, $credentials->dbpassword, $new_link );
 		mysql_select_db( $credentials->dbname );
 		mysql_set_charset( 'utf8', $conn );
 		if ( ! $conn ) {

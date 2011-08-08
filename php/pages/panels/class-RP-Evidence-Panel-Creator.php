@@ -14,10 +14,18 @@ class RP_Evidence_Panel_Creator {
         $block .= '<table class="rp_evi">';
         $cnt = count( $persona->sources );
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
+            if( isset( $persona->sources[$idx]['page_id'] ) 
+                    && ! empty( $persona->sources[$idx]['page_id'] ) ) {
+                $link = '<a href="' . $options['home_url'] . "?page_id=" 
+                    . $persona->sources[$idx]['page_id'] . '">'
+                    . '[' . $persona->sources[$idx]['src_id'] . ']</a>';
+            } else {
+                $link = '<a href="">'
+                    . '[' . $persona->sources[$idx]['src_id'] . ']</a>';                
+            }
+                
             $block .= '<tr><td valign="top"><sup>'
-                . '<a href="' . $options['home_url'] . "?page_id=" 
-                . $persona->sources[$idx]['page_id'] . '">'
-                . '[' . $persona->sources[$idx]['src_id'] . ']</a>'
+                . $link
                 . '</sup></td><td><span style="padding-left:10px;display:inline-block;">' 
                 . $persona->sources[$idx]['src_title']
                 . '</span></td></tr>';
