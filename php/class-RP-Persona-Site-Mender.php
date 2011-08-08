@@ -230,59 +230,61 @@ class RP_Persona_Site_Mender {
         }
 
         $expected_pages = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->get_sources_with_pages();
-        foreach( $expected_pages AS $expected ) {
+        if ( isset ( $expected_pages ) && count( $expected_pages ) > 0 ) {
+            foreach( $expected_pages AS $expected ) {
 
-            $output = array();
-            $page = get_post( $expected['page_id'], ARRAY_A );
+                $output = array();
+                $page = get_post( $expected['page_id'], ARRAY_A );
 
-            if(empty($page) || $page['post_status'] == 'trash' ) {
-                 if ( $is_repair ) {
-                    $output[] = __( 'Database updated to remove reference to missing page.', 'rootspersona' );
-                    RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
-                            ->update_page( $expected['id'], $expected['batch_id'], null );
-                } else {
-                    $output[] = __( 'Invalid source page assignment in database (page missing).', 'rootspersona' );
-                }
-            } else  {
-                $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page['post_content'] );
-                if ( empty( $sid ) ) {
-                    if ( $is_repair ) {
-                        $output[] = __( 'Database updated to remove reference to invalid page.', 'rootspersona' );
+                if(empty($page) || $page['post_status'] == 'trash' ) {
+                     if ( $is_repair ) {
+                        $output[] = __( 'Database updated to remove reference to missing page.', 'rootspersona' );
                         RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                                 ->update_page( $expected['id'], $expected['batch_id'], null );
                     } else {
-                        $output[] = __( 'Invalid source page assignment in database (no sourceid).', 'rootspersona' );
+                        $output[] = __( 'Invalid source page assignment in database (page missing).', 'rootspersona' );
                     }
-                } else if ( $sid != $expected['id'] ) {
-                    if ( $is_repair ) {
-                        $output[] = __( 'Database updated to remove reference to invalid page.', 'rootspersona' );
-                        RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
-                                ->update_page( $expected['id'], $expected['batch_id'], null );
-                    } else {
-                        $output[] = __( 'Invalid source page assignment in database (wrong sourceId).', 'rootspersona' );
-                    }
-                } else if ( $page['post_title'] != $expected['title'] ) {
-                    if ( $is_repair ) {
-                        $output[] = __( 'Page title updated.', 'rootspersona' );
-                        $my_post = array();
-                        $my_post['ID'] = $page['ID'];
-                        $my_post['post_title'] = $expected['title'];
-                        wp_update_post( $my_post );
-                    } else {
-                        $output[] = __( 'Page title out of synch with person name', 'rootspersona' )
-                                . ' (' . $page['post_title'] . ' : ' . $expected['title'];
+                } else  {
+                    $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page['post_content'] );
+                    if ( empty( $sid ) ) {
+                        if ( $is_repair ) {
+                            $output[] = __( 'Database updated to remove reference to invalid page.', 'rootspersona' );
+                            RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
+                                    ->update_page( $expected['id'], $expected['batch_id'], null );
+                        } else {
+                            $output[] = __( 'Invalid source page assignment in database (no sourceid).', 'rootspersona' );
+                        }
+                    } else if ( $sid != $expected['id'] ) {
+                        if ( $is_repair ) {
+                            $output[] = __( 'Database updated to remove reference to invalid page.', 'rootspersona' );
+                            RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
+                                    ->update_page( $expected['id'], $expected['batch_id'], null );
+                        } else {
+                            $output[] = __( 'Invalid source page assignment in database (wrong sourceId).', 'rootspersona' );
+                        }
+                    } else if ( $page['post_title'] != $expected['title'] ) {
+                        if ( $is_repair ) {
+                            $output[] = __( 'Page title updated.', 'rootspersona' );
+                            $my_post = array();
+                            $my_post['ID'] = $page['ID'];
+                            $my_post['post_title'] = $expected['title'];
+                            wp_update_post( $my_post );
+                        } else {
+                            $output[] = __( 'Page title out of synch with person name', 'rootspersona' )
+                                    . ' (' . $page['post_title'] . ' : ' . $expected['title'];
+                        }
                     }
                 }
-            }
 
-            foreach ( $output as $line ) {
-                if ( $is_first ) {
-                    echo "<p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"
-                    . sprintf( __( 'Issues found with your %s pages.', 'rootspersona' ), "rootsPersona" )
-                    . "</p>";
-                    $is_first = false;
+                foreach ( $output as $line ) {
+                    if ( $is_first ) {
+                        echo "<p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"
+                        . sprintf( __( 'Issues found with your %s pages.', 'rootspersona' ), "rootsPersona" )
+                        . "</p>";
+                        $is_first = false;
+                    }
+                    echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id'] . ": " . $line . "<br/>";
                 }
-                echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id'] . ": " . $line . "<br/>";
             }
         }
 
