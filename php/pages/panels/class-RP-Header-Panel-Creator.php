@@ -38,7 +38,7 @@ class RP_Header_Panel_Creator {
         } else if ( $options['header_style'] == '2' ) {
             // bio style
             $block .= '<a href="' . $default . '">'
-                    . '<img class="rp_headerbox" style="margin:0px 30px 0px 0px !important;width:150px !important;" src="' 
+                    . '<img class="rp_headerbox" style="margin:0px 30px 5px 0px !important;width:150px !important;" src="'
                     . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {
@@ -47,7 +47,7 @@ class RP_Header_Panel_Creator {
             }
             $cnt = count( $persona->notes );
             for ($idx = 0; $idx < $cnt; $idx++) {
-                $block .= str_replace( "\n", "<br/>", $persona->notes[$idx]->note );         
+                $block .= str_replace( "\n", "<br/>", $persona->notes[$idx]->note );
             }
         }
         $block .= '</div></div>';

@@ -122,7 +122,32 @@ class RP_Gedcom_Loader {
         $this->update_names( $person );
         $this->update_indi_events( $person );
         $this->update_family_links( $person );
+        $this->update_notes( $person );
         $transaction->commit();
+    }
+
+    /**
+     *
+     * @param RP_Individual_Record $person
+     */
+    function update_notes( $person ) {
+        RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
+                ->delete_by_indi_id($person->id, 1);
+        if( isset ( $person->notes ) && count( $person->notes ) > 0 ) {
+            foreach ( $person->notes AS $note ) {
+                $new_note = new RP_Indi_Note();
+                $new_note->indi_batch_id = 1;
+                $new_note->indi_id = $person->id;
+                $new_note->note = $note->text;
+               try {
+                $note->id = RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
+                       ->insert($new_note);
+               } catch ( Exception $e ) {
+                    echo $e->getMessage();
+                    throw $e;
+               }
+            }
+        }
     }
 
     /**

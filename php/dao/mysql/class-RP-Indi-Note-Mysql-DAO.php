@@ -6,12 +6,12 @@
  * @date: 2011-04-07 19:07
  */
 class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
-	
+
 	/**
 	 * @todo Description of function deleteByIndiId
-	 * @param  $id 
+	 * @param  $id
 	 * @param  $batchId
-	 * @return 
+	 * @return
 	  */
 	public function delete_by_indi_id( $id, $batch_id ) {
 		$sql = 'DELETE FROM rp_indi_note WHERE indi_id = ? AND indi_batch_id = ?';
@@ -32,7 +32,7 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 		$sql_query->set_number( $id );
 		return $this->get_row( $sql_query );
 	}
-    
+
     public function query_by_indi_id( $id, $batch_id ) {
 		$sql = 'SELECT * FROM rp_indi_note WHERE indi_id = ? AND indi_batch_id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -54,38 +54,38 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 	/**
 	 * Insert record to table
 	 *
-	 * @param RpIndiNoteMySql rpIndiNote
+	 * @param RP_Indi_Note $rp_indi_note
 	 */
 	public function insert( $rp_indi_note ) {
-		$sql = 'INSERT INTO rp_indi_note (indi_id, indi_batch_id, note, update_datetime) VALUES (?, ?, ?, ?)';
+		$sql = 'INSERT INTO rp_indi_note (indi_id, indi_batch_id, note, update_datetime) VALUES (?, ?, ?, now())';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi_note->indi_id );
 		$sql_query->set_number( $rp_indi_note->indi_batch_id );
 		$sql_query->set( $rp_indi_note->note );
-		$sql_query->set( $rp_indi_note->update_datetime );
 		$id = $this->execute_insert( $sql_query );
-		$rp_indi_note->id = $id;return $id;
+		$rp_indi_note->id = $id;
+        return $id;
 	}
 	/**
 	 * Update record in table
 	 *
-	 * @param RpIndiNoteMySql rpIndiNote
+	 * @param RP_Indi_Note $rp_indi_note
 	 */
 	public function update( $rp_indi_note ) {
-		$sql = 'UPDATE rp_indi_note SET indi_id = ?, indi_batch_id = ?, note = ?, update_datetime = ? WHERE id = ?';
+		$sql = 'UPDATE rp_indi_note SET indi_id = ?, indi_batch_id = ?, note = ?, update_datetime = now() WHERE id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi_note->indi_id );
 		$sql_query->set_number( $rp_indi_note->indi_batch_id );
 		$sql_query->set( $rp_indi_note->note );
-		$sql_query->set( $rp_indi_note->update_datetime );
 		$sql_query->set_number( $rp_indi_note->id );
 		return $this->execute_update( $sql_query );
 	}
-	
+
 	/**
 	 * Read row
 	 *
-	 * @return RpIndiNoteMySql
+	 * @return 		$rp_indi_note = new RP_Indi_Note();
+
 	 */
 	protected function read_row( $row ) {
 		$rp_indi_note = new RP_Indi_Note();
@@ -93,7 +93,6 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 		$rp_indi_note->indi_id = $row['indi_id'];
 		$rp_indi_note->indi_batch_id = $row['indi_batch_id'];
 		$rp_indi_note->note = $row['note'];
-		$rp_indi_note->update_datetime = $row['update_datetime'];
 		return $rp_indi_note;
 	}
 

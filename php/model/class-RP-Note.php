@@ -11,6 +11,6 @@ class RP_Note {
 	var $auto_rec_id;
 	var $ged_change_date;
 	var $update_datetime;
-	var $submitter_text;
+	var $note;
 }
 ?>
