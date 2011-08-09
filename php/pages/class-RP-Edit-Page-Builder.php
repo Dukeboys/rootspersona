@@ -115,11 +115,15 @@ class RP_Edit_Page_Builder {
             $pf = 'picFile' . $i;
             if ( isset( $p[$pf] )
             && ! empty( $p[$pf] ) ) {
-                $content = $content . ' ' . $pf . "='" . $p[$pf] . "'";
-                $pc = 'picCap' . $i;
-                if ( isset( $p[$pc] )
-                && ! empty( $p[$pc] ) ) {
-                    $content = $content . ' ' . $pc . "='" . $p[$pc] . "'";
+                if( strstr($p[$pf], 'girl-silhouette.gif') === false
+                        && strstr($p[$pf], 'boy-silhouette.gif') === false ) {
+
+                    $content = $content . ' ' . $pf . "='" . $p[$pf] . "'";
+                    $pc = 'picCap' . $i;
+                    if ( isset( $p[$pc] )
+                    && ! empty( $p[$pc] ) ) {
+                        $content = $content . ' ' . $pc . "='" . $p[$pc] . "'";
+                    }
                 }
             }
         }
@@ -176,7 +180,7 @@ class RP_Edit_Page_Builder {
         $p['srcPage'] = isset( $params['srcPage'] ) ? trim( esc_attr( $params['srcPage'] ) ) : '';
         for ( $i = 1; $i <= 7; $i++ ) {
             $p['picFile' . $i] = isset( $params['img' . $i . '_upload'] ) ? trim( esc_attr( $params['img' . $i . '_upload'] ) ) : '';
-            $p['picCap' . $i] = isset( $params['picCap' . $i] ) ? trim( esc_attr( $params['picCap' . $i] ) ) : '';
+            $p['picCap' . $i] = isset( $params['cap' . $i] ) ? trim( esc_attr( $params['cap' . $i] ) ) : '';
         }
         return $p;
     }

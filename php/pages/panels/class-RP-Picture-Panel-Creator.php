@@ -20,7 +20,7 @@ class RP_Picture_Panel_Creator {
             $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
             $block .= '<div class="rp_picture"><a href="' . $link
                         . '"><img width="100px" src="' . $link . '"/></a><div class="rp_caption">'
-                    . ( isset( $captions[$idx] ) ? $captions[$idx] : '&#160;' ) . '</div></div>';
+                    . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' ) . '</div></div>';
         }
 
         $block .= '</div>'
@@ -28,7 +28,7 @@ class RP_Picture_Panel_Creator {
                 . "</div>";
         return $block;
     }
-    
+
     /**
      *
      * @param RP_Persona $persona
@@ -53,7 +53,7 @@ class RP_Picture_Panel_Creator {
                     . '<input style="display:none;" id="img' . $i . '_upload" type="text" size="36" name="img' . $i . '_upload" value="' . $link . '"/>'
                     . '<br/><input id="img' . $i . '_upload_button" type="button" value="Change" />'
 
-                    . '<div class="rp_caption"><textarea>'
+                    . '<div class="rp_caption"><textarea id="cap' . $i . '" name="cap' . $i . '">'
                     . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' )
                     . '</textarea></div>'
                     . '</div>';

@@ -40,7 +40,8 @@ class RP_Persona_Helper {
         if ( isset( $persona->pscore ) ) {
             $score = $persona->pscore;
         } else if ( isset( $persona->privacy )
-        && $persona->privacy != RP_Persona_Helper::DEF ) {
+                && ! empty( $persona->privacy )
+                && $persona->privacy != RP_Persona_Helper::DEF ) {
             if ( $persona->privacy == RP_Persona_Helper::PUB ) {
                 $score = RP_Persona_Helper::ANYONE;
             } else if ( $persona->privacy == RP_Persona_Helper::MBR ) {
