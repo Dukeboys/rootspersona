@@ -462,7 +462,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options = get_option( 'persona_plugin' );
             $installer = new RP_Persona_Installer();
             $installer->persona_install(
-                        $this->plugin_dir,
+                        WP_PLUGIN_DIR . '/rootspersona/',
                         $this->persona_version,
                         $options, $wpdb->prefix
                         );
@@ -482,7 +482,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             if ( $this->persona_version != $options['version'] ) {
                 $installer = new RP_Persona_Installer();
                 $installer->persona_upgrade(
-                        $this->plugin_dir,
+                        WP_PLUGIN_DIR . '/rootspersona/',
                         $this->persona_version,
                         $options,
                         $wpdb->prefix
