@@ -62,6 +62,7 @@ class RP_Parser {
      * @since Method available since Release 0.0.1
      */
     public function parse( $_filename, $callback_class = null ) {
+        @ini_set('auto_detect_line_endings',true);
         $this->gedcom_filename = $_filename;
         $callback = ( $callback_class == null ? $this : $callback_class );
         $line = null;
