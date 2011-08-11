@@ -48,17 +48,17 @@ class RP_Individual_Record extends RP_Record_Abstract {
 	 *
 	 * @var array
 	 */
-	var $events;
+	var $events = array();
 	/**
 	 *
 	 * @var array
 	 */
-	var $attributes;
+	var $attributes = array();
 	/**
 	 *
 	 * @var array
 	 */
-	var $lds_ordinances;
+	var $lds_ordinances = array();
 	/**
 	 *
 	 * @var array

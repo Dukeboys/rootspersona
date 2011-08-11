@@ -573,9 +573,8 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $rows = RP_Query_Executor::execute( $sql_query );
         $cnt = count( $rows );
-        $persons = null;
+        $persons = array();
         if ( $cnt > 0 ) {
-            $persons = array();
             for ( $idx = 0; $idx < $cnt; $idx++ ) {
                 $p = array();
                 $p['id'] = $rows[$idx]['id'];
