@@ -8,6 +8,7 @@
 class RP_Event_Note {
 	var $id;
 	var $event_id;
+    var $note_rec_id;
 	var $note;
 	var $update_datetime;
 }

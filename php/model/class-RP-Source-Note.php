@@ -9,6 +9,7 @@ class RP_Source_Note {
 	var $id;
 	var $source_id;
 	var $source_batch_id;
+    var $note_rec_id;
 	var $note;
 	var $update_datetime;
 }

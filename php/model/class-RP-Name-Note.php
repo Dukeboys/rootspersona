@@ -8,6 +8,7 @@
 class RP_Name_Note {
 	var $id;
 	var $name_id;
+    var $note_rec_id;
 	var $note;
 	var $update_datetime;
 }

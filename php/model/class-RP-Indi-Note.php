@@ -9,6 +9,7 @@ class RP_Indi_Note {
 	var $id;
 	var $indi_id;
 	var $indi_batch_id;
+    var $note_rec_id;
 	var $note;
 	var $update_datetime;
 }

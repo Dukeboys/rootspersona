@@ -9,6 +9,7 @@ class RP_Repo_Note {
 	var $id;
 	var $repo_id;
 	var $repo_batch_id;
+    var $note_rec_id;
 	var $note;
 	var $update_datetime;
 }

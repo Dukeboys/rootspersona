@@ -138,6 +138,7 @@ class RP_Gedcom_Loader {
                 $new_note = new RP_Indi_Note();
                 $new_note->indi_batch_id = 1;
                 $new_note->indi_id = $person->id;
+                $new_note->note_rec_id = $note->id;
                 $new_note->note = $note->text;
                try {
                 $note->id = RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
@@ -470,6 +471,7 @@ class RP_Gedcom_Loader {
             $src_note = new RP_Source_Note();
             $src_note->source_id = $source->id;
             $src_note->source_batch_id = 1;
+            $src_note->note_rec_id = $note->id;
             $src_note->note = $note->text;
             try {
                 $id = RP_Dao_Factory::get_rp_source_note_dao( $this->credentials->prefix )->insert( $src_note );

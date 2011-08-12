@@ -38,7 +38,18 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $id );
         $sql_query->set_number( $batch_id );
-		return $this->get_list( $sql_query );
+		$notes =  $this->get_list( $sql_query );
+        if( isset( $notes ) && count($notes) > 0 ) {
+            foreach( $notes as $note ) {
+                if ( ( !isset( $note->note ) || empty( $note->note ))
+                        && isset ( $note->note_rec_id ) ) {
+                    $rec = RP_Dao_Factory::get_rp_note_dao( $this->prefix )
+                            ->load($note->note_rec_id);
+                    $note->note = $rec->submitter_text;
+                }
+            }
+        }
+        return $notes;
 	}
 
 	/**
@@ -57,10 +68,11 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 	 * @param RP_Indi_Note $rp_indi_note
 	 */
 	public function insert( $rp_indi_note ) {
-		$sql = 'INSERT INTO rp_indi_note (indi_id, indi_batch_id, note, update_datetime) VALUES (?, ?, ?, now())';
+		$sql = 'INSERT INTO rp_indi_note (indi_id, indi_batch_id, note_rec_id, note, update_datetime) VALUES (?, ?, ?, ?, now())';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi_note->indi_id );
 		$sql_query->set_number( $rp_indi_note->indi_batch_id );
+        $sql_query->set( $rp_indi_note->note_rec_id );
 		$sql_query->set( $rp_indi_note->note );
 		$id = $this->execute_insert( $sql_query );
 		$rp_indi_note->id = $id;
@@ -72,10 +84,11 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 	 * @param RP_Indi_Note $rp_indi_note
 	 */
 	public function update( $rp_indi_note ) {
-		$sql = 'UPDATE rp_indi_note SET indi_id = ?, indi_batch_id = ?, note = ?, update_datetime = now() WHERE id = ?';
+		$sql = 'UPDATE rp_indi_note SET indi_id = ?, indi_batch_id = ?, note_rec_id = ?, note = ?, update_datetime = now() WHERE id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi_note->indi_id );
 		$sql_query->set_number( $rp_indi_note->indi_batch_id );
+        $sql_query->set( $rp_indi_note->note_rec_id );
 		$sql_query->set( $rp_indi_note->note );
 		$sql_query->set_number( $rp_indi_note->id );
 		return $this->execute_update( $sql_query );
@@ -92,6 +105,7 @@ class RP_Indi_Note_Mysql_Dao extends Rp_Mysql_DAO{
 		$rp_indi_note->id = $row['id'];
 		$rp_indi_note->indi_id = $row['indi_id'];
 		$rp_indi_note->indi_batch_id = $row['indi_batch_id'];
+        $rp_indi_note->note_rec_id = $row['note_rec_id'];
 		$rp_indi_note->note = $row['note'];
 		return $rp_indi_note;
 	}
