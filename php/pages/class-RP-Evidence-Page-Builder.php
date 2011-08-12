@@ -45,7 +45,7 @@ class RP_Evidence_Page_Builder {
 			$block .= '<h3>' . __( 'Notes', 'rootspersona' ) . ':</h3>' . '<div>';
 			$cnt = count( $evidence->notes );
 			for ( $idx = 0;	$idx < $cnt; $idx++ ) {
-				$block .= '<p>' . $evidence->notes[$idx]->note . '</p>';
+				$block .= '<p>' . nl2br( $evidence->notes[$idx]->note ) . '</p>';
 			}
 			$block .= '</div>';
 		}

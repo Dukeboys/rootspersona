@@ -83,26 +83,20 @@ class RP_Persona_Site_Mender {
                     }
                 }
             } else if ( preg_match( "/rootsAddPageForm/i", $page->post_content ) ) {
-                $page_id = $options['create_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                "rootsAddPageForm" );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsAddPageForm.";
-                    }
+                if ( $is_repair ) {
+                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                            "rootsAddPageForm" );
+                    wp_delete_post( $page->ID );
+                } else {
+                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsAddPageForm.";
                 }
             } else if ( preg_match( "/rootsUploadGedcomForm/i", $page->post_content ) ) {
-                $page_id = $options['upload_gedcom_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                'rootsUploadGedcomForm' );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsUploadGedcomForm.";
-                    }
+                if ( $is_repair ) {
+                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                            'rootsUploadGedcomForm' );
+                    wp_delete_post( $page->ID );
+                } else {
+                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUploadGedcomForm.";
                 }
             } else if ( preg_match( "/rootsIncludePageForm/i", $page->post_content ) ) {
                 $page_id = $options['include_page'];
@@ -323,7 +317,7 @@ class RP_Persona_Site_Mender {
      */
     function delete_pages( $options ) {
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
-        $pages = Get_posts( $args );
+        $pages = get_posts( $args );
         $cnt = 0;
         foreach ( $pages as $page ) {
             if ( preg_match( "/rootsPersona |rootsEvidencePage /", $page->post_content ) ) {

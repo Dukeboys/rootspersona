@@ -11,7 +11,7 @@ class RP_Upload_Page_Builder {
      */
     function build($action, $msg = '', $options) {
 
-        $block = '<div><i>'
+        $block = '<div style="overflow:hidden;width:60%;margin:40px;"><div><i>'
                 . __('Please note that GEDCOM processing is the most system taxing processing this plugin performs', 'rootspersona')
                 . '. ' . __('The system will be uploading the file AND parsing each person into the database', 'rootspersona')
                 . '. ' . __('Many users have reported hitting PHP time limit constraints when processing large files', 'rootspersona')
@@ -62,7 +62,7 @@ class RP_Upload_Page_Builder {
                     . 'php_value post_max_size 10M<br/>'
                     . 'php_value max_input_time 300<br/>'
                     . 'php_value max_execution_time 300<br/>'
-                    . '.</div>';
+                    . '.</div></div>';
         return $block;
     }
 }

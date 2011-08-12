@@ -12,7 +12,7 @@ class RP_Bio_Panel_Creator {
 		$block = '<div class="rp_truncate"><div class="rp_bio" style="margin:10px; 0px !important;">';
         $cnt = count( $notes);
         for ($idx = 0; $idx < $cnt; $idx++) {
-            $block .= str_replace( "\n", "<br/>", $notes[$idx]->note );         
+            $block .= nl2br( $notes[$idx]->note ) ;
         }
         $block .= '</div></div>';
 		return $block;

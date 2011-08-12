@@ -291,7 +291,7 @@ class RP_Individual_Record extends RP_Record_Abstract {
 	 */
 	public function parse_tree( $tree, $ver ) {
 		$this->ver = $ver;
-	$this->id = parent::parse_ref_id( $tree[0], Rp_Tags::INDIVIDUAL );
+        $this->id = parent::parse_ref_id( $tree[0], Rp_Tags::INDIVIDUAL );
 		if ( isset( $tree[0][1] ) ) {
 			$sub2 = $tree[0][1];
 			if ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::RESTRICTION ) ) !== false ) {
@@ -302,7 +302,7 @@ class RP_Individual_Record extends RP_Record_Abstract {
 				$tmp = new RP_Personal_Name();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver );
 				$this->names[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			if ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::GENDER ) ) !== false ) {
 				$this->gender = parent::parse_text( $sub2[$i1], Rp_Tags::GENDER );

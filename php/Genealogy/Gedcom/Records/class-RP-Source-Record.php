@@ -180,7 +180,7 @@ class RP_Source_Record extends RP_Record_Abstract {
 				$tmp = new RP_Source_Data();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver );
 				$this->source_data[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			if ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::AUTHOR ) ) !== false ) {
 				$this->author = parent::parse_con_tag( $sub2[$i1], Rp_Tags::AUTHOR );
@@ -202,7 +202,7 @@ class RP_Source_Record extends RP_Record_Abstract {
 				$tmp = new RP_Repository_Citation();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver );
 				$this->repository_citations[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			$this->user_file_parse_tree( $sub2, $ver );
 			$this->auto_rec_parse_tree( $sub2, $ver );

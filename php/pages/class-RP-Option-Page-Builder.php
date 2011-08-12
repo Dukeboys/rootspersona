@@ -256,16 +256,7 @@ class RP_Option_Page_Builder {
         echo "<td><a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"\");return false;'>"
                 . __( 'Page', 'rootspersona' ) . "</a> "
                 . __( 'with the Edit Page shortcode.  There is usually no need to change this.', 'rootspersona' ) . ".</td></tr>";
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[create_page]'>" . __( 'Add Person Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[create_page]' id='create_page'";
-        echo " value='" . $options['create_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['create_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Add Page shortcode.  There is usually no need to change this', 'rootspersona' ) . ".</td></tr>";
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[upload_gedcom_page]'>" . __( 'Upload Gedcom Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[upload_gedcom_page]' id='upload_gedcom_page'";
-        echo " value='" . $options['upload_gedcom_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['upload_gedcom_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Upload GEDCOM page shortcode.  There is usually no need to change this', 'rootspersona' ) . ".</td></tr>";
+
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[include_page]'>" . __( 'Include Person Page Id', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[include_page]' id='include_page'";

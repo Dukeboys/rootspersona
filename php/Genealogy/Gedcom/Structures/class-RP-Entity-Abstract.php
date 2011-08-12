@@ -153,15 +153,13 @@ abstract class RP_Entity_Abstract {
      * @since Method available since Release 0.0.1
      */
     protected function parse_con_tag( $tree, $tag ) {
-        $str = @preg_replace( '/^[0-9][0-9]? .*?' . $tag . ' (.*)/US', '$1', $tree[0], 1 );
+        $str = @preg_replace( '/^[0-9][0-9]? .*?' . $tag . ' ?(.*)/US', '$1', $tree[0], 1 );
         if ( isset( $tree[1] ) ) {
             $sub2 = $tree[1];
             $cnt = count( $sub2 );
-            for ( $i = 0;
-    $i < $cnt;
-    $i++ ) {
-                if ( @preg_match( '/^[0-9][0-9]? CONT (.*)/US', $sub2[$i][0] ) ) {
-                    $str .= "\n" . @preg_replace( '/^[0-9][0-9]? CONT (.*)/US', '$1', $sub2[$i][0], 1 );
+            for ( $i = 0; $i < $cnt; $i++ ) {
+                if ( @preg_match( '/^[0-9][0-9]? CONT ?(.*)/US', $sub2[$i][0] ) ) {
+                    $str .= "\n" . @preg_replace( '/^[0-9][0-9]? CONT ?(.*)/US', '$1', $sub2[$i][0], 1 );
                 } else if ( @preg_match( '/^[0-9][0-9]? CONC (.*)/US', $sub2[$i][0] ) ) {
                     $str .= @preg_replace( '/^[0-9][0-9]? CONC (.*)/US', '$1', $sub2[$i][0], 1 );
                 }

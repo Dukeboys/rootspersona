@@ -35,12 +35,7 @@ class RP_Persona_Installer {
             $page = $this->create_page( __( 'Edit Person Page', 'rootspersona' ),
                     '[rootsEditPersonaForm/]' );
             $options['edit_page'] = $page;
-            $page = $this->create_page( __( 'Add Person Pages', 'rootspersona' ),
-                    '[rootsAddPageForm/]' );
-            $options['create_page'] = $page;
-            $page = $this->create_page( __( 'Upload GEDCOM File', 'rootspersona' ),
-                    '[rootsUploadGedcomForm/]' );
-            $options['upload_gedcom_page'] = $page;
+
             $page = $this->create_page( __( 'Include Person Page', 'rootspersona' ),
                     '[rootsIncludePageForm/]' );
             $options['include_page'] = $page;
@@ -61,7 +56,7 @@ class RP_Persona_Installer {
             $options['is_system_of_record'] = 0;
             $options['privacy_default'] = 'Pub';
             $options['privacy_living'] = 'Mbr';
-            $options['hide_style'] = 1;
+            $options['header_style'] = 1;
             $options['hide_header'] = 0;
             $options['hide_facts'] = 0;
             $options['hide_bio'] = 0;
@@ -96,8 +91,6 @@ class RP_Persona_Installer {
             $options['parent_page'] = get_option( 'rootsPersonaParentPage', null );
             $opt = get_option( 'rootsIsSystemOfRecord', 0 );
             $options['is_system_of_record'] = ( ( $opt == false ) ? 0 : 1 );
-            $options['upload_gedcom_page'] = get_option( 'rootsUploadGedcomPage' );
-            $options['create_page'] = get_option( 'rootsCreatePage' );
             $options['edit_page'] = get_option( 'rootsEditPage' );
             $options['include_page'] = get_option( 'rootsIncludePage' );
             $options['index_page'] = get_option( 'rootsPersonaIndexPage' );
@@ -118,6 +111,11 @@ class RP_Persona_Installer {
             $options['privacy_default'] = 'Pub';
             $options['privacy_living'] = 'Mbr';
             $options['per_page'] = 25;
+
+            $page = get_option( 'rootsCreatePage' );
+            wp_delete_post( $page );
+            $page = get_option( 'rootsUploadGedcomPage' );
+            wp_delete_post( $page );
 
             delete_option( 'rootsDataDir' );
             delete_option( 'rootsPersonaParentPage' );
@@ -156,26 +154,6 @@ class RP_Persona_Installer {
         } else {
             $this->create_page( __( 'Edit Person Page', 'rootspersona' ),
                     '[rootsEditPersonaForm/]', $options['edit_page'] );
-        }
-
-        if ( ! isset( $options['create_page'] )
-        || empty( $options['create_page'] ) ) {
-            $page = $this->create_page( __( 'Add Person Page', 'rootspersona' ),
-                    '[rootsAddPageForm/]' );
-            $options['create_page'] = $page;
-        } else {
-            $this->create_page( __( 'Add Person Page', 'rootspersona' ),
-                    '[rootsAddPageForm/]', $options['create_page'] );
-        }
-
-        if ( ! isset( $options['upload_gedcom_page'] )
-        || empty( $options['upload_gedcom_page'] ) ) {
-            $page = $this->create_page( __( 'Upload GEDCOM File', 'rootspersona' ),
-                    '[rootsUploadGedcomForm/]' );
-            $options['upload_gedcom_page'] = $page;
-        } else {
-            $this->create_page( __( 'Upload GEDCOM File', 'rootspersona' ),
-                    '[rootsUploadGedcomForm/]', $options['upload_gedcom_page'] );
         }
 
         if ( ! isset( $options['include_page'] )
@@ -274,10 +252,8 @@ class RP_Persona_Installer {
 
         $page = $options[ 'edit_page' ];
         wp_delete_post( $page );
-        $page = $options[ 'create_page' ];
-        wp_delete_post( $page );
-        $page = $options[ 'upload_gedcom_page' ];
-        wp_delete_post( $page );
+
+
         $page = $options[ 'include_page' ];
         wp_delete_post( $page );
         $page = $options[ 'index_page' ];

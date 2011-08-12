@@ -231,7 +231,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function add_page_handler() {
             global $wpdb;
-            $action = home_url('/?page_id=' . RP_Persona_Helper::get_page_id());
+            $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
             $msg = '';
             $options = get_option( 'persona_plugin' );
             $transaction = new RP_Transaction( $this->credentials, false );
@@ -350,7 +350,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             if ( !current_user_can( 'upload_files' ) ) {
                 wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
             }
-            $action = home_url('/?page_id=' . RP_Persona_Helper::get_page_id() );
+            $action = admin_url('/tools.php?page=rootsPersona&rootspage=upload');
             $msg = '';
             $retStr = '';
 
@@ -383,7 +383,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 // The wp_redirect command uses a PHP redirect at its core,
                 // therefore, it will not work either after header information
                 // has been defined for a page.
-                $location = home_url('/?page_id=' . $options['create_page'] );
+                $location = admin_url('/tools.php?page=rootsPersona&rootspage=create');;
                 $retStr = '<script type = "text/javascript">window.location = "'
                         . $location . '"; </script>';
             } else {
@@ -435,11 +435,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             if ( !is_admin() ) {
                 wp_enqueue_script('media-upload');
                 wp_enqueue_script('thickbox');
-                wp_register_script( 'sortable_us',
-                        plugins_url( 'scripts/sortable_us.js',__FILE__ ) );
-                wp_enqueue_script( 'sortable_us' );
-                wp_register_script( 'rootsUtilities',
-                        plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
                 wp_enqueue_script( 'rootsUtilities' );
             }
         }
@@ -547,11 +542,20 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function build_roots_tools_page() {
-            $options = get_option( 'persona_plugin' );
-            $options['home_url'] = home_url();
+            if( isset( $_GET['rootspage'] ) ) {
+                $page = $_GET['rootspage'];
+                if( $page == 'upload' ) {
+                    echo $this->upload_gedcom_handler();
+                } else if ( $page == 'create' ) {
+                    echo $this->add_page_handler();
+                }
+            } else {
+                $options = get_option( 'persona_plugin' );
+                $options['home_url'] = home_url();
 
-            $builder = new RP_Tools_Page_Builder();
-            return $builder->build( $options );
+                $builder = new RP_Tools_Page_Builder();
+                echo $builder->build( $options );
+            }
         }
 
         /**
@@ -571,8 +575,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options = get_option( 'persona_plugin' );
             $options['version'] = trim( esc_attr( $this->persona_version ) );
             $options['parent_page'] = intval( $input['parent_page'] );
-            $options['is_system_of_record']  = 0;//( $input['is_system_of_record'] == 1 ? 1 : 0 );
-            $options['upload_gedcom_page'] = intval( $input['upload_gedcom_page'] );
+            $options['is_system_of_record']  = 0;
             $options['create_page'] = intval( $input['create_page'] );
             $options['edit_page'] = intval( $input['edit_page'] );
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );

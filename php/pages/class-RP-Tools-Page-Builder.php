@@ -18,8 +18,7 @@ class RP_Tools_Page_Builder {
                 // Upload
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id="
-                . $options['upload_gedcom_page'] . "'>"
+                . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
                 . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
                 . "<td style='vertical-align:middle'>"
                 . __( 'Upload (or re-upload) a GEDCOM file.', 'rootspersona' )
@@ -28,7 +27,7 @@ class RP_Tools_Page_Builder {
                 //  Add
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id=" . $options['create_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=create')
                 . "'>"
                 . __( 'Add Uploaded Persons', 'rootspersona' )
                 . "</a></div></td>"
@@ -43,16 +42,6 @@ class RP_Tools_Page_Builder {
                 . "'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
                 . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' ) . "</td></tr>"
-                // Index
-                . "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id=" . $options['index_page']
-                . "'>"
-                . __( 'Name Index', 'rootspersona' )
-                . "</a></div></td>"
-                . "<td style='vertical-align:middle'>"
-                . __( 'View a sortable index table of all persons that you have created pages for.', 'rootspersona' )
-                . "</td></tr>"
 
                 // Validate
                 . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
@@ -99,7 +88,7 @@ class RP_Tools_Page_Builder {
                 . "</td></tr>"
                 . "</table>"
                 . "</div>";
-        echo $block;
+        return $block;
     }
 }
 ?>
