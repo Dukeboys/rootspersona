@@ -5,7 +5,7 @@
  * @author: http://phpdao.com
  * @date: 2011-04-07 19:07
  */
-class RP_Note {
+class RP_Note_Rec {
 	var $id;
     var $batch_id;
 	var $cite_id;

@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS rp_name_personal (
 
 DROP TABLE IF EXISTS rp_note;
 CREATE TABLE IF NOT EXISTS rp_note (
-  id varchar(22), NOT null AUTO_INCREMENT,
+  id varchar(22) NOT null,
   batch_id tinyint(4) NOT null,
   cite_id int(11) DEFAULT null,
   auto_rec_id varchar(12) DEFAULT null,

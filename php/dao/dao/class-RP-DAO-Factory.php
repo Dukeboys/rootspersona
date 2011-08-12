@@ -47,8 +47,8 @@ require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Name-Note.php' )
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/dao/mysql/class-RP-Name-Note-Mysql-DAO.php' );
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Name-Personal.php' );
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/dao/mysql/class-RP-Name-Personal-Mysql-DAO.php' );
-//require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Note.php' );
-//require_once( WP_PLUGIN_DIR . '/rootspersona/php/dao/mysql/class-RP-Note-Mysql-DAO.php' );
+require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Note-Rec.php' );
+require_once( WP_PLUGIN_DIR . '/rootspersona/php/dao/mysql/class-RP-Note-Mysql-DAO.php' );
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Repo-Note.php' );
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/dao/mysql/class-RP-Repo-Note-Mysql-DAO.php' );
 require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Source.php' );
@@ -73,12 +73,12 @@ require_once( WP_PLUGIN_DIR . '/rootspersona/php/model/class-RP-Evidence.php' );
  * @date: ${date}
  */
 class RP_Dao_Factory {
-	
+
 
 	/**
 	 * @todo Description of function getRpPersonaDao
 	 * @param  $prefix
-	 * @return 
+	 * @return
 	 */
 	public static function get_rp_persona_dao( $prefix ) {
 		return new RP_Persona_Mysql_Dao( $prefix );

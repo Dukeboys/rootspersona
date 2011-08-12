@@ -87,14 +87,14 @@ class RP_Gedcom_Loader {
 
     /**
      *
-     * @param RP_Note_Rec $note
+     * @param RP_Note_Record $note
      */
     function add_note_rec( $note ) {
         $need_update = false;
-        $note_rec = new RP_Note();
+        $note_rec = new RP_Note_Rec();
         $note_rec->id = $note->id;
         $note_rec->batch_id = 1;
-        $note_rec->$submitter_text = $note->text;
+        $note_rec->submitter_text = $note->text;
 
         try {
             $transaction = new RP_Transaction( $this->credentials );
