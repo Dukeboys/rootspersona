@@ -614,6 +614,19 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $qvars[] = 'rootsvar';
             return $qvars;
         }
+
+        function person_menu_filter( $args )
+        {
+            $options = get_option( 'persona_plugin' );
+            if ( isset( $options['parent_page'] ) ) {
+                if ( isset ( $args['exclude_tree'] ) ) {
+                    $args['exclude_tree'] .= ',' . $options['parent_page'];
+                } else {
+                    $args['exclude_tree'] = $options['parent_page'];
+                }
+            }
+            return $args;
+        }
     }
 }
 
@@ -655,5 +668,6 @@ if ( isset( $roots_persona_plugin ) ) {
     add_filter( 'the_content', array( $roots_persona_plugin, 'check_permissions' ), 2 );
     load_plugin_textdomain('rootspersona', false, WP_PLUGIN_DIR . '/rootspersona/localization');
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
+    add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
 }
 ?>

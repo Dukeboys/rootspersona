@@ -44,17 +44,17 @@ class RP_Persona_Installer {
             $page = $this->create_page( __( 'Include Person Page', 'rootspersona' ),
                     '[rootsIncludePageForm/]' );
             $options['include_page'] = $page;
-            $page = $this->create_page( __( 'Persona Index', 'rootspersona' ),
-                    '[rootsPersonaIndexPage batchId="1"/]' );
+            $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
+                    '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
             $options['index_page'] = $page;
-            $page = $this->create_page( __( 'Evidence', 'rootspersona' ),
+            $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                     '[rootsEvidencePage/]', '', 'publish' );
             $options['evidence_page'] = $page;
             $page = $this->create_page( __( 'Persona Utility', 'rootspersona' ),
                     '[rootsUtilityPage/]' );
             $options['utility_page'] = $page;
             $parent_page = $this->get_parent_page();
-            $page = $this->create_page( __( 'Family Tree', 'rootspersona' ),
+            $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ),
                     $parent_page, '', 'publish' );
             $options['parent_page'] = $page;
 
@@ -190,7 +190,7 @@ class RP_Persona_Installer {
 
         if ( ! isset( $options['evidence_page'] )
         || empty( $options['evidence_page'] ) ) {
-            $page = $this->create_page( __( 'Evidence', 'rootspersona' ),
+            $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                     "[rootsEvidencePage batchId='1'/]", '', 'publish' );
             $options['evidence_page'] = $page;
         } else {
@@ -210,17 +210,18 @@ class RP_Persona_Installer {
 
         if ( ! isset( $options['index_page'] )
         || empty( $options['index_page'] ) ) {
-            $page = $this->create_page( __( 'Persona Index', 'rootspersona' ),
-                    '[rootsPersonaIndexPage batchId="1"/]' );
+            $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
+                    '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
             $options['index_page'] = $page;
         } else {
             $this->create_page( __( 'Persona Index', 'rootspersona' ),
-                    '[rootsPersonaIndexPage batchId="1"/]', $options['index_page'] );
+                    '[rootsPersonaIndexPage batchId="1"/]', $options['index_page'], 'publish' );
         }
 
         if ( ! isset( $options['parent_page'] )
         || empty( $options['parent_page'] ) ) {
-            $options['parent_page'] = 0;
+            $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ), '', 'publish' );
+            $options['parent_page'] = $page;
         }
 
         if ( ! isset( $options['is_system_of_record'] )
@@ -336,10 +337,8 @@ class RP_Persona_Installer {
              .  '. ' . __('(Picture a front page with 100 or more entries in the menu bar)', 'rootspersona')
              .  '.</p/><br\><p>rootspersona '
              . __('will now create and assign a Parent Page by default','rootspersona')
-             . '. ' . __('You may change the Parent Page under Options->rootspersona, or simply edit this page to your liking','rootspersona')
-             . '. ' . __('For example, on my site I have created links to the persona pages of my grandparents','rootspersona')
-             . ', ' .__('effectively defining my grandparents as the roots of my family tree (as well they were)','rootspersona')
-             .  '.</p/><br\><p>' .__('Be creative!','rootspersona');
+             . '. ' . __('The parent page is NOT meant for display, as the menu is very large on most sites.','rootspersona')
+             .  '.</p/><br\><p>';
 
         return $block;
 

@@ -28,10 +28,11 @@ class RP_Persona_Site_Mender {
 
         $queryOnly = $is_repair === true ? false : true;
         $transaction = new RP_Transaction( $this->credentials, $queryOnly );
+        $parent = $options['parent_page'];
         foreach ( $pages as $page ) {
             $output = array();
             if ( preg_match( "/rootsPersona /i", $page->post_content ) ) {
-                $parent = $options['parent_page'];
+
                 $pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US', '$1'
                         , $page->post_content );
                 $wp_page_id = RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
@@ -129,7 +130,6 @@ class RP_Persona_Site_Mender {
                 $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page->post_content );
                 $wp_page_id = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                         ->get_page_id( $sid, 1 );
-                $parent = $options['evidence_page'];
                 if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
                     if ( $is_repair ) {
                         $output[] = __( "Deleted orphaned page with no reference in rp_source.",
@@ -158,7 +158,7 @@ class RP_Persona_Site_Mender {
                         wp_delete_post( $page->ID );
                     } else {
                         $output[] = __( "Orphan evidence index.", 'rootspersona' );
-                    }                    
+                    }
                 }
             }
             foreach ( $output as $line ) {
