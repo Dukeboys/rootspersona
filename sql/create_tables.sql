@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS rp_event_note;
 CREATE TABLE IF NOT EXISTS rp_event_note (
   id int(11) NOT null AUTO_INCREMENT,
   event_id int(11) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),
@@ -107,11 +107,11 @@ CREATE TABLE IF NOT EXISTS rp_fam_event (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS rp_fam_note;
-CREATE TABLE IF NOT EXISTS rp_indi_note (
+CREATE TABLE IF NOT EXISTS rp_fam_note (
   id int(11) NOT null AUTO_INCREMENT,
   fam_id varchar(22) NOT null,
   fam_batch_id tinyint(4) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS rp_indi_note (
   id int(11) NOT null AUTO_INCREMENT,
   indi_id varchar(22) NOT null,
   indi_batch_id tinyint(4) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),
@@ -274,7 +274,8 @@ CREATE TABLE IF NOT EXISTS rp_name_personal (
 
 DROP TABLE IF EXISTS rp_note;
 CREATE TABLE IF NOT EXISTS rp_note (
-  id int(11) NOT null AUTO_INCREMENT,
+  id varchar(22), NOT null AUTO_INCREMENT,
+  batch_id tinyint(4) NOT null,
   cite_id int(11) DEFAULT null,
   auto_rec_id varchar(12) DEFAULT null,
   ged_change_date varchar(11) DEFAULT null,
@@ -300,7 +301,7 @@ CREATE TABLE IF NOT EXISTS rp_repo_note (
   id int(11) NOT null AUTO_INCREMENT,
   repo_id varchar(22) NOT null,
   repo_batch_id tinyint(4) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),
@@ -342,7 +343,7 @@ CREATE TABLE IF NOT EXISTS rp_source_note (
   id int(11) NOT null AUTO_INCREMENT,
   source_id varchar(22) NOT null,
   source_batch_id tinyint(4) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),
@@ -370,7 +371,7 @@ CREATE TABLE IF NOT EXISTS rp_submitter_note (
   id int(11) NOT null AUTO_INCREMENT,
   submitter_id varchar(22) NOT null,
   submitter_batch_id tinyint(4) NOT null,
-  note_rec_id int(11),
+  note_rec_id varchar(22),
   note longtext NOT null,
   update_datetime datetime NOT null,
   PRIMARY KEY (id),

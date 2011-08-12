@@ -7,10 +7,11 @@
  */
 class RP_Note {
 	var $id;
+    var $batch_id;
 	var $cite_id;
 	var $auto_rec_id;
 	var $ged_change_date;
 	var $update_datetime;
-	var $note;
+	var $submitter_text;
 }
 ?>

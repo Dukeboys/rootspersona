@@ -87,6 +87,40 @@ class RP_Gedcom_Loader {
 
     /**
      *
+     * @param RP_Note_Rec $note
+     */
+    function add_note_rec( $note ) {
+        $need_update = false;
+        $note_rec = new RP_Note();
+        $note_rec->id = $note->id;
+        $note_rec->batch_id = 1;
+        $note_rec->$submitter_text = $note->text;
+
+        try {
+            $transaction = new RP_Transaction( $this->credentials );
+            RP_Dao_Factory::get_rp_note_dao( $this->credentials->prefix )->insert( $note_rec );
+        } catch ( Exception $e ) {
+            if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
+                $need_update = true;
+            } else {
+                echo $e->getMessage();
+                throw $e;
+            }
+        }
+        if ( $need_update ) {
+            try {
+                RP_Dao_Factory::get_rp_note_dao( $this->credentials->prefix )->update( $note_rec );
+            } catch ( Exception $e ) {
+                echo $e->getMessage();
+                throw $e;
+            }
+        }
+
+        $transaction->commit();
+    }
+
+    /**
+     *
      * @param RP_Individual_Record $person
      */
     function add_indi( $person ) {
@@ -526,6 +560,7 @@ class RP_Gedcom_Loader {
      * @param RP_Note_Record $rec
      */
     function process_note( $rec ) {
+        $this->add_note_rec( $rec );
     }
 
     /**

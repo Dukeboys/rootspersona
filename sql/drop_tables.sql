@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS rp_fam;
 DROP TABLE IF EXISTS rp_fam_child;
 DROP TABLE IF EXISTS rp_fam_cite;
 DROP TABLE IF EXISTS rp_fam_event;
+DROP TABLE IF EXISTS rp_fam_note;
 DROP TABLE IF EXISTS rp_header;
 DROP TABLE IF EXISTS rp_indi;
 DROP TABLE IF EXISTS rp_indi_option;
