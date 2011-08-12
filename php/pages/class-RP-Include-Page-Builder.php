@@ -11,7 +11,7 @@ class RP_Include_Page_Builder {
      * @return string
      */
 	function build( $persons, $options, $action, $msg = '' ) {
-		$block = "<br/><div class='personBanner'><br/></div>";
+		$block = "<div style='overflow:hidden;width:60%;margin:40px;'><div class='personBanner'><br/></div>";
 		if ( count( $persons ) == 0 ) {
 			$block .=  "<br/><div style='text-align:center;color:red;font-weight:bold'>"
                     . sprintf( __( 'All %s have been included', 'rootspersona' ), "personas" )
@@ -20,7 +20,7 @@ class RP_Include_Page_Builder {
                     . ".</div>";
 		} else {
 			$block .=  "<form  action='" . $action . "' method='POST'>"
-                    .  "<br/><select multiple name='persons[]' size='16'>";
+                    .  "<br/><select multiple name='persons[]'  style='height:20em;'>";
 
             $cnt = count( $persons );
             if($cnt > 0) {
@@ -37,7 +37,7 @@ class RP_Include_Page_Builder {
                 .  "&#160;&#160;<input type='reset' name='reset' value='"
                 . __( 'Reset', 'rootspersona' ) . "'/>"
                 .  "<br/><br/><div class='personBanner'><br/></div>"
-                .  "</form>";
+                .  "</form></div>";
 		}
 		return $block;
 	}

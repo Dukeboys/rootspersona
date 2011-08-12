@@ -32,22 +32,14 @@ class RP_Persona_Installer {
 
             $options = array();
             $options['version'] = $version;
-            $page = $this->create_page( __( 'Edit Person Page', 'rootspersona' ),
-                    '[rootsEditPersonaForm/]' );
-            $options['edit_page'] = $page;
 
-            $page = $this->create_page( __( 'Include Person Page', 'rootspersona' ),
-                    '[rootsIncludePageForm/]' );
-            $options['include_page'] = $page;
             $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
                     '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
             $options['index_page'] = $page;
             $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                     '[rootsEvidencePage/]', '', 'publish' );
             $options['evidence_page'] = $page;
-            $page = $this->create_page( __( 'Persona Utility', 'rootspersona' ),
-                    '[rootsUtilityPage/]' );
-            $options['utility_page'] = $page;
+
             $parent_page = $this->get_parent_page();
             $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ),
                     $parent_page, '', 'publish' );
@@ -91,10 +83,7 @@ class RP_Persona_Installer {
             $options['parent_page'] = get_option( 'rootsPersonaParentPage', null );
             $opt = get_option( 'rootsIsSystemOfRecord', 0 );
             $options['is_system_of_record'] = ( ( $opt == false ) ? 0 : 1 );
-            $options['edit_page'] = get_option( 'rootsEditPage' );
-            $options['include_page'] = get_option( 'rootsIncludePage' );
             $options['index_page'] = get_option( 'rootsPersonaIndexPage' );
-            $options['utility_page'] = get_option( 'rootsUtilityPage' );
             $options['evidence_page'] = get_option( 'rootsEvidencePage' );
             $options['hide_header'] = get_option( 'rootsHideHeader', 0 );
             $options['hide_bio'] = 0;
@@ -112,6 +101,12 @@ class RP_Persona_Installer {
             $options['privacy_living'] = 'Mbr';
             $options['per_page'] = 25;
 
+            $page = get_option( 'rootsUtilityPage' );
+            wp_delete_post( $page );
+            $page = get_option( 'rootsEditPage' );
+            wp_delete_post( $page );            
+            $page = get_option( 'rootsIncludePage' );
+            wp_delete_post( $page );
             $page = get_option( 'rootsCreatePage' );
             wp_delete_post( $page );
             $page = get_option( 'rootsUploadGedcomPage' );
@@ -146,26 +141,6 @@ class RP_Persona_Installer {
 
         $options['version'] = $version;
 
-        if ( ! isset( $options['edit_page'] )
-        || empty( $options['edit_page'] ) ) {
-            $page = $this->create_page( __( 'Edit Person Page', 'rootspersona' ),
-                    '[rootsEditPersonaForm/]' );
-            $options['edit_page'] = $page;
-        } else {
-            $this->create_page( __( 'Edit Person Page', 'rootspersona' ),
-                    '[rootsEditPersonaForm/]', $options['edit_page'] );
-        }
-
-        if ( ! isset( $options['include_page'] )
-        || empty( $options['include_page'] ) ) {
-            $page = $this->create_page( __( 'Include Person Page', 'rootspersona' ),
-                    '[rootsIncludePageForm/]' );
-            $options['include_page'] = $page;
-        } else {
-            $this->create_page( __( 'Include Page Form', 'rootspersona' ),
-                    '[rootsIncludePageForm/]', $options['include_page'] );
-        }
-
         if ( ! isset( $options['evidence_page'] )
         || empty( $options['evidence_page'] ) ) {
             $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
@@ -174,16 +149,6 @@ class RP_Persona_Installer {
         } else {
             $this->create_page( __( 'Evidence Page', 'rootspersona' ),
                     "[rootsEvidencePage batchId='1'/]", $options['evidence_page'], 'publish' );
-        }
-
-        if ( ! isset( $options['utility_page'] )
-        || empty( $options['utility_page'] ) ) {
-            $page = $this->create_page( __( 'Persona Utility', 'rootspersona' ),
-                    '[rootsUtilityPage/]' );
-            $options['utility_page'] = $page;
-        } else {
-            $this->create_page( __( 'Persona Utility', 'rootspersona' ),
-                    '[rootsUtilityPage/]', $options['utility_page'] );
         }
 
         if ( ! isset( $options['index_page'] )
@@ -250,15 +215,7 @@ class RP_Persona_Installer {
 
         $options = get_option('persona_plugin');
 
-        $page = $options[ 'edit_page' ];
-        wp_delete_post( $page );
-
-
-        $page = $options[ 'include_page' ];
-        wp_delete_post( $page );
         $page = $options[ 'index_page' ];
-        wp_delete_post( $page );
-        $page = $options[ 'utility_page' ];
         wp_delete_post( $page );
         $page = $options[ 'evidence_page' ];
         wp_delete_post( $page );

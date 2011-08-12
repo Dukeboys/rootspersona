@@ -19,6 +19,7 @@ class RP_Tools_Page_Builder {
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
+                
                 . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
                 . "<td style='vertical-align:middle'>"
                 . __( 'Upload (or re-upload) a GEDCOM file.', 'rootspersona' )
@@ -27,8 +28,8 @@ class RP_Tools_Page_Builder {
                 //  Add
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=create')
-                . "'>"
+                . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'>"
+                
                 . __( 'Add Uploaded Persons', 'rootspersona' )
                 . "</a></div></td>"
                 . "<td style='vertical-align:middle'>"
@@ -38,15 +39,14 @@ class RP_Tools_Page_Builder {
                 // Excluded
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id=" . $options['include_page']
-                . "'>"
+                . admin_url('/tools.php?page=rootsPersona&rootspage=include') . "'>"
+                
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
                 . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' ) . "</td></tr>"
 
                 // Validate
                 . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id="
-                . $options['utility_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=validatePages'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</a></div></td>"
                 . "<td style='vertical-align:middle'>"
@@ -58,7 +58,7 @@ class RP_Tools_Page_Builder {
                 // Add Evidence
                 . "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . $options['home_url'] . "?page_id=" . $options['utility_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=addEvidencePages'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
                 . __( 'Add missing evidence pages.', 'rootspersona' ) . "</td></tr>"
@@ -66,8 +66,7 @@ class RP_Tools_Page_Builder {
                 // Delete persona
                 . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
                 . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\""
-                . $options['home_url']
-                . "?page_id=" . $options['utility_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=delete\");return false;'>"
                 . __( 'Delete persona Pages', 'rootspersona' )
                 . "</a></div></td>"
@@ -78,8 +77,7 @@ class RP_Tools_Page_Builder {
                 // Convert
                 . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
                 . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
-                . $options['home_url']
-                . "?page_id=" . $options['utility_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=convert2\");return false;'>"
                 . __( 'Convert to 2.x Format', 'rootspersona' )
                 . "</a></div></td>"

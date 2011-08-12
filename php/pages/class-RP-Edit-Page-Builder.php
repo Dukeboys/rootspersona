@@ -9,10 +9,10 @@ class RP_Edit_Page_Builder {
      * @param string $msg
      * @return string
      */
-    function build( $persona, $options, $msg = '' ) {
+    function build( $persona, $action, $options, $msg = '' ) {
+        $block = "<div style='overflow:hidden;width:60%;margin:40px;'><form  action='" . $action . "' method='POST'>";
         $creator = new RP_Header_Panel_Creator();
 
-        $block = "<form  action='" . $options['action'] . "' method='POST'>";
         $block .= $creator->create_for_edit($persona, $options)
                 . $this->create_privacy_panel($persona, $options);
 
@@ -29,7 +29,7 @@ class RP_Edit_Page_Builder {
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
                 . "</div></div>"
-                . "</form>";
+                . "</form></div>";
         return $block;
     }
 

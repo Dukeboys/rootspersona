@@ -174,7 +174,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function edit_persona_page_handler( ) {
             global $wpdb;
-
+            $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
             $batch_id = '1';
             $options = get_option( 'persona_plugin' );
             if ( !isset( $_POST['submitPersonForm'] ) ) {
@@ -192,7 +192,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
                         $factory = new RP_Persona_Factory( $this->credentials );
                         $persona = $factory->get_for_edit( $persona_id, $batch_id, $options );
-                        return $builder->build( $persona, $options );
+                        return $builder->build( $persona, $action, $options );
                     } elseif ( $edit_action == 'delete' ) {
                         wp_delete_post( $src_page );
                         return RP_Persona_Helper::redirect_to_page( $src_page );
@@ -280,7 +280,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function include_page_handler() {
             global $wpdb;
-            $action = home_url('/?page_id=' . RP_Persona_Helper::get_page_id());
+            $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
             $msg = '';
             $options = get_option( 'persona_plugin' );
             $batch_id = 1;
@@ -313,7 +313,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function utility_page_handler() {
-            $action = home_url('/?page_id=' . RP_Persona_Helper::get_page_id());
+            $action = admin_url('/tools.php?page=rootsPersona&rootspage=util');
             $msg = '';
             $options = get_option( 'persona_plugin' );
             if ( isset( $_GET['utilityAction'] ) ) {
@@ -548,6 +548,12 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     echo $this->upload_gedcom_handler();
                 } else if ( $page == 'create' ) {
                     echo $this->add_page_handler();
+                } else if ( $page == 'include' ) {
+                    echo $this->include_page_handler();
+                } else if ( $page == 'edit' ) {
+                    echo $this->edit_persona_page_handler();
+                } else if ( $page == 'util' ) {
+                    echo $this->utility_page_handler();
                 }
             } else {
                 $options = get_option( 'persona_plugin' );
@@ -581,7 +587,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );
             $options['banner_image'] = trim( esc_attr( $input['banner_image'] ) );
-            $options['include_page'] = intval( $input['include_page'] );
             $options['index_page'] = intval( $input['index_page'] );
             $options['utility_page'] = intval( $input['utility_page'] );
             $options['evidence_page'] = intval( $input['evidence_page'] );
@@ -661,10 +666,6 @@ if ( isset( $roots_persona_plugin ) ) {
     add_shortcode( 'rootsPersonaIndexPage', array( $roots_persona_plugin, 'index_page_handler' ) );
     add_shortcode( 'rootsEditPersonaForm', array( $roots_persona_plugin, 'edit_persona_page_handler' ) );
     add_shortcode( 'rootsEvidencePage', array( $roots_persona_plugin, 'evidence_page_handler' ) );
-    add_shortcode( 'rootsAddPageForm', array( $roots_persona_plugin, 'add_page_handler' ) );
-    add_shortcode( 'rootsUploadGedcomForm', array( $roots_persona_plugin, 'upload_gedcom_handler' ) );
-    add_shortcode( 'rootsIncludePageForm', array( $roots_persona_plugin, 'include_page_handler' ) );
-    add_shortcode( 'rootsUtilityPage', array( $roots_persona_plugin, 'utility_page_handler' ) );
     add_action( 'admin_menu', array( $roots_persona_plugin, 'persona_menus' ) );
     add_action( 'wp_print_styles', array( $roots_persona_plugin, 'insert_persona_styles' ) );
     add_action( 'wp_print_scripts', array( $roots_persona_plugin, 'insert_persona_scripts' ) );

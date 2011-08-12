@@ -249,35 +249,19 @@ class RP_Option_Page_Builder {
         echo "<td><input type='text' size='5' name='persona_plugin[parent_page]' id='parent_page'";
         echo " value='" . $options['parent_page'] . "'/></td>";
         echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[edit_page]'>" . __( 'Edit Person Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[edit_page]' id='edit_page'";
-        echo " value='" . $options['edit_page'] . "'/></td>";
-        echo "<td><a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\"\");return false;'>"
-                . __( 'Page', 'rootspersona' ) . "</a> "
-                . __( 'with the Edit Page shortcode.  There is usually no need to change this.', 'rootspersona' ) . ".</td></tr>";
-
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[include_page]'>" . __( 'Include Person Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[include_page]' id='include_page'";
-        echo " value='" . $options['include_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['include_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Include Person page shortcode.  There is usually no need to change this', 'rootspersona' ) . ".</td></tr>";
+        
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[index_page]'>" . __( 'Persona Index Page Id', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[index_page]' id='index_page'";
         echo " value='" . $options['index_page'] . "'/></td>";
         echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['index_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Name Index shortcode.  There is usually no need to change this', 'rootspersona' ) . ".</td></tr>";
+        
         echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[evidence_page]'>" . __( 'Evidence Page Id', 'rootspersona' ) . "</label></td>";
+        echo "<td scope='row'><label for='persona_plugin[evidence_page]'>" . __( 'Evidence Index Page Id', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[evidence_page]' id='evidence_page'";
         echo " value='" . $options['evidence_page'] . "'/></td>";
         echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['evidence_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Evidence Index shortcode.  There is usually no need to change this.', 'rootspersona' ) . "</td></tr>";
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[utility_page]'>" . __( 'Persona Utility Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[utility_page]' id='utility_page'";
-        echo " value='" . $options['utility_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['utility_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Utility page shortcode.  For internal use only (used to display output FROM various utility functions)', 'rootspersona' ) . ".</td></tr>";
-
+        
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[banner_fcolor]'>" . __( 'Banner Foreground Color', 'rootspersona' ) . "</label></td>";

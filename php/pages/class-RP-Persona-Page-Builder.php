@@ -129,8 +129,7 @@ class RP_Persona_Page_Builder {
             $win1 = __( 'Page will be removed but supporting data will not be deleted.  Proceed?', 'rootspersona' );
             $win2 = __( 'Page will be removed and supporting data will be deleted.  Proceed?', 'rootspersona' );
 
-            $edit_page = $options['home_url']
-                        . '/?page_id=' . $options['edit_page']
+            $edit_page = admin_url('/tools.php?page=rootsPersona&rootspage=edit')
                         . "&personId=" . $id
                         . "&srcPage=" . $page_id . "&action=";
 

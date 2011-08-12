@@ -72,15 +72,12 @@ class RP_Persona_Site_Mender {
                     }
                 }
             } else if ( preg_match( "/rootsEditPersonaForm/i", $page->post_content ) ) {
-                $page_id = $options['edit_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                "rootsEditPersonaForm" );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsEditPersonaForm.";
-                    }
+                if ( $is_repair ) {
+                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                            "rootsEditPersonaForm" );
+                    wp_delete_post( $page->ID );
+                } else {
+                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsEditPersonaForm.";
                 }
             } else if ( preg_match( "/rootsAddPageForm/i", $page->post_content ) ) {
                 if ( $is_repair ) {
@@ -99,26 +96,20 @@ class RP_Persona_Site_Mender {
                     $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUploadGedcomForm.";
                 }
             } else if ( preg_match( "/rootsIncludePageForm/i", $page->post_content ) ) {
-                $page_id = $options['include_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                'rootsIncludePage' );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsIncludePage.";
-                    }
+                if ( $is_repair ) {
+                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                            'rootsIncludePage' );
+                    wp_delete_post( $page->ID );
+                } else {
+                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsIncludePage.";
                 }
             } else if ( preg_match( "/rootsUtilityPage/i", $page->post_content ) ) {
-                $page_id = $options['utility_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                'rootsUtilityPage' );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' ) . " rootsUtilityPage.";
-                    }
+                if ( $is_repair ) {
+                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                            'rootsUtilityPage' );
+                    wp_delete_post( $page->ID );
+                } else {
+                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUtilityPage.";
                 }
             } else if ( preg_match( "/rootsEvidencePage *sourceId=.*/i", $page->post_content ) ) {
                 $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page->post_content );
@@ -157,7 +148,7 @@ class RP_Persona_Site_Mender {
             }
             foreach ( $output as $line ) {
                 if ( $is_first ) {
-                    echo "<p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"
+                    echo "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"
                     . sprintf( __( 'Issues found with your %s pages.', 'rootspersona' ), "rootsPersona" )
                     . "</p>";
                     $is_first = false;
@@ -287,17 +278,17 @@ class RP_Persona_Site_Mender {
 
         $footer = "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
         if ( $is_empty ) {
-            $footer .= "<p style='padding:0.5em;margin-top:.5em;background-color:green;color:white; font-weight:bold;'>"
+            $footer .= "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;margin-top:.5em;background-color:green;color:white; font-weight:bold;'>"
                     . __( 'No persona pages found.', 'rootspersona' )
                     . "</p><span>&#160;&#160;</span>";
         } else if ( $is_first ) {
-            $footer .= "<p style='padding:0.5em;margin-top:.5em;background-color:green;color:white;font-weight:bold;'>"
+            $footer .= "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;margin-top:.5em;background-color:green;color:white;font-weight:bold;'>"
                     . sprintf( __( 'Your %s setup is VALID.', 'rootspersona' ),
                             "rootsPersona" )
                     . "</p><span>&#160;&#160;</span>";
         } else if ( ! $is_repair ) {
             $footer .= "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
-                . home_url() . "?page_id=" . $options['utility_page']
+                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=repairPages'>"
                 . __( 'Repair Inconsistencies?', 'rootspersona' )
                 . "</a></span><span>&#160;&#160;</span>";
@@ -306,7 +297,7 @@ class RP_Persona_Site_Mender {
         $footer .= "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
                 . admin_url() . "tools.php?page=rootsPersona'>"
                 . __( 'Return', 'rootspersona' )
-                . "</a></span></div>";
+                . "</a></span></div></div>";
         echo $footer;
     }
 
@@ -330,12 +321,13 @@ class RP_Persona_Site_Mender {
         RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages();
         RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages();
         $transaction->commit();
-        $block =  $cnt . ' ' . __( 'pages deleted.', 'rootspersona' ) . "<br/>"
+        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt 
+            . ' ' . __( 'pages deleted.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
             . Admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
-            . "</div>";
+            . "</div></div>";
         return $block;
     }
 
