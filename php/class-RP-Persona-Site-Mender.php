@@ -31,7 +31,7 @@ class RP_Persona_Site_Mender {
         $parent = $options['parent_page'];
         foreach ( $pages as $page ) {
             $output = array();
-            if ( preg_match( "/[rootsPersona /i", $page->post_content ) ) {
+            if ( preg_match( "/\[rootsPersona /i", $page->post_content ) ) {
 
                 $pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US', '$1'
                         , $page->post_content );
