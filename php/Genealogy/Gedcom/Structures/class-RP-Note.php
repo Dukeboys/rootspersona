@@ -73,8 +73,7 @@ class RP_Note extends RP_Entity_Abstract {
 	public function parse_tree( $tree, $ver ) {
 		$this->ver = $ver;if ( ( $i1 = parent::find_tag( $tree, Rp_Tags::NOTE ) ) !== false ) {
 			$str = parent::parse_ptr_id( $tree[$i1], Rp_Tags::NOTE );
-			if ( isset( $str )
-			&& $str != '' ) {
+			if ( isset( $str ) && $str != '' ) {
 				$this->id = $str;
 			} else {
 				$this->text = parent::parse_con_tag( $tree[$i1], Rp_Tags::NOTE );

@@ -24,14 +24,14 @@
  * @link
  */
 abstract class RP_Record_Abstract extends RP_Entity_Abstract {
-	
+
 
 	/**
 	 * @todo Description of function userRefToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function user_ref_to_gedcom( $ged_rec, $level, $ver ) {
 		for ( $i = 0;
@@ -44,14 +44,14 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function autoRecToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function auto_rec_to_gedcom( $ged_rec, $level, $ver ) {
 		if ( isset( $this->auto_rec_id )
@@ -60,14 +60,14 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function changeDateToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function change_date_to_gedcom( $ged_rec, $level, $ver ) {
 		$tmp = $this->change_date->to_gedcom( $level, $ver );
@@ -77,14 +77,14 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function citeToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function cite_to_gedcom( $ged_rec, $level, $ver ) {
 		for ( $i = 0;
@@ -94,14 +94,14 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function mediaToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function media_to_gedcom( $ged_rec, $level, $ver ) {
 		for ( $i = 0;
@@ -111,31 +111,29 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function noteToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function note_to_gedcom( $ged_rec, $level, $ver ) {
-		for ( $i = 0;
-	$i < count( $this->notes );
-	$i++ ) {
+		for ( $i = 0;$i < count( $this->notes );$i++ ) {
 			$ged_rec .= "\n" . $this->notes[$i]->to_gedcom( $level, $ver );
 		}
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function commonToGedcom
-	 * @param  $gedRec 
-	 * @param  $level 
+	 * @param  $gedRec
+	 * @param  $level
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function common_to_gedcom( $ged_rec, $level, $ver ) {
 		$ged_rec = $this->user_ref_to_gedcom( $ged_rec, $level, $ver );
@@ -146,13 +144,13 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 		$ged_rec = $this->note_to_gedcom( $ged_rec, $level, $ver );
 		return $ged_rec;
 	}
-	
+
 
 	/**
 	 * @todo Description of function userFileParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function user_file_parse_tree( $sub_tree, $ver ) {
 		if ( ( $i1 = parent::find_tag( $sub_tree, Rp_Tags::USERFILE ) ) !== false ) {
@@ -164,39 +162,39 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 			}
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function autoRecParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function auto_rec_parse_tree( $sub_tree, $ver ) {
 		if ( ( $i1 = parent::find_tag( $sub_tree, Rp_Tags::AUTORECID ) ) !== false ) {
 			$this->auto_rec_id = parent::parse_text( $sub_tree[$i1], Rp_Tags::AUTORECID );
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function changeDateParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function change_date_parse_tree( $sub_tree, $ver ) {
 		if ( ( $i1 = parent::find_tag( $sub_tree, Rp_Tags::CHANGEDATE ) ) !== false ) {
 			$this->change_date->parse_tree( array( $sub_tree[$i1] ), $ver );
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function citeParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function cite_parse_tree( $sub_tree, $ver ) {
 		$off = 0;
@@ -207,13 +205,13 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 	$off = $i1 + 1;
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function mediaParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function media_parse_tree( $sub_tree, $ver ) {
 		$off = 0;
@@ -224,13 +222,13 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 	$off = $i1 + 1;
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function noteParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function note_parse_tree( $sub_tree, $ver ) {
 		$off = 0;
@@ -238,16 +236,16 @@ abstract class RP_Record_Abstract extends RP_Entity_Abstract {
 			$tmp = new RP_Note();
 			$tmp->parse_tree( array( $sub_tree[$i1] ), $ver );
 			$this->notes[] = $tmp;
-	$off = $i1 + 1;
+            $off = $i1 + 1;
 		}
 	}
-	
+
 
 	/**
 	 * @todo Description of function commonParseTree
-	 * @param  $subTree 
+	 * @param  $subTree
 	 * @param  $ver
-	 * @return 
+	 * @return
 	 */
 	public function common_parse_tree( $sub_tree, $ver ) {
 		$this->user_file_parse_tree( $sub_tree, $ver );

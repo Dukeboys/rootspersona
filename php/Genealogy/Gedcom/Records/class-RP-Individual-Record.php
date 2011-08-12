@@ -166,12 +166,12 @@ class RP_Individual_Record extends RP_Record_Abstract {
 		&& isset( $this->names[0]->rp_name ) )return $this->names[0]->rp_name->get_surname();
 		else return null;
 	}
-	
+
 
 	/**
 	 * @todo Description of function getGiven
-	 * @param 
-	 * @return 
+	 * @param
+	 * @return
 	 */
 	public function get_given() {
 		if ( isset( $this->names[0] )
@@ -227,61 +227,41 @@ class RP_Individual_Record extends RP_Record_Abstract {
 			&& $this->restriction != '' ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::RESTRICTION . ' ' . $this->restriction;
 			}
-			for ( $i = 0;
-	$i < count( $this->names );
-	$i++ ) {
+			for ( $i = 0; $i < count( $this->names ); $i++ ) {
 				$ged_rec .= "\n" . $this->names[$i]->to_gedcom( $lvl2, $ver );
 			}
 			if ( isset( $this->gender )
 			&& $this->gender != '' ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::GENDER . ' ' . $this->gender;
 			}
-			for ( $i = 0;
-	$i < count( $this->events );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->events );	$i++ ) {
 				$ged_rec .= "\n" . $this->events[$i]->to_gedcom( $lvl2, $ver );
 			}
-			for ( $i = 0;
-	$i < count( $this->attributes );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->attributes );	$i++ ) {
 				$ged_rec .= "\n" . $this->attributes[$i]->to_gedcom( $lvl2, $ver );
 			}
 			//  for ($i=0; $i<count($this->LdsOrdinances); $i++) {
 			//     $str .= "\n" . $this->LdsOrdinances[$i]->toGedcom($lvl2, $ver);
 			//  }
-			for ( $i = 0;
-	$i < count( $this->child_family_links );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->child_family_links );	$i++ ) {
 				$ged_rec .= "\n" . $this->child_family_links[$i]->to_gedcom( $lvl2, $ver, Rp_Tags::CHILDFAMILY );
 			}
-			for ( $i = 0;
-	$i < count( $this->spouse_family_links );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->spouse_family_links );	$i++ ) {
 				$ged_rec .= "\n" . $this->spouse_family_links[$i]->to_gedcom( $lvl2, $ver, Rp_Tags::SPOUSEFAMILY );
 			}
-			for ( $i = 0;
-	$i < count( $this->submitter_links );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->submitter_links );	$i++ ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::SUBMITTER . ' @' . $this->submitter_links[$i] . '@';
 			}
-			for ( $i = 0;
-	$i < count( $this->associations );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->associations );	$i++ ) {
 				$ged_rec .= "\n" . $this->associations[$i]->to_gedcom( $lvl2, $ver );
 			}
-			for ( $i = 0;
-	$i < count( $this->aliases );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->aliases );	$i++ ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::ALIAS . ' @' . $this->aliases[$i] . '@';
 			}
-			for ( $i = 0;
-	$i < count( $this->ancestor_interests );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->ancestor_interests );	$i++ ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::ANCI . ' @' . $this->ancestor_interests[$i] . '@';
 			}
-			for ( $i = 0;
-	$i < count( $this->descendant_interests );
-	$i++ ) {
+			for ( $i = 0;	$i < count( $this->descendant_interests );	$i++ ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::DESI . ' @' . $this->descendant_interests[$i] . '@';
 			}
 			if ( isset( $this->perm_rec_file_nbr )
