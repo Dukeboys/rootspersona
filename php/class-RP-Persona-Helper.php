@@ -206,7 +206,7 @@ class RP_Persona_Helper {
         $p = new RP_Persona();
         $p->id = 0;
         $p->batch_id = 0;
-        $p->full_name = 'Unknown';
+        $p->full_name = '?';
         $p->gender = 'U';
         $p->birth_date = '';
         $p->death_date = '';

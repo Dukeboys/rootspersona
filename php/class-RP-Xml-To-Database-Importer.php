@@ -123,7 +123,7 @@ class RP_Xml_To_Database_Importer {
         }
         $name = new RP_Name_Personal();
         $name->personal_name = $fullname;
-        $name->surname = $surname == null ? 'Unknown' : $surname;
+        $name->surname = $surname == null ? '' : $surname;
         if ( $surname != null ) {
             $name->given = Trim( str_replace( $surname, '', $fullname ) );
         }
