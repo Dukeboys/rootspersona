@@ -44,7 +44,7 @@ class RP_Note_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $rp_note->cite_id );
 		$sql_query->set( $rp_note->auto_rec_id );
 		$sql_query->set( $rp_note->ged_change_date );
-		$sql_query->set( htmlentities ( $rp_note->submitter_text ) );
+		$sql_query->set(  ( $rp_note->submitter_text ) );
 		$id = $this->execute_insert( $sql_query );
 		$rp_note->id = $id;return $id;
 	}
@@ -59,7 +59,7 @@ class RP_Note_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $rp_note->cite_id );
 		$sql_query->set( $rp_note->auto_rec_id );
 		$sql_query->set( $rp_note->ged_change_date );
-		$sql_query->set( htmlentities ( $rp_note->submitter_text ) );
+		$sql_query->set(  ( $rp_note->submitter_text ) );
 		$sql_query->set( $rp_note->id );
         $sql_query->set_number( $rp_note->batch_id );
 		return $this->execute_update( $sql_query );
@@ -77,7 +77,7 @@ class RP_Note_Mysql_Dao extends Rp_Mysql_DAO {
 		$rp_note->cite_id = $row['cite_id'];
 		$rp_note->auto_rec_id = $row['auto_rec_id'];
 		$rp_note->ged_change_date = $row['ged_change_date'];
-		$rp_note->submitter_text = html_entity_decode( $row['submitter_text'] );
+		$rp_note->submitter_text = ( $row['submitter_text'] );
 		return $rp_note;
 	}
 
