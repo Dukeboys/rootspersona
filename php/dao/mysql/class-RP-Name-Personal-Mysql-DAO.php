@@ -35,7 +35,7 @@ class RP_Name_Personal_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpNamePersonalMySql rpNamePersonal
 	 */
 	public function insert( $rp_name_personal ) {
-		$sql = 'INSERT INTO rp_name_personal (personal_name, name_type, prefix, given, nickname, surname_prefix, surname, suffix, update_datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+		$sql = 'INSERT INTO rp_name_personal (personal_name, name_type, prefix, given, nickname, surname_prefix, surname, suffix, update_datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_name_personal->personal_name );
 		$sql_query->set( $rp_name_personal->name_type );
@@ -45,7 +45,6 @@ class RP_Name_Personal_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_name_personal->surname_prefix );
 		$sql_query->set( $rp_name_personal->surname );
 		$sql_query->set( $rp_name_personal->suffix );
-		$sql_query->set( $rp_name_personal->update_datetime );
 		$id = $this->execute_insert( $sql_query );
 		$rp_name_personal->id = $id;return $id;
 	}
@@ -55,7 +54,7 @@ class RP_Name_Personal_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpNamePersonalMySql rpNamePersonal
 	 */
 	public function update( $rp_name_personal ) {
-		$sql = 'UPDATE rp_name_personal SET personal_name = ?, name_type = ?, prefix = ?, given = ?, nickname = ?, surname_prefix = ?, surname = ?, suffix = ?, update_datetime = ? WHERE id = ?';
+		$sql = 'UPDATE rp_name_personal SET personal_name = ?, name_type = ?, prefix = ?, given = ?, nickname = ?, surname_prefix = ?, surname = ?, suffix = ?, update_datetime = now() WHERE id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_name_personal->personal_name );
 		$sql_query->set( $rp_name_personal->name_type );
@@ -65,7 +64,6 @@ class RP_Name_Personal_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_name_personal->surname_prefix );
 		$sql_query->set( $rp_name_personal->surname );
 		$sql_query->set( $rp_name_personal->suffix );
-		$sql_query->set( $rp_name_personal->update_datetime );
 		$sql_query->set_number( $rp_name_personal->id );
 		return $this->execute_update( $sql_query );
 	}

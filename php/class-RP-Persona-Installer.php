@@ -101,6 +101,10 @@ class RP_Persona_Installer {
             $options['privacy_living'] = 'Mbr';
             $options['per_page'] = 25;
 
+            $page = get_option( 'rootsEvidencePage' );
+            wp_delete_post( $page );
+            $page = get_option( 'rootsPersonaIndexPage' );
+            wp_delete_post( $page );
             $page = get_option( 'rootsUtilityPage' );
             wp_delete_post( $page );
             $page = get_option( 'rootsEditPage' );
@@ -141,31 +145,17 @@ class RP_Persona_Installer {
 
         $options['version'] = $version;
 
-        if ( ! isset( $options['evidence_page'] )
-        || empty( $options['evidence_page'] ) ) {
-            $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
+        $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                     "[rootsEvidencePage batchId='1'/]", '', 'publish' );
-            $options['evidence_page'] = $page;
-        } else {
-            $this->create_page( __( 'Evidence Page', 'rootspersona' ),
-                    "[rootsEvidencePage batchId='1'/]", $options['evidence_page'], 'publish' );
-        }
+        $options['evidence_page'] = $page;
 
-        if ( ! isset( $options['index_page'] )
-        || empty( $options['index_page'] ) ) {
-            $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
+
+        $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
                     '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
-            $options['index_page'] = $page;
-        } else {
-            $this->create_page( __( 'Persona Index', 'rootspersona' ),
-                    '[rootsPersonaIndexPage batchId="1"/]', $options['index_page'], 'publish' );
-        }
+        $options['index_page'] = $page;
 
-        if ( ! isset( $options['parent_page'] )
-        || empty( $options['parent_page'] ) ) {
-            $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ), '', 'publish' );
-            $options['parent_page'] = $page;
-        }
+        $parent = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ), '', 'publish' );
+        $options['parent_page'] = $parent;
 
         if ( ! isset( $options['is_system_of_record'] )
         || empty( $options['is_system_of_record'] ) ) {
@@ -284,7 +274,7 @@ class RP_Persona_Installer {
      */
     public function convert2( $options ) {
        $credentials = new RP_Credentials();
-       $data_dir = WP_CONTENT_DIR . 'rootsDataDir';
+       $data_dir = WP_CONTENT_DIR . '/rootsDataDir';
        $g = new RP_Xml_To_Database_Importer();
        $g->load_tables( $credentials, $data_dir );
        return __('Conversion complete', 'rootspersona') . '.<br/>';

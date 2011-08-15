@@ -155,6 +155,7 @@ class RP_Persona_Site_Mender {
                 }
                 echo __( "Page", 'rootspersona' ) . ' ' . $page->ID . ": " . $line . "<br/>";
             }
+            			set_time_limit( 60 );
         }
         $expected_pages = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_persons_with_pages();
@@ -212,6 +213,7 @@ class RP_Persona_Site_Mender {
                 }
                 echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id']. ": " . $line . "<br/>";
             }
+            			set_time_limit( 60 );
         }
 
         $expected_pages = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->get_sources_with_pages();
@@ -270,6 +272,7 @@ class RP_Persona_Site_Mender {
                     }
                     echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id'] . ": " . $line . "<br/>";
                 }
+                			set_time_limit( 60 );
             }
         }
 
@@ -277,7 +280,7 @@ class RP_Persona_Site_Mender {
         else $transaction->commit();
 
         $footer = "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
-        if ( $is_empty ) {
+        if ( $is_empty && $is_first ) {
             $footer .= "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;margin-top:.5em;background-color:green;color:white; font-weight:bold;'>"
                     . __( 'No persona pages found.', 'rootspersona' )
                     . "</p><span>&#160;&#160;</span>";

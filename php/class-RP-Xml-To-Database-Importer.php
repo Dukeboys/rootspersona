@@ -19,7 +19,7 @@ class RP_Xml_To_Database_Importer {
      */
     function load_tables( $credentials, $data_dir ) {
         $this->credentials = $credentials;
-        $dh = Opendir( $data_dir );
+        $dh = opendir( $data_dir );
         while ( false !== ( $filename = readdir( $dh ) ) ) {
             if ( strpos( $filename, 'xml' ) <= 0
             || $filename == 'p000.xml'
@@ -125,7 +125,7 @@ class RP_Xml_To_Database_Importer {
         $name->personal_name = $fullname;
         $name->surname = $surname == null ? '' : $surname;
         if ( $surname != null ) {
-            $name->given = Trim( str_replace( $surname, '', $fullname ) );
+            $name->given = trim( str_replace( $surname, '', $fullname ) );
         }
         $id = null;
         try {
@@ -137,7 +137,9 @@ class RP_Xml_To_Database_Importer {
         $indi_name = new RP_Indi_Name();
         $indi_name->indi_id = $pid;
         $indi_name->indi_batch_id = 1;
-        $indi_name->name_id = $id;try {
+        $indi_name->name_id = $id;
+        $indi_name->seq_nbr = 1;
+        try {
             RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->insert( $indi_name );
         } catch ( Exception $e ) {
             echo $e->getMessage();
@@ -349,6 +351,8 @@ class RP_Xml_To_Database_Importer {
             echo $e->getMessage();
             throw $e;
         }
+        $options = get_option( 'persona_plugin' );
+        $parent = $options['parent+page'];
         $root = $dom->document_element;
         $c1 = $root->get_elements_by_tag_name( "source" );
         for ( $idx = 0; $idx < $c1->length; $idx++ ) {
@@ -396,6 +400,12 @@ class RP_Xml_To_Database_Importer {
             }
             $this->add_citations( $src_id, $c1->item( $idx ) );
             $transaction->commit();
+            
+            $my_post = array();
+            $my_post['ID'] = $page_id;
+            $my_post['post_parent'] = $parent;
+            wp_update_post( $my_post );
+            set_time_limit( 60 );
         }
     }
 
@@ -444,7 +454,7 @@ class RP_Xml_To_Database_Importer {
      * @param type $dom
      */
     function add_mapping_data( $dom ) {
-        $pages = array();
+        $this->pages = array();
         $root = $dom->document_element;
         $e1 = $root->get_elements_by_tag_name( "entry" );
         for ( $idx = 0; $idx < $e1->length; $idx++ ) {
@@ -461,6 +471,8 @@ class RP_Xml_To_Database_Importer {
      *
      */
     function update_pages() {
+        $options = get_option( 'persona_plugin' );
+        $parent = $options['parent+page'];
         for ( $idx = 0; $idx < count( $this->pages ); $idx++ ) {
             $page_id = $this->pages[$idx][1];
             if ( $page_id != null
@@ -476,6 +488,11 @@ class RP_Xml_To_Database_Importer {
                     throw $e;
                 }
             }
+            $my_post = array();
+            $my_post['ID'] = $page_id;
+            $my_post['post_parent'] = $parent;
+            wp_update_post( $my_post );
+            set_time_limit( 60 );
         }
     }
 }
