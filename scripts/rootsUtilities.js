@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
     });
 
     jQuery('#img5_upload_button').click(function() {
-        formfield = jQuery('#img6_upload').attr('name');
+        formfield = jQuery('#img5_upload').attr('name');
         tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
