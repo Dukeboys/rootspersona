@@ -11,43 +11,43 @@ jQuery(document).ready(function() {
     var formfield;
     jQuery('#img1_upload_button').click(function() {
         formfield = jQuery('#img1_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img2_upload_button').click(function() {
         formfield = jQuery('#img2_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img3_upload_button').click(function() {
         formfield = jQuery('#img3_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img4_upload_button').click(function() {
         formfield = jQuery('#img4_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img5_upload_button').click(function() {
         formfield = jQuery('#img6_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img6_upload_button').click(function() {
         formfield = jQuery('#img6_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 
     jQuery('#img7_upload_button').click(function() {
         formfield = jQuery('#img7_upload').attr('name');
-        tb_show('', 'wp-admin/media-upload.php?type=image&amp;TB_iframe=true');
+        tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
         return false;
     });
 

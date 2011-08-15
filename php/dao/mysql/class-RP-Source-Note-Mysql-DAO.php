@@ -67,8 +67,8 @@ class RP_Source_Note_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_source_note->source_id );
 		$sql_query->set_number( $rp_source_note->source_batch_id );
-        $sql_query->set( $rp_indi_note->note_rec_id );
-		$sql_query->set( htmlentities ( $rp_indi_note->note ) );
+        $sql_query->set( $rp_source_note->note_rec_id );
+		$sql_query->set( htmlentities ( $rp_source_note->note ) );
 		$id = $this->execute_insert( $sql_query );
 		$rp_source_note->id = $id;return $id;
 	}

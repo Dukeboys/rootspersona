@@ -54,18 +54,14 @@ class RP_Repository_Citation extends RP_Entity_Abstract {
 				$str = ' @' . $this->repository_id . '@';
 			}
 			$ged_rec .= $lvl . ' ' . Rp_Tags::REPOSITORY . $str;
-	$lvl2 = $lvl + 1;
-			for ( $i = 0;
-	$i < count( $this->call_nbrs );
-	$i++ ) {
+            $lvl2 = $lvl + 1;
+			for ( $i = 0; $i < count( $this->call_nbrs ); $i++ ) {
 				$ged_rec .= "\n" . $lvl2 . ' ' . Rp_Tags::CALLNBR . ' ' . $this->call_nbrs[$i]['Nbr'];
 				if ( isset( $this->call_nbrs[$i]['Media'] ) ) {
 					$ged_rec .= "\n" . ( $lvl2 + 1 ) . ' ' . Rp_Tags::MEDIATYPE . ' ' . $this->call_nbrs[$i]['Media'];
 				}
 			}
-			for ( $i = 0;
-	$i < count( $this->notes );
-	$i++ ) {
+			for ( $i = 0; $i < count( $this->notes ); $i++ ) {
 				$ged_rec .= "\n" . $this->notes[$i]->to_gedcom( $lvl2, $ver );
 			}
 		}
@@ -85,28 +81,31 @@ class RP_Repository_Citation extends RP_Entity_Abstract {
 	 * @since Method available since Release 0.0.1
 	 */
 	public function parse_tree( $tree, $ver ) {
-		$this->ver = $ver;if ( ( $i1 = parent::find_tag( $tree, Rp_Tags::REPOSITORY ) ) !== false ) {
+		$this->ver = $ver;
+        if ( ( $i1 = parent::find_tag( $tree, Rp_Tags::REPOSITORY ) ) !== false ) {
 			$this->repository_id = parent::parse_ptr_id( $tree[$i1], Rp_Tags::REPOSITORY );
-			$sub2 = $tree[$i1][1];
-			$off = 0;
-			$idx = 0;
-			while ( ( $i2 = parent::find_tag( $sub2, Rp_Tags::CALLNBR, $off ) ) !== false ) {
-				$this->call_nbrs[$idx]['Nbr'] = parent::parse_text( $sub2[$i2], Rp_Tags::CALLNBR );
-				if ( isset( $sub2[$i2][1] ) ) {
-					if ( ( $i3 = parent::find_tag( $sub2[$i2][1], Rp_Tags::MEDIATYPE ) ) !== false ) {
-						$this->call_nbrs[$idx]['Media'] = parent::parse_text( $sub2[$i2][1][$i3], Rp_Tags::MEDIATYPE );
-					}
-				}
-				$off = $i2 + 1;
-				$idx++;
-			}
-			$off = 0;
-			while ( ( $i2 = parent::find_tag( $sub2, Rp_Tags::NOTE, $off ) ) !== false ) {
-				$tmp = new RP_Note();
-				$tmp->parse_tree( array( $sub2[$i2] ), $ver );
-				$this->notes[] = $tmp;
-	$off = $i2 + 1;
-			}
+            if( isset( $tree[$i1][1] )) {
+                $sub2 = $tree[$i1][1];
+                $off = 0;
+                $idx = 0;
+                while ( ( $i2 = parent::find_tag( $sub2, Rp_Tags::CALLNBR, $off ) ) !== false ) {
+                    $this->call_nbrs[$idx]['Nbr'] = parent::parse_text( $sub2[$i2], Rp_Tags::CALLNBR );
+                    if ( isset( $sub2[$i2][1] ) ) {
+                        if ( ( $i3 = parent::find_tag( $sub2[$i2][1], Rp_Tags::MEDIATYPE ) ) !== false ) {
+                            $this->call_nbrs[$idx]['Media'] = parent::parse_text( $sub2[$i2][1][$i3], Rp_Tags::MEDIATYPE );
+                        }
+                    }
+                    $off = $i2 + 1;
+                    $idx++;
+                }
+                $off = 0;
+                while ( ( $i2 = parent::find_tag( $sub2, Rp_Tags::NOTE, $off ) ) !== false ) {
+                    $tmp = new RP_Note();
+                    $tmp->parse_tree( array( $sub2[$i2] ), $ver );
+                    $this->notes[] = $tmp;
+                    $off = $i2 + 1;
+                }
+            }
 		}
 	}
 	/**

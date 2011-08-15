@@ -433,8 +433,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function insert_persona_scripts() {
             if ( !is_admin() ) {
-                wp_enqueue_script('media-upload');
-                wp_enqueue_script('thickbox');
+                wp_register_script( 'rootsUtilities',
+                    plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
                 wp_enqueue_script( 'rootsUtilities' );
             }
         }
@@ -443,6 +443,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          */
         function insert_admin_scripts() {
+            wp_enqueue_script('media-upload');
+            wp_enqueue_script('thickbox');
             wp_register_script( 'rootsUtilities',
                     plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
             wp_enqueue_script( 'rootsUtilities' );
@@ -582,13 +584,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['version'] = trim( esc_attr( $this->persona_version ) );
             $options['parent_page'] = intval( $input['parent_page'] );
             $options['is_system_of_record']  = 0;
-            $options['create_page'] = intval( $input['create_page'] );
-            $options['edit_page'] = intval( $input['edit_page'] );
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );
             $options['banner_image'] = trim( esc_attr( $input['banner_image'] ) );
             $options['index_page'] = intval( $input['index_page'] );
-            $options['utility_page'] = intval( $input['utility_page'] );
             $options['evidence_page'] = intval( $input['evidence_page'] );
             //$input['hide_banner'] = ( $input['hide_banner'] == 1 ? 1 : 0 );
             $options['header_style'] = ( $input['header_style'] == 2 ? 2 : 1 );

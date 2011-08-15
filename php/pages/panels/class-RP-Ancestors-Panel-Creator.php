@@ -15,7 +15,8 @@ class RP_Ancestors_Panel_Creator {
                 . '<tr><td colspan="2" rowspan="6">&#160;</td>' 
                 . '<td colspan="3" rowspan="2">&#160;</td><td>&#160;</td>' 
                 . '<td rowspan="2" class="rp_nameBox">' 
-                . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[4]->page . '">' 
+                . '<a href="' . $options['home_url'] . '?page_id=' 
+                . $ancestors[4]->page . '">' 
                 . $ancestors[4]->full_name . '</a><br/>';
         
 		if ( ! $options['hide_dates'] ) {
