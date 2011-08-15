@@ -89,7 +89,7 @@ class RP_Source_Note_Mysql_Dao extends Rp_Mysql_DAO {
 	}
 
     public function query_by_src( $src_id, $src_batch_id ) {
-		$sql = 'SELECT note'
+		$sql = 'SELECT *'
             . ' FROM rp_source_note'
             . ' WHERE source_id = ? and source_batch_id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );

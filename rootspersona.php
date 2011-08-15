@@ -264,7 +264,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
             }
 
-            $options = get_option( 'persona_plugin' );
             $builder = new RP_Add_Page_Builder();
             $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                     ->get_persons_no_page( 1 );
