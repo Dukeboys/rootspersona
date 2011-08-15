@@ -19,7 +19,8 @@ class RP_Persona_Helper {
      * @return integer
      */
     public static function score_user() {
-        $score = RP_Persona_Helper::GUEST;if ( is_user_logged_in() ) {
+        $score = RP_Persona_Helper::GUEST;
+        if ( is_user_logged_in() ) {
             if ( Current_user_can( 'administrator' ) ) {
                 $score = RP_Persona_Helper::ADMIN;
             } else {
@@ -114,7 +115,7 @@ class RP_Persona_Helper {
                 if ( isset( $persona->birth_date )
                 && ! empty( $persona->birth_date ) ) {
                     $matches = array();
-                    $cnt = preg_match_all( '/.*?[ \/-]([1-2][0-9][0-9][0-9]).*?/US', $persona->birth_date, $matches );
+                    $cnt = preg_match_all( '/.*?([1-2][0-9][0-9][0-9]).*?/US', $persona->birth_date, $matches );
                     if ( $cnt > 0 ) {
                         $birth_year = $matches[1][$cnt - 1];
                         $test_year = ( (int)$birth_year ) + 110;

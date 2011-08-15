@@ -228,7 +228,10 @@ class RP_Persona_Factory {
     protected function privatize( $persona ) {
         $persona->full_name = 'Private';
         $persona->birth_date = '';
+        $persona->birth_place = '';
         $persona->death_date = '';
+        $persona->death_place = '';
+        $persona->gender = '';
         return $persona;
     }
 

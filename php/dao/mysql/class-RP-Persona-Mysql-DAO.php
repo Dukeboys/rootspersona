@@ -102,6 +102,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 . ',rnp.surname AS surname'
                 . ',rnp.given AS given'
                 . ',ri.wp_page_id AS page'
+                . ',rio.privacy_code'
                 . ' FROM rp_indi ri'
                 . ' LEFT OUTER JOIN rp_indi_option rio'
                 . ' ON rio.indi_batch_id = ri.batch_id AND rio.indi_id = ri.id'
@@ -124,6 +125,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 $persona->surname = $rows[$idx]['surname'];
                 $persona->given = $rows[$idx]['given'];
                 $persona->page = $rows[$idx]['page'];
+                $persona->privacy = $rows[$idx]['privacy_code'];
                 $persona->birth_date = $this->get_birth_date( $batch_id, $rows[$idx]['id'] );
                 $persona->death_date = $this->get_death_date( $batch_id, $rows[$idx]['id'] );
                 $persons[$idx] = $persona;
