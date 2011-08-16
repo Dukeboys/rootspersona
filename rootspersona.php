@@ -6,10 +6,12 @@
  Version: 2.0.0
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
- License: GPLv2
+ Text Domain: rootspersona
+ Domain Path: /rootspersona/localization
+ License: GPL2
  */
 
-/*  Coptright 2010-2011  Ed Thompson  ( email : ed@ed4becky.org )
+/*  Copyright 2010-2011  Ed Thompson  ( email : ed@ed4becky.org )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
