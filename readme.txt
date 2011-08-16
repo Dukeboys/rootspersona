@@ -44,14 +44,13 @@ be mixed and matched for optimum customization.
 <li>added an optional bio panel
 </ul>
 
-For detailed documentation, goto [ed4becky.net/plugins/rootsPersona] (http://ed4becky.net/plugins/rootsPersona "Documentation")
+For detailed documentation, goto [ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona "Documentation")
 
 == Installation ==
 
 1. Install the plugin from the WordPress plugin site, or using the 'Add Plugin' link
    on the plugin page of your WordPress instance.
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. (optional) Set a *Parent Page* for the created pages on the rootsPersona Options page.
 
 At this point the plugin is ready to use!
 
@@ -59,11 +58,12 @@ At this point the plugin is ready to use!
 
 1. DO NOT DEACTIVATE THE OLDER VERSION.  (Unfortunately the old deactivate performs an uninstall,
    which will cause the loss of old data and probably timeout trying to delete pages.)
-2. Install the plugin as normal.  Make sure it is activated.
+2. Upgrade the plugin as you normally would.  Make sure it is activated.
+3. If you upgarde with a zip file, the first time you enter an Admin page the plugin upgrade process will kick off.
+   This may cause a delay in rendering your admin page, but should be short.
 3. Execute the conversion routine:  Tools->rootsPersona->Convert to 2.x format
-    This may take a while to run.
+   This will convert the old files to the new database, and may take a while to run.
 4. Execute the validation routine: Tools->rootsPersona->Validate persona pages
-
 
 Usage:
 
@@ -112,7 +112,7 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
-= 2.0.0 =
+= 2.0.1 =
 * changed the underlying code to be database driven
 * added more flexible privacy options
 * pictures now wrap on the persona page
