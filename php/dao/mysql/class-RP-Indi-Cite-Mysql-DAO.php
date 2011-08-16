@@ -6,6 +6,15 @@
  * @date: 2011-04-02 09:44
  */
 class RP_Indi_Cite_Mysql_Dao extends Rp_Mysql_DAO {
+    
+    /**
+     *
+     * @return boolean 
+     */
+    public function clean() {
+        return parent::clean( 'rp_indi_cite' );
+	}
+    
     /**
 	 * @todo Description of function deleteByIndiId
 	 * @param  $indiId

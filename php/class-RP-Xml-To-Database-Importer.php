@@ -30,13 +30,13 @@ class RP_Xml_To_Database_Importer {
             $root = $dom->documentElement;
             if ( isset( $root ) ) {
                 if ( $root->tagName == 'persona:person' ) {
-                    $this->addPerson($dom);
+                    $this->add_person($dom);
                 } elseif ( $root->tagName == 'persona:familyGroup' ) {
-                    $this->addFamily($dom);
+                    $this->add_family($dom);
                 } elseif ( $root->tagName == 'cite:evidence' ) {
                     $this->add_evidence( $dom );
                 } elseif ( $root->tagName == 'map:idMap' ) {
-                    $this->addMappingData($dom);
+                    $this->add_mapping_data($dom);
                 }
             }
             set_time_limit( 60 );
@@ -344,7 +344,7 @@ class RP_Xml_To_Database_Importer {
         try {
             $transaction = new RP_Transaction( $this->credentials );
             // only cause we are upgrading
-            RP_Dao_Factory::get_rp_indi_cite_dao( $this->credentials->prefix )->clean( 'rp_indi_cite' );
+            RP_Dao_Factory::get_rp_indi_cite_dao( $this->credentials->prefix )->clean();
             $transaction->commit();
         } catch ( Exception $e ) {
             $transaction->rollback();
@@ -352,7 +352,7 @@ class RP_Xml_To_Database_Importer {
             throw $e;
         }
         $options = get_option( 'persona_plugin' );
-        $parent = $options['parent+page'];
+        $parent = $options['parent_page'];
         $root = $dom->documentElement;
         $c1 = $root->getElementsByTagName( "source" );
         for ( $idx = 0; $idx < $c1->length; $idx++ ) {
@@ -472,7 +472,7 @@ class RP_Xml_To_Database_Importer {
      */
     function update_pages() {
         $options = get_option( 'persona_plugin' );
-        $parent = $options['parent+page'];
+        $parent = $options['parent_page'];
         for ( $idx = 0; $idx < count( $this->pages ); $idx++ ) {
             $page_id = $this->pages[$idx][1];
             if ( $page_id != null

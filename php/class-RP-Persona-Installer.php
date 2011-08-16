@@ -276,7 +276,9 @@ class RP_Persona_Installer {
      * @return string
      */
     public function convert2( $options ) {
+        global $wpdb;
        $credentials = new RP_Credentials();
+       $credentials->prefix = $wpdb->prefix;
        $data_dir = WP_CONTENT_DIR . '/rootsPersonaData';
        $g = new RP_Xml_To_Database_Importer();
        $g->load_tables( $credentials, $data_dir );
