@@ -6,11 +6,11 @@
  * @date: 2011-04-02 09:44
  */
 class RP_Indi_Cite_Mysql_Dao extends Rp_Mysql_DAO {
-		/**
+    /**
 	 * @todo Description of function deleteByIndiId
-	 * @param  $indiId 
+	 * @param  $indiId
 	 * @param  $indiBatchId
-	 * @return 
+	 * @return
 	 */
 	public function delete_by_indi_id( $indi_id, $indi_batch_id ) {
 		$sql = 'DELETE FROM rp_indi_cite WHERE indi_id = ?  AND indi_batch_id = ?';

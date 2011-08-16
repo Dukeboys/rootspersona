@@ -27,15 +27,15 @@ class RP_Xml_To_Database_Importer {
             || $filename == 'f000.xml' )continue;
             $dom = new DOMDocument();
             $dom->load( $data_dir . '/' . $filename );
-            $root = $dom->document_element;
+            $root = $dom->documentElement;
             if ( isset( $root ) ) {
-                if ( $root->tag_name == 'persona:person' ) {
+                if ( $root->tagName == 'persona:person' ) {
                     $this->addPerson($dom);
-                } elseif ( $root->tag_name == 'persona:familyGroup' ) {
+                } elseif ( $root->tagName == 'persona:familyGroup' ) {
                     $this->addFamily($dom);
-                } elseif ( $root->tag_name == 'cite:evidence' ) {
+                } elseif ( $root->tagName == 'cite:evidence' ) {
                     $this->add_evidence( $dom );
-                } elseif ( $root->tag_name == 'map:idMap' ) {
+                } elseif ( $root->tagName == 'map:idMap' ) {
                     $this->addMappingData($dom);
                 }
             }
@@ -55,24 +55,24 @@ class RP_Xml_To_Database_Importer {
      */
     function add_person( $dom ) {
         $need_update = false;
-        $root = $dom->document_element;
-        $id = $root->get_attribute( 'id' );
-        $c1 = $root->get_elements_by_tag_name( 'characteristics' );
-        $c2 = $c1->item( 0 )->get_elements_by_tag_name( 'characteristic' );
+        $root = $dom->documentElement;
+        $id = $root->getAttribute( 'id' );
+        $c1 = $root->getElementsByTagName( 'characteristics' );
+        $c2 = $c1->item( 0 )->getElementsByTagName( 'characteristic' );
         $gender = null;
         $name = null;
         $surname = null;
         for ( $idx = 0; $idx < $c2->length; $idx++ ) {
-            $type = $c2->item( $idx )->get_attribute( 'type' );
+            $type = $c2->item( $idx )->getAttribute( 'type' );
             switch ( $type ) {
                 case 'gender':
-                    $gender = $c2->item( $idx )->node_value;
+                    $gender = $c2->item( $idx )->nodeValue;
                 break;
                 case 'name':
-                    $name = $c2->item( $idx )->node_value;
+                    $name = $c2->item( $idx )->nodeValue;
                 break;
                 case 'surname':
-                    $surname = $c2->item( $idx )->node_value;
+                    $surname = $c2->item( $idx )->nodeValue;
                 break;
             }
         }
@@ -164,31 +164,31 @@ class RP_Xml_To_Database_Importer {
             }
             RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->delete_by_indi_id( $pid, 1 );
         }
-        $root = $dom->document_element;
-        $c1 = $root->get_elements_by_tag_name( "events" );
+        $root = $dom->documentElement;
+        $c1 = $root->getElementsByTagName( "events" );
         if ( $c1 != null
         && $c1->length > 0 ) {
-            $c2 = $c1->item( 0 )->get_elements_by_tag_name( "event" );
+            $c2 = $c1->item( 0 )->getElementsByTagName( "event" );
             for ( $idx = 0; $idx < $c2->length; $idx++ ) {
-                $type = $c2->item( $idx )->get_attribute( 'type' );
-                $d = $c2->item( $idx )->get_elements_by_tag_name( "date" );
-                $p = $c2->item( $idx )->get_elements_by_tag_name( "place" );
+                $type = $c2->item( $idx )->getAttribute( 'type' );
+                $d = $c2->item( $idx )->getElementsByTagName( "date" );
+                $p = $c2->item( $idx )->getElementsByTagName( "place" );
                 $iid = null;
                 if ( In_array( $type, $family_fact_array ) ) {
-                    $indi = $c2->item( $idx )->get_elements_by_tag_name( "person" );
+                    $indi = $c2->item( $idx )->getElementsByTagName( "person" );
                     if ( $indi != null
                     && $indi->length > 0 ) {
-                        $iid = $indi->item( 0 )->get_attribute( 'id' );
+                        $iid = $indi->item( 0 )->getAttribute( 'id' );
                     }
                 }
                 $event = new RP_Event_Detail();
                 $event->event_type = $type;if ( $d != null
                 && $d->length > 0 ) {
-                    $event->event_date = $d->item( 0 )->node_value;
+                    $event->event_date = $d->item( 0 )->nodeValue;
                 }
                 if ( $p != null
                 && $p->length > 0 ) {
-                    $event->place = $p->item( 0 )->node_value;
+                    $event->place = $p->item( 0 )->nodeValue;
                 }
                 if ( $iid != null ) {
                     $event->classification = $pid . ':' . $iid;
@@ -222,17 +222,17 @@ class RP_Xml_To_Database_Importer {
      */
     function update_family_links( $id, $dom ) {
         RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $id, 1 );
-        $root = $dom->document_element;
-        $c1 = $root->get_elements_by_tag_name( "references" );
+        $root = $dom->documentElement;
+        $c1 = $root->getElementsByTagName( "references" );
         if ( $c1 != null
         && $c1->length > 0 ) {
-            $c2 = $c1->item( 0 )->get_elements_by_tag_name( "familyGroups" );
+            $c2 = $c1->item( 0 )->getElementsByTagName( "familyGroups" );
             if ( $c2 == null
             && $c2->length > 0 ) {
-                $c3 = $c2->item( 0 )->get_elements_by_tag_name( "familyGroup" );
+                $c3 = $c2->item( 0 )->getElementsByTagName( "familyGroup" );
                 for ( $idx = 0; $idx < $c3->length; $idx++ ) {
-                    $link_type = $c3->item( $idx )->get_attribute( 'selfType' );
-                    $fid = $c3->item( $idx )->get_attribute( 'refId' );
+                    $link_type = $c3->item( $idx )->getAttribute( 'selfType' );
+                    $fid = $c3->item( $idx )->getAttribute( 'refId' );
                     $link = new RP_Indi_Fam();
                     $link->indi_id = $id;
                     $link->indi_batch_id = 1;
@@ -256,14 +256,14 @@ class RP_Xml_To_Database_Importer {
      */
     function add_family( $dom ) {
         $need_update = false;
-        $root = $dom->document_element;
-        $fid = $root->get_attribute( 'id' );
-        $c1 = $root->get_elements_by_tag_name( "parents" );
-        $c2 = $c1->item( 0 )->get_elements_by_tag_name( "relation" );
+        $root = $dom->documentElement;
+        $fid = $root->getAttribute( 'id' );
+        $c1 = $root->getElementsByTagName( "parents" );
+        $c2 = $c1->item( 0 )->getElementsByTagName( "relation" );
         for ( $idx = 0; $idx < $c2->length; $idx++ ) {
-            $type = $c2->item( $idx )->get_attribute( 'type' );
-            $p = $c2->item( $idx )->get_elements_by_tag_name( 'person' );
-            $pid = $p->item( 0 )->get_attribute( 'id' );
+            $type = $c2->item( $idx )->getAttribute( 'type' );
+            $p = $c2->item( $idx )->getElementsByTagName( 'person' );
+            $pid = $p->item( 0 )->getAttribute( 'id' );
             switch ( $type ) {
                 case 'father':
                     $father = $pid;
@@ -313,13 +313,13 @@ class RP_Xml_To_Database_Importer {
      */
     function update_children( $fid, $dom ) {
         RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $fid, 1 );
-        $root = $dom->document_element;
-        $c1 = $root->get_elements_by_tag_name( "children" );
-        $c2 = $c1->item( 0 )->get_elements_by_tag_name( "relation" );
+        $root = $dom->documentElement;
+        $c1 = $root->getElementsByTagName( "children" );
+        $c2 = $c1->item( 0 )->getElementsByTagName( "relation" );
         for ( $idx = 0; $idx < $c2->length;     $idx++ ) {
-            $type = $c2->item( $idx )->get_attribute( 'type' );
-            $p = $c2->item( $idx )->get_elements_by_tag_name( 'person' );
-            $pid = $p->item( 0 )->get_attribute( 'id' );
+            $type = $c2->item( $idx )->getAttribute( 'type' );
+            $p = $c2->item( $idx )->getElementsByTagName( 'person' );
+            $pid = $p->item( 0 )->getAttribute( 'id' );
             if ( $type == 'child' ) {
                 $fam_child = new RP_Fam_Child();
                 $fam_child->fam_id = $fid;
@@ -344,7 +344,7 @@ class RP_Xml_To_Database_Importer {
         try {
             $transaction = new RP_Transaction( $this->credentials );
             // only cause we are upgrading
-            RP_Dao_Factory::get_rp_indi_cite_dao( $this->credentials->prefix )->clean();
+            RP_Dao_Factory::get_rp_indi_cite_dao( $this->credentials->prefix )->clean( 'rp_indi_cite' );
             $transaction->commit();
         } catch ( Exception $e ) {
             $transaction->rollback();
@@ -353,23 +353,23 @@ class RP_Xml_To_Database_Importer {
         }
         $options = get_option( 'persona_plugin' );
         $parent = $options['parent+page'];
-        $root = $dom->document_element;
-        $c1 = $root->get_elements_by_tag_name( "source" );
+        $root = $dom->documentElement;
+        $c1 = $root->getElementsByTagName( "source" );
         for ( $idx = 0; $idx < $c1->length; $idx++ ) {
             $need_update = false;
-            $src_id = $c1->item( $idx )->get_attribute( 'sourceId' );
-            $page_id = $c1->item( $idx )->get_attribute( 'pageId' );
+            $src_id = $c1->item( $idx )->getAttribute( 'sourceId' );
+            $page_id = $c1->item( $idx )->getAttribute( 'pageId' );
             $a1 = null;
             $t1 = null;
-            $a1 = $c1->item( $idx )->get_elements_by_tag_name( "abbr" );
+            $a1 = $c1->item( $idx )->getElementsByTagName( "abbr" );
             if ( $a1 != null
             && $a1->length > 0 ) {
-                $abbr = $a1->item( 0 )->node_value;
+                $abbr = $a1->item( 0 )->nodeValue;
             }
-            $t1 = $c1->item( $idx )->get_elements_by_tag_name( "title" );
+            $t1 = $c1->item( $idx )->getElementsByTagName( "title" );
             if ( $t1 != null
             && $t1->length > 0 ) {
-                $title = $t1->item( 0 )->node_value;
+                $title = $t1->item( 0 )->nodeValue;
             }
             $src = new RP_Source();
             $src->id = $src_id;
@@ -400,7 +400,7 @@ class RP_Xml_To_Database_Importer {
             }
             $this->add_citations( $src_id, $c1->item( $idx ) );
             $transaction->commit();
-            
+
             $my_post = array();
             $my_post['ID'] = $page_id;
             $my_post['post_parent'] = $parent;
@@ -416,22 +416,22 @@ class RP_Xml_To_Database_Importer {
      */
     function add_citations( $src_id, $doc ) {
         RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->delete_by_src( $src_id, 1 );
-        $c1 = $doc->get_elements_by_tag_name( "citation" );
+        $c1 = $doc->getElementsByTagName( "citation" );
         for ( $idx = 0; $idx < $c1->length; $idx++ ) {
             $detail = null;
-            $c2 = $c1->item( $idx )->get_elements_by_tag_name( "detail" );
+            $c2 = $c1->item( $idx )->getElementsByTagName( "detail" );
             if ( $c2 != null
             && $c2->length > 0 ) {
-                $detail = $c2->item( 0 )->node_value;
+                $detail = $c2->item( 0 )->nodeValue;
             }
             $cite = new RP_Source_Cite();
             $cite->source_id = $src_id;
             $cite->source_batch_id = 1;
             $cite->source_page = $detail;try {
                 $id = RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->insert( $cite );
-                $c3 = $c1->item( $idx )->get_elements_by_tag_name( "person" );
+                $c3 = $c1->item( $idx )->getElementsByTagName( "person" );
                 for ( $idx2 = 0; $idx2 < $c3->length; $idx2++ ) {
-                    $person_id = $c3->item( $idx2 )->get_attribute( 'id' );
+                    $person_id = $c3->item( $idx2 )->getAttribute( 'id' );
                     $indi_cite = new RP_Indi_Cite();
                     $indi_cite->indi_id = $person_id;
                     $indi_cite->indi_batch_id = 1;
@@ -455,13 +455,13 @@ class RP_Xml_To_Database_Importer {
      */
     function add_mapping_data( $dom ) {
         $this->pages = array();
-        $root = $dom->document_element;
-        $e1 = $root->get_elements_by_tag_name( "entry" );
+        $root = $dom->documentElement;
+        $e1 = $root->getElementsByTagName( "entry" );
         for ( $idx = 0; $idx < $e1->length; $idx++ ) {
-            $page_id = $e1->item( $idx )->get_attribute( 'pageId' );
+            $page_id = $e1->item( $idx )->getAttribute( 'pageId' );
             if ( $page_id != null
             && ! empty( $page_id ) ) {
-                $person_id = $e1->item( $idx )->get_attribute( 'personId' );
+                $person_id = $e1->item( $idx )->getAttribute( 'personId' );
                 $this->pages[$idx] = array( $person_id, $page_id );
             }
         }
