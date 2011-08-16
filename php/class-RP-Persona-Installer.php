@@ -80,7 +80,7 @@ class RP_Persona_Installer {
         }
 
         if ( $options[ 'version' ] < '2.0.0' ) {
-            $options['parent_page'] = get_option( 'rootsPersonaParentPage', null );
+            $options['parent_page'] = get_option( 'rootsPersonaParentPage' );
             $opt = get_option( 'rootsIsSystemOfRecord', 0 );
             $options['is_system_of_record'] = ( ( $opt == false ) ? 0 : 1 );
             $options['index_page'] = get_option( 'rootsPersonaIndexPage' );
@@ -154,8 +154,10 @@ class RP_Persona_Installer {
                     '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
         $options['index_page'] = $page;
 
-        $parent = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ), '', 'publish' );
-        $options['parent_page'] = $parent;
+        $parent_page = $this->get_parent_page();
+        $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ), 
+                    $parent_page, '', 'publish' );
+        $options['parent_page'] = $page;
 
         if ( ! isset( $options['is_system_of_record'] )
         || empty( $options['is_system_of_record'] ) ) {
@@ -234,10 +236,12 @@ class RP_Persona_Installer {
         delete_option( 'rootsHideEditLinks' );
         delete_option( 'persona_plugin' );
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
+        $force_delete = true;
         $pages = get_posts( $args );
         foreach ( $pages as $page ) {
             if ( preg_match( '/rootsPersona/', $page->post_content ) ) {
-                wp_delete_post( $page->ID );
+                wp_delete_post( $page->ID, $force_delete );
+                set_time_limit( 60 );
             }
         }
 

@@ -155,7 +155,8 @@ class RP_Persona_Site_Mender {
                 }
                 echo __( "Page", 'rootspersona' ) . ' ' . $page->ID . ": " . $line . "<br/>";
             }
-            			set_time_limit( 60 );
+            
+            set_time_limit( 60 );
         }
         $expected_pages = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_persons_with_pages();
@@ -213,7 +214,7 @@ class RP_Persona_Site_Mender {
                 }
                 echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id']. ": " . $line . "<br/>";
             }
-            			set_time_limit( 60 );
+            set_time_limit( 60 );
         }
 
         $expected_pages = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->get_sources_with_pages();
@@ -272,7 +273,7 @@ class RP_Persona_Site_Mender {
                     }
                     echo __( "Page", 'rootspersona' ) . ' ' . $expected['page_id'] . ": " . $line . "<br/>";
                 }
-                			set_time_limit( 60 );
+                set_time_limit( 60 );
             }
         }
 
@@ -313,9 +314,10 @@ class RP_Persona_Site_Mender {
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
         $pages = get_posts( $args );
         $cnt = 0;
+        $force_delete = true;
         foreach ( $pages as $page ) {
             if ( preg_match( "/rootsPersona |rootsEvidencePage /", $page->post_content ) ) {
-                wp_delete_post( $page->ID );
+                wp_delete_post( $page->ID, $force_delete );
                 $cnt++;
                 Set_time_limit( 60 );
             }
@@ -349,6 +351,7 @@ class RP_Persona_Site_Mender {
             $page_id = RP_Persona_Helper::create_evidence_page( $src['title'], $content, $options );
             RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                     ->update_page( $src['id'], 1, $page_id );
+            set_time_limit( 60 );
         }
         $transaction->commit();
         return count($sources) . ' ' . __('source pages added','rootspersona' ) . '.<br/>';
