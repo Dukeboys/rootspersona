@@ -17,31 +17,31 @@ be mixed and matched for optimum customization.
 
 **Features**
 <ul>
-<li>1. Support for GEDCOM Version 5.5
-<li>2. Ability to upload more than one GEDCOM file from the same source and link families together
-<li>3. Ability to select which persons from the GEDCOM file to create pages for
-<li>4. As updates are made, GEDCOM files can be reloaded and existing pages will be updated
-<li>5. Each page includes links to children and spouses
-<li>6. Each page displays a visual family tree that includes three generations
-<li>7. Ability to link pictures uploaded to WordPress to each person (up to 7)
-<li>8. Flexible privacy options, including Public, Member Only, and Private
-<li>9. MANY customization options...
+<li> Support for GEDCOM Version 5.5
+<li> Ability to upload more than one GEDCOM file from the same source and link families together
+<li> Ability to select which persons from the GEDCOM file to create pages for
+<li> As updates are made, GEDCOM files can be reloaded and existing pages will be updated
+<li> Each page includes links to children and spouses
+<li> Each page displays a visual family tree that includes three generations
+<li> Ability to link pictures uploaded to WordPress to each person (up to 7)
+<li> Flexible privacy options, including Public, Member Only, and Private
+<li> MANY customization options...
 </ul>
 
 ** New in 2.0! **
 <ul>
-<li>changed the underlying code to be database driven
-<li>added more flexible privacy options
-<li>picture selection now interfaces with the WordPress media picker
-<li>pictures now wrap on the persona page
-<li>no more xsl processing
-<li>plugin processes with less memory
-<li>improved localization, available in more languages
-<li>indexes now paginated (but sorting is gone)
-<li>you can now customize the banner (the divider between persona panels) to be more consistent with your theme
-<li>support for multiple character encodings
-<li>added a second panel design for the header panel that display a bio
-<li>added an optional bio panel
+<li> changed the underlying code to be database driven
+<li> added more flexible privacy options
+<li> picture selection now interfaces with the WordPress media picker
+<li> pictures now wrap on the persona page
+<li> no more xsl processing
+<li> plugin processes with less memory
+<li> improved localization, available in more languages
+<li> indexes now paginated (but sorting is gone)
+<li> you can now customize the banner (the divider between persona panels) to be more consistent with your theme
+<li> support for multiple character encodings
+<li> added a second panel design for the header panel that display a bio
+<li> added an optional bio panel
 </ul>
 
 For detailed documentation, goto [ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona "Documentation")
