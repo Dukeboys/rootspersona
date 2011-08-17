@@ -25,7 +25,7 @@ class RP_Index_Factory {
     public function get_with_options( $batch_id, $options ) {
         $transaction = new RP_Transaction( $this->credentials, true );
         $rows = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_indexed_page( $batch_id, $options['page_nbr'], $options['per_page'] );
+                ->get_indexed_page( $batch_id, $options['surname'], $options['page_nbr'], $options['per_page'] );
         $transaction->close();
         $cnt = count( $rows );
         $uscore = $options['uscore'];
@@ -49,7 +49,7 @@ class RP_Index_Factory {
     public function get_cnt( $batch_id, $options ) {
         $transaction = new RP_Transaction( $this->credentials, true );
         $cnt = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_indexed_page_cnt( $batch_id );
+                ->get_indexed_page_cnt( $batch_id, $options['surname'] );
         // @todo we are adjusted for Exc, but not for Pvt or Mbr
         $transaction->close();
         return $cnt;

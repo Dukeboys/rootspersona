@@ -81,7 +81,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
      * @param  $batchId
      * @return
      */
-    public function get_indexed_page_cnt( $batch_id ) {
+    public function get_indexed_page_cnt( $batch_id, $surname ) {
         $sql = 'SELECT count(*)'
             . ' FROM rp_indi ri'
             . ' LEFT OUTER JOIN rp_indi_option rio'
@@ -89,6 +89,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             . ' JOIN rp_indi_name rip'
             . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
             . ' WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null'
+            . $surname != null? " AND surname LIKE '$surname'":''
             . " AND IFNULL(rio.privacy_code,'Def') != '"
             . RP_Persona_Helper::EXC . "'";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -97,7 +98,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         return $cnt;
     }
 
-    public function get_indexed_page( $batch_id, $page, $per_page ) {
+    public function get_indexed_page( $batch_id, $surname, $page, $per_page ) {
         $sql = 'SELECT ri.id AS id'
                 . ',rnp.surname AS surname'
                 . ',rnp.given AS given'
@@ -110,6 +111,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
                 . ' JOIN rp_name_personal rnp ON rip.name_id = rnp.id'
                 . " WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null"
+                . $surname != null? " AND surname LIKE '$surname'":''
                 . " AND IFNULL(rio.privacy_code,'Def') != '"
                 . RP_Persona_Helper::EXC
                 . "' ORDER BY rnp.surname, rnp.given"
@@ -200,11 +202,11 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $sql = "SELECT 'birth' AS type, event_date AS date, place"
         . " FROM rp_indi_event rie"
         . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Birth'"
-        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?"
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1"
         . " UNION SELECT 'death' AS type,  event_date As date, place"
         . " FROM rp_indi_event rie"
         . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Death'"
-        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set( $id );
         $sql_query->set_number( $batch_id );
@@ -223,7 +225,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $sql = "SELECT event_date AS birth_date"
             . " FROM rp_indi_event rie"
                 . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Birth'"
-                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set( $id );
         $sql_query->set_number( $batch_id );
@@ -240,7 +242,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $sql = "SELECT event_date As death_date"
                 . " FROM rp_indi_event rie"
                 . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Death'"
-                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
+                . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set( $id );
         $sql_query->set_number( $batch_id );
@@ -258,7 +260,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id"
             . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
-            . " WHERE ri.id = ? AND ri.batch_id = ?";
+            . " WHERE ri.id = ? AND ri.batch_id = ? LIMIT 0,1";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set( $id );
         $sql_query->set_number( $batch_id );

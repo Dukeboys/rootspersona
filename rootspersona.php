@@ -110,12 +110,13 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @return string
          */
-        function index_page_handler() {
+        function index_page_handler( $atts, $content = null, $callback = null ) {
             //$time_start = microtime( true );
-            $batch_id = '1';
+            $batch_id = isset( $atts['batchid'] )? $atts['batchid'] : '1';
             $builder = new RP_Index_Page_Builder();
             $options = get_option( 'persona_plugin' );
             $options = $builder->get_options( $options );
+            $options['surname'] = isset( $atts['surname'] )? $atts['surname'] : null;
             $factory = new RP_Index_Factory( $this->credentials );
             $index = $factory->get_with_options( $batch_id, $options );
             $cnt = $factory->get_cnt( $batch_id, $options );
