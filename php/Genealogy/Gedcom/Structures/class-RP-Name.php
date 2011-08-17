@@ -70,18 +70,23 @@ class RP_Name extends RP_Entity_Abstract {
 			$str = $this->pieces->surname;
 		} else {
 			$str = $this->get_full_name();
-			$str = substr( $str, strpos( $str, '/' ) + 1 );
-			$str = substr( $str, 0, strpos( $str, '/' ) );
-			$str = ( empty( $str ) ? substr( $str, Strrpos( $str, ' ' ) ) : $str );
+            if( strpos( $str, '/' ) !== false ) {
+                $str = substr( $str, strpos( $str, '/' ) + 1 );
+            	$str = substr( $str, 0, strpos( $str, '/' ) );
+            } else if (strpos( $str, ' ' ) > 0) {
+                $str = substr( $str, strrpos( $str, ' ' ));
+            } else {
+                $str = '';
+            }
 		}
 		return $str;
 	}
-	
+
 
 	/**
 	 * @todo Description of function getGiven
-	 * @param 
-	 * @return 
+	 * @param
+	 * @return
 	 */
 	public function get_given() {
 		if ( isset( $this->pieces->given )
@@ -89,7 +94,10 @@ class RP_Name extends RP_Entity_Abstract {
 			$str = $this->pieces->given;
 		} else {
 			$str = $this->get_full_name();
-			$str = substr( $str, 0, strpos( $str, '/' ) );
+            if(strpos( $str, '/' ) !== false)
+                $str = substr( $str, 0, strpos( $str, '/' ) );
+            else if (strpos( $str, ' ' ) > 0)
+                $str = substr( $str, 0, strrpos( $str, ' ' ) );
 			//$str = substr($str,0,strpos($str, '/'));
 			$str = ( empty( $str ) ? substr( $str, Strrpos( $str, ' ' ) ) : $str );
 		}

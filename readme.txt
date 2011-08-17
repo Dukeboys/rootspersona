@@ -112,6 +112,11 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.0.2 =
+* Fix issue with missing name in index if full name is not really complete
+* fix issue with multiple birth dates in GEDCOM overwriting death date
+* added surname attribute to index shortcode to support index by shortcode.
+
 = 2.0.1 =
 * changed the underlying code to be database driven
 * added more flexible privacy options
