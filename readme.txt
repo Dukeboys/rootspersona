@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -107,11 +107,14 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 
 1. Formatted persona screen
 2. Formatted Family Sheets
-3. Per page privacy settings and pcitures, now integrated with the WordPress Media Picker
+3. Per page privacy settings and pictures, now integrated with the WordPress Media Picker
 4. Variety of tools for managing persona pages
 5. Lots of options for customization
 
 == Changelog ==
+= 2.0.3 =
+* Fix issue with competing index pages
+
 = 2.0.2 =
 * Fix issue with missing name in index if full name is not really complete
 * fix issue with multiple birth dates in GEDCOM overwriting death date

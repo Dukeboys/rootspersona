@@ -249,19 +249,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='text' size='5' name='persona_plugin[parent_page]' id='parent_page'";
         echo " value='" . $options['parent_page'] . "'/></td>";
         echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
-        
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[index_page]'>" . __( 'Persona Index Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[index_page]' id='index_page'";
-        echo " value='" . $options['index_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['index_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Name Index shortcode.  There is usually no need to change this', 'rootspersona' ) . ".</td></tr>";
-        
-        echo "<tr valign='top'>";
-        echo "<td scope='row'><label for='persona_plugin[evidence_page]'>" . __( 'Evidence Index Page Id', 'rootspersona' ) . "</label></td>";
-        echo "<td><input type='text' size='5' name='persona_plugin[evidence_page]' id='evidence_page'";
-        echo " value='" . $options['evidence_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['evidence_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . __( 'with the Evidence Index shortcode.  There is usually no need to change this.', 'rootspersona' ) . "</td></tr>";
-        
+
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[banner_fcolor]'>" . __( 'Banner Foreground Color', 'rootspersona' ) . "</label></td>";

@@ -10,7 +10,7 @@ class RP_Index_Page_Builder {
      * @return string
      */
     function build( $index, $cnt, $options ) {
-        $target_url = $options['home_url'] . "?page_id=" . $options['index_page'];
+        $target_url = $options['home_url'] . "?page_id=" . RP_Persona_Helper::get_page_id();
         $pagination = RP_Persona_Helper::build_pagination( $options['page_nbr'],
                 $options['per_page'], $cnt, $target_url );
         $xofy_start = ( ( $options['page_nbr'] * $options['per_page'] )

@@ -35,10 +35,10 @@ class RP_Persona_Installer {
 
             $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
                     '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
-            $options['index_page'] = $page;
+            //$options['index_page'] = $page;
             $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                     '[rootsEvidencePage/]', '', 'publish' );
-            $options['evidence_page'] = $page;
+            //$options['evidence_page'] = $page;
 
             $parent_page = $this->get_parent_page();
             $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ),
@@ -83,8 +83,8 @@ class RP_Persona_Installer {
             $options['parent_page'] = get_option( 'rootsPersonaParentPage' );
             $opt = get_option( 'rootsIsSystemOfRecord', 0 );
             $options['is_system_of_record'] = ( ( $opt == false ) ? 0 : 1 );
-            $options['index_page'] = get_option( 'rootsPersonaIndexPage' );
-            $options['evidence_page'] = get_option( 'rootsEvidencePage' );
+            //$options['index_page'] = get_option( 'rootsPersonaIndexPage' );
+            //$options['evidence_page'] = get_option( 'rootsEvidencePage' );
             $options['hide_header'] = get_option( 'rootsHideHeader', 0 );
             $options['hide_bio'] = 0;
             $options['header_style'] = 1;
@@ -145,12 +145,12 @@ class RP_Persona_Installer {
 
             $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
                         "[rootsEvidencePage batchId='1'/]", '', 'publish' );
-            $options['evidence_page'] = $page;
+            //$options['evidence_page'] = $page;
 
 
             $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
                         '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
-            $options['index_page'] = $page;
+            //$options['index_page'] = $page;
 
             $parent_page = $this->get_parent_page();
             $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ),
@@ -163,6 +163,13 @@ class RP_Persona_Installer {
             }
 
             update_option( 'persona_plugin', $options );
+        }
+        
+        if ( $options[ 'version' ] < '2.0.3' ) {
+            unset( $options['evidence_page'] );
+            unset( $options['index_page'] );
+            update_option( 'persona_plugin', $options );
+            
         }
     }
 
@@ -205,11 +212,6 @@ class RP_Persona_Installer {
         global $wpdb;
 
         $options = get_option('persona_plugin');
-
-        $page = $options[ 'index_page' ];
-        wp_delete_post( $page );
-        $page = $options[ 'evidence_page' ];
-        wp_delete_post( $page );
 
         delete_option( 'rootsPersonaVersion' );
         delete_option( 'rootsDataDir' );

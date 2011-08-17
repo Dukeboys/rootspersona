@@ -62,7 +62,7 @@ class RP_Evidence_Page_Builder {
      */
     function build_index( $sources, $cnt, $options ) {
         $target_url = $options['home_url'] . "?page_id="
-            . $options['evidence_page'];
+            . RP_Persona_Helper::get_page_id();
         $pagination = RP_Persona_Helper::build_pagination( $options['page_nbr'],
                 $options['per_page'], $cnt, $target_url );
         $xofy_start = ( ( $options['page_nbr'] * $options['per_page'] )

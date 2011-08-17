@@ -59,18 +59,6 @@ class RP_Persona_Site_Mender {
                                 , " (" . $parent . ")." );
                     }
                 }
-            } else if ( preg_match( "/rootsPersonaIndexPage/i", $page->post_content ) ) {
-                $page_id = $options['index_page'];
-                if ( $page_id != $page->ID ) {
-                    if ( $is_repair ) {
-                        $output[] = sprintf( __( "Deleted orphaned %s page.", 'rootspersona' ),
-                                "rootsPersonaIndexPage" );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphaned", 'rootspersona' )
-                                    . " rootsPersonaIndexPage.";
-                    }
-                }
             } else if ( preg_match( "/rootsEditPersonaForm/i", $page->post_content ) ) {
                 if ( $is_repair ) {
                     $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
@@ -136,16 +124,8 @@ class RP_Persona_Site_Mender {
                                 " (" . $parent . ")." );
                     }
                 }
-            } else if ( preg_match( "/rootsEvidencePage.*/i", $page->post_content ) ) {
-                if ( $page->ID != $options['evidence_page'] ) {
-                    if ( $is_repair ) {
-                        $output[] = __( "Deleted orphaned evidence index page.",'rootspersona' );
-                        wp_delete_post( $page->ID );
-                    } else {
-                        $output[] = __( "Orphan evidence index.", 'rootspersona' );
-                    }
-                }
-            }
+            } 
+            
             foreach ( $output as $line ) {
                 if ( $is_first ) {
                     echo "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"

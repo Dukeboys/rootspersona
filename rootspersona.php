@@ -589,8 +589,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );
             $options['banner_image'] = trim( esc_attr( $input['banner_image'] ) );
-            $options['index_page'] = intval( $input['index_page'] );
-            $options['evidence_page'] = intval( $input['evidence_page'] );
+            //$options['index_page'] = intval( $input['index_page'] );
+            //$options['evidence_page'] = intval( $input['evidence_page'] );
             //$input['hide_banner'] = ( $input['hide_banner'] == 1 ? 1 : 0 );
             $options['header_style'] = ( $input['header_style'] == 2 ? 2 : 1 );
             $options['hide_header'] = ( $input['hide_header'] == 1 ? 1 : 0 );
