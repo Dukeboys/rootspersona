@@ -88,8 +88,9 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             . ' ON rio.indi_batch_id = ri.batch_id AND rio.indi_id = ri.id'
             . ' JOIN rp_indi_name rip'
             . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
+            . ((!empty( $surname )) ?' JOIN rp_name_personal rnp ON rip.name_id = rnp.id':'')
             . ' WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null'
-            . $surname != null? " AND surname LIKE '$surname'":''
+            . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "'"):'')
             . " AND IFNULL(rio.privacy_code,'Def') != '"
             . RP_Persona_Helper::EXC . "'";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -111,7 +112,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 . ' ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id'
                 . ' JOIN rp_name_personal rnp ON rip.name_id = rnp.id'
                 . " WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null"
-                . $surname != null? " AND surname LIKE '$surname'":''
+            . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "'"):'')
                 . " AND IFNULL(rio.privacy_code,'Def') != '"
                 . RP_Persona_Helper::EXC
                 . "' ORDER BY rnp.surname, rnp.given"
@@ -199,14 +200,14 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
      * @return
      */
     public function get_birth_and_death_dates( $batch_id, $id ) {
-        $sql = "SELECT 'birth' AS type, event_date AS date, place"
+        $sql = "(SELECT 'birth' AS type, event_date AS date, place"
         . " FROM rp_indi_event rie"
         . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Birth'"
-        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1"
-        . " UNION SELECT 'death' AS type,  event_date As date, place"
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1)"
+        . " UNION (SELECT 'death' AS type,  event_date As date, place"
         . " FROM rp_indi_event rie"
         . " JOIN rp_event_detail red ON red.id = rie.event_id and red.event_type = 'Death'"
-        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1";
+        . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ? LIMIT 0,1)";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set( $id );
         $sql_query->set_number( $batch_id );
