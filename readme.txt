@@ -9,7 +9,7 @@ Stable tag: 2.0.1
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
 == Description ==
-* IMPORTANT NOTE FOR UPGRADERS!!!! READ BELOW!!!! *
+* IMPORTANT NOTE FOR UPGRADERS!!!! READ SPECIAL INSTRUCTIONS IN THE OTHER NOTES TAB!!!! DO NOT DEACTIVATE BEFORE UPGRADING!!! *
 
 rootsPersona creates one or more pages of family history using data imported from one or more GEDCOM files.
 It allows an administrator to create pages featuring people or evidence with a variety of panels that can
