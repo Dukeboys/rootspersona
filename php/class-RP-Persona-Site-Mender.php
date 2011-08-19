@@ -124,8 +124,8 @@ class RP_Persona_Site_Mender {
                                 " (" . $parent . ")." );
                     }
                 }
-            } 
-            
+            }
+
             foreach ( $output as $line ) {
                 if ( $is_first ) {
                     echo "<div style='overflow:hidden;width:60%;margin:40px;'><p style='padding:0.5em;background-color:yellow;color:black;font-weight:bold;'>"
@@ -135,7 +135,7 @@ class RP_Persona_Site_Mender {
                 }
                 echo __( "Page", 'rootspersona' ) . ' ' . $page->ID . ": " . $line . "<br/>";
             }
-            
+
             set_time_limit( 60 );
         }
         $expected_pages = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
@@ -299,18 +299,18 @@ class RP_Persona_Site_Mender {
             if ( preg_match( "/rootsPersona |rootsEvidencePage /", $page->post_content ) ) {
                 wp_delete_post( $page->ID, $force_delete );
                 $cnt++;
-                Set_time_limit( 60 );
+                set_time_limit( 60 );
             }
         }
         $transaction = new RP_Transaction( $this->credentials, false );
         RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages();
         RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages();
         $transaction->commit();
-        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt 
+        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt
             . ' ' . __( 'pages deleted.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
-            . Admin_url() . "tools.php?page=rootsPersona'>"
+            . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
             . "</div></div>";
         return $block;
