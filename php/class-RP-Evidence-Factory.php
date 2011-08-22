@@ -40,7 +40,7 @@ class RP_Evidence_Factory {
     public function get_index_with_options( $batch_id, $options ) {
 		$transaction = new RP_Transaction( $this->credentials, true );
         $index = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_indexed_sources( $batch_id, $options['page_nbr'], $options['per_page'] );
+                ->get_indexed_sources( $batch_id, $options['page_nbr'], $options['per_page'], $options['style'] );
         $transaction->close();
         return $index;
 	}

@@ -112,6 +112,10 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.0.4 =
+* rows per page option for indices made visible
+* added style attribute to index shortcodes - supports paginated (default) and scrollable
+
 = 2.0.3 =
 * Fix issue with competing index pages
 

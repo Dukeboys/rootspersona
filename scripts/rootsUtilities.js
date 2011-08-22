@@ -7,6 +7,12 @@ function rootsConfirm(winText, trueAction) {
     }
 }
 
+function findPage(site_url) {
+    var e = document.getElementById("persona_page");
+    var page = e.options[e.selectedIndex].value;
+    window.location=site_url + '?page_id=' + page;
+}
+
 jQuery(document).ready(function() {
     var formfield;
     jQuery('#img1_upload_button').click(function() {

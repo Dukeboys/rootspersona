@@ -251,16 +251,25 @@ class RP_Option_Page_Builder {
         echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
+    
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[banner_fcolor]'>" . __( 'Banner Foreground Color', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[banner_fcolor]' id='banner_fcolor'";
         echo " value='" . ( isset( $options['banner_fcolor'] ) ?  $options['banner_fcolor'] : '' ) . "'/></td>";
         echo "<td>" . sprintf( __( 'Overrides the default foreground color for the banners between %s panels.', 'rootspersona' ), "persona" ) . "</td></tr>";
+      
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[banner_bcolor]'>" . __( 'Banner Background Color', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[banner_bcolor]' id='banner_bcolor'";
         echo " value='" . ( isset( $options['banner_bcolor'] ) ?  $options['banner_bcolor'] : '' ) . "'/></td>";
         echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
+       
+        echo "<tr valign='top'>";
+        echo "<td scope='row'><label for='persona_plugin[per_page]'>" . __( 'Entries Per Page', 'rootspersona' ) . "</label></td>";
+        echo "<td><input type='text' size='5' name='persona_plugin[per_page]' id='per_page'";
+        echo " value='" . ( isset( $options['per_page'] ) ?  $options['per_page'] : '' ) . "'/></td>";
+        echo "<td>" . __( 'Indicates the number of rows on an index page. Default is 25.', 'rootspersona' ) . ".</td></tr>";
+
         echo "<tr valign='top'>";
         echo "<td scope='row'><label for='persona_plugin[banner_image]'>" . __( 'Banner Image', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='20' name='persona_plugin[banner_image]' id='banner_bcolor'";

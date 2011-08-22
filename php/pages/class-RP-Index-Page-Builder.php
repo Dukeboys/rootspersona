@@ -10,7 +10,37 @@ class RP_Index_Page_Builder {
      * @return string
      */
     function build( $index, $cnt, $options ) {
-        $target_url = $options['home_url'] . "?page_id=" . RP_Persona_Helper::get_page_id();
+        if( isset( $options['style'] ) && 'scrollable' == $options['style'] ) {
+            return $this->build_scrollable( $index, $options );
+        } else {
+            return $this->build_paginated( $index, $cnt, $options );
+        }
+    }
+    
+    function build_scrollable( $index, $options ) {
+        $hide_dates = $options['hide_dates'];
+        $rows = $options['per_page'];
+        
+        $block = "<div id='personaIndexTable' style='text-align:center'><form>"
+                . "<select id='persona_page' name='persona_page' size='$rows' onChange='javascript:findPage(\""
+                . $options['home_url'] ."\");'>";
+        
+        foreach($index AS $entry) {
+            $block .= "<option value='" . $entry->page . "'>"
+                    . $entry->surname . ', ' . $entry->given
+                    . ( $hide_dates == 1 ? ' ' : ( '&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(' 
+                    . $entry->birth_date . ' - '
+                    . $entry->death_date ) . ')' )
+                    . "</option>";
+        }
+        
+        $block .= "</select></form></div>";
+        return $block;
+    }
+
+    function build_paginated( $index, $cnt, $options ) {
+        $home_url = $options['home_url'];
+        $target_url = $home_url . "?page_id=" . RP_Persona_Helper::get_page_id();
         $pagination = RP_Persona_Helper::build_pagination( $options['page_nbr'],
                 $options['per_page'], $cnt, $target_url );
         $xofy_start = ( ( $options['page_nbr'] * $options['per_page'] )
@@ -19,7 +49,7 @@ class RP_Index_Page_Builder {
         $xofy = "<div class='xofy'>Displaying "
                 . $xofy_start . ' - ' . $xofy_end . "</div>";
         $hide_dates = $options['hide_dates'];
-        $home_url = $options['home_url'];
+
         $block = $pagination . $xofy;
         $block .= "<table id='personaIndexTable' cellpadding='0' cellspacing='0'>"
                 . "<tr><th class='surname'>Surname</th>"
@@ -47,7 +77,7 @@ class RP_Index_Page_Builder {
      * @param array $options
      * @return array
      */
-    public function get_options( $options ) {
+    public function get_options( $options, $atts ) {
         global $wp_query;
         $options['page_nbr'] = isset( $wp_query->query_vars['rootsvar'] )
                 ? $wp_query->query_vars['rootsvar'] : 1 ;
@@ -57,6 +87,8 @@ class RP_Index_Page_Builder {
 
         $options['home_url'] = home_url();
         $options['uscore'] = RP_Persona_Helper::score_user();
+        $options['surname'] = isset( $atts['surname'] )? $atts['surname'] : null;
+        $options['style'] = isset( $atts['style'] )? $atts['style'] : 'paginated';  
         return $options;
     }
 }

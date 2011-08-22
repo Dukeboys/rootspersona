@@ -99,7 +99,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         return $cnt;
     }
 
-    public function get_indexed_page( $batch_id, $surname, $page, $per_page ) {
+    public function get_indexed_page( $batch_id, $surname, $page, $per_page, $set = 'paginated' ) {
         $sql = 'SELECT ri.id AS id'
                 . ',rnp.surname AS surname'
                 . ',rnp.given AS given'
@@ -115,8 +115,10 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "'"):'')
                 . " AND IFNULL(rio.privacy_code,'Def') != '"
                 . RP_Persona_Helper::EXC
-                . "' ORDER BY rnp.surname, rnp.given"
-                . " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+                . "' ORDER BY rnp.surname, rnp.given";
+        if( "paginated" == $set) {
+                $sql .= " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+        }
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set_number( $batch_id );
         $rows = RP_Query_Executor::execute( $sql_query );
@@ -137,13 +139,15 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         return $persons;
     }
 
-    public function get_indexed_sources( $batch_id, $page, $per_page ) {
+    public function get_indexed_sources( $batch_id, $page, $per_page, $set = 'paginated' ) {
          $sql = 'SELECT rs.abbr AS title'
                 . ',rs.wp_page_id AS page'
                 . ' FROM rp_source rs'
                 . " WHERE rs.batch_id = ? AND rs.wp_page_id IS NOT null"
-                . " ORDER BY rs.abbr"
-                . " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+                . " ORDER BY rs.abbr";
+         if( 'paginated' == $set) {
+                $sql .= " LIMIT " . ( ( $page - 1 ) * $per_page ) . "," . $per_page;
+         }
 
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $sql_query->set_number( $batch_id );

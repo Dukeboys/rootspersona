@@ -115,11 +115,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $batch_id = isset( $atts['batchid'] )? $atts['batchid'] : '1';
             $builder = new RP_Index_Page_Builder();
             $options = get_option( 'persona_plugin' );
-            $options = $builder->get_options( $options );
-            $options['surname'] = isset( $atts['surname'] )? $atts['surname'] : null;
+            $options = $builder->get_options( $options, $atts );
+          
             $factory = new RP_Index_Factory( $this->credentials );
             $index = $factory->get_with_options( $batch_id, $options );
-            $cnt = $factory->get_cnt( $batch_id, $options );
+            $cnt = null;
+            if( 'paginated' == $options['style']) {
+                $cnt = $factory->get_cnt( $batch_id, $options );
+            }
 
             $block = "<div id = 'personaIndex'>"
             . $builder->build( $index, $cnt, $options )
@@ -144,7 +147,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $builder = new RP_Evidence_Page_Builder();
             $options = get_option( 'persona_plugin' );
-            $options = $builder->get_options( $options );
+            $options = $builder->get_options( $options, $atts );
 
             $block = '';
             $factory = new RP_Evidence_Factory( $this->credentials );
@@ -156,7 +159,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     . $builder->build( $evidence, $options )
                     . '</div>';
             } else {
-                $cnt = $factory->get_cnt( $batch_id, $options );
+                $cnt = null;
+                if( 'paginated' == $options['style']) {
+                    $cnt = $factory->get_cnt( $batch_id, $options );
+                }
                 $sources = $factory->get_index_with_options( $batch_id, $options );
 
                 $block .= "<div id = 'personaIndex'>"
@@ -585,6 +591,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options = get_option( 'persona_plugin' );
             $options['version'] = trim( esc_attr( $this->persona_version ) );
             $options['parent_page'] = intval( $input['parent_page'] );
+            $options['per_page'] = intval( $input['per_page'] );
             $options['is_system_of_record']  = 0;
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );

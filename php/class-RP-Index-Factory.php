@@ -25,7 +25,9 @@ class RP_Index_Factory {
     public function get_with_options( $batch_id, $options ) {
         $transaction = new RP_Transaction( $this->credentials, true );
         $rows = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_indexed_page( $batch_id, $options['surname'], $options['page_nbr'], $options['per_page'] );
+                ->get_indexed_page( $batch_id, $options['surname'], 
+                                    $options['page_nbr'], $options['per_page'],
+                                    $options['style'] );
         $transaction->close();
         $cnt = count( $rows );
         $uscore = $options['uscore'];
