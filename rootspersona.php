@@ -522,6 +522,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         'rootsPersona',
                         array( $this, 'build_roots_options_page' )
                         );
+            add_action( 'admin_print_styles-' . $hook, array( $this, 'insert_persona_styles' ) );
             add_action( 'admin_print_scripts-' . $hook, array( $this, 'insert_admin_scripts' ) );
 
             $hook = add_submenu_page(
@@ -596,9 +597,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );
             $options['banner_image'] = trim( esc_attr( $input['banner_image'] ) );
-            //$options['index_page'] = intval( $input['index_page'] );
-            //$options['evidence_page'] = intval( $input['evidence_page'] );
-            //$input['hide_banner'] = ( $input['hide_banner'] == 1 ? 1 : 0 );
+            $options['group_bcolor'] = trim( esc_attr( $input['group_bcolor'] ) );
+            $options['group_fcolor'] = trim( esc_attr( $input['group_fcolor'] ) );
+            $options['group_image'] = trim( esc_attr( $input['group_image'] ) );
+            $options['pframe_color'] = trim( esc_attr( $input['pframe_color'] ) );
             $options['header_style'] = ( $input['header_style'] == 2 ? 2 : 1 );
             $options['hide_header'] = ( $input['hide_header'] == 1 ? 1 : 0 );
             $options['hide_facts'] = ( $input['hide_facts'] == 1 ? 1 : 0 );

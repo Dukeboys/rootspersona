@@ -125,3 +125,13 @@ div.rp_evidence table.rp_evi td div.rp_evicite {
 
 div.rp_evidence table.rp_evi td div.rp_eviempty {
 }
+
+span.optionsHdr {
+    font-weight: bold;
+    font-size: larger;
+}
+
+table.form-table tr td.left-label {
+   width: 170px;
+   display: inline-block;
+}

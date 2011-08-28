@@ -20,25 +20,35 @@ class RP_Header_Panel_Creator {
         } else {
             $default = $persona->picFiles[0];
         }
-        $block = '<div class="rp_truncate">' . '<div class="rp_header">';
+        
+        $block = '<div class="rp_truncate">' 
+                . '<div class="rp_header">';
+        
         $cnt = count( $persona->notes );
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+                        ? $options['pframe_color'] : 'brown' );
+        
         if( ! isset ( $options['header_style'] )  || $options['header_style'] == '1' || $cnt == 0 ) {
             // original style
             $block .= '<a href="' . $default . '">'
-            . '<img class="rp_headerbox" src="' . $default . '"/></a>'
-            . '<div class="rp_headerbox">' . '<span class="rp_headerbox">'
+            . '<img class="rp_headerbox" src="' . $default . '" style="border-color:' . $pframe_color . ';"/></a>'
+            . '<div class="rp_headerbox">' 
+            . '<span class="rp_headerbox">'
             . $persona->full_name . '</span>'
             . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2">'
             . $persona->id . '</span>';
+            
             if ( ! $options['hide_dates'] ) {
                 $block .= '<br/>b: ' . $persona->birth_date
                         . '<br/>d: ' . $persona->death_date;
             }
+            
             $block .= '</div>';
         } else if ( $options['header_style'] == '2' ) {
             // bio style
             $block .= '<a href="' . $default . '">'
-                    . '<img class="rp_headerbox" style="margin:0px 30px 5px 0px !important;width:150px !important;" src="'
+                    . '<img class="rp_headerbox" style="border-color:' . $pframe_color 
+                    . ';margin:0px 30px 5px 0px !important;width:150px !important;" src="'
                     . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {

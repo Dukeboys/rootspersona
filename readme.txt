@@ -114,6 +114,8 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 == Changelog ==
 = 2.0.5 =
 * fixed issue with the Hide Locations option
+* reorganized options page
+* added more style overrides (backgrounds and border colors)
 
 = 2.0.4 =
 * rows per page option for indices made visible
