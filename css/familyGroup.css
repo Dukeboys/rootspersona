@@ -1,25 +1,20 @@
 div.rp_family table.familygroup a {
-    color: blue;
     text-decoration: none;
     font-weight: bold;
 }
 
 div.rp_family table.familygroup a:link {
-    color: #06c;
     text-decoration: none;
 }
 
 div.rp_family table.familygroup a:visited {
-    color: #06c;
     text-decoration: none;
 }
 
 div.rp_family table.familygroup a:active {
-    color: #06c;
 }
 
 div.rp_family table.familygroup a:hover {
-    color: #06c;
     text-decoration: underline;
 }
 
