@@ -23,6 +23,7 @@ class RP_Table_Creator {
                 if ( $prefix != null ) {
                     $stmt = str_replace( 'EXISTS rp_', 'EXISTS ' . $prefix . 'rp_', $stmt );
                     $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+                    $stmt = str_replace( 'TRUNCATE rp_', 'TRUNCATE ' . $prefix . 'rp_', $stmt );
                 }
                $result = $wpdb->query( $stmt );
                 if ( $result === false ) {

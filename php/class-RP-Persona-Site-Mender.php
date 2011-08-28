@@ -1,4 +1,5 @@
 <?php
+require_once ( WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Table-Creator.php' );
 
 class RP_Persona_Site_Mender {
     /**
@@ -312,7 +313,8 @@ class RP_Persona_Site_Mender {
             . ' ' . __( 'pages deleted.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
-            . admin_url() . "tools.php?page=rootsPersona&rootspage=deldata'>"
+            . admin_url() . "tools.php?page=rootsPersona&rootspage=util"
+                . "&utilityAction=deldata'>"
             . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"    
             ."<span style='display:inline-block;width:5em;'>&#160;</span>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
@@ -323,10 +325,11 @@ class RP_Persona_Site_Mender {
     }
 
     function delete_data( $options ) {
+        global $wpdb;
         $creator = new RP_Table_Creator();
-        $creator->update_tables( $this->sql_file_to_truncate_tables, $prefix );
-        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt
-            . ' ' . __( 'tables emptied.', 'rootspersona' ) . "<br/>"
+        $creator->update_tables( $this->sql_file_to_truncate_tables, $wpdb->prefix );
+        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
+            . __( 'Tables emptied.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"

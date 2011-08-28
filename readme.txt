@@ -116,6 +116,7 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 * fixed issue with the Hide Locations option
 * reorganized options page
 * added more style overrides (backgrounds and border colors)
+* added option to delete data after deleting pages
 
 = 2.0.4 =
 * rows per page option for indices made visible
