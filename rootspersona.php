@@ -594,6 +594,9 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['parent_page'] = intval( $input['parent_page'] );
             $options['per_page'] = intval( $input['per_page'] );
             $options['is_system_of_record']  = 0;
+            $options['index_even_color'] = trim( esc_attr( $input['index_even_color'] ) );
+            $options['index_odd_color'] = trim( esc_attr( $input['index_odd_color'] ) );
+            $options['index_hdr_color'] = trim( esc_attr( $input['index_hdr_color'] ) );
             $options['banner_bcolor'] = trim( esc_attr( $input['banner_bcolor'] ) );
             $options['banner_fcolor'] = trim( esc_attr( $input['banner_fcolor'] ) );
             $options['banner_image'] = trim( esc_attr( $input['banner_image'] ) );

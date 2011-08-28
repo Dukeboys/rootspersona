@@ -78,20 +78,27 @@ class RP_Evidence_Page_Builder {
         $xofy_end = $xofy_start + count( $sources ) - 1;
         $xofy = "<div class='xofy'>Displaying " . $xofy_start . ' - ' . $xofy_end . "</div>";
         $home_url = $options['home_url'];
-
+        $hdrcolor = ((isset($options['index_hdr_color']) && !empty($options['index_hdr_color'])) 
+                        ? $options['index_hdr_color'] : '#CCCCCC');
         $block = $pagination . $xofy;
         $block .= "<table id='personaIndexTable' cellpadding='0' cellspacing='0'>"
-                . "<tr><th class='source_name'>Source Name</th>"
-                . "<th class='page'>Link</th></tr>";
+                . "<tr><th style='background-color:$hdrcolor' class='source_name'>Source Name</th>"
+                . "<th style='background-color:$hdrcolor' class='page'>Link</th></tr>";
         $evenodd = 'even';
+                $evencolor = ((isset($options['index_even_color']) && !empty($options['index_even_color'])) 
+                        ? $options['index_even_color'] : 'white');
+        $oddcolor = ((isset($options['index_odd_color']) && !empty($options['index_odd_color'])) 
+                        ? $options['index_odd_color'] : '#DDDDDD');
+        $evenoddcolor = $evencolor;
         if( count( $sources ) > 0 ) {
             foreach ( $sources AS $src ) {
-                $block .= "<tr class='" . $evenodd . "'><td class='surname'>"
+                $block .= "<tr class='" . $evenodd . "'><td style='background-color:$evenoddcolor' class='surname'>"
                         . $src->title . "</td>"
-                        . "<td class='page'><a href='" . $home_url . "?page_id="
+                        . "<td style='background-color:$evenoddcolor' class='page'><a href='" . $home_url . "?page_id="
                         . $src->page . "'>" . $src->page . "</a>"
                         . "</td></tr>";
                 $evenodd = ( $evenodd == 'even' ) ? 'odd' : 'even';
+                $evenoddcolor = ( $evenodd == 'even' ) ? $evencolor : $oddcolor;
             }
         }
         $block .= '</table>' . $xofy . $pagination;

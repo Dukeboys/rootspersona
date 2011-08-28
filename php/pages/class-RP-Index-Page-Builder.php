@@ -49,23 +49,31 @@ class RP_Index_Page_Builder {
         $xofy = "<div class='xofy'>Displaying "
                 . $xofy_start . ' - ' . $xofy_end . "</div>";
         $hide_dates = $options['hide_dates'];
-
+        $hdrcolor = ((isset($options['index_hdr_color']) && !empty($options['index_hdr_color'])) 
+                        ? $options['index_hdr_color'] : '#CCCCCC');
         $block = $pagination . $xofy;
         $block .= "<table id='personaIndexTable' cellpadding='0' cellspacing='0'>"
-                . "<tr><th class='surname'>Surname</th>"
-                . "<th class='given'>Name</th><th class='dates'>Dates</th>"
-                . "<th class='page'>Link</th></tr>";
+                . "<tr><th  style='background-color:$hdrcolor' class='surname'>Surname</th>"
+                . "<th style='background-color:$hdrcolor' class='given'>Name</th>"
+                . "<th style='background-color:$hdrcolor' class='dates'>Dates</th>"
+                . "<th style='background-color:$hdrcolor' class='page'>Link</th></tr>";
         $evenodd = 'even';
+        $evencolor = ((isset($options['index_even_color']) && !empty($options['index_even_color'])) 
+                        ? $options['index_even_color'] : 'white');
+        $oddcolor = ((isset($options['index_odd_color']) && !empty($options['index_odd_color'])) 
+                        ? $options['index_odd_color'] : '#DDDDDD');
+        $evenoddcolor = $evencolor;
         foreach ( $index AS $persona ) {
-            $block .= "<tr class='" . $evenodd . "'><td class='surname'>"
-                    . $persona->surname . "</td><td class='given'>"
-                    . $persona->given . "</td><td class='dates'>"
+            $block .= "<tr class='" . $evenodd . "'><td style='background-color:$evenoddcolor' class='surname'>"
+                    . $persona->surname . "</td><td style='background-color:$evenoddcolor' class='given'>"
+                    . $persona->given . "</td><td style='background-color:$evenoddcolor' class='dates'>"
                     . ( $hide_dates == 1 ? ' ' : ( $persona->birth_date . ' - '
                     . $persona->death_date ) )
-                    . "</td><td class='page'><a href='" . $home_url . "?page_id="
+                    . "</td><td style='background-color:$evenoddcolor' class='page'><a href='" . $home_url . "?page_id="
                     . $persona->page . "'>" . $persona->page . "</a>"
                     . "</td></tr>";
             $evenodd = ( $evenodd == 'even' ) ? 'odd' : 'even';
+            $evenoddcolor = ( $evenodd == 'even' ) ? $evencolor : $oddcolor;
         }
         $block .= '</table>' . $xofy . $pagination;
         return $block;

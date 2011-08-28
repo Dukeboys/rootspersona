@@ -244,8 +244,12 @@ class RP_Persona_Installer {
                 wp_delete_post( $page->ID, $force_delete );
                 set_time_limit( 60 );
             }
+            else if ( preg_match( '/rootsEvidencePage/', $page->post_content ) ) {
+                wp_delete_post( $page->ID, $force_delete );
+                set_time_limit( 60 );
+            }
         }
-
+ 
         $creator = new RP_Table_Creator();
         $creator->update_tables( $this->sql_file_to_drop_tables, $prefix );
     }
