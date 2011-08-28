@@ -338,6 +338,9 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 } else if ( $action == 'delete' ) {
                     echo $mender->delete_pages( $options );
                     return;
+                } else if ( $action == 'deldata' ) {
+                    echo $mender->delete_data( $options );
+                    return;
                 } else if ( $action == 'addEvidencePages' ) {
                     return $mender->add_evidence_pages( $options );
                 } else if ( $action == 'convert2' ) {
