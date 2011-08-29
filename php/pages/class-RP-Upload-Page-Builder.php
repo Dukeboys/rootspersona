@@ -9,8 +9,10 @@ class RP_Upload_Page_Builder {
      * @param array $options
      * @return string
      */
-    function build($action, $msg = '', $options) {
+    function build($action, $msg = '', $options, $batchids) {
 
+        $display = count( $batchids ) > 1? 'display:inline' : 'display:none';
+        $default = '1';
         $block = '<div style="overflow:hidden;width:60%;margin:40px;"><div><i>'
                 . __('Please note that GEDCOM processing is the most system taxing processing this plugin performs', 'rootspersona')
                 . '. ' . __('The system will be uploading the file AND parsing each person into the database', 'rootspersona')
@@ -19,9 +21,30 @@ class RP_Upload_Page_Builder {
                 . '.</i></div>';
 
         $block .= "<form enctype='multipart/form-data' action='$action' method='POST'>"
-                . "<br/>&#160;&#160;<input type='file' name='gedcomFile' size='60'/>"
+                . "<div style='overflow:hidden;margin:10px;'>"
+                . "<label class='label8' for='batchid'>Batch Id:</label>"
+                . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default'/>"
+                
+                . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
+                //. "<label class='label8' for='batchid'>&nbsp;</label>"
+                . "<select id='batchids' name='batchids' style='zIndex=1;'"
+                . " onchange='javascript:synchBatchText();'>";
+        
+       foreach ( $batchids as $id ) {
+        //for ($id=1; $id< 10; $id++) {
+            $selected = $id==$default?'selected':'';
+           $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";  
+       }
+                    
+        $block .= "</select></span><span style='color:red;font-style:italic;margin-left:10px;font-size:smaller;'>"
+                . sprintf( __('Please note that %s cannot link persons in different batches', 'rootspersona'), 'rootspersona')
+                . "</span></div>"                
+                
+                . "<div style='overflow:hidden;margin:10px;'>"
+                . "<label class='label8' for='gedcom'>GEDCOM File:</label><input type='file' name='gedcomFile' size='60'/></div>"
+
                 . "<br/>&#160;&#160;<input type='submit' class='button' name='submitUploadGedcomForm' value='"
-                . __('Upload', 'rootspersona') . "'/>"
+                . __('Upload', 'rootspersona') . "' onclick='document.body.style.cursor=\"wait\";'/>"
                 . "&#160;&#160;<input type='reset' name='reset' value='"
                 . __('Reset', 'rootspersona') . "'/>"
                 . "<div style='text-align:center;color:red;font-weight:bold'>$msg</div>"

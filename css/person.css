@@ -135,3 +135,21 @@ table.form-table tr td.left-label {
    width: 170px;
    display: inline-block;
 }
+
+.label4,
+.label6,
+.label8 {
+	display: inline-block;
+	text-align:right;
+	padding:0px 4px 0px 0px;
+}
+
+.label4 {
+	width:4em;
+}
+.label6 {
+	width:6em;
+}
+.label8 {
+	width:8em;
+}

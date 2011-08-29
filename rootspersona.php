@@ -181,10 +181,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @global wpdb $wpdb
          * @return string
          */
-        function edit_persona_page_handler( ) {
+        function edit_persona_page_handler( $atts, $content = null, $callback = null ) {
             global $wpdb;
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
-            $batch_id = '1';
+            $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $options = get_option( 'persona_plugin' );
             if ( !isset( $_POST['submitPersonForm'] ) ) {
                 $persona_id  = isset( $_GET['personId'] )
@@ -233,31 +233,46 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             }
         }
 
+        function my_action_callback() {
+            global $wpdb; // this is how you get access to the database
+
+            if ( isset( $_GET['refresh'] ) ) {
+                $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
+                $transaction = new RP_Transaction( $this->credentials, true );
+                $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                        ->get_persons_no_page( $batch_id );
+                $transaction->close();   
+                echo json_encode($persons);
+            }
+
+            die(); // this is required to return a proper result
+        }
+        
         /**
          *
          * @global wpdb $wpdb
          * @return string
          */
-        function add_page_handler() {
+        function add_page_handler(  ) {
             global $wpdb;
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
             $msg = '';
             $options = get_option( 'persona_plugin' );
+            $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
             $transaction = new RP_Transaction( $this->credentials, false );
-            if ( isset( $_POST['submitAddPageForm'] ) )
-            {
+            if ( isset( $_POST['submitAddPageForm'] ) ) {
                 $persons  = $_POST['persons'];
-
+                $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
                 if ( !isset( $persons ) || count( $persons ) == 0 ) {
                     $msg = __( 'No people selected.', 'rootspersona' );
                 } else {
                     foreach ( $persons as $p ) {
                         $name = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
-                                ->get_fullname( $p, 1 );
-                        $pageId = RP_Persona_Helper::add_page( $p, $name, $options );
+                                ->get_fullname( $p, $batch_id );
+                        $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id );
                         if ( $pageId != false ) {
                             RP_Dao_Factory::get_rp_indi_dao( $wpdb->prefix )
-                                    ->update_page( $p, 1, $pageId );
+                                    ->update_page( $p, $batch_id, $pageId );
                             $msg = $msg . '<br/>'
                                     . sprintf( __( 'Page %s created for', 'rootspersona' ),
                                             $pageId )
@@ -272,11 +287,12 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     }
                 }
             }
-
+            $batchids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                        ->get_batch_ids( );
             $builder = new RP_Add_Page_Builder();
             $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
-                    ->get_persons_no_page( 1 );
-            $retStr = $builder->build( $action, $persons, $msg, $options );
+                    ->get_persons_no_page( $batch_id );
+            $retStr = $builder->build( $action, $persons, $msg, $options, $batch_id, $batchids );
             $transaction->commit();
             return $retStr;
         }
@@ -286,12 +302,11 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @global wpdb $wpdb
          * @return string
          */
-        function include_page_handler() {
+        function include_page_handler(  ) {
             global $wpdb;
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
             $msg = '';
             $options = get_option( 'persona_plugin' );
-            $batch_id = 1;
             if ( isset( $_POST['submitIncludePageForm'] ) )
             {
                 $persons  = $_POST['persons'];
@@ -320,7 +335,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @return string
          */
-        function utility_page_handler() {
+        function utility_page_handler(  ) {
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=util');
             $msg = '';
             $options = get_option( 'persona_plugin' );
@@ -357,14 +372,16 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @return string
          */
-        function upload_gedcom_handler() {
+        function upload_gedcom_handler( ) {
+            global $wpdb;
+            
             if ( !current_user_can( 'upload_files' ) ) {
                 wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
             }
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=upload');
             $msg = '';
             $retStr = '';
-
+            $batch_id='1';
             if ( isset( $_POST['submitUploadGedcomForm'] ) )
             {
                 if ( !is_uploaded_file( $_FILES['gedcomFile']['tmp_name'] ) ) {
@@ -375,11 +392,11 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     if ( WP_DEBUG === true ){
                         $time_start = microtime( true );
                     }
-
+                    $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
                     $fileName = $_FILES['gedcomFile']['tmp_name'];
                     $loader = new RP_Gedcom_Loader();
                     set_time_limit( 60 );
-                    $loader->load_tables( $this->credentials, $fileName );
+                    $loader->load_tables( $this->credentials, $fileName, $batch_id );
                     unlink( $_FILES['gedcomFile']['tmp_name'] );
 
                     if ( WP_DEBUG === true ){
@@ -394,12 +411,17 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 // The wp_redirect command uses a PHP redirect at its core,
                 // therefore, it will not work either after header information
                 // has been defined for a page.
-                $location = admin_url('/tools.php?page=rootsPersona&rootspage=create');;
+                $location = admin_url('/tools.php?page=rootsPersona&rootspage=create&batch_id=' . $batch_id);
                 $retStr = '<script type = "text/javascript">window.location = "'
                         . $location . '"; </script>';
             } else {
+                $transaction = new RP_Transaction( $this->credentials, true );
+                $batchids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                            ->get_batch_ids( );
+                $transaction->close();
+
                 $builder = new RP_Upload_Page_Builder();
-                $retStr = $builder->build( $action,$msg,$options );
+                $retStr = $builder->build( $action,$msg,$options, $batchids );
             }
             return $retStr;
         }
@@ -689,5 +711,6 @@ if ( isset( $roots_persona_plugin ) ) {
     load_plugin_textdomain('rootspersona', false, WP_PLUGIN_DIR . '/rootspersona/localization');
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
+    add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );
 }
 ?>

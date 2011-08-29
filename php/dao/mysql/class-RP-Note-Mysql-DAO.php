@@ -73,7 +73,7 @@ class RP_Note_Mysql_Dao extends Rp_Mysql_DAO {
 	protected function read_row( $row ) {
 		$rp_note = new RP_Note_Rec();
 		$rp_note->id = $row['id'];
-        $rp_note->batch_id = '1';
+        $rp_note->batch_id =  $row['batch_id'];
 		$rp_note->cite_id = $row['cite_id'];
 		$rp_note->auto_rec_id = $row['auto_rec_id'];
 		$rp_note->ged_change_date = $row['ged_change_date'];

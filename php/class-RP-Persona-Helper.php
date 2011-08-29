@@ -166,9 +166,8 @@ class RP_Persona_Helper {
      * @param array $options
      * @return integer
      */
-    public static function add_page( $person, $name, $options ) {
+    public static function add_page( $person, $name, $options, $batch_id ) {
         // Create post object
-        $batch_id = 1;
         $my_post = array();
         $my_post['post_title'] = $name;
         $my_post['post_content'] = "[rootsPersona personId='$person' batchId='$batch_id'/]";

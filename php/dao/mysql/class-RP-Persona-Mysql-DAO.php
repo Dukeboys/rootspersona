@@ -100,6 +100,20 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         return $cnt;
     }
 
+    public function get_batch_ids(  ) {
+        $sql = 'SELECT DISTINCT batch_id FROM rp_indi';
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        $batchids = array();
+        if ( $rows > 0 ) {
+            $cnt = count( $rows );
+            for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $batchids[] = $rows[$idx]['batch_id'];
+            }
+        }
+        return $batchids;
+    }
+    
     public function get_indexed_page( $batch_id, $surname, $page, $per_page, $set = 'paginated' ) {
         $sql = 'SELECT ri.id AS id'
                 . ',rnp.surname AS surname'

@@ -52,13 +52,20 @@ class RP_Gedcom_Loader {
      * @var RP_Credentials
      */
     var $credentials;
+    
+    /**
+     *
+     * @var integer 
+     */
+    var $batch_id;
 
     /**
      *
      * @param RP_Credentials $credentials
      * @param string $gedcom_file
      */
-    function load_tables( $credentials, $gedcom_file ) {
+    function load_tables( $credentials, $gedcom_file, $batch_id ) {
+        $this->batch_id = $batch_id;
         $this->credentials = $credentials;
         $this->ged = new RP_Gedcom_Manager();
         $this->ged->parse( $gedcom_file, $this );
@@ -93,7 +100,7 @@ class RP_Gedcom_Loader {
         $need_update = false;
         $note_rec = new RP_Note_Rec();
         $note_rec->id = $note->id;
-        $note_rec->batch_id = 1;
+        $note_rec->batch_id = $this->batch_id;
         $note_rec->submitter_text = $note->text;
 
         try {
@@ -127,7 +134,7 @@ class RP_Gedcom_Loader {
         $need_update = false;
         $indi = new RP_Indi();
         $indi->id = $person->id;
-        $indi->batch_id = 1;
+        $indi->batch_id = $this->batch_id;
         $indi->restriction_notice = $person->restriction;
         $indi->gender = $person->gender;
         $indi->perm_rec_file_nbr = $person->perm_rec_file_nbr;
@@ -166,11 +173,11 @@ class RP_Gedcom_Loader {
      */
     function update_notes( $person ) {
         RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
-                ->delete_by_indi_id($person->id, 1);
+                ->delete_by_indi_id($person->id, $this->batch_id );
         if( isset ( $person->notes ) && count( $person->notes ) > 0 ) {
             foreach ( $person->notes AS $note ) {
                 $new_note = new RP_Indi_Note();
-                $new_note->indi_batch_id = 1;
+                $new_note->indi_batch_id = $this->batch_id;
                 $new_note->indi_id = $person->id;
                 $new_note->note_rec_id = $note->id;
                 $new_note->note = $note->text;
@@ -190,13 +197,13 @@ class RP_Gedcom_Loader {
      * @param RP_Individual_Record $person
      */
     function update_family_links( $person ) {
-        RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $person->id, 1 );
+        RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $person->id, $this->batch_id  );
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;
-            $link->indi_batch_id = 1;
+            $link->indi_batch_id = $this->batch_id;
             $link->fam_id = $spousal->family_id;
-            $link->fam_batch_id = 1;
+            $link->fam_batch_id = $this->batch_id;
             $link->link_type = 'S';
             try {
                 RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
@@ -208,9 +215,9 @@ class RP_Gedcom_Loader {
         foreach ( $person->child_family_links as $child ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;
-            $link->indi_batch_id = 1;
+            $link->indi_batch_id = $this->batch_id;
             $link->fam_id = $child->family_id;
-            $link->fam_batch_id = 1;
+            $link->fam_batch_id = $this->batch_id;
             $link->link_type = 'C';
             $link->link_status = $child->linkage_status;
             $link->pedigree = $child->linkage_type;
@@ -228,7 +235,7 @@ class RP_Gedcom_Loader {
      * @param RP_Individual_Record $person
      */
     function update_indi_events( $person ) {
-        $old_events = RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->load_list( $person->id, 1 );
+        $old_events = RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->load_list( $person->id, $this->batch_id );
         if ( $old_events != null
         && count( $old_events ) > 0 ) {
             foreach ( $old_events as $eve ) {
@@ -236,7 +243,7 @@ class RP_Gedcom_Loader {
                 RP_Dao_Factory::get_rp_event_cite_dao( $this->credentials->prefix )->delete_by_event_id( $eve->event_id );
                 RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->delete_orphans();
             }
-            RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, 1 );
+            RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, $this->batch_id );
         }
         foreach ( $person->events as $p_event ) {
             $event = new RP_Event_Detail();
@@ -258,14 +265,14 @@ class RP_Gedcom_Loader {
             }
             $indi_event = new RP_Indi_Event();
             $indi_event->indi_id = $person->id;
-            $indi_event->indi_batch_id = 1;
+            $indi_event->indi_batch_id = $this->batch_id;
             $indi_event->event_id = $id;try {
                 RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->insert( $indi_event );
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 throw $e;
             }
-            $this->update_event_citations( $id, 1, $p_event->citations );
+            $this->update_event_citations( $id, $this->batch_id, $p_event->citations );
         }
     }
 
@@ -274,13 +281,13 @@ class RP_Gedcom_Loader {
      * @param RP_Individual_Record $person
      */
     function update_names( $person ) {
-        $old_names = RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->load_list( $person->id, 1 );
+        $old_names = RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->load_list( $person->id, $this->batch_id );
         if ( $old_names != null
         && count( $old_names ) > 0 ) {
             foreach ( $old_names as $name ) {
                 RP_Dao_Factory::get_rp_name_personal_dao( $this->credentials->prefix )->delete( $name->name_id );
             }
-            RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, 1 );
+            RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, $this->batch_id );
         }
         $seq = 1;
         foreach ( $person->names as $p_name ) {
@@ -304,7 +311,7 @@ class RP_Gedcom_Loader {
             }
             $indi_name = new RP_Indi_Name();
             $indi_name->indi_id = $person->id;
-            $indi_name->indi_batch_id = 1;
+            $indi_name->indi_batch_id = $this->batch_id;
             $indi_name->name_id = $id;
             $indi_name->seq_nbr = $seq++;
             try {
@@ -324,12 +331,12 @@ class RP_Gedcom_Loader {
         $need_update = false;
         $fam = new RP_Fam();
         $fam->id = $family->id;
-        $fam->batch_id = 1;
+        $fam->batch_id = $this->batch_id;
         $fam->restriction_notice = $family->restriction;
         $fam->spouse1 = $family->husband;
-        $fam->indi_batch_id1 = 1;
+        $fam->indi_batch_id1 = $this->batch_id;
         $fam->spouse2 = $family->wife;
-        $fam->indi_batch_id2 = 1;
+        $fam->indi_batch_id2 = $this->batch_id;
         $fam->auto_rec_id = $family->auto_rec_id;
         $fam->ged_change_date = $family->change_date->date;
         try {
@@ -361,13 +368,13 @@ class RP_Gedcom_Loader {
      * @param RP_Family_Record $family
      */
     function update_children( $family ) {
-        RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $family->id, 1 );
+        RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $family->id, $this->batch_id);
         foreach ( $family->children as $child ) {
             $fam_child = new RP_Fam_Child();
             $fam_child->fam_id = $family->id;
-            $fam_child->fam_batch_id = 1;
+            $fam_child->fam_batch_id = $this->batch_id;
             $fam_child->child_id = $child;
-            $fam_child->indi_batch_id = 1;
+            $fam_child->indi_batch_id = $this->batch_id;
             try {
                 $id = RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->insert( $fam_child );
             } catch ( Exception $e ) {
@@ -382,7 +389,7 @@ class RP_Gedcom_Loader {
      * @param RP_Family_Record $family
      */
     function update_fam_events( $family ) {
-        $old_events = RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->load_list( $family->id, 1 );
+        $old_events = RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->load_list( $family->id, $this->batch_id );
         if ( $old_events != null
         && count( $old_events ) > 0 ) {
             foreach ( $old_events as $eve ) {
@@ -390,7 +397,7 @@ class RP_Gedcom_Loader {
                 RP_Dao_Factory::get_rp_event_cite_dao( $this->credentials->prefix )->delete_by_event_id( $eve->event_id );
                 RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->delete_orphans();
             }
-            RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->delete_by_fam( $family->id, 1 );
+            RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->delete_by_fam( $family->id, $this->batch_id );
         }
         foreach ( $family->events as $p_event ) {
             $event = new RP_Event_Detail();
@@ -412,14 +419,14 @@ class RP_Gedcom_Loader {
             }
             $fam_event = new RP_Fam_Event();
             $fam_event->fam_id = $family->id;
-            $fam_event->fam_batch_id = 1;
+            $fam_event->fam_batch_id = $this->batch_id;
             $fam_event->event_id = $id;try {
                 RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->insert( $fam_event );
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 throw $e;
             }
-            $this->update_event_citations( $id, 1, $p_event->citations );
+            $this->update_event_citations( $id, $this->batch_id, $p_event->citations );
         }
     }
 
@@ -464,7 +471,7 @@ class RP_Gedcom_Loader {
         $need_update = false;
         $src = new RP_Source();
         $src->id = $source->id;
-        $src->batch_id = 1;
+        $src->batch_id = $this->batch_id;
         $src->originator = $source->author;
         $src->source_title = $source->title;
         $src->abbr = $source->abbreviated_title;
@@ -500,11 +507,11 @@ class RP_Gedcom_Loader {
      * @param RP_Source_Record $source
      */
     function update_src_notes( $source ) {
-        RP_Dao_Factory::get_rp_source_note_dao( $this->credentials->prefix )->delete_by_src( $source->id, 1 );
+        RP_Dao_Factory::get_rp_source_note_dao( $this->credentials->prefix )->delete_by_src( $source->id, $this->batch_id  );
         foreach ( $source->notes as $note ) {
             $src_note = new RP_Source_Note();
             $src_note->source_id = $source->id;
-            $src_note->source_batch_id = 1;
+            $src_note->source_batch_id = $this->batch_id;
             $src_note->note_rec_id = $note->id;
             $src_note->note = $note->text;
             try {
