@@ -341,6 +341,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options = get_option( 'persona_plugin' );
             if ( isset( $_GET['utilityAction'] ) ) {
                 $action  = $_GET['utilityAction'];
+                $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
                 $mender = new RP_Persona_Site_Mender( $this->credentials );
                 if ( $action == 'validatePages' ) {
                     return $mender->validate_pages( $options, false );
@@ -357,7 +358,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     echo $mender->delete_data( $options );
                     return;
                 } else if ( $action == 'addEvidencePages' ) {
-                    return $mender->add_evidence_pages( $options );
+                    return $mender->add_evidence_pages( $options, $batch_id );
                 } else if ( $action == 'convert2' ) {
                     $installer = new RP_Persona_Installer();
                     return $installer->convert2( $options );

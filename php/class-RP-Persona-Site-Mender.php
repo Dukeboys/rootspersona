@@ -342,8 +342,7 @@ class RP_Persona_Site_Mender {
      * @param array $options
      * @return string
      */
-    function add_evidence_pages( $options ) {
-        $batch_id = 1;
+    function add_evidence_pages( $options, $batch_id ) {
         $transaction = new RP_Transaction( $this->credentials, false );
         $sources = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                 ->get_source_no_page( $batch_id );
