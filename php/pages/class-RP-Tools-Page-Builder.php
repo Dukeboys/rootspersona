@@ -58,7 +58,7 @@ class RP_Tools_Page_Builder {
     function get_excluded() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' id='review' name='review' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='review' name='review' onclick='javascript:revealBatchSpan(this);'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -71,7 +71,7 @@ class RP_Tools_Page_Builder {
     function get_validate() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' id='validate' name='validate' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='validate' name='validate' onclick='javascript:revealBatchSpan(this);'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -98,7 +98,7 @@ class RP_Tools_Page_Builder {
     function get_delete() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' id='delete' name='delete' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='delete' name='delete' onclick='javascript:revealBatchSpan(this);'>"
                 . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -112,7 +112,7 @@ class RP_Tools_Page_Builder {
 
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this);'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
