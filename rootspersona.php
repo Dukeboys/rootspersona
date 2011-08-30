@@ -263,9 +263,9 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             if ( isset( $_POST['submitAddPageForm'] ) ) {
                 $persons  = $_POST['persons'];
                 $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
-                //if ( !isset( $persons ) || count( $persons ) == 0 ) {
-                //    $msg = __( 'No people selected.', 'rootspersona' );
-                //} else {
+                if ( !isset( $persons ) || count( $persons ) == 0 ) {
+                    $msg = __( 'No people selected.', 'rootspersona' );
+                } else {
                     foreach ( $persons as $p ) {
                         $name = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                                 ->get_fullname( $p, $batch_id );
@@ -285,7 +285,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         }
                         set_time_limit( 60 );
                     }
-                //}
+                }
             }
 
             $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
@@ -299,7 +299,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
             $builder = new RP_Add_Page_Builder();
             $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
-                    ->get_persons_no_page( $batch_id );
+                    ->get_persons_no_page( $batch_ids[0] );
             $retStr = $builder->build( $action, $persons, $msg, $options, $batch_ids );
             $transaction->commit();
             return $retStr;

@@ -17,7 +17,7 @@ class RP_Add_Page_Builder {
 		if ( count( $persons ) == 0 ) {
 			$block .= "<br/><div style='text-align:center;color:red;font-weight:bold'>"
                     . __( 'All available persons have been added.', 'rootspersona' ) . "</div>";
-		} else {
+		} //else {
 			$block .= "<form  action='" . $action . "' method='POST'>"
                 . "<div style='overflow:hidden;margin:10px;'>"
                 . "<label class='label4' for='batch_id'>Batch Id:</label>"
@@ -54,7 +54,7 @@ class RP_Add_Page_Builder {
                     . __( 'Reset', 'rootspersona' ) . "'/>"
                     . "</td><td/></tr></tbody></table><br/><br/><div class='personBanner'><br/></div>"
                     . "</form></div>";
-		}
+		//}
 		return $block;
 	}
 }
