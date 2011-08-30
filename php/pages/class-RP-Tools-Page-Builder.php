@@ -6,87 +6,151 @@ class RP_Tools_Page_Builder {
      *
      * @param array $options
      */
-    function build( $options ) {
+    function build( $options, $batch_ids ) {
         $win1 = __( 'All persona pages will be deleted. Does not include utilities. Proceed?',
                 'rootspersona' );
         $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
             . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
+        
 
-        $block = "<div class='wrap'><h2>rootsPersona</h2>"
-                . "<table class='form-table'>"
+        
+        $block = "<div class='wrap'>"
+                . "<h2>rootsPersona</h2>"
+                . "<table class='form-table'>";
 
-                // Upload
-                . "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
-                
-                . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
-                . "<td style='vertical-align:middle'>"
-                . __( 'Upload (or re-upload) a GEDCOM file.', 'rootspersona' )
-                . "</td></tr>"
+        $block .=  $this->get_upload();
+        $block .=  $this->get_add();
+        $block .=  $this->get_evidence();
+        $block .=  $this->get_excluded();
+        $block .=  $this->get_validate();
+        $block .=  $this->get_delete();
+        $block .=  $this->get_conversion();
 
-                //  Add
-                . "<tr style='vertical-align: top'>"
+        $block .= "</table></div>";
+        return $block;
+    }
+    
+    function get_upload() {
+        $block =  "<tr style='vertical-align: top'>"
+            . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
+            . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
+
+            . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
+            . "<td style='vertical-align:middle'>"
+            . __( 'Upload (or re-upload) a GEDCOM file.', 'rootspersona' )
+            . "</td></tr>";
+        return $block;
+    }
+    
+    function get_add() {
+        $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'>"
-                
+
                 . __( 'Add Uploaded Persons', 'rootspersona' )
                 . "</a></div></td>"
                 . "<td style='vertical-align:middle'>"
                 . __( 'Review the list of people you have uploaded but not created pages for.', 'rootspersona' )
-                . "</td></tr>"
-
-                // Excluded
-                . "<tr style='vertical-align: top'>"
+                . "</td></tr>";
+        return $block;
+    }
+    
+    function get_excluded() {
+        $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=include') . "'>"
                 
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
-                . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' ) . "</td></tr>"
-
-                // Validate
-                . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-                . "&utilityAction=validatePages'>"
-                . __( 'Validate persona Pages', 'rootspersona' ) . "</a></div></td>"
-                . "<td style='vertical-align:middle'>"
-                . sprintf( __( 'Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in the database, or reference in the database with no corresponding page.', 'rootspersona' ), "persona", "[rootsPersona/]" )
-                . "<br/>"
-                . __( "Will also identify/sync pages with the wrong parent page assigned." )
-                . "</td></tr>"
-
-                // Add Evidence
-                . "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-                . "&utilityAction=addEvidencePages'>"
-                . __( 'Add Evidence Pages', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
-                . __( 'Add missing evidence pages.', 'rootspersona' ) . "</td></tr>"
-
-                // Delete persona
-                . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
-                . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\""
-                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-                . "&utilityAction=delete\");return false;'>"
-                . __( 'Delete persona Pages', 'rootspersona' )
-                . "</a></div></td>"
-                . "<td style='vertical-align:middle'>"
-                . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. This will NOT delete data, only pages.', 'rootspersona' ), "persona", "[rootsPersona/]" )
-                . "</td></tr>"
-
-                // Convert
-                . "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
-                . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
-                . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-                . "&utilityAction=convert2\");return false;'>"
-                . __( 'Convert to 2.x Format', 'rootspersona' )
-                . "</a></div></td>"
-                . "<td style='vertical-align:middle'>"
-                . __( 'Perform a bulk conversion from the pre 2.x file format to the 2.x database format.', 'rootspersona' )
-                . "</td></tr>"
-                . "</table>"
-                . "</div>";
+                . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' ) 
+                . "</td></tr>";
         return $block;
+    }
+    
+    function get_validate() {
+        $block .=  "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
+            . admin_url('/tools.php?page=rootsPersona&rootspage=util')
+            . "&utilityAction=validatePages'>"
+            . __( 'Validate persona Pages', 'rootspersona' ) . "</a></div></td>"
+            . "<td style='vertical-align:middle'>"
+            . sprintf( __( 'Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in the database, or reference in the database with no corresponding page.', 'rootspersona' ), "persona", "[rootsPersona/]" )
+            . "<br/>"
+            . __( "Will also identify/sync pages with the wrong parent page assigned." )
+            . "</td></tr>";
+        return $block;
+    }
+    
+    function get_conversion() {
+      $block .= "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
+            . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
+            . admin_url('/tools.php?page=rootsPersona&rootspage=util')
+            . "&utilityAction=convert2\");return false;'>"
+            . __( 'Convert to 2.x Format', 'rootspersona' )
+            . "</a></div></td>"
+            . "<td style='vertical-align:middle'>"
+            . __( 'Perform a bulk conversion from the pre 2.x file format to the 2.x database format.', 'rootspersona' )
+            . "</td></tr>";
+      return $block;
+    }
+    
+    function get_delete() {
+          $block .=  "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
+                    . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\""
+                    . admin_url('/tools.php?page=rootsPersona&rootspage=util')
+                    . "&utilityAction=delete\");return false;'>"
+                    . __( 'Delete persona Pages', 'rootspersona' )
+                    . "</a></div></td>"
+                    . "<td style='vertical-align:middle'>"
+                    . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. This will NOT delete data, only pages.', 'rootspersona' ), "persona", "[rootsPersona/]" )
+                    . "</td></tr>";
+          return $block;
+    }
+    
+    function get_evidence( $batch_ids ) {
+        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
+        $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
+        
+        $jscript2 = "url='" 
+                  . admin_url('/tools.php?page=rootsPersona&rootspage=util&utilityAction=addEvidencePages&batch_id=')  
+                  . "' + jQuery('#batch_id').val();window.location=url;";
+      
+        $jscript1 = '';
+        if( count($batch_ids) > 1 ) {
+          $jscript1 = "jQuery('#e_batchspan').show();jQuery('#e_batchlabel').hide();";
+        } else {
+          $jscript1 = $jscript2;
+        }
+        
+        $block =  "<tr style='vertical-align: top'>"
+                . "<td style='width:200px;'>"
+                . "<div class='rp_linkbutton' onclick=\"javascript:" . $jscript1 . "return false;\">"
+                . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
+                . "<td style='vertical-align:middle'>";
+      
+        if( count( $batch_ids ) > 1 ) {        
+          $block .=  "<span id='e_batchspan' style='display:none;overflow:hidden;margin:10px 10px 10px 0px;'>"
+                    . "<label class='label4' for='batch_id'>Batch Id:</label>"
+                    . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default'/>"
+                    . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
+                    . "<select id='batch_ids' name='batch_ids' style='zIndex=1;'"
+                    . " onchange='javascript:synchBatchText();'>";
+
+          foreach ( $batch_ids as $id ) {
+               $selected = $id==$default?'selected':'';
+               $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";  
+          }
+
+          $block .= "</select></span>"
+                    . "<input style='margin-left:0.5em;' type='button' value='Add' onclick=\"javascript:" . $jscript2 . "return false;\">"
+                    . "<span style='display:inline-block;width:0.5em;'>&nbsp;</span>"
+                    . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#e_batchspan').hide();jQuery('#e_batchlabel').show();return false;\">"
+                    . "</span>";
+      } else {
+        $block .= "<input type='hidden' name='batch_id' id='batch_id' value='" . $default . "'/>";       
+      }
+      
+      $block .=  "<span id='e_batchlabel'>" . __( 'Add missing evidence pages.', 'rootspersona' ) 
+               . "</span></td></tr>";
+      return $block;
     }
 }
 ?>

@@ -9,10 +9,10 @@ class RP_Upload_Page_Builder {
      * @param array $options
      * @return string
      */
-    function build($action, $msg = '', $options, $batchids) {
+    function build($action, $msg = '', $options, $batch_ids) {
 
-        $display = count( $batchids ) > 1? 'display:inline' : 'display:none';
-        $default = '1';
+        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
+        $default = isset( $batch_ids[0] ) ? $batch_ids[0] : '1';
         $block = '<div style="overflow:hidden;width:60%;margin:40px;"><div><i>'
                 . __('Please note that GEDCOM processing is the most system taxing processing this plugin performs', 'rootspersona')
                 . '. ' . __('The system will be uploading the file AND parsing each person into the database', 'rootspersona')
@@ -22,15 +22,15 @@ class RP_Upload_Page_Builder {
 
         $block .= "<form enctype='multipart/form-data' action='$action' method='POST'>"
                 . "<div style='overflow:hidden;margin:10px;'>"
-                . "<label class='label8' for='batchid'>Batch Id:</label>"
+                . "<label class='label8' for='batch_id'>Batch Id:</label>"
                 . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default'/>"
                 
                 . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
                 //. "<label class='label8' for='batchid'>&nbsp;</label>"
-                . "<select id='batchids' name='batchids' style='zIndex=1;'"
+                . "<select id='batch_ids' name='batch_ids' style='zIndex=1;'"
                 . " onchange='javascript:synchBatchText();'>";
         
-       foreach ( $batchids as $id ) {
+       foreach ( $batch_ids as $id ) {
         //for ($id=1; $id< 10; $id++) {
             $selected = $id==$default?'selected':'';
            $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";  

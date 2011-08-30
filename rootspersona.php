@@ -258,14 +258,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
             $msg = '';
             $options = get_option( 'persona_plugin' );
-            $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
+
             $transaction = new RP_Transaction( $this->credentials, false );
             if ( isset( $_POST['submitAddPageForm'] ) ) {
                 $persons  = $_POST['persons'];
                 $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
-                if ( !isset( $persons ) || count( $persons ) == 0 ) {
-                    $msg = __( 'No people selected.', 'rootspersona' );
-                } else {
+                //if ( !isset( $persons ) || count( $persons ) == 0 ) {
+                //    $msg = __( 'No people selected.', 'rootspersona' );
+                //} else {
                     foreach ( $persons as $p ) {
                         $name = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                                 ->get_fullname( $p, $batch_id );
@@ -285,14 +285,22 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         }
                         set_time_limit( 60 );
                     }
-                }
+                //}
             }
-            $batchids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+
+            $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                         ->get_batch_ids( );
+
+            if( isset( $_GET['batch_id'] ) ) {
+                $batch_ids[0] = $_GET['batch_id'];
+            } else if(count($batch_ids) == 0) {
+                $batch_ids[0] = 1;
+            }
+
             $builder = new RP_Add_Page_Builder();
             $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                     ->get_persons_no_page( $batch_id );
-            $retStr = $builder->build( $action, $persons, $msg, $options, $batch_id, $batchids );
+            $retStr = $builder->build( $action, $persons, $msg, $options, $batch_ids );
             $transaction->commit();
             return $retStr;
         }
@@ -340,8 +348,19 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $msg = '';
             $options = get_option( 'persona_plugin' );
             if ( isset( $_GET['utilityAction'] ) ) {
+                
                 $action  = $_GET['utilityAction'];
-                $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
+                $transaction = new RP_Transaction( $this->credentials, true );
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                            ->get_batch_ids( );
+                $transaction->close();
+
+                if( isset( $_GET['batch_id'] ) ) {
+                    $batch_ids[0] = $_GET['batch_id'];
+                } else if(count($batch_ids) == 0) {
+                    $batch_ids[0] = 1;
+                }
+                
                 $mender = new RP_Persona_Site_Mender( $this->credentials );
                 if ( $action == 'validatePages' ) {
                     return $mender->validate_pages( $options, false );
@@ -358,7 +377,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     echo $mender->delete_data( $options );
                     return;
                 } else if ( $action == 'addEvidencePages' ) {
-                    return $mender->add_evidence_pages( $options, $batch_id );
+                    return $mender->add_evidence_pages( $options, $batch_ids );
                 } else if ( $action == 'convert2' ) {
                     $installer = new RP_Persona_Installer();
                     return $installer->convert2( $options );
@@ -417,12 +436,12 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         . $location . '"; </script>';
             } else {
                 $transaction = new RP_Transaction( $this->credentials, true );
-                $batchids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                             ->get_batch_ids( );
                 $transaction->close();
 
                 $builder = new RP_Upload_Page_Builder();
-                $retStr = $builder->build( $action,$msg,$options, $batchids );
+                $retStr = $builder->build( $action,$msg,$options, $batch_ids );
             }
             return $retStr;
         }
@@ -579,6 +598,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function build_roots_tools_page() {
+            global $wpdb;
             if( isset( $_GET['rootspage'] ) ) {
                 $page = $_GET['rootspage'];
                 if( $page == 'upload' ) {
@@ -593,11 +613,15 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     echo $this->utility_page_handler();
                 }
             } else {
+                $transaction = new RP_Transaction( $this->credentials, true );
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                        ->get_batch_ids( );
+                $transaction->close();
                 $options = get_option( 'persona_plugin' );
                 $options['home_url'] = home_url();
 
                 $builder = new RP_Tools_Page_Builder();
-                echo $builder->build( $options );
+                echo $builder->build( $options, $batch_ids );
             }
         }
 

@@ -70,9 +70,10 @@ jQuery(document).ready(function() {
 
 });
 
-function synchBatchText() {
-    var value = jQuery('#batchids option:selected').val();
-    jQuery('#batch_id').val(value);
+function synchBatchText(name) {
+    var n = ((typeof(name) != 'undefined') ? a : 'batch_id');
+    var value = jQuery('#' + n + 's option:selected').val();
+    jQuery('#' + n).val(value);
     return false;
 }
 
