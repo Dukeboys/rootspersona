@@ -293,7 +293,7 @@ class RP_Persona_Site_Mender {
      * @param array $options
      * @return string
      */
-    function delete_pages( $options ) {
+    function delete_pages( $options, $batch_id  ) {
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
         $pages = get_posts( $args );
         $cnt = 0;
@@ -314,7 +314,7 @@ class RP_Persona_Site_Mender {
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona&rootspage=util"
-                . "&utilityAction=deldata'>"
+                . "&utilityAction=deldata&batch_id=" . $batch_id . "'>"
             . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"    
             ."<span style='display:inline-block;width:5em;'>&#160;</span>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
@@ -324,7 +324,23 @@ class RP_Persona_Site_Mender {
         return $block;
     }
 
-    function delete_data( $options ) {
+    function delete_data( $options, $batch_id  ) {
+        $transaction = new RP_Transaction( $this->credentials, false );
+        RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->delete_all( $batch_id );
+        RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->delete_all($batch_id );
+        $transaction->commit();
+        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
+            . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
+            . "<br/>"
+            . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
+            . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+            . admin_url() . "tools.php?page=rootsPersona'>"
+            . __( 'Return', 'rootspersona' ) . "</a></span>"
+            . "</div></div>";
+        return $block;
+    }
+    
+    function purge_data( $options ) {
         global $wpdb;
         $creator = new RP_Table_Creator();
         $creator->update_tables( $this->sql_file_to_truncate_tables, $wpdb->prefix );
@@ -350,11 +366,12 @@ class RP_Persona_Site_Mender {
             $content = sprintf( "[rootsEvidencePage sourceId='%s' batchId='%s'/]", $src['id'], $batch_id );
             $page_id = RP_Persona_Helper::create_evidence_page( $src['title'], $content, $options );
             RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
-                    ->update_page( $src['id'], 1, $page_id );
+                    ->update_page( $src['id'], $batch_id, $page_id );
             set_time_limit( 60 );
         }
         $transaction->commit();
-        return count($sources) . ' ' . __('source pages added','rootspersona' ) . '.<br/>';
+        return count($sources) . ' ' 
+                .sprintf( __('source page(s) added for batchId %s','rootspersona' ), $batch_id ) . '.<br/>';
     }
 }
 ?>

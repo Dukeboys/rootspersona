@@ -134,7 +134,7 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
 	public function get_source_no_page( $batch_id ) {
 		$sql = "SELECT rs.id AS id, rs.abbr AS title"
                 . " FROM rp_source rs"
-                . " WHERE rs.wp_page_id IS null AND rs.batch_id = ?";
+                . " WHERE rs.wp_page_id IS NULL AND rs.batch_id = ?";
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set_number( $batch_id );
 		$rows = RP_Query_Executor::execute( $sql_query );

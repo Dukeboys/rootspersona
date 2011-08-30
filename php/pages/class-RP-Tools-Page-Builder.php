@@ -7,13 +7,6 @@ class RP_Tools_Page_Builder {
      * @param array $options
      */
     function build( $options, $batch_ids ) {
-        $win1 = __( 'All persona pages will be deleted. Does not include utilities. Proceed?',
-                'rootspersona' );
-        $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
-            . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
-
-
-
         $block = "<div class='wrap'>"
                 . "<h2>rootsPersona</h2>"
                 . "<table class='form-table'>";
@@ -26,7 +19,7 @@ class RP_Tools_Page_Builder {
         $block .=  $this->get_delete();
         $block .=  $this->get_conversion();
 
-        $block .= "</table>" . $this->get_secondary() . "</div>";
+        $block .= "</table>" . $this->get_secondary($batch_ids) . "</div>";
         return $block;
     }
 
@@ -83,7 +76,9 @@ class RP_Tools_Page_Builder {
     }
 
     function get_conversion() {
-      $block .= "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
+      $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
+            . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
+      $block = "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
             . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
             . admin_url('/tools.php?page=rootsPersona&rootspage=util')
             . "&utilityAction=convert2\");return false;'>"
@@ -108,7 +103,7 @@ class RP_Tools_Page_Builder {
         return $block;
     }
 
-    function get_evidence( $batch_ids ) {
+    function get_evidence( ) {
         $action = 'addEvidencePages';
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
@@ -122,7 +117,7 @@ class RP_Tools_Page_Builder {
       return $block;
     }
 
-    function get_secondary() {
+    function get_secondary($batch_ids) {
         $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
         $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
 

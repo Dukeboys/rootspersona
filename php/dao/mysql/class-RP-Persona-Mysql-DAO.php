@@ -105,7 +105,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
         $rows = RP_Query_Executor::execute( $sql_query );
         $batchids = array();
-        if ( $rows > 0 ) {
+        if ( $rows !== false && count($rows) > 0 ) {
             $cnt = count( $rows );
             for ( $idx = 0; $idx < $cnt; $idx++ ) {
                 $batchids[] = $rows[$idx]['batch_id'];

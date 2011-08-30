@@ -350,34 +350,29 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             if ( isset( $_GET['utilityAction'] ) ) {
                 
                 $action  = $_GET['utilityAction'];
-                $transaction = new RP_Transaction( $this->credentials, true );
-                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
-                            ->get_batch_ids( );
-                $transaction->close();
-
                 if( isset( $_GET['batch_id'] ) ) {
-                    $batch_ids[0] = $_GET['batch_id'];
-                } else if(count($batch_ids) == 0) {
-                    $batch_ids[0] = 1;
+                    $batch_id = $_GET['batch_id'];
+                } else {
+                    $batch_id = 1;
                 }
                 
                 $mender = new RP_Persona_Site_Mender( $this->credentials );
                 if ( $action == 'validatePages' ) {
-                    return $mender->validate_pages( $options, false );
+                    return $mender->validate_pages( $options, false, $batch_id  );
                 }else if ( $action == 'repairPages' ) {
-                    return $mender->validate_pages( $options, true );
+                    return $mender->validate_pages( $options, true, $batch_id  );
                 } else if ( $action == 'validateEvidencePages' ) {
-                    return $mender->validate_evidence_pages( $options, false );
+                    return $mender->validate_evidence_pages( $options, false, $batch_id  );
                 } else if ( $action == 'repairEvidencePages' ) {
-                    return $mender->validate_evidence_pages( $options, true );
+                    return $mender->validate_evidence_pages( $options, true, $batch_id  );
                 } else if ( $action == 'delete' ) {
-                    echo $mender->delete_pages( $options );
+                    echo $mender->delete_pages( $options, $batch_id  );
                     return;
                 } else if ( $action == 'deldata' ) {
-                    echo $mender->delete_data( $options );
+                    echo $mender->delete_data( $options, $batch_id  );
                     return;
                 } else if ( $action == 'addEvidencePages' ) {
-                    return $mender->add_evidence_pages( $options, $batch_ids );
+                    return $mender->add_evidence_pages( $options, $batch_id );
                 } else if ( $action == 'convert2' ) {
                     $installer = new RP_Persona_Installer();
                     return $installer->convert2( $options );
@@ -598,7 +593,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function build_roots_tools_page() {
-            global $wpdb;
             if( isset( $_GET['rootspage'] ) ) {
                 $page = $_GET['rootspage'];
                 if( $page == 'upload' ) {
@@ -614,7 +608,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
             } else {
                 $transaction = new RP_Transaction( $this->credentials, true );
-                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                         ->get_batch_ids( );
                 $transaction->close();
                 $options = get_option( 'persona_plugin' );
