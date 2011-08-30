@@ -58,7 +58,7 @@ class RP_Tools_Page_Builder {
     function get_excluded() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='review' name='review' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='review' name='review' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -71,7 +71,7 @@ class RP_Tools_Page_Builder {
     function get_validate() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='validate' name='validate' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='validate' name='validate' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -98,7 +98,7 @@ class RP_Tools_Page_Builder {
     function get_delete() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='delete' name='delete' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='delete' name='delete' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -109,10 +109,11 @@ class RP_Tools_Page_Builder {
     }
 
     function get_evidence( $batch_ids ) {
-
+        $action = 'addEvidencePages';
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this);'>"
+                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";'"
+                . "id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -124,10 +125,7 @@ class RP_Tools_Page_Builder {
     function get_secondary() {
         $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
         $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
-        $action = 'addEvidencePages';
-        $jscript2 = "url='"
-                  . admin_url('/tools.php?page=rootsPersona&rootspage=util&utilityAction=' . $action . '&batch_id=')
-                  . "' + jQuery('#batch_id').val();window.location=url;";
+
         $block =  '';
 
         //if( count( $batch_ids ) > 1 ) {
@@ -144,7 +142,7 @@ class RP_Tools_Page_Builder {
           }
 
           $block .= "</select></span>"
-                    . "<input style='margin-left:0.5em;' type='button' value='Process' onclick=\"javascript:" . $jscript2 . "return false;\">"
+                    . "<input style='margin-left:0.5em;' id='process_button' name ='process_button' type='button' value='Process'>"
                     . "<span style='display:inline-block;width:0.5em;'>&nbsp;</span>"
                     . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#batchspan').hide();jQuery('#batchlabel').show();return false;\">"
                     . "</span>";

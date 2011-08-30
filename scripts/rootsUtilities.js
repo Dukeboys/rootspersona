@@ -70,13 +70,42 @@ jQuery(document).ready(function() {
 
 });
 
-function revealBatchSpan(obj) {
+function processBatchSpan( event ) {
+    var myUrl = event.data.url
+                + '/tools.php?page=rootsPersona&rootspage=';
+    var action = event.data.action;
+    if (action == 'include') {
+        myUrl += action + '&batch_id=' + jQuery('#batch_id').val();
+    } else {
+        myUrl += 'util&utilityAction='
+            + action + '&batch_id=' + jQuery('#batch_id').val();
+    }
+
+    jQuery('#process_button').unbind('click', processBatchSpan);
+    window.location = myUrl;
+    return false;
+}
+
+function revealBatchSpan(obj, url) {
     var spanpos = jQuery('#' + obj.id).parent().next().children('span:first');
 
     if( jQuery('#batchspan').is(":visible") ) {
         jQuery('#batchspan').hide();
         spanpos.show();
     } else {
+        var action = '';
+        if (obj.id == 'evidence') {
+            action = 'addEvidencePages';
+        } else if(obj.id == 'delete') {
+            action = 'delete'
+        } else if(obj.id == 'validate') {
+            action = 'validatePages';
+        } else if(obj.id == 'review') {
+            action='include';
+        }
+
+        jQuery('#process_button').bind('click',{url: url, action: action}, processBatchSpan);
+
         var caller = spanpos.offset();
         spanpos.hide();
         jQuery('#batchspan').show();
@@ -85,9 +114,8 @@ function revealBatchSpan(obj) {
 }
 
 function synchBatchText(name) {
-    var n = ((typeof(name) != 'undefined') ? a : 'batch_id');
-    var value = jQuery('#' + n + 's option:selected').val();
-    jQuery('#' + n).val(value);
+    var value = jQuery('#batch_ids option:selected').val();
+    jQuery('#batch_id').val(value);
     return false;
 }
 
@@ -104,13 +132,13 @@ function refreshAddPerson() {
 	jQuery.get(ajaxurl, data, function(response) {
         document.body.style.cursor = "default";
         var res = jQuery.parseJSON(response);
-     jQuery("#persons").contents().remove();
-      jQuery.each(res, function(index,p) {
+    jQuery("#persons").contents().remove();
+        jQuery.each(res, function(index,p) {
             // add items to List box
             jQuery("#persons").append("<option id='" + p.id + "'>"
                         + p.surname + ", " + p.given + "</option");
-        } // end of function
-    );  // each
+            } // end of function
+        );  // each
 	});
 
     return false;
