@@ -11,9 +11,9 @@ class RP_Tools_Page_Builder {
                 'rootspersona' );
         $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
             . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
-        
 
-        
+
+
         $block = "<div class='wrap'>"
                 . "<h2>rootsPersona</h2>"
                 . "<table class='form-table'>";
@@ -26,10 +26,10 @@ class RP_Tools_Page_Builder {
         $block .=  $this->get_delete();
         $block .=  $this->get_conversion();
 
-        $block .= "</table></div>";
+        $block .= "</table>" . $this->get_secondary() . "</div>";
         return $block;
     }
-    
+
     function get_upload() {
         $block =  "<tr style='vertical-align: top'>"
             . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
@@ -41,7 +41,7 @@ class RP_Tools_Page_Builder {
             . "</td></tr>";
         return $block;
     }
-    
+
     function get_add() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
@@ -54,31 +54,34 @@ class RP_Tools_Page_Builder {
                 . "</td></tr>";
         return $block;
     }
-    
+
     function get_excluded() {
         $block =  "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=include') . "'>"
-                
-                . __( 'Review Excluded Persons', 'rootspersona' ) . "</a></div></td>" . "<td style='vertical-align:middle'>"
-                . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' ) 
-                . "</td></tr>";
+                . "<td style='width:200px;'>"
+                . "<div class='rp_linkbutton' id='review' name='review' onclick='javascript:revealBatchSpan(this);'>"
+                . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
+                . "<td style='vertical-align:middle'>";
+
+        $block .=  "<span id='batchlabel'>"
+                . __( 'Review people you have previous excluded, and include the ones you select.', 'rootspersona' )
+               . "</span></td></tr>";
         return $block;
     }
-    
+
     function get_validate() {
-        $block .=  "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-            . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-            . "&utilityAction=validatePages'>"
-            . __( 'Validate persona Pages', 'rootspersona' ) . "</a></div></td>"
-            . "<td style='vertical-align:middle'>"
-            . sprintf( __( 'Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in the database, or reference in the database with no corresponding page.', 'rootspersona' ), "persona", "[rootsPersona/]" )
-            . "<br/>"
-            . __( "Will also identify/sync pages with the wrong parent page assigned." )
-            . "</td></tr>";
+        $block =  "<tr style='vertical-align: top'>"
+                . "<td style='width:200px;'>"
+                . "<div class='rp_linkbutton' id='validate' name='validate' onclick='javascript:revealBatchSpan(this);'>"
+                . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
+                . "<td style='vertical-align:middle'>";
+
+        $block .=  "<span id='batchlabel'>"
+                . sprintf( __( 'Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in the database, or reference in the database with no corresponding page.', 'rootspersona' ), "persona", "[rootsPersona/]" )
+                . __( "Will also identify/sync pages with the wrong parent page assigned." )
+               . "</span></td></tr>";
         return $block;
     }
-    
+
     function get_conversion() {
       $block .= "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
             . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
@@ -91,43 +94,44 @@ class RP_Tools_Page_Builder {
             . "</td></tr>";
       return $block;
     }
-    
+
     function get_delete() {
-          $block .=  "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
-                    . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win1 . "\",\""
-                    . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-                    . "&utilityAction=delete\");return false;'>"
-                    . __( 'Delete persona Pages', 'rootspersona' )
-                    . "</a></div></td>"
-                    . "<td style='vertical-align:middle'>"
-                    . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. This will NOT delete data, only pages.', 'rootspersona' ), "persona", "[rootsPersona/]" )
-                    . "</td></tr>";
-          return $block;
-    }
-    
-    function get_evidence( $batch_ids ) {
-        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
-        $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
-        
-        $jscript2 = "url='" 
-                  . admin_url('/tools.php?page=rootsPersona&rootspage=util&utilityAction=addEvidencePages&batch_id=')  
-                  . "' + jQuery('#batch_id').val();window.location=url;";
-      
-        $jscript1 = '';
-        if( count($batch_ids) > 1 ) {
-          $jscript1 = "jQuery('#e_batchspan').show();jQuery('#e_batchlabel').hide();";
-        } else {
-          $jscript1 = $jscript2;
-        }
-        
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onclick=\"javascript:" . $jscript1 . "return false;\">"
+                . "<div class='rp_linkbutton' id='delete' name='delete' onclick='javascript:revealBatchSpan(this);'>"
+                . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
+                . "<td style='vertical-align:middle'>";
+
+        $block .=  "<span id='batchlabel'>"
+                . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. This will NOT delete data, only pages.', 'rootspersona' ), 'rootspersona')
+               . "</span></td></tr>";
+        return $block;
+    }
+
+    function get_evidence( $batch_ids ) {
+
+        $block =  "<tr style='vertical-align: top'>"
+                . "<td style='width:200px;'>"
+                . "<div class='rp_linkbutton' id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this);'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
-      
-        if( count( $batch_ids ) > 1 ) {        
-          $block .=  "<span id='e_batchspan' style='display:none;overflow:hidden;margin:10px 10px 10px 0px;'>"
+
+      $block .=  "<span id='batchlabel'>" . __( 'Add missing evidence pages.', 'rootspersona' )
+               . "</span></td></tr>";
+      return $block;
+    }
+
+    function get_secondary() {
+        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
+        $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
+        $action = 'addEvidencePages';
+        $jscript2 = "url='"
+                  . admin_url('/tools.php?page=rootsPersona&rootspage=util&utilityAction=' . $action . '&batch_id=')
+                  . "' + jQuery('#batch_id').val();window.location=url;";
+        $block =  '';
+
+        //if( count( $batch_ids ) > 1 ) {
+          $block .=  "<span id='batchspan' style='display:none;overflow:hidden;margin:10px 10px 10px 0px;'>"
                     . "<label class='label4' for='batch_id'>Batch Id:</label>"
                     . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default'/>"
                     . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
@@ -136,20 +140,17 @@ class RP_Tools_Page_Builder {
 
           foreach ( $batch_ids as $id ) {
                $selected = $id==$default?'selected':'';
-               $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";  
+               $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";
           }
 
           $block .= "</select></span>"
-                    . "<input style='margin-left:0.5em;' type='button' value='Add' onclick=\"javascript:" . $jscript2 . "return false;\">"
+                    . "<input style='margin-left:0.5em;' type='button' value='Process' onclick=\"javascript:" . $jscript2 . "return false;\">"
                     . "<span style='display:inline-block;width:0.5em;'>&nbsp;</span>"
-                    . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#e_batchspan').hide();jQuery('#e_batchlabel').show();return false;\">"
+                    . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#batchspan').hide();jQuery('#batchlabel').show();return false;\">"
                     . "</span>";
-      } else {
-        $block .= "<input type='hidden' name='batch_id' id='batch_id' value='" . $default . "'/>";       
-      }
-      
-      $block .=  "<span id='e_batchlabel'>" . __( 'Add missing evidence pages.', 'rootspersona' ) 
-               . "</span></td></tr>";
+      //} else {
+      //  $block .= "<input type='hidden' name='batch_id' id='batch_id' value='" . $default . "'/>";
+      //}
       return $block;
     }
 }
