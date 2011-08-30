@@ -106,8 +106,9 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param
 	 * @return
 	 */
-	public function unlink_all_pages() {
-		$sql = 'UPDATE rp_source SET wp_page_id = null, update_datetime = now()';
+	public function unlink_all_pages( $batch_id ) {
+		$sql = 'UPDATE rp_source SET wp_page_id = null, update_datetime = now() WHERE batch_id = ?';
+        $sql_query->set( $batch_id );
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		return $this->execute_update( $sql_query );
 	}
@@ -244,13 +245,14 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
         return $persons;
     }
 
-    public function get_sources_with_pages() {
+    public function get_sources_with_pages( $batch_id ) {
         $sql = "SELECT rs.id AS id, rs.batch_id AS batch_id"
             . ",rs.abbr AS abbr"
             . ",rs.wp_page_id AS page"
             . " FROM rp_source rs"
-            . " WHERE rs.wp_page_id IS NOT NULL";
+            . " WHERE rs.wp_page_id IS NOT NULL AND rs.batch_id = ?";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $src->batch_id );
         $rows = RP_Query_Executor::execute( $sql_query );
         $cnt = count( $rows );
         $sources = null;

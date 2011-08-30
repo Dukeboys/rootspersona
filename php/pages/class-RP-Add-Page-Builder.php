@@ -21,11 +21,11 @@ class RP_Add_Page_Builder {
 			$block .= "<form  action='" . $action . "' method='POST'>"
                 . "<div style='overflow:hidden;margin:10px;'>"
                 . "<label class='label4' for='batch_id'>Batch Id:</label>"
-                . "<input type='text' name='batch_id' id='batch_id' size='6' value='$batch_id'/>"
+                . "<input type='text' name='batch_id' id='batch_id' size='6' value='$batch_ids[0]'/>"
                 
                 . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
                 . "<select id='batch_ids' name='batch_ids' style='zIndex=1;'"
-                . " onchange='javascript:synchBatchText();refreshAddPerson();'>";
+                . " onchange='javascript:synchBatchText(this);refreshAddPerson(this);'>";
         
        foreach ( $batch_ids as $id ) {
             $selected = $id==$batch_ids[0] ? 'selected' : '';

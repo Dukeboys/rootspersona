@@ -113,26 +113,25 @@ function revealBatchSpan(obj, url) {
     }
 }
 
-function synchBatchText(name) {
+function synchBatchText() {
     var value = jQuery('#batch_ids option:selected').val();
     jQuery('#batch_id').val(value);
     return false;
 }
 
 function refreshAddPerson() {
-    var batchid = jQuery('#batchids option:selected').val();
-
+    var b = jQuery('#batch_ids option:selected').val();
+    jQuery("#persons").contents().remove();
 	var data = {
         action: 'my_action',
         refresh: 1,
-        batch_id: batchid
+        batch_id: b
 	};
     document.body.style.cursor = "wait";
 	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 	jQuery.get(ajaxurl, data, function(response) {
         document.body.style.cursor = "default";
         var res = jQuery.parseJSON(response);
-    jQuery("#persons").contents().remove();
         jQuery.each(res, function(index,p) {
             // add items to List box
             jQuery("#persons").append("<option id='" + p.id + "'>"

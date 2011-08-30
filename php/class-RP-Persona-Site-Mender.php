@@ -23,7 +23,7 @@ class RP_Persona_Site_Mender {
      * @param array $options
      * @param boolean $is_repair
      */
-    function validate_pages( $options, $is_repair = false ) {
+    function validate_pages( $options, $is_repair = false, $batch_id ) {
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
         $pages = get_posts( $args );
         $is_first = true;
@@ -34,97 +34,99 @@ class RP_Persona_Site_Mender {
         $parent = $options['parent_page'];
         foreach ( $pages as $page ) {
             $output = array();
-            if ( preg_match( "/\[rootsPersona /i", $page->post_content ) ) {
+            if( preg_match( "/batch[i|I]d=['|\"]" . $batch_id . "['|\"]/", $page->post_content ) ) {
+                if ( preg_match( "/\[rootsPersona /i", $page->post_content ) ) {
 
-                $pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US', '$1'
-                        , $page->post_content );
-                $wp_page_id = RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
-                        ->get_page_id( $pid, 1 );
-                if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
+                    $pid = @preg_replace( '/.*?personId=[\'|"](.*)[\'|"].*?/US', '$1'
+                            , $page->post_content );
+                    $wp_page_id = RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
+                            ->get_page_id( $pid, 1 );
+                    if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
+                        if ( $is_repair ) {
+                            $output[] =
+                                __( "Deleted orphaned page with no reference in",
+                                    'rootspersona' )  . ' rp_indi.';;
+                            wp_delete_post( $page->ID );
+                        } else {
+                            $output[] = __( "No reference in", 'rootspersona' ) . ' rp_indi.';
+                        }
+                    } else if ( $page->post_parent != $parent ) {
+                        if ( $is_repair ) {
+                            $output[] = sprintf( __( "Updated parent page to %s.", 'rootspersona' )
+                                    , $parent );
+                            $my_post = array();
+                            $my_post['ID'] = $page->ID;
+                            $my_post['post_parent'] = $parent;
+                            wp_update_post( $my_post );
+                        } else {
+                            $output[] = sprintf( __( "Parent page out of synch %s", 'rootspersona' )
+                                    , " (" . $parent . ")." );
+                        }
+                    }
+                } else if ( preg_match( "/rootsEditPersonaForm/i", $page->post_content ) ) {
                     if ( $is_repair ) {
-                        $output[] =
-                            __( "Deleted orphaned page with no reference in",
-                                'rootspersona' )  . ' rp_indi.';;
+                        $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                                "rootsEditPersonaForm" );
                         wp_delete_post( $page->ID );
                     } else {
-                        $output[] = __( "No reference in", 'rootspersona' ) . ' rp_indi.';
+                        $output[] = __( "Obsolete", 'rootspersona' ) . " rootsEditPersonaForm.";
                     }
-                } else if ( $page->post_parent != $parent ) {
+                } else if ( preg_match( "/rootsAddPageForm/i", $page->post_content ) ) {
                     if ( $is_repair ) {
-                        $output[] = sprintf( __( "Updated parent page to %s.", 'rootspersona' )
-                                , $parent );
-                        $my_post = array();
-                        $my_post['ID'] = $page->ID;
-                        $my_post['post_parent'] = $parent;
-                        wp_update_post( $my_post );
-                    } else {
-                        $output[] = sprintf( __( "Parent page out of synch %s", 'rootspersona' )
-                                , " (" . $parent . ")." );
-                    }
-                }
-            } else if ( preg_match( "/rootsEditPersonaForm/i", $page->post_content ) ) {
-                if ( $is_repair ) {
-                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
-                            "rootsEditPersonaForm" );
-                    wp_delete_post( $page->ID );
-                } else {
-                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsEditPersonaForm.";
-                }
-            } else if ( preg_match( "/rootsAddPageForm/i", $page->post_content ) ) {
-                if ( $is_repair ) {
-                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
-                            "rootsAddPageForm" );
-                    wp_delete_post( $page->ID );
-                } else {
-                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsAddPageForm.";
-                }
-            } else if ( preg_match( "/rootsUploadGedcomForm/i", $page->post_content ) ) {
-                if ( $is_repair ) {
-                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
-                            'rootsUploadGedcomForm' );
-                    wp_delete_post( $page->ID );
-                } else {
-                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUploadGedcomForm.";
-                }
-            } else if ( preg_match( "/rootsIncludePageForm/i", $page->post_content ) ) {
-                if ( $is_repair ) {
-                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
-                            'rootsIncludePage' );
-                    wp_delete_post( $page->ID );
-                } else {
-                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsIncludePage.";
-                }
-            } else if ( preg_match( "/rootsUtilityPage/i", $page->post_content ) ) {
-                if ( $is_repair ) {
-                    $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
-                            'rootsUtilityPage' );
-                    wp_delete_post( $page->ID );
-                } else {
-                    $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUtilityPage.";
-                }
-            } else if ( preg_match( "/rootsEvidencePage *sourceId=.*/i", $page->post_content ) ) {
-                $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page->post_content );
-                $wp_page_id = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
-                        ->get_page_id( $sid, 1 );
-                if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
-                    if ( $is_repair ) {
-                        $output[] = __( "Deleted orphaned page with no reference in rp_source.",
-                                'rootspersona' );
+                        $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                                "rootsAddPageForm" );
                         wp_delete_post( $page->ID );
                     } else {
-                        $output[] = __( "No reference in rp_source.", 'rootspersona' );
+                        $output[] = __( "Obsolete", 'rootspersona' ) . " rootsAddPageForm.";
                     }
-                } else if ( $page->post_parent != $parent ) {
+                } else if ( preg_match( "/rootsUploadGedcomForm/i", $page->post_content ) ) {
                     if ( $is_repair ) {
-                        $output[] = sprintf( __( "Updated parent page to %s.", 'rootspersona' ),
-                                $parent );
-                        $my_post = array();
-                        $my_post['ID'] = $page->ID;
-                        $my_post['post_parent'] = $parent;
-                        wp_update_post( $my_post );
+                        $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                                'rootsUploadGedcomForm' );
+                        wp_delete_post( $page->ID );
                     } else {
-                        $output[] = sprintf( __( "Parent page out of synch %s", 'rootspersona' ),
-                                " (" . $parent . ")." );
+                        $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUploadGedcomForm.";
+                    }
+                } else if ( preg_match( "/rootsIncludePageForm/i", $page->post_content ) ) {
+                    if ( $is_repair ) {
+                        $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                                'rootsIncludePage' );
+                        wp_delete_post( $page->ID );
+                    } else {
+                        $output[] = __( "Obsolete", 'rootspersona' ) . " rootsIncludePage.";
+                    }
+                } else if ( preg_match( "/rootsUtilityPage/i", $page->post_content ) ) {
+                    if ( $is_repair ) {
+                        $output[] = sprintf( __( "Deleted obsolete %s page.", 'rootspersona' ),
+                                'rootsUtilityPage' );
+                        wp_delete_post( $page->ID );
+                    } else {
+                        $output[] = __( "Obsolete", 'rootspersona' ) . " rootsUtilityPage.";
+                    }
+                } else if ( preg_match( "/rootsEvidencePage *sourceId=.*/i", $page->post_content ) ) {
+                    $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page->post_content );
+                    $wp_page_id = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
+                            ->get_page_id( $sid, 1 );
+                    if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
+                        if ( $is_repair ) {
+                            $output[] = __( "Deleted orphaned page with no reference in rp_source.",
+                                    'rootspersona' );
+                            wp_delete_post( $page->ID );
+                        } else {
+                            $output[] = __( "No reference in rp_source.", 'rootspersona' );
+                        }
+                    } else if ( $page->post_parent != $parent ) {
+                        if ( $is_repair ) {
+                            $output[] = sprintf( __( "Updated parent page to %s.", 'rootspersona' ),
+                                    $parent );
+                            $my_post = array();
+                            $my_post['ID'] = $page->ID;
+                            $my_post['post_parent'] = $parent;
+                            wp_update_post( $my_post );
+                        } else {
+                            $output[] = sprintf( __( "Parent page out of synch %s", 'rootspersona' ),
+                                    " (" . $parent . ")." );
+                        }
                     }
                 }
             }
@@ -142,7 +144,7 @@ class RP_Persona_Site_Mender {
             set_time_limit( 60 );
         }
         $expected_pages = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_persons_with_pages();
+                ->get_persons_with_pages( $batch_id );
         foreach( $expected_pages AS $expected ) {
 
             $output = array();
@@ -200,7 +202,7 @@ class RP_Persona_Site_Mender {
             set_time_limit( 60 );
         }
 
-        $expected_pages = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->get_sources_with_pages();
+        $expected_pages = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->get_sources_with_pages( $batch_id );
         if ( isset ( $expected_pages ) && count( $expected_pages ) > 0 ) {
             foreach( $expected_pages AS $expected ) {
 
@@ -300,17 +302,19 @@ class RP_Persona_Site_Mender {
         $force_delete = true;
         foreach ( $pages as $page ) {
             if ( preg_match( "/rootsPersona |rootsEvidencePage /", $page->post_content ) ) {
-                wp_delete_post( $page->ID, $force_delete );
-                $cnt++;
-                set_time_limit( 60 );
+                if ( preg_match( "/batch[i|I]d=['|\"]" . $batch_id . "['|\"]/", $page->post_content ) ) {
+                    wp_delete_post( $page->ID, $force_delete );
+                    $cnt++;
+                    set_time_limit( 60 );
+                }
             }
         }
         $transaction = new RP_Transaction( $this->credentials, false );
-        RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages();
-        RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages();
+        RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
+        RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
         $transaction->commit();
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt
-            . ' ' . __( 'pages deleted.', 'rootspersona' ) . "<br/>"
+            . ' ' .sprintf( __( 'pages deleted from batchId %s', 'rootspersona' ), $batch_id ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona&rootspage=util"

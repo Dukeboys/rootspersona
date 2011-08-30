@@ -587,15 +587,16 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         return $sources;
     }
 
-    public function get_persons_with_pages() {
+    public function get_persons_with_pages( $batch_id ) {
         $sql = "SELECT ri.id AS id, ri.batch_id AS batch_id"
             . ",replace(rnp.personal_name,'/','') AS full_name"
             . ",ri.wp_page_id AS page"
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id AND rip.seq_nbr = 1"
             . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
-            . " WHERE ri.wp_page_id IS NOT NULL";
+            . " WHERE ri.wp_page_id IS NOT NULL AND ri.batch_id=?";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
         $rows = RP_Query_Executor::execute( $sql_query );
         $cnt = count( $rows );
         $persons = array();
