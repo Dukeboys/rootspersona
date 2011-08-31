@@ -241,13 +241,13 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 $transaction = new RP_Transaction( $this->credentials, true );
                 $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                         ->get_persons_no_page( $batch_id );
-                $transaction->close();   
+                $transaction->close();
                 echo json_encode($persons);
             }
 
             die(); // this is required to return a proper result
         }
-        
+
         /**
          *
          * @global wpdb $wpdb
@@ -348,14 +348,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $msg = '';
             $options = get_option( 'persona_plugin' );
             if ( isset( $_GET['utilityAction'] ) ) {
-                
+
                 $action  = $_GET['utilityAction'];
                 if( isset( $_GET['batch_id'] ) ) {
                     $batch_id = $_GET['batch_id'];
                 } else {
                     $batch_id = 1;
                 }
-                
+
                 $mender = new RP_Persona_Site_Mender( $this->credentials );
                 if ( $action == 'validatePages' ) {
                     return $mender->validate_pages( $options, false, $batch_id  );
@@ -389,7 +389,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function upload_gedcom_handler( ) {
             global $wpdb;
-            
+
             if ( !current_user_can( 'upload_files' ) ) {
                 wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
             }
@@ -727,7 +727,7 @@ if ( isset( $roots_persona_plugin ) ) {
     add_action( 'wp_print_styles', array( $roots_persona_plugin, 'insert_persona_styles' ) );
     add_action( 'wp_print_scripts', array( $roots_persona_plugin, 'insert_persona_scripts' ) );
     add_filter( 'the_content', array( $roots_persona_plugin, 'check_permissions' ), 2 );
-    load_plugin_textdomain('rootspersona', false, WP_PLUGIN_DIR . '/rootspersona/localization');
+    load_plugin_textdomain('rootspersona', false,  '/rootspersona/localization');
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
     add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );

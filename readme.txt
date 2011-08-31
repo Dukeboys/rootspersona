@@ -118,6 +118,7 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 * added more style overrides (backgrounds and border colors)
 * added option to delete data after deleting pages
 * fixed issue with multiple entries on index when the GED has multiple names
+* fixed localization bug (pointing to wrong directory)
 
 = 2.0.4 =
 * rows per page option for indices made visible
