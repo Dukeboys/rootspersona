@@ -37,6 +37,49 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 ->delete( $id, $batch_id );
     }
 
+    public function delete_all( $batch_id ) {
+        $sqlArray = Array( 
+            "DELETE FROM  wp_rp_name_personal WHERE id IN (SELECT name_id from wp_rp_indi_name WHERE indi_batch_id = ?)",
+            "DELETE FROM  wp_rp_name_cite WHERE name_id NOT IN (SELECT id from wp_rp_name_personal)",
+            "DELETE FROM  wp_rp_name_name WHERE name_id NOT IN (SELECT id from wp_rp_name_personal)",
+            "DELETE FROM  wp_rp_name_note WHERE name_id  NOT IN (SELECT id from wp_rp_name_personal)",  
+            "DELETE FROM  wp_rp_event_note WHERE event_id IN (SELECT event_id from wp_rp_fam_event WHERE fam_batch_id = ?)", 
+            "DELETE FROM  wp_rp_event_note WHERE event_id IN (SELECT event_id from wp_rp_indi_event WHERE indi_batch_id = ?)", 
+            "DELETE FROM  wp_rp_event_cite WHERE event_id IN (SELECT event_id from wp_rp_fam_event WHERE fam_batch_id = ?)",
+            "DELETE FROM  wp_rp_event_cite WHERE event_id IN (SELECT event_id from wp_rp_indi_event WHERE indi_batch_id = ?)",
+            "DELETE FROM  wp_rp_event_detail WHERE id IN (SELECT event_id from wp_rp_indi_event WHERE indi_batch_id = ?)",
+            "DELETE FROM  wp_rp_event_detail WHERE id IN (SELECT event_id from wp_rp_fam_event WHERE fam_batch_id = ?)", 
+            "DELETE FROM  wp_rp_address  WHERE id IN (SELECT corp_addr_id FROM wp_rp_header WHERE batch_id = ?)",
+            "DELETE FROM  wp_rp_fam WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_fam_child WHERE fam_batch_id = ?",
+            "DELETE FROM  wp_rp_fam_cite WHERE fam_batch_id = ?",
+            "DELETE FROM  wp_rp_fam_event WHERE fam_batch_id = ?",
+            "DELETE FROM  wp_rp_fam_note WHERE fam_batch_id = ?",
+            "DELETE FROM  wp_rp_header WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_indi WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_indi_option WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_indi_cite WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_indi_event WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_indi_fam WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_indi_name WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_indi_note WHERE indi_batch_id = ?",
+            "DELETE FROM  wp_rp_note WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_repo WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_repo_note WHERE repo_batch_id = ?",
+            "DELETE FROM  wp_rp_source WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_source_cite WHERE source_batch_id = ?",
+            "DELETE FROM  wp_rp_source_note WHERE source_batch_id = ?",
+            "DELETE FROM  wp_rp_submitter WHERE batch_id = ?",
+            "DELETE FROM  wp_rp_submitter_note WHERE submitter_batch_id = ?"
+        );
+        
+        foreach ( $sqlArray AS $sql ) {
+            $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+            $sql_query->set_number( $batch_id );
+            $this->execute_update( $sql_query );
+        }
+    }
+    
     /**
      * @todo Description of function updatePersonaPrivacy
      * @param  $id

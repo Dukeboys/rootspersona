@@ -330,17 +330,23 @@ class RP_Persona_Site_Mender {
 
     function delete_data( $options, $batch_id  ) {
         $transaction = new RP_Transaction( $this->credentials, false );
-        RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->delete_all( $batch_id );
-        RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->delete_all($batch_id );
-        $transaction->commit();
-        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
-            . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
-            . "<br/>"
-            . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-            . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
-            . admin_url() . "tools.php?page=rootsPersona'>"
-            . __( 'Return', 'rootspersona' ) . "</a></span>"
-            . "</div></div>";
+        $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                            ->get_batch_ids( );
+        if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {
+            $block =  $this->purge_data();
+        } else {
+            RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->delete_all( $batch_id );
+            $transaction->commit();
+
+            $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
+                    . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
+                    . "<br/>"
+                    . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
+                    . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+                    . admin_url() . "tools.php?page=rootsPersona'>"
+                    . __( 'Return', 'rootspersona' ) . "</a></span>"
+                    . "</div></div>";
+        }
         return $block;
     }
     
