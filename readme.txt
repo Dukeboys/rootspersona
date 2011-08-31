@@ -112,13 +112,14 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
-= 2.0.5 =
+= 2.1.0 =
 * fixed issue with the Hide Locations option
 * reorganized options page
 * added more style overrides (backgrounds and border colors)
 * added option to delete data after deleting pages
 * fixed issue with multiple entries on index when the GED has multiple names
 * fixed localization bug (pointing to wrong directory)
+* added support for defining different 'batches' for GED files (support for separate 'trees')
 
 = 2.0.4 =
 * rows per page option for indices made visible
