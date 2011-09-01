@@ -41,8 +41,8 @@ class RP_Add_Page_Builder {
         $block .= "</select></span></div>";
         
         $cnt = count( $persons );
-        $height = ( $cnt > 10 ? '40em' : '15em;');
-        $w = count( $persons ) == 0 ? 'width:12em;' : '';
+        $height = ( $cnt > 10 ? '40em' : ( $cnt > 0 ? '15em' : '5em;') );
+        $w = count( $persons ) == 0 ? 'width:14em;' : '';
         $block .= "<table style='border-style:none;'><tbody><tr><td width='49%'>"
                     . "<select multiple name='persons[]' id='persons' style='height:$height;$w'>";
                     $cnt = count( $persons );
