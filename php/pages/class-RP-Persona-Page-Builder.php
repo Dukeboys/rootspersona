@@ -134,12 +134,14 @@ class RP_Persona_Page_Builder {
                         . "&srcPage=" . $page_id . "&action=";
 
             $block .= "<div style='margin-top:10px;text-align: center;'>"
-                . "<span class='rp_linkbutton' style='width:100px'><a href='"
+                . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
+                . " style='width:100px'><a href='"
                 . $edit_page . "edit'>" . __( 'Edit Person', 'rootspersona' )
                 . "</a></span>";
             $url = $options['plugin_url'] . 'php/pages/';
 
-            $block .= "&#160;&#160;<span class='rp_linkbutton' style='width:120px'><a href='#'"
+            $block .= "&#160;&#160;<span class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
+                . " style='width:120px'><a href='#'"
                 . " onClick='javascript:rootsConfirm(\""
                 . $win2 . "\",\"" . $edit_page
                 . "delete\");return false;'>" . __( 'Delete Person', 'rootspersona' )

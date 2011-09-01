@@ -6,35 +6,36 @@ div.rp_banner {
     font-size: larger;
 }
 
-div.rp_linkbutton, span.rp_linkbutton {
+.rp_linkbutton{
     margin: 10px 0;
     padding: 5px 0px 5px 0px;
-    background: url("../images/sbutton.gif") no-repeat scroll left bottom transparent;
+    background: url("../images/sbutton.jpg") repeat-x scroll left bottom transparent;
     text-align: center;
     width: 160px;
     display: inline-block;
 }
 
-div.rp_hoverbutton, span.rp_hoverbutton {
+.rp_hoverbutton {
     margin: 10px 0;
     padding: 5px 0px 5px 0px;
-    background: url("../images/button2.gif") no-repeat scroll left bottom transparent;
+    background: url("../images/sbutton2.jpg") repeat-x scroll left bottom transparent;
     text-align: center;
     width: 160px;
     display: inline-block;
 }
 
-div.rp_clickbutton, span.rp_clickbutton {
+.rp_clickbutton {
     margin: 10px 0;
     padding: 5px 0px 5px 0px;
-    background: url("../images/button1.gif") no-repeat scroll left bottom transparent;
+    background: url("../images/sbutton3.jpg") repeat-x scroll left bottom transparent;
     text-align: center;
     width: 160px;
     display: inline-block;
 }
-
- span.rp_linkbutton, span.rp_hoverbutton, span.rpclick_button {
-     font-size:smaller;
+ 
+.rp_linkbutton a, .rp_hoverbutton a, .rpclick_button a {
+    color:black;
+    text-decoration:none;
  }
 
 div.rp_pictures {

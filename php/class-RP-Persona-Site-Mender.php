@@ -23,7 +23,7 @@ class RP_Persona_Site_Mender {
      * @param array $options
      * @param boolean $is_repair
      */
-    function validate_pages( $options, $is_repair = false, $batch_id ) {
+    function validate_pages( $options, $is_repair, $batch_id ) {
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
         $pages = get_posts( $args );
         $is_first = true;
@@ -276,14 +276,14 @@ class RP_Persona_Site_Mender {
                             "rootsPersona" )
                     . "</p><span>&#160;&#160;</span>";
         } else if ( ! $is_repair ) {
-            $footer .= "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px'><a href=' "
+            $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=util')
                 . "&utilityAction=repairPages'>"
                 . __( 'Repair Inconsistencies?', 'rootspersona' )
                 . "</a></span><span>&#160;&#160;</span>";
         }
 
-        $footer .= "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+        $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
                 . admin_url() . "tools.php?page=rootsPersona'>"
                 . __( 'Return', 'rootspersona' )
                 . "</a></span></div></div>";
@@ -316,12 +316,12 @@ class RP_Persona_Site_Mender {
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt
             . ' ' .sprintf( __( 'pages deleted from batchId %s', 'rootspersona' ), $batch_id ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
-            . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='width:200px;border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona&rootspage=util"
                 . "&utilityAction=deldata&batch_id=" . $batch_id . "'>"
             . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"    
             ."<span style='display:inline-block;width:5em;'>&#160;</span>"
-            . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
             . "</div></div>";
@@ -343,7 +343,7 @@ class RP_Persona_Site_Mender {
                     . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
                     . "<br/>"
                     . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-                    . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+                    . "<span class='rp_linkbutton'" . RP_Tools_Page_Builder::hover . "style='border:2px outset orange;padding:5px;'><a href=' "
                     . admin_url() . "tools.php?page=rootsPersona'>"
                     . __( 'Return', 'rootspersona' ) . "</a></span>"
                     . "</div></div>";
@@ -357,7 +357,7 @@ class RP_Persona_Site_Mender {
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
             . __( 'Tables emptied.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-            . "<span class='rp_linkbutton' style='border:2px outset orange;padding:5px;'><a href=' "
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
             . "</div></div>";
