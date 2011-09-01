@@ -119,7 +119,7 @@ class RP_Tools_Page_Builder {
 
     function get_secondary($batch_ids) {
         $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
-        $default = count( $batch_ids ) > 1 ? $batch_ids[0] : '1';
+        $default = count( $batch_ids ) > 0 ? $batch_ids[0] : '1';
 
         $block =  '';
 

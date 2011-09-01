@@ -333,7 +333,7 @@ class RP_Persona_Site_Mender {
         $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
         if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {
-            $block =  $this->purge_data();
+            $block =  $this->purge_data( $options );
         } else {
             RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->delete_all( $batch_id );
             $transaction->commit();
@@ -351,9 +351,8 @@ class RP_Persona_Site_Mender {
     }
     
     function purge_data( $options ) {
-        global $wpdb;
         $creator = new RP_Table_Creator();
-        $creator->update_tables( $this->sql_file_to_truncate_tables, $wpdb->prefix );
+        $creator->update_tables( $this->sql_file_to_truncate_tables, $this->credentials->prefix );
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
             . __( 'Tables emptied.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          

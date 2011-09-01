@@ -36,8 +36,9 @@ class RP_Add_Page_Builder {
         
         $cnt = count( $persons );
         $height = ( $cnt > 10 ? '40em' : '15em;');
+        $w = count( $persons ) == 0 ? 'width:12em;' : '';
         $block .= "<table style='border-style:none;'><tbody><tr><td width='49%'>"
-                    . "<select multiple name='persons[]' id='persons' style='height:$height;'>";
+                    . "<select multiple name='persons[]' id='persons' style='height:$height;$w'>";
                     $cnt = count( $persons );
                     for ( $i = 0; $i < $cnt; $i++ ) {
                         $block .= "<option value='" . $persons[$i]['id'] . "'>"
