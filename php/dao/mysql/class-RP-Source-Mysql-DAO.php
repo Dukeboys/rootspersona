@@ -253,7 +253,7 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
             . " FROM rp_source rs"
             . " WHERE rs.wp_page_id IS NOT NULL AND rs.batch_id = ?";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
-        $sql_query->set_number( $src->batch_id );
+        $sql_query->set_number( $batch_id );
         $rows = RP_Query_Executor::execute( $sql_query );
         $cnt = count( $rows );
         $sources = null;

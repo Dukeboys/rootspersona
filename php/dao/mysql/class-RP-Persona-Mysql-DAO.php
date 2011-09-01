@@ -79,6 +79,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 $sql_query->set_number( $batch_id );
             }
             $this->execute_update( $sql_query );
+            RP_Query_Executor::execute( 'COMMIT' );
         }
     }
     

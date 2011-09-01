@@ -43,6 +43,7 @@ class RP_Transaction {
        $this->connection->close();
        RP_Transaction::$transactions->remove_last();
     }
+
     /**
      * Zakonczenie transakcji i wycofanie zmian
      */
