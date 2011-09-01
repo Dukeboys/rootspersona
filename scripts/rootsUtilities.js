@@ -91,7 +91,7 @@ function revealBatchSpan(obj, url) {
 
     if( jQuery('#batchspan').is(":visible") ) {
         jQuery('#batchspan').hide();
-        spanpos.show();
+        //spanpos.show();
     } else {
         var action = '';
         if (obj.id == 'evidence') {
@@ -107,9 +107,9 @@ function revealBatchSpan(obj, url) {
         jQuery('#process_button').bind('click',{url: url, action: action}, processBatchSpan);
 
         var caller = spanpos.offset();
-        spanpos.hide();
+        //spanpos.hide();
         jQuery('#batchspan').show();
-        jQuery('#batchspan').offset({ top: caller.top, left: caller.left });
+        jQuery('#batchspan').offset({ top: (caller.top - 25), left: (caller.left - 10) });
     }
 }
 

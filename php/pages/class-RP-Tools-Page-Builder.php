@@ -125,7 +125,7 @@ class RP_Tools_Page_Builder {
         $block =  '';
 
 
-      $block .=  "<span id='batchspan' style='display:none;overflow:hidden;margin:10px 10px 10px 0px;'>"
+      $block .=  "<div id='batchspan' style='background-color:#DDDDDD;width:35em;padding:5px;display:none;overflow:hidden;border:solid blue 2px;'>"
                 . "<label class='label8' style='font-weight:bold;' for='batch_id'>Select Batch Id:</label>"
                 . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default' />"
                 . "<input type='button' hidefocus='1' value='&#9660;'"
@@ -135,6 +135,8 @@ class RP_Tools_Page_Builder {
                 . "<input style='margin-left:0.5em;' id='process_button' name ='process_button' type='button' value='Process'>"
                 . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#batchspan').hide();jQuery('#batchlabel').show();return false;\">"
 
+                . "<span style='display:inline-block;width:12em;font-weight:bold;font-size:smaller;font-style:italic;color:red;margin-left:10px;'>"
+                . "Only change if you have segregated data.</span>"
                 . "<br/><span id='batch_ids_span' name='batch_ids_span' style='display:none;overflow:hidden;margin:-4px 0px 0px 0px;'>"
                 . "<label class='label8' for='batch_ids'>&nbsp;</label>"
                 . "<select id='batch_ids' name='batch_ids' style='width:7.6em;zIndex=1;'"
@@ -147,7 +149,7 @@ class RP_Tools_Page_Builder {
 
       $block .= "</select></span>"
                 . "<span style='display:inline-block;width:0.5em;'>&nbsp;</span>"
-                . "</span>";
+                . "</div>";
 
       return $block;
     }
