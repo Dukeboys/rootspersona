@@ -370,7 +370,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 } else if ( $action == 'deldata' ) {
                     echo $mender->delete_data( $options, $batch_id  );
                     return;
-                } else if ( $action == 'addEvidencePages' ) {
+                } else if ( $action == 'evidence' ) {
                     return $mender->add_evidence_pages( $options, $batch_id );
                 } else if ( $action == 'convert2' ) {
                     $installer = new RP_Persona_Installer();
