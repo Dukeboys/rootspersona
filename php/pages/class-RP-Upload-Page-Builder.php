@@ -10,9 +10,10 @@ class RP_Upload_Page_Builder {
      * @return string
      */
     function build($action, $msg = '', $options, $batch_ids) {
-
-        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
-        $default = isset( $batch_ids[0] ) ? $batch_ids[0] : '1';
+        $default = count( $batch_ids ) > 0 ? $batch_ids[0] : '1';
+        if(count($batch_ids) == 0) $batch_ids[0] = $default;
+        $s = count( $batch_ids ) <= 1 ? '2' : '4';
+        
         $block = '<div style="overflow:hidden;width:60%;margin:40px;"><div><i>'
                 . __('Please note that GEDCOM processing is the most system taxing processing this plugin performs', 'rootspersona')
                 . '. ' . __('The system will be uploading the file AND parsing each person into the database', 'rootspersona')
@@ -24,21 +25,24 @@ class RP_Upload_Page_Builder {
                 . "<div style='overflow:hidden;margin:10px;'>"
                 . "<label class='label8' for='batch_id'>Batch Id:</label>"
                 . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default'/>"
-                
-                . "<span style='overflow:hidden;margin:10px 10px 10px -10px;$display;'>"
-                //. "<label class='label8' for='batchid'>&nbsp;</label>"
-                . "<select id='batch_ids' name='batch_ids' style='zIndex=1;'"
-                . " onchange='javascript:synchBatchText();'>";
-        
-       foreach ( $batch_ids as $id ) {
-        //for ($id=1; $id< 10; $id++) {
-            $selected = $id==$default?'selected':'';
-           $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";  
-       }
-                    
-        $block .= "</select></span><span style='color:red;font-style:italic;margin-left:10px;font-size:smaller;'>"
+               . "<input type='button' hidefocus='1' value='&#9660;'"
+                . "style='height:13;width:13;font-family:helvetica;padding:2px;' "
+                . "onclick='javascript:if( jQuery(\"#batch_ids_span\").is(\":visible\") ) jQuery(\"#batch_ids_span\").css(\"display\",\"none\"); else jQuery(\"#batch_ids_span\").css(\"display\",\"inline-block\");'>"
+                . "<span style='color:red;font-style:italic;margin-left:10px;font-size:smaller;'>"
                 . sprintf( __('Please note that %s cannot link persons in different batches', 'rootspersona'), 'rootspersona')
-                . "</span></div>"                
+                . "</span>"
+                
+                . "<br/><label class='label8' for='batch_id'>&nbsp;</label>"
+                . "<span  id='batch_ids_span' name='batch_ids_span' style='display:none;overflow:hidden;margin:-3px 0px 0px 0px;'>"
+                . "<select id='batch_ids' name='batch_ids' style='width:7.6em;zIndex=1;'"
+                . " onchange='javascript:synchBatchText();' size='$s'>";
+        
+      foreach ( $batch_ids as $id ) {
+           $selected = $id==$default?'selected':'';
+           $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";
+      }
+                    
+        $block .= "</select></span></div>"                
                 
                 . "<div style='overflow:hidden;margin:10px;'>"
                 . "<label class='label8' for='gedcom'>GEDCOM File:</label><input type='file' name='gedcomFile' size='60'/></div>"

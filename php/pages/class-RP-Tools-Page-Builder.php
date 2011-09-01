@@ -127,8 +127,8 @@ class RP_Tools_Page_Builder {
     }
 
     function get_secondary($batch_ids) {
-        $display = count( $batch_ids ) > 1 ? 'display:inline' : 'display:none';
         $default = count( $batch_ids ) > 0 ? $batch_ids[0] : '1';
+
         $s = count( $batch_ids ) <= 1 ? '2' : '4';
 
         $block =  '';
@@ -157,7 +157,6 @@ class RP_Tools_Page_Builder {
       }
 
       $block .= "</select></span>"
-                . "<span style='display:inline-block;width:0.5em;'>&nbsp;</span>"
                 . "</div>";
 
       return $block;
