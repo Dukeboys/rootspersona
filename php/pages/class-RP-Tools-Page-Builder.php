@@ -2,12 +2,14 @@
 
 class RP_Tools_Page_Builder {
 
+     CONST hover = "onmouseover='this.style.color=\"red\";jQuery(this).removeClass().addClass(\"rp_hoverbutton\");' onmouseout='this.style.color=\"black\";jQuery(this).removeClass().addClass(\"rp_linkbutton\");'";
     /**
      *
      * @param array $options
      */
     function build( $options, $batch_ids ) {
         $block = "<div class='wrap'>"
+                . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'>&nbsp;</span><span class='rp_clickbutton' style='background-position: -1000px -1000px;'>&nbsp;</span>"
                 . "<h2>rootsPersona</h2>"
                 . "<table class='form-table'>";
 
@@ -25,8 +27,8 @@ class RP_Tools_Page_Builder {
 
     function get_upload() {
         $block =  "<tr style='vertical-align: top'>"
-            . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-            . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
+            . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover . "><a style='color:black;text-decoration:none;' href=' "
+            . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'" . RP_Tools_Page_Builder::hover . ">"
 
             . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
             . "<td style='vertical-align:middle'>"
@@ -37,8 +39,8 @@ class RP_Tools_Page_Builder {
 
     function get_add() {
         $block =  "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton'><a href=' "
-                . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'>"
+                . "<td style='width:200px;'><div class='rp_linkbutton'><a style='color:black;text-decoration:none;' href=' "
+                . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'" . RP_Tools_Page_Builder::hover . ">"
 
                 . __( 'Add Uploaded Persons', 'rootspersona' )
                 . "</a></div></td>"
@@ -51,7 +53,7 @@ class RP_Tools_Page_Builder {
     function get_excluded() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='review' name='review' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover . " id='review' name='review' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -64,7 +66,7 @@ class RP_Tools_Page_Builder {
     function get_validate() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='validate' name='validate' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover . " id='validate' name='validate' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -79,7 +81,7 @@ class RP_Tools_Page_Builder {
       $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
             . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
       $block = "<tr style='vertical-align: top'>" . "<td style='width:200px;'><div class='rp_linkbutton'>"
-            . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
+            . "<a style='color:black;text-decoration:none;'" .  RP_Tools_Page_Builder::hover . " href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
             . admin_url('/tools.php?page=rootsPersona&rootspage=util')
             . "&utilityAction=convert2\");return false;'>"
             . __( 'Convert to 2.x Format', 'rootspersona' )
@@ -93,7 +95,7 @@ class RP_Tools_Page_Builder {
     function get_delete() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";' id='delete' name='delete' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover . " id='delete' name='delete' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -107,8 +109,8 @@ class RP_Tools_Page_Builder {
         $action = 'addEvidencePages';
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton' onmouseover='this.style.color=\"red\";' onmouseout='this.style.color=\"black\";'"
-                . "id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover
+                . " id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
