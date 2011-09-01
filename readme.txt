@@ -4,12 +4,12 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 2.0.4
+Stable tag: 2.1.0
 
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
 == Description ==
-* IMPORTANT NOTE FOR UPGRADERS!!!! READ SPECIAL INSTRUCTIONS IN THE OTHER NOTES TAB!!!! DO NOT DEACTIVATE BEFORE UPGRADING!!! *
+Check out the Changelog for new release details!
 
 rootsPersona creates one or more pages of family history using data imported from one or more GEDCOM files.
 It allows an administrator to create pages featuring people or evidence with a variety of panels that can
