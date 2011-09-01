@@ -28,9 +28,10 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param
 	 * @return
 	 */
-	public function unlink_all_pages() {
-		$sql = 'UPDATE rp_indi SET wp_page_id = null, update_datetime = now()';
+	public function unlink_all_pages( $batch_id ) {
+		$sql = 'UPDATE rp_indi SET wp_page_id = null, update_datetime = now() WHERE batch_id = ?';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $sql_query->set_number( $batch_id );
 		return $this->execute_update( $sql_query );
 	}
 

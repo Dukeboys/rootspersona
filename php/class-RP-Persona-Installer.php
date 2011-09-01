@@ -37,7 +37,7 @@ class RP_Persona_Installer {
                     '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
             //$options['index_page'] = $page;
             $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
-                    '[rootsEvidencePage/]', '', 'publish' );
+                    '[rootsEvidencePage batchId="1"/]', '', 'publish' );
             //$options['evidence_page'] = $page;
 
             $parent_page = $this->get_parent_page();

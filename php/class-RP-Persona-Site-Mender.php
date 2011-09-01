@@ -15,7 +15,7 @@ class RP_Persona_Site_Mender {
      */
     function __construct( $credentials ) {
         $this->credentials = $credentials;
-        $this->sql_file_to_truncate_tables = WP_PLUGIN_DIR . '/rootspersona/sql/truncate_tables.sql';
+        $this->sql_file_to_truncate_tables = WP_PLUGIN_DIR . '/rootspersona/sql/create_tables.sql';
     }
 
     /**
@@ -333,6 +333,7 @@ class RP_Persona_Site_Mender {
         $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
         if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {
+            $transaction->close();
             $block =  $this->purge_data( $options );
         } else {
             RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->delete_all( $batch_id );
