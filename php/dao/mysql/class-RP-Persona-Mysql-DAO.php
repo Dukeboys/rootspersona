@@ -38,7 +38,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
     }
 
     public function delete_all( $batch_id ) {
-        $sqlArray = Array( 
+        $sql_array = Array( 
             "DELETE FROM  wp_rp_name_personal WHERE id IN (SELECT name_id from wp_rp_indi_name WHERE indi_batch_id = ?)",
             "DELETE FROM  wp_rp_name_cite WHERE name_id NOT IN (SELECT id from wp_rp_name_personal)",
             "DELETE FROM  wp_rp_name_name WHERE name_id NOT IN (SELECT id from wp_rp_name_personal)",
@@ -73,9 +73,11 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             "DELETE FROM  wp_rp_submitter_note WHERE submitter_batch_id = ?"
         );
         
-        foreach ( $sqlArray AS $sql ) {
+        foreach ( $sql_array AS $sql ) {
             $sql_query = new RP_Sql_Query( $sql, $this->prefix );
-            $sql_query->set_number( $batch_id );
+            if ( strpos( $sql, '?' ) !== false ) {
+                $sql_query->set_number( $batch_id );
+            }
             $this->execute_update( $sql_query );
         }
     }

@@ -330,7 +330,7 @@ class RP_Persona_Site_Mender {
 
     function delete_data( $options, $batch_id  ) {
         $transaction = new RP_Transaction( $this->credentials, false );
-        $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+        $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
         if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {
             $block =  $this->purge_data();

@@ -182,7 +182,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function edit_persona_page_handler( $atts, $content = null, $callback = null ) {
-            global $wpdb;
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
             $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $options = get_option( 'persona_plugin' );
@@ -217,13 +216,13 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 $src_page = isset( $_POST['srcPage'] )  ? trim( esc_attr( $_POST['srcPage'] ) )  : '';
                 $transaction = new RP_Transaction( $this->credentials, false );
                 if ( $opt == 'Exc' ) {
-                    RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
                     wp_delete_post( $src_page );
-                    RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->delete_persona( $persona_id, $batch_id );
                 } else {
-                    RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
                 }
                 $transaction->commit();
@@ -254,7 +253,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function add_page_handler(  ) {
-            global $wpdb;
+
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
             $msg = '';
             $options = get_option( 'persona_plugin' );
@@ -267,11 +266,11 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     $msg = __( 'No people selected.', 'rootspersona' );
                 } else {
                     foreach ( $persons as $p ) {
-                        $name = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                        $name = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                                 ->get_fullname( $p, $batch_id );
                         $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id );
                         if ( $pageId != false ) {
-                            RP_Dao_Factory::get_rp_indi_dao( $wpdb->prefix )
+                            RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
                                     ->update_page( $p, $batch_id, $pageId );
                             $msg = $msg . '<br/>'
                                     . sprintf( __( 'Page %s created for', 'rootspersona' ),
@@ -288,7 +287,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
             }
 
-            $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+            $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                         ->get_batch_ids( );
 
             if( isset( $_GET['batch_id'] ) ) {
@@ -298,7 +297,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             }
 
             $builder = new RP_Add_Page_Builder();
-            $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+            $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                     ->get_persons_no_page( $batch_ids[0] );
             $retStr = $builder->build( $action, $persons, $msg, $options, $batch_ids );
             $transaction->commit();
@@ -311,7 +310,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function include_page_handler(  ) {
-            global $wpdb;
+
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
             $msg = '';
             $options = get_option( 'persona_plugin' );
@@ -324,7 +323,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 } else {
                     $transaction = new RP_Transaction( $this->credentials, false );
                     foreach ( $persons as $id ) {
-                        RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                        RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->update_persona_privacy( $id, $batch_id, '', '' );
                     }
                     $transaction->commit();
@@ -332,7 +331,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             }
 
             $transaction = new RP_Transaction( $this->credentials, true );
-            $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+            $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_excluded( $batch_id );
             $transaction->close();
             $builder = new RP_Include_Page_Builder();
@@ -388,7 +387,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function upload_gedcom_handler( ) {
-            global $wpdb;
 
             if ( !current_user_can( 'upload_files' ) ) {
                 wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
@@ -431,7 +429,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         . $location . '"; </script>';
             } else {
                 $transaction = new RP_Transaction( $this->credentials, true );
-                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
                 $transaction->close();
 
