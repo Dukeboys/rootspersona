@@ -168,8 +168,8 @@ class RP_Persona_Installer {
         if ( $options[ 'version' ] < '2.0.3' ) {
             unset( $options['evidence_page'] );
             unset( $options['index_page'] );
+            $options['version'] = $version;
             update_option( 'persona_plugin', $options );
-            
         }
     }
 
