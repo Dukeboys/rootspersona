@@ -20,6 +20,15 @@ class RP_Upload_Page_Builder {
                 . '. ' . __('Many users have reported hitting PHP time limit constraints when processing large files', 'rootspersona')
                 . ', ' . __('resulting in a white screen with no status message', 'rootspersona')
                 . '.</i></div>';
+        
+       if(function_exists( 'mysql_set_charset' ) ) {
+           $block .= '<br/><div style="overflow:hidden;width:80%;color:red;border:#DDD solid 2px;background-color:#EEE;padding:10px;"><i>'
+                . sprintf( __('%s is not able to find the %s function', 'rootspersona'), 'rootspersona', 'mysql_set_charset')
+                . '. ' . __('This probably means your version of PHP is too old.  You must be running version 5.2.3 or higher', 'rootspersona')
+                . '. ' . __('You will have problems uploading GEDCOM files until you upgrade', 'rootspersona')
+                . ', ' . __('resulting in a white screen with no status message', 'rootspersona')
+                . '.</i></div><br/>';
+       }
 
         $block .= "<form enctype='multipart/form-data' action='$action' method='POST'>"
                 . "<div style='overflow:hidden;margin:10px;'>"
@@ -55,6 +64,8 @@ class RP_Upload_Page_Builder {
                 . "</form><br/>";
 
         $block .= '<div>' . __('The following PHP settings have an impact on GEDCOM file processing', 'rootspersona') . ':<br/>'
+                . '<span style="color:blue;font-weight:bold">PHP ' . __('version','rootspersona') . '</span>'
+                . ' <span style="color:green;font-weight:bold">' . phpversion() . '.</span></br/>'
                 . '<span style="color:blue;font-weight:bold">upload_max_filesize</span>'
                 . ' <span style="color:green;font-weight:bold">' . ini_get('upload_max_filesize') . '.</span></br/>'
                 . '<span style="color:blue;font-weight:bold">post_max_size</span>'
