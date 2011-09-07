@@ -115,6 +115,7 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 = 2.1.1 =
 * Fixed missing batch_id for page edits
 * Fixed missing argument 1 error for edits
+* Use first 60 characters of TITLE if ABBR missing from GEDCOM
 
 = 2.1.0 =
 * fixed issue with the Hide Locations option
