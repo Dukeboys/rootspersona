@@ -243,7 +243,7 @@ class RP_Persona_Site_Mender {
                             $my_post['post_title'] = $expected['title'];
                             wp_update_post( $my_post );
                         } else {
-                            $output[] = __( 'Page title out of synch with person name', 'rootspersona' )
+                            $output[] = __( 'Page title out of synch with source name', 'rootspersona' )
                                     . ' (' . $page['post_title'] . ' : ' . $expected['title'];
                         }
                     }

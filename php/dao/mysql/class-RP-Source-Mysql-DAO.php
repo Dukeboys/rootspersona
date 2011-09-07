@@ -43,6 +43,12 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
             . 'abbr, publication_facts, text, auto_rec_id, ged_change_date,'
             . 'update_datetime, wp_page_id, id, batch_id)'
             . ' VALUES (?, ?, ?, ?, ?, ?, ?, now(), ?, ?, ?)';
+        
+        if( !isset( $rp_source->abbr ) || empty( $rp_source->abbr ))
+        {
+            $rp_source->abbr = substr( $rp_source->source_title, 0 , 60 );
+        }
+        
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_source->originator );
 		$sql_query->set( $rp_source->source_title );
@@ -70,6 +76,12 @@ class RP_Source_Mysql_Dao extends Rp_Mysql_DAO {
             . 'abbr = ?, publication_facts = ?, text = ?, auto_rec_id = ?,'
             . 'ged_change_date = ?, wp_page_id = ?, update_datetime = now()'
             . ' WHERE id = ?  AND batch_id = ? ';
+        
+        if( !isset( $rp_source->abbr ) || empty( $rp_source->abbr ) )
+        {
+            $rp_source->abbr = substr( $rp_source->source_title, 0 , 60 );
+        }
+        
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_source->originator );
 		$sql_query->set( $rp_source->source_title );
