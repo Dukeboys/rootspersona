@@ -181,13 +181,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @global wpdb $wpdb
          * @return string
          */
-        function edit_persona_page_handler( $atts, $content = null, $callback = null ) {
+        function edit_persona_page_handler( ) {
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
             $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $options = get_option( 'persona_plugin' );
             if ( !isset( $_POST['submitPersonForm'] ) ) {
                 $persona_id  = isset( $_GET['personId'] )
                         ? trim( esc_attr( $_GET['personId'] ) )  : '';
+                $batch_id = isset( $_GET['batchId'] )?$_GET['batchId']:'1';
                 if ( ! empty( $persona_id ) ) {
                     $edit_action = isset( $_GET['action'] )
                             ? trim( esc_attr( $_GET['action'] ) )  : '';
@@ -210,6 +211,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
             } else {
                 $persona_id  = isset( $_POST['personId'] )  ? trim( esc_attr( $_POST['personId'] ) )  : '';
+                $batch_id = isset( $_POST['batchId'] )?$_POST['batchId']:'1';
                 $name  = isset( $_POST['fullName'] )  ? trim( esc_attr( $_POST['fullName'] ) )  : '';
                 $opt = ( in_array( $_POST['privacy_grp'], array( 'Exc', 'Pub', 'Pvt', 'Mbr' ) )
                         ? $_POST['privacy_grp'] : '' );
@@ -719,7 +721,7 @@ if ( isset( $roots_persona_plugin ) ) {
     add_shortcode( 'rootsPersonaPictures', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaEvidence', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaIndexPage', array( $roots_persona_plugin, 'index_page_handler' ) );
-    add_shortcode( 'rootsEditPersonaForm', array( $roots_persona_plugin, 'edit_persona_page_handler' ) );
+    //add_shortcode( 'rootsEditPersonaForm', array( $roots_persona_plugin, 'edit_persona_page_handler' ) );
     add_shortcode( 'rootsEvidencePage', array( $roots_persona_plugin, 'evidence_page_handler' ) );
     add_action( 'admin_menu', array( $roots_persona_plugin, 'persona_menus' ) );
     add_action( 'wp_print_styles', array( $roots_persona_plugin, 'insert_persona_styles' ) );

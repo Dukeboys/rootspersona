@@ -112,6 +112,10 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.1.1 =
+* Fixed missing batch_id for page edits
+* Fixed missing argument 1 error for edits
+
 = 2.1.0 =
 * fixed issue with the Hide Locations option
 * reorganized options page

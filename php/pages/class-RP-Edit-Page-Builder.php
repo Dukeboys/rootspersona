@@ -27,6 +27,7 @@ class RP_Edit_Page_Builder {
                 . RP_Persona_Helper::get_banner($options, '&#160;')
                 . "<input type='hidden' name='srcPage' id='srcPage' value='" . $options['src_page'] . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
+                . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
                 . "</div></div>"
                 . "</form></div>";

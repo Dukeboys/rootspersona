@@ -56,7 +56,7 @@ class RP_Persona_Page_Builder {
             $block .= RP_Evidence_Panel_Creator::create( $persona, $options );
         }
         $block .= RP_Persona_Helper::get_banner($options, '');
-        $block .= RP_Persona_Page_Builder::create_end_of_page( $persona->id, $page_id, $options );
+        $block .= RP_Persona_Page_Builder::create_end_of_page( $persona->id, $persona->batch_id, $page_id, $options );
         return $block;
     }
 
@@ -121,7 +121,7 @@ class RP_Persona_Page_Builder {
      * @param integer $options
      * @return string
      */
-    public static function create_end_of_page( $id, $page_id, $options ) {
+    public static function create_end_of_page( $id, $batch_id,  $page_id, $options ) {
         $block = '';
         if ( ( get_post_type( $page_id ) != 'post' )
         && ( current_user_can( "edit_pages" ) )
@@ -130,7 +130,7 @@ class RP_Persona_Page_Builder {
             $win2 = __( 'Page will be removed and supporting data will be deleted.  Proceed?', 'rootspersona' );
 
             $edit_page = admin_url('/tools.php?page=rootsPersona&rootspage=edit')
-                        . "&personId=" . $id
+                        . "&personId=" . $id . "&batchId=" . $batch_id
                         . "&srcPage=" . $page_id . "&action=";
 
             $block .= "<div style='margin-top:10px;text-align: center;'>"
