@@ -21,7 +21,7 @@ class RP_Upload_Page_Builder {
                 . ', ' . __('resulting in a white screen with no status message', 'rootspersona')
                 . '.</i></div>';
         
-       if(function_exists( 'mysql_set_charset' ) ) {
+       if(!function_exists( 'mysql_set_charset' ) ) {
            $block .= '<br/><div style="overflow:hidden;width:80%;color:red;border:#DDD solid 2px;background-color:#EEE;padding:10px;"><i>'
                 . sprintf( __('%s is not able to find the %s function', 'rootspersona'), 'rootspersona', 'mysql_set_charset')
                 . '. ' . __('This probably means your version of PHP is too old.  You must be running version 5.2.3 or higher', 'rootspersona')
