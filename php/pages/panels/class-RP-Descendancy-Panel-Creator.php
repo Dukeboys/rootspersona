@@ -53,7 +53,8 @@ class RP_Descendancy_Panel_Creator {
             }
 
             if( isset( $associated ) && !empty( $associated ) ) {
-                $block .= '<div style="padding-left:' . $indent2 . 'em;">' . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
+                $block .= '<div style="padding-left:' . $indent2 . 'em;">' 
+                . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'
                 . $associated->full_name . '</a>';
             }
