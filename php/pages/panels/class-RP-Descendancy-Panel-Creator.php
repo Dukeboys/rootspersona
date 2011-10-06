@@ -13,7 +13,7 @@ class RP_Descendancy_Panel_Creator {
                         ? $options['pframe_color'] : 'brown' );
 
 		$block = '<div class="rp_truncate">'
-                . '<div class="rp_descendants">';
+                . '<div class="rp_descendants" style="padding:10px 4px;">';
         $block .= RP_Descendancy_Panel_Creator::build_level( $persona, $options, 1 );
 		$block .= '</div></div>';
 		return $block;
@@ -31,6 +31,7 @@ class RP_Descendancy_Panel_Creator {
 
 
         if($options['hide_dates'] == 0 ) {
+            $block .= '<span style="font-size:smaller;">';
             $d = $persona->birth_date;
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' b: ' . $d;
@@ -39,8 +40,11 @@ class RP_Descendancy_Panel_Creator {
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' d: ' . $d;
             }
+            $block .= '</span>';
         }
-        $cnt = $persona->marriages;
+        $block .= '<br/>';
+
+        $cnt = count($persona->marriages);
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
             $marriage = $persona->marriages[$idx];
             if ( $marriage['spouse1']->id == $persona->id ) {
@@ -54,6 +58,7 @@ class RP_Descendancy_Panel_Creator {
                 . $associated->full_name . '</a>';
             }
             if($options['hide_dates'] == 0 ) {
+                $block .= '<span style="font-size:smaller;">';
                 $d = $persona->birth_date;
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' b: ' . $d;
@@ -62,7 +67,10 @@ class RP_Descendancy_Panel_Creator {
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' d: ' . $d;
                 }
+                $block .= '</span>';
             }
+
+            $block .= '<br/>';
             // recurse children
         }
         return $block;
