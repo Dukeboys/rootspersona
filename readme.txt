@@ -3,8 +3,8 @@ Contributors: ed4becky
 Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 2.1.1
+Tested up to: 3.2.1
+Stable tag: 2.2.0
 
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -112,6 +112,10 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.2.0 =
+* Added Descendancy Charts to persona page
+* Minor bug fixes
+
 = 2.1.1 =
 * Fixed missing batch_id for page edits
 * Fixed missing argument 1 error for edits
