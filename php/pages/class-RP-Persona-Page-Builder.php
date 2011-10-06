@@ -6,6 +6,7 @@ require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Ancestor
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Picture-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Evidence-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php' );
+require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-RP-Descendancy-Panel-Creator.php' );
 
 class RP_Persona_Page_Builder {
 
@@ -34,6 +35,11 @@ class RP_Persona_Page_Builder {
             $block .= RP_Persona_Helper::get_banner($options, __( 'Ancestors', 'rootspersona' ));
             $creator = new RP_Ancestors_Panel_Creator();
             $block .= $creator->create( $persona->ancestors, $options );
+        }
+        if ( $options['hide_descendancy'] == 0 && isset( $persona->descendants ) ) {
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Descendancy', 'rootspersona' ));
+            $creator = new RP_Descendancy_Panel_Creator();
+            $block .= $creator->create( $persona->descendants, $options );
         }
         if ( $options['hide_family_c'] == 0  && isset( $persona->ancestors ) ) {
             $block .= RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Child', 'rootspersona' ));
@@ -134,13 +140,13 @@ class RP_Persona_Page_Builder {
                         . "&srcPage=" . $page_id . "&action=";
 
             $block .= "<div style='margin-top:10px;text-align: center;'>"
-                . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
+                . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover
                 . " style='width:100px'><a href='"
                 . $edit_page . "edit'>" . __( 'Edit Person', 'rootspersona' )
                 . "</a></span>";
             $url = $options['plugin_url'] . 'php/pages/';
 
-            $block .= "&#160;&#160;<span class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
+            $block .= "&#160;&#160;<span class='rp_linkbutton' " . RP_Tools_Page_Builder::hover
                 . " style='width:120px'><a href='#'"
                 . " onClick='javascript:rootsConfirm(\""
                 . $win2 . "\",\"" . $edit_page

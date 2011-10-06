@@ -53,6 +53,7 @@ class RP_Persona_Installer {
             $options['hide_facts'] = 0;
             $options['hide_bio'] = 0;
             $options['hide_ancestors'] = 0;
+            $options['hide_descendancy'] = 0;
             $options['hide_family_c'] = 0;
             $options['hide_family_s'] = 0;
             $options['hide_evidence'] = 0;
@@ -161,15 +162,17 @@ class RP_Persona_Installer {
             || empty( $options['is_system_of_record'] ) ) {
                 $options['is_system_of_record'] = 0;
             }
-
-            update_option( 'persona_plugin', $options );
         }
-        
+
         if ( $options[ 'version' ] < '2.0.3' ) {
             unset( $options['evidence_page'] );
             unset( $options['index_page'] );
-            update_option( 'persona_plugin', $options );
         }
+
+        if ( $options[ 'version' ] < '2.2.0' ) {
+            $options['hide_descendancy'] = 0;
+        }
+
         $options['version'] = $version;
         update_option( 'persona_plugin', $options );
     }
@@ -250,7 +253,7 @@ class RP_Persona_Installer {
                 set_time_limit( 60 );
             }
         }
- 
+
         $creator = new RP_Table_Creator();
         $creator->update_tables( $this->sql_file_to_drop_tables, $prefix );
     }
