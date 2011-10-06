@@ -43,7 +43,7 @@ class RP_Add_Page_Builder {
         $cnt = count( $persons );
         $height = ( $cnt > 10 ? '40em' : ( $cnt > 0 ? '15em' : '5em;') );
         $w = count( $persons ) == 0 ? 'width:13em;' : '';
-        $block .= "<table style='border-style:none;'><tbody><tr><td width='49%'>"
+        $block .= "<table style='border-style:none;'><tbody><tr><td>"
                     . "<select multiple name='persons[]' id='persons' style='height:$height;$w'>";
                     $cnt = count( $persons );
                     for ( $i = 0; $i < $cnt; $i++ ) {
@@ -51,7 +51,7 @@ class RP_Add_Page_Builder {
                                 . $persons[$i]['surname'] . ', '
                                 . $persons[$i]['given'] . "</option>";
                     }
-			$block .= "</select></td>" . "<td></td>"
+			$block .= "</select></td>"
                     . "</tr><tr><td>"
                     . "<div style='text-align:center;color:red;font-weight:bold'>"
                     . $msg . "</div>"
@@ -59,7 +59,7 @@ class RP_Add_Page_Builder {
                     . __( 'Add', 'rootspersona' ) . "' onclick='document.body.style.cursor=\"wait\";'/>" 
                     . "&#160;&#160;<input type='reset' name='reset' value='"
                     . __( 'Reset', 'rootspersona' ) . "'/>"
-                    . "</td><td/></tr></tbody></table><br/><br/><div class='personBanner'><br/></div>"
+                    . "</td></tr></tbody></table><br/><br/><div class='personBanner'><br/></div>"
                     . "</form></div>";
 		//}
 		return $block;

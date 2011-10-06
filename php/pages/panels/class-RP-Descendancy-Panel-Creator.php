@@ -20,18 +20,17 @@ class RP_Descendancy_Panel_Creator {
 	}
 
     public static function build_level( $persona, $options, $lvl ) {
-        $block = '';
-        $indent = ($lvl - 1) * 2;
-        for($i = 0; $i < $indent; $i++) {
-            $block .= '&nbsp;';
-        }
-        $block .= $lvl . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
+        $spacer1 = '';
+        $indent1 = ($lvl - 1) * 2;
+        $indent2 = $indent1 + 1;
+
+        $block = '<div style="padding-left:' . $indent1 . 'em;">' . $lvl . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $persona->page . '">'
                 . $persona->full_name . '</a>';
 
 
         if($options['hide_dates'] == 0 ) {
-            $block .= '&nbsp;+&nbsp;<span style="font-size:smaller;">';
+            $block .= '<span style="font-size:smaller;padding-left:1em;">';
             $d = $persona->birth_date;
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' b: ' . $d;
@@ -42,8 +41,8 @@ class RP_Descendancy_Panel_Creator {
             }
             $block .= '</span>';
         }
-        $block .= '<br/>';
-
+        $block .= '</div>';
+        
         $cnt = count($persona->marriages);
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
             $marriage = $persona->marriages[$idx];
@@ -52,13 +51,14 @@ class RP_Descendancy_Panel_Creator {
             } else {
                 $associated = $marriage['spouse1'];
             }
+
             if( isset( $associated ) && !empty( $associated ) ) {
-                $block .= '&nbsp;&nbsp;+&nbsp;<a href="' . $options['home_url'] . '?page_id='
+                $block .= '<div style="padding-left:' . $indent2 . 'em;">' . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'
                 . $associated->full_name . '</a>';
             }
             if($options['hide_dates'] == 0 ) {
-                $block .= '&nbsp;+&nbsp;<span style="font-size:smaller;">';
+                $block .= '<span style="font-size:smaller;padding-left:1em;">';
                 $d = $persona->birth_date;
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' b: ' . $d;
@@ -70,8 +70,15 @@ class RP_Descendancy_Panel_Creator {
                 $block .= '</span>';
             }
 
-            $block .= '<br/>';
-            // recurse children
+            $block .= '</div>';
+            if($lvl < 10) {
+                $cnt2 = count($marriage['children']);
+                // recurse children
+               for ( $idx2 = 0; $idx2 < $cnt2; $idx2++ ) {
+                    $child = $marriage['children'][$idx2];
+                    $block .= RP_Descendancy_Panel_Creator::build_level( $child, $options, $lvl + 1 );
+               }
+            }
         }
         return $block;
     }

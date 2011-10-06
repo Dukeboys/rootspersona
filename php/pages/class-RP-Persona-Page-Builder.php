@@ -37,7 +37,7 @@ class RP_Persona_Page_Builder {
             $block .= $creator->create( $persona->ancestors, $options );
         }
         if ( $options['hide_descendancy'] == 0 && isset( $persona->marriages ) ) {
-            $block .= RP_Persona_Helper::get_banner($options, __( 'Descendancy', 'rootspersona' ));
+            $block .= RP_Persona_Helper::get_banner($options, __( 'Descendancy Chart', 'rootspersona' ));
             $creator = new RP_Descendancy_Panel_Creator();
             $block .= $creator->create( $persona, $options );
         }
