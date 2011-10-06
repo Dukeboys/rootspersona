@@ -17,7 +17,6 @@ class RP_Persona extends Rp_Simple_Person {
     var $facts;
     var $sources;
     var $ancestors;
-    var $descendants;
     var $siblings;
     var $marriages;
     var $is_living;

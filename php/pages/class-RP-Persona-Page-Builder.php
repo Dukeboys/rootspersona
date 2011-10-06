@@ -6,7 +6,7 @@ require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Ancestor
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Picture-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Evidence-Panel-Creator.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php' );
-require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-RP-Descendancy-Panel-Creator.php' );
+require_once ( WP_PLUGIN_DIR . '/rootspersona/php/pages/panels/class-RP-Descendancy-Panel-Creator.php' );
 
 class RP_Persona_Page_Builder {
 
@@ -36,10 +36,10 @@ class RP_Persona_Page_Builder {
             $creator = new RP_Ancestors_Panel_Creator();
             $block .= $creator->create( $persona->ancestors, $options );
         }
-        if ( $options['hide_descendancy'] == 0 && isset( $persona->descendants ) ) {
+        if ( $options['hide_descendancy'] == 0 && isset( $persona->marriages ) ) {
             $block .= RP_Persona_Helper::get_banner($options, __( 'Descendancy', 'rootspersona' ));
             $creator = new RP_Descendancy_Panel_Creator();
-            $block .= $creator->create( $persona->descendants, $options );
+            $block .= $creator->create( $persona, $options );
         }
         if ( $options['hide_family_c'] == 0  && isset( $persona->ancestors ) ) {
             $block .= RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Child', 'rootspersona' ));
