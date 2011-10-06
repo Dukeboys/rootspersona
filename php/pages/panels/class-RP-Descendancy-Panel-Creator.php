@@ -31,7 +31,7 @@ class RP_Descendancy_Panel_Creator {
 
 
         if($options['hide_dates'] == 0 ) {
-            $block .= '<span style="font-size:smaller;">';
+            $block .= '&nbsp;+&nbsp;<span style="font-size:smaller;">';
             $d = $persona->birth_date;
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' b: ' . $d;
@@ -58,7 +58,7 @@ class RP_Descendancy_Panel_Creator {
                 . $associated->full_name . '</a>';
             }
             if($options['hide_dates'] == 0 ) {
-                $block .= '<span style="font-size:smaller;">';
+                $block .= '&nbsp;+&nbsp;<span style="font-size:smaller;">';
                 $d = $persona->birth_date;
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' b: ' . $d;
