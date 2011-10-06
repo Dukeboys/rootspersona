@@ -653,6 +653,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_facts'] = ( $input['hide_facts'] == 1 ? 1 : 0 );
             $options['hide_bio'] = ( $input['hide_bio'] == 1 ? 1 : 0 );
             $options['hide_ancestors'] = ( $input['hide_ancestors'] == 1 ? 1 : 0 );
+            $options['hide_descendancy'] = ( $input['hide_descendancy'] == 1 ? 1 : 0 );
             $options['hide_family_c'] = ( $input['hide_family_c'] == 1 ? 1 : 0 );
             $options['hide_family_s'] = ( $input['hide_family_s'] == 1 ? 1 : 0 );
             $options['hide_evidence'] = ( $input['hide_evidence'] == 1 ? 1 : 0 );
@@ -716,6 +717,7 @@ if ( isset( $roots_persona_plugin ) ) {
     add_shortcode( 'rootsPersonaBio', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaFacts', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaAncestors', array( $roots_persona_plugin, 'persona_handler' ) );
+    add_shortcode( 'rootsPersonaDescendancy', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaFamilyC', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaFamilyS', array( $roots_persona_plugin, 'persona_handler' ) );
     add_shortcode( 'rootsPersonaPictures', array( $roots_persona_plugin, 'persona_handler' ) );

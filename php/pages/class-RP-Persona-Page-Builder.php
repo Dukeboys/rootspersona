@@ -85,6 +85,7 @@ class RP_Persona_Page_Builder {
             $options['hide_header'] = 1;
             $options['hide_facts'] = 1;
             $options['hide_ancestors'] = 1;
+            $options['hide_descendancy'] = 1;
             $options['hide_family_c'] = 1;
             $options['hide_family_s'] = 1;
             $options['hide_pictures'] = 1;
@@ -96,6 +97,8 @@ class RP_Persona_Page_Builder {
                 $options['hide_facts'] = 0;
             } else if ( $callback == 'rootspersonaancestors' ) {
                 $options['hide_ancestors'] = 0;
+            } else if ( $callback == 'rootspersonadescendancy' ) {
+                $options['hide_descendancy'] = 0;
             } else if ( $callback == 'rootspersonafamilyc' ) {
                 $options['hide_family_c'] = 0;
             } else if ( $callback == 'rootspersonafamilys' ) {

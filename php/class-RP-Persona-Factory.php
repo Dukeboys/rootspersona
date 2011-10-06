@@ -51,55 +51,82 @@ class RP_Persona_Factory {
                 }
             }
 
+            // do I need fact data?
             if ( $options['hide_facts'] == 0 ) {
                 $persona->facts = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                         ->get_persona_events( $id, $batch_id );
                 $persona->marriages = $this->get_marriages( $persona, $uscore, $options );
             }
+
+            // do I need family data?
             if ( $options['hide_ancestors'] == 0
+            || $options['hide_descendancy'] == 0
             || $options['hide_family_c'] == 0
             || $options['hide_family_s'] == 0 ) {
+
                 if ( $options['hide_facts'] != 0
                 && ( $options['hide_family_c'] == 0
-                || $options['hide_family_s'] == 0 ) ) {
+                || $options['hide_family_s'] == 0
+                || $options['hide_descendancy'] == 0) ) {
                     $persona->marriages = $this->get_marriages( $persona, $uscore, $options );
                 }
-                $persona->ancestors = $this->get_ancestors( $persona, $options );
-                if ( $options['hide_family_c'] == 0 ) {
-                    $persona->siblings = $this->get_siblings( $persona, $options );
-                    if ( $persona->ancestors[2]->id != '0' ) {
-                        $persona->ancestors[2]->marriages = $this->get_marriages( $persona->ancestors[2], $uscore, $options );
+
+                if ( $options['hide_ancestors'] == 0
+                || $options['hide_family_c'] == 0
+                || $options['hide_family_s'] == 0 ) {
+
+                    $persona->ancestors = $this->get_ancestors( $persona, $options );
+                    if ( $options['hide_family_c'] == 0 ) {
+                        $persona->siblings = $this->get_siblings( $persona, $options );
+                        if ( $persona->ancestors[2]->id != '0' ) {
+                            $persona->ancestors[2]->marriages = $this->get_marriages( $persona->ancestors[2], $uscore, $options );
+                        }
+                        if ( $persona->ancestors[3]->id != '0' ) {
+                            $persona->ancestors[3]->marriages = $this->get_marriages( $persona->ancestors[3], $uscore, $options );
+                        }
                     }
-                    if ( $persona->ancestors[3]->id != '0' ) {
-                        $persona->ancestors[3]->marriages = $this->get_marriages( $persona->ancestors[3], $uscore, $options );
-                    }
+
                 }
-                if ( $options['hide_family_s'] == 0 ) {
-                    if ( $options['hide_facts'] != 0 ) {
-                        $persona->marriages = $this->get_marriages( $persona, $uscore, $options );
-                    }
+
+                if ( $options['hide_family_s'] == 0
+                     || $options['hide_descendancy'] == 0 ) {
+                    //if ( $options['hide_facts'] != 0 ) {
+                    //    $persona->marriages = $this->get_marriages( $persona, $uscore, $options );
+                    //}
                     $cnt = count( $persona->marriages );
                     for ( $idx = 0;    $idx < $cnt; $idx++ ) {
                         $persona->marriages[$idx]['children'] =
                                 $this->get_children( $persona->marriages[$idx]['fams'], $batch_id, $options );
-                        if ( $persona->marriages[$idx]['spouse1']->id == $persona->id ) {
-                            $persona->marriages[$idx]['spouse2']->marriages
-                                    = $this->get_marriages( $persona->marriages[$idx]['spouse2'], $uscore, $options );
-                        } else {
-                            $persona->marriages[$idx]['spouse1']->marriages
-                                    = $this->get_marriages( $persona->marriages[$idx]['spouse1'], $uscore, $options );
+
+                        if ( $options['hide_family_s'] == 0 ) {
+                            if ( $persona->marriages[$idx]['spouse1']->id == $persona->id ) {
+                                $persona->marriages[$idx]['spouse2']->marriages
+                                        = $this->get_marriages( $persona->marriages[$idx]['spouse2'], $uscore, $options );
+                            } else {
+                                $persona->marriages[$idx]['spouse1']->marriages
+                                        = $this->get_marriages( $persona->marriages[$idx]['spouse1'], $uscore, $options );
+                            }
+
+                            $persona->marriages[$idx]['spouse2']->f_persona
+                                    = $this->get_persona( $persona->marriages[$idx]['spouse2']->father, $batch_id, $uscore, $options );
+                            $persona->marriages[$idx]['spouse2']->m_persona
+                                    = $this->get_persona( $persona->marriages[$idx]['spouse2']->mother, $batch_id, $uscore, $options );
+                            $persona->marriages[$idx]['spouse1']->f_persona
+                                    = $this->get_persona( $persona->marriages[$idx]['spouse1']->father, $batch_id, $uscore, $options );
+                            $persona->marriages[$idx]['spouse1']->m_persona
+                                    = $this->get_persona( $persona->marriages[$idx]['spouse1']->mother, $batch_id, $uscore, $options );
                         }
-                        $persona->marriages[$idx]['spouse2']->f_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->father, $batch_id, $uscore, $options );
-                        $persona->marriages[$idx]['spouse2']->m_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse2']->mother, $batch_id, $uscore, $options );
-                        $persona->marriages[$idx]['spouse1']->f_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->father, $batch_id, $uscore, $options );
-                        $persona->marriages[$idx]['spouse1']->m_persona
-                                = $this->get_persona( $persona->marriages[$idx]['spouse1']->mother, $batch_id, $uscore, $options );
+                       
+                        if ( $options['hide_descendancy'] == 0 ) {
+
+                        }
                     }
                 }
+
+
             }
+
+            // do I need evidence data?
             if ( $options['hide_evidence'] == 0 ) {
                 if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
                     $persona->sources =
@@ -109,6 +136,7 @@ class RP_Persona_Factory {
             }
 
 
+            // do I need picture data?
             for ( $idx = 1; $idx <= 7; $idx++ ) {
                 $pic = 'picfile' . $idx ;
                 if ( isset( $options[$pic] ) ) {
