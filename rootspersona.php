@@ -83,6 +83,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function persona_handler( $atts, $content = null, $callback = null ) {
             //$time_start = microtime( true );
+            global $post;
             $block = '';
             $persona_id = $atts['personid'];
             if( $persona_id == '0' ) unset( $persona_id );
@@ -94,6 +95,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 $options = $builder->get_persona_options( $atts, $callback, $options );
                 $factory = new RP_Persona_Factory( $this->credentials );
                 $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                //if($persona->full_name == 'Private')
+                //    $post->post_title = 'Private';
                 $block = $builder->build( $persona, $options, RP_Persona_Helper::get_page_id() );
             } else {
                 $msg = __('Invalid person id.', 'rootspersona');

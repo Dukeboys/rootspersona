@@ -44,7 +44,7 @@ class RP_Persona_Factory {
         $persona->picFiles = array();
         $persona->picCaps = array();
         $pscore = $persona->pscore;
-        
+
         if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
             if ( $options['hide_header'] == 0 || $options['hide_bio'] == 0 ) {
                 if( ( isset ( $options['header_style'] ) && $options['header_style'] == '2' )
@@ -275,6 +275,7 @@ class RP_Persona_Factory {
         $persona->death_date = '';
         $persona->death_place = '';
         $persona->gender = '';
+        $persona->page = '';
         return $persona;
     }
 
