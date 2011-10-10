@@ -8,9 +8,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2011-10-10 11:07-0500\n"
+"Last-Translator: Ed Thompson <ed@ed4becky.org>\n"
+"Language-Team: \n"
 
 #: rootspersona.php:102
 msgid "Invalid person id."
@@ -20,7 +20,8 @@ msgstr ""
 msgid "Missing"
 msgstr ""
 
-#: rootspersona.php:271 rootspersona.php:327
+#: rootspersona.php:271
+#: rootspersona.php:327
 msgid "No people selected."
 msgstr ""
 
@@ -291,9 +292,7 @@ msgid "This person will be visible to ANYONE, even if they are living."
 msgstr ""
 
 #: php/pages/class-RP-Edit-Page-Builder.php:97
-msgid ""
-"This person will be visible based on the privacy setting for living persons "
-"or the global default setting."
+msgid "This person will be visible based on the privacy setting for living persons or the global default setting."
 msgstr ""
 
 #: php/pages/class-RP-Edit-Page-Builder.php:110
@@ -367,21 +366,15 @@ msgid "with"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:18
-msgid ""
-"Please note that GEDCOM processing is the most system taxing processing this "
-"plugin performs"
+msgid "Please note that GEDCOM processing is the most system taxing processing this plugin performs"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:19
-msgid ""
-"The system will be uploading the file AND parsing each person into the "
-"database"
+msgid "The system will be uploading the file AND parsing each person into the database"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:20
-msgid ""
-"Many users have reported hitting PHP time limit constraints when processing "
-"large files"
+msgid "Many users have reported hitting PHP time limit constraints when processing large files"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:21
@@ -394,9 +387,7 @@ msgid "%s is not able to find the %s function"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:27
-msgid ""
-"This probably means your version of PHP is too old.  You must be running "
-"version 5.2.3 or higher"
+msgid "This probably means your version of PHP is too old.  You must be running version 5.2.3 or higher"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:28
@@ -424,21 +415,15 @@ msgid "Your system is configured in "
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:82
-msgid ""
-"will NOT be able to override your system settings to allow processing of a "
-"large GEDCOM file."
+msgid "will NOT be able to override your system settings to allow processing of a large GEDCOM file."
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:86
-msgid ""
-"will try to override your system settings as needed to allow processing of a "
-"large GEDCOM file"
+msgid "will try to override your system settings as needed to allow processing of a large GEDCOM file"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:89
-msgid ""
-"However you may still run into an issue with server time limit settings "
-"(usually 300 seconds)"
+msgid "However you may still run into an issue with server time limit settings (usually 300 seconds)"
 msgstr ""
 
 #: php/pages/class-RP-Upload-Page-Builder.php:91
@@ -474,8 +459,7 @@ msgid "Review Excluded Persons"
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:65
-msgid ""
-"Review people you have previous excluded, and include the ones you select."
+msgid "Review people you have previous excluded, and include the ones you select."
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:75
@@ -483,10 +467,7 @@ msgid "Validate persona Pages"
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:79
-msgid ""
-"Identify orphaned %s pages. Includes all pages with %s shortcode and no "
-"reference in the database, or reference in the database with no "
-"corresponding page."
+msgid "Identify orphaned %s pages. Includes all pages with %s shortcode and no reference in the database, or reference in the database with no corresponding page."
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:80
@@ -506,9 +487,7 @@ msgid "Convert to 2.x Format"
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:96
-msgid ""
-"Perform a bulk conversion from the pre 2.x file format to the 2.x database "
-"format."
+msgid "Perform a bulk conversion from the pre 2.x file format to the 2.x database format."
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:106
@@ -516,9 +495,7 @@ msgid "Delete persona Pages"
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:110
-msgid ""
-"Perform a bulk deletion of all %s and evidence pages. This will NOT delete "
-"data, only pages."
+msgid "Perform a bulk deletion of all %s and evidence pages. This will NOT delete data, only pages."
 msgstr ""
 
 #: php/pages/class-RP-Tools-Page-Builder.php:121
@@ -534,8 +511,7 @@ msgid "Edit page is meant to be accessed using the Edit button on a %s page"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:12
-msgid ""
-"Accessing outside of a %s page will result in an invalid personId error."
+msgid "Accessing outside of a %s page will result in an invalid personId error."
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:16
@@ -567,9 +543,7 @@ msgid "Public"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:42
-msgid ""
-"Privacy Setting to use for living people (no death date and birth date "
-"greater than 110 years ago)"
+msgid "Privacy Setting to use for living people (no death date and birth date greater than 110 years ago)"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:44
@@ -615,9 +589,7 @@ msgid "No"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:75
-msgid ""
-"Some people may want to hide dates for privacy purposes.  This is a global "
-"flag (impacts all %s pages)."
+msgid "Some people may want to hide dates for privacy purposes.  This is a global flag (impacts all %s pages)."
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:77
@@ -625,9 +597,7 @@ msgid "Hide Locations"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:89
-msgid ""
-"Some people may want to hide locations for privacy purposes.  This is a "
-"global flag (impacts all %s pages)."
+msgid "Some people may want to hide locations for privacy purposes.  This is a global flag (impacts all %s pages)."
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:90
@@ -695,8 +665,7 @@ msgid "Hide Child Family Group"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:202
-msgid ""
-"Skip the Family Group panel where the person is a Child on persona pages"
+msgid "Skip the Family Group panel where the person is a Child on persona pages"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:206
@@ -704,8 +673,7 @@ msgid "Hide Spousal Family Groups"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:218
-msgid ""
-"Skip the Family Group panels where the person is a Spouse on persona pages"
+msgid "Skip the Family Group panels where the person is a Spouse on persona pages"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:220
@@ -713,9 +681,7 @@ msgid "Hide Picture"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:232
-msgid ""
-"Skip the pictures panel on %s pages. Still displays the image in the Header "
-"panel"
+msgid "Skip the pictures panel on %s pages. Still displays the image in the Header panel"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:234
@@ -731,8 +697,7 @@ msgid "Hide Edit Links"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:260
-msgid ""
-"Some people may want to hide the edit links at the bottom of the %s page"
+msgid "Some people may want to hide the edit links at the bottom of the %s page"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:261
@@ -744,9 +709,7 @@ msgid "Parent Page Id"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:267
-msgid ""
-"you want %s pages to be organized under in a menu structure.  0 indicates no "
-"parent page"
+msgid "you want %s pages to be organized under in a menu structure.  0 indicates no parent page"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:269
@@ -810,9 +773,7 @@ msgid "System Of Record"
 msgstr ""
 
 #: php/pages/class-RP-Option-Page-Builder.php:353
-msgid ""
-"Only No is supported at this time (meaning some external program is the "
-"system of record)"
+msgid "Only No is supported at this time (meaning some external program is the system of record)"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:36
@@ -835,15 +796,11 @@ msgid "The default WordPress themes display all first level pages by default"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:267
-msgid ""
-"When importing a GEDCOM file, hundreds of pages can be created, all first "
-"level pages"
+msgid "When importing a GEDCOM file, hundreds of pages can be created, all first level pages"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:268
-msgid ""
-"The intent of assigning a Parent Page is to push persona pages down to a "
-"second level"
+msgid "The intent of assigning a Parent Page is to push persona pages down to a second level"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:269
@@ -851,9 +808,7 @@ msgid "allowing an admin to manage the display of those pages"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:271
-msgid ""
-"I can not tell you how many new users have skipped the step of assigning the "
-"parent page"
+msgid "I can not tell you how many new users have skipped the step of assigning the parent page"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:272
@@ -869,9 +824,7 @@ msgid "will now create and assign a Parent Page by default"
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:276
-msgid ""
-"The parent page is NOT meant for display, as the menu is very large on most "
-"sites."
+msgid "The parent page is NOT meant for display, as the menu is very large on most sites."
 msgstr ""
 
 #: php/class-RP-Persona-Installer.php:295
@@ -897,3 +850,4 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "http://ed4becky.net/"
 msgstr ""
+
