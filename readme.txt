@@ -112,6 +112,9 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.2.1 =
+* Reroute private person link on public person page site url
+
 = 2.2.0 =
 * Added Descendancy Charts to persona page
 * Minor bug fixes
