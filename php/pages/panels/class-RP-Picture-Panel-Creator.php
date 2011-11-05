@@ -9,18 +9,25 @@ class RP_Picture_Panel_Creator {
      * @return string
      */
     public static function create( $persona, $options ) {
-        $default = $options['plugin_url'] . '/images/boy-silhouette.gif';
-        if ( isset( $persona->gender ) && $persona->gender == 'F' ) {
-            $default = $options['plugin_url'] . '/images/girl-silhouette.gif';
+        if ( ! isset($options['hide_undef_pics']) || $options['hide_undef_pics'] != '1') {
+            $default = $options['plugin_url'] . '/images/boy-silhouette.gif';
+            if ( isset( $persona->gender ) && $persona->gender == 'F' ) {
+                $default = $options['plugin_url'] . '/images/girl-silhouette.gif';
+            }
         }
         $block = '<div class="rp_truncate">'
             . '<div class="rp_pictures">';
         $cnt = 6;
         for ( $idx = 1;    $idx <= $cnt; $idx++ ) {
-            $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
-            $block .= '<div class="rp_picture"><a href="' . $link
+            if ( isset ( $persona->picFiles[$idx] ) 
+                    || ! isset($options['hide_undef_pics']) 
+                    || $options['hide_undef_pics'] != '1') {
+                $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
+                $block .= '<div class="rp_picture"><a href="' . $link
                         . '"><img width="100px" src="' . $link . '"/></a><div class="rp_caption">'
-                    . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' ) . '</div></div>';
+                        . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' ) 
+                        . '</div></div>';
+            }
         }
 
         $block .= '</div>'

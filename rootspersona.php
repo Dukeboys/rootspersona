@@ -477,6 +477,16 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_register_style( 'rootsPersona-4',
                     plugins_url( 'css/indexTable.css',__FILE__ ), false, '1.0', 'screen' );
             wp_enqueue_style( 'rootsPersona-4' );
+
+        }
+        
+        function inject_custom_style () {
+            if ( !is_admin() ) {
+                $options = get_option( 'persona_plugin' );
+                if ( isset($options['custom_style']) && !empty($options['custom_style'])) {
+                    echo '<style type="text/css">' . $options['custom_style'] . '</style>';
+                }
+            }            
         }
 
         /**
@@ -662,6 +672,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_evidence'] = ( $input['hide_evidence'] == 1 ? 1 : 0 );
             $options['hide_pictures'] = ( $input['hide_pictures'] == 1 ? 1 : 0 );
             $options['hide_edit_links'] = ( $input['hide_edit_links'] == 1 ? 1 : 0 );
+            $options['hide_undef_pics'] = ( $input['hide_undef_pics'] == 1 ? 1 : 0 );
             $options['hide_dates'] = ( $input['hide_dates'] == 1 ? 1 : 0 );
             $options['hide_places'] = ( $input['hide_places'] == 1 ? 1 : 0 );
             $options['privacy_default'] =
@@ -670,6 +681,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['privacy_living'] =
                 in_array( $input['privacy_living'], array( 'Pub', 'Pvt', 'Mbr', 'Exc' ) )
                     ? $input['privacy_living'] : 'Mbr';
+            $options['custom_style'] = trim( esc_attr( $input['custom_style'] ) );
             return $options;
         }
 
@@ -736,5 +748,6 @@ if ( isset( $roots_persona_plugin ) ) {
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
     add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );
+    add_action('wp_head', array( $roots_persona_plugin, 'inject_custom_style' ) );
 }
 ?>

@@ -26,16 +26,16 @@ class RP_Header_Panel_Creator {
         
         $cnt = count( $persona->notes );
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
-                        ? $options['pframe_color'] : 'brown' );
+                        ? ("style='border-color:" . $options['pframe_color'] . " !important;'"): '' );
         
         if( ! isset ( $options['header_style'] )  || $options['header_style'] == '1' || $cnt == 0 ) {
             // original style
             $block .= '<a href="' . $default . '">'
-            . '<img class="rp_headerbox" src="' . $default . '" style="border-color:' . $pframe_color . ';"/></a>'
+            . '<img class="rp_headerbox" src="' . $default . '" ' . $pframe_color . '/></a>'
             . '<div class="rp_headerbox">' 
             . '<span class="rp_headerbox">'
             . $persona->full_name . '</span>'
-            . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2">'
+            . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2;display:none;">'
             . $persona->id . '</span>';
             
             if ( ! $options['hide_dates'] ) {
@@ -47,8 +47,8 @@ class RP_Header_Panel_Creator {
         } else if ( $options['header_style'] == '2' ) {
             // bio style
             $block .= '<a href="' . $default . '">'
-                    . '<img class="rp_headerbox" style="border-color:' . $pframe_color 
-                    . ';margin:0px 30px 5px 0px !important;width:150px !important;" src="'
+                    . '<img class="rp_headerbox rp_biopic" '. $pframe_color 
+                    . ' src="'
                     . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {

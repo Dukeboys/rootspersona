@@ -244,6 +244,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[hide_evidence]' value='1' $yes>" . __('Yes','rootspersona');
         echo "&#160;<input type='radio' name='persona_plugin[hide_evidence]' value='0' $no>" . __('No','rootspersona') . "</td>";
         echo "<td>" . __( 'Skip the evidence panel in persona pages.', 'rootspersona' ) . "</td></tr>";
+      
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[hide_edit_links]'>" . __( 'Hide Edit Links', 'rootspersona' ) . "?</label></td>";
         $yes = $options['hide_edit_links'];
@@ -258,13 +259,31 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[hide_edit_links]' value='1' $yes>" . __('Yes','rootspersona');
         echo "&#160;<input type='radio' name='persona_plugin[hide_edit_links]' value='0' $no>" . __('No','rootspersona') . "</td>";
         echo "<td>" . sprintf( __( 'Some people may want to hide the edit links at the bottom of the %s page', 'rootspersona' ), "persona" ) . ".</td></tr>";
+       
+        echo "<tr valign='top'>";
+        echo "<td scope='row' class='left-label'><label for='persona_plugin[hide_undef_pics]'>" . __( 'Hide Silhouettes', 'rootspersona' ) . "?</label></td>";
+        $yes = $options['hide_undef_pics'];
+        if ( isset( $yes )
+        && $yes == '1' ) {
+            $yes = 'checked';
+            $no = '';
+        } else {
+            $yes = '';
+            $no = 'checked';
+        }
+        echo "<td><input type='radio' name='persona_plugin[hide_undef_pics]' value='1' $yes>" . __('Yes','rootspersona');
+        echo "&#160;<input type='radio' name='persona_plugin[hide_undef_pics]' value='0' $no>" . __('No','rootspersona') . "</td>";
+        echo "<td>" .__( 'Some people may want to hide the silhouette placeholders in the picture panel', 'rootspersona' ) . ".</td></tr>";
+       
+        // Misc
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Utility Pages','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[parent_page]'>" . __( 'Parent Page Id', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[parent_page]' id='parent_page'";
         echo " value='" . $options['parent_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
+        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " 
+                . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Style Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
@@ -307,7 +326,7 @@ class RP_Option_Page_Builder {
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[pframe_color]'>" . __( 'Persona Frames', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>border-color:<input type='text' size='8' name='persona_plugin[pframe_color]' id='banner_bcolor'";
+        echo "<td colspan='2'>border-color:<input type='text' size='8' name='persona_plugin[pframe_color]' id='pframe_color'";
         echo " value='" . ( isset( $options['pframe_color'] ) ?  $options['pframe_color'] : '' ) . "'/>;</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
@@ -329,6 +348,11 @@ class RP_Option_Page_Builder {
         echo " value='" . ( isset( $options['index_hdr_color'] ) ?  $options['index_hdr_color'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
+        echo "<tr valign='top'>";
+        echo "<td scope='row' class='left-label'><label for='persona_plugin[custom_style]'>" . __( 'Custom Style', 'rootspersona' ) . "</label></td>";
+        echo "<td colspan='2'><label style='vertical-align:top;'>&lt;style&gt;</label><textarea cols='65' rows='4' name='persona_plugin[custom_style]' id='custom_style' />";
+        echo ( isset( $options['custom_style'] ) ?  $options['custom_style'] : '' ) . "</textarea>&lt;/style&gt;</span></td>";
+        
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
         echo "<tr valign='top'>";

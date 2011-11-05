@@ -1,3 +1,7 @@
+.rp_biopic {
+    margin:0px 30px 5px 0px !important;
+    width:150px !important;
+}
 div.rp_banner {
     padding: 3px 0px 3px 8px;
     background-image: url("../images/personBanner.jpg");
