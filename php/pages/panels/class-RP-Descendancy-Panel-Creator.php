@@ -60,11 +60,11 @@ class RP_Descendancy_Panel_Creator {
             }
             if($options['hide_dates'] == 0 ) {
                 $block .= '<span style="font-size:smaller;padding-left:1em;">';
-                $d = $persona->birth_date;
+                $d = $associated->birth_date;
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' b: ' . $d;
                 }
-                $d = $persona->death_date;
+                $d = $associated->death_date;
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' d: ' . $d;
                 }
