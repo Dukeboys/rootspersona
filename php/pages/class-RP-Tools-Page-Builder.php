@@ -57,7 +57,7 @@ class RP_Tools_Page_Builder {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
                 . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
-                . " id='review' name='review' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . " id='review' name='review' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -71,7 +71,7 @@ class RP_Tools_Page_Builder {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
                 . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
-                . " id='validate' name='validate' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . " id='validate' name='validate' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -87,7 +87,7 @@ class RP_Tools_Page_Builder {
             . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
       $block = "<tr style='vertical-align: top'>" 
             . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover . ">"
-            . "<a href='#' onClick='javascript:rootsConfirm(\"" . $win2 . "\",\""
+            . "<a href='#' onClick='rootsConfirm(\"" . $win2 . "\",\""
             . admin_url('/tools.php?page=rootsPersona&rootspage=util')
             . "&utilityAction=convert2\");return false;'>"
             . __( 'Convert to 2.x Format', 'rootspersona' )
@@ -102,7 +102,7 @@ class RP_Tools_Page_Builder {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
                 . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
-                . " id='delete' name='delete' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . " id='delete' name='delete' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -117,7 +117,7 @@ class RP_Tools_Page_Builder {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
                 . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover
-                . " id='evidence' name='evidence' onclick='javascript:revealBatchSpan(this,\"" . admin_url() . "\");'>"
+                . " id='evidence' name='evidence' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Add Evidence Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
 
@@ -139,17 +139,17 @@ class RP_Tools_Page_Builder {
                 . "<input type='text' name='batch_id' id='batch_id' size='6' value='$default' />"
                 . "<input type='button' hidefocus='1' value='&#9660;'"
                 . "style='height:13;width:13;font-family:helvetica;padding:2px;' "
-                . "onclick='javascript:if( jQuery(\"#batch_ids_span\").is(\":visible\") ) jQuery(\"#batch_ids_span\").css(\"display\",\"none\"); else jQuery(\"#batch_ids_span\").css(\"display\",\"inline-block\");'>"
+                . "onclick='if( jQuery(\"#batch_ids_span\").is(\":visible\") ) jQuery(\"#batch_ids_span\").css(\"display\",\"none\"); else jQuery(\"#batch_ids_span\").css(\"display\",\"inline-block\");'>"
 
                 . "<input style='margin-left:0.5em;' id='process_button' name ='process_button' type='button' value='Process'>"
-                . "<input type='button' value='Cancel' onclick=\"javascript:jQuery('#batchspan').hide();jQuery('#batchlabel').show();return false;\">"
+                . "<input type='button' value='Cancel' onclick=\"jQuery('#batchspan').hide();jQuery('#batchlabel').show();return false;\">"
 
                 . "<span style='display:inline-block;width:12em;font-weight:bold;font-size:smaller;font-style:italic;color:red;margin-left:10px;'>"
                 . "Only change if you have segregated data.</span>"
                 . "<br/><span id='batch_ids_span' name='batch_ids_span' style='display:none;overflow:hidden;margin:-4px 0px 0px 0px;'>"
                 . "<label class='label8' for='batch_ids'>&nbsp;</label>"
                 . "<select id='batch_ids' name='batch_ids' style='width:7.6em;zIndex=1;'"
-                . " onchange='javascript:synchBatchText();' size='$s'>";
+                . " onchange='synchBatchText();' size='$s'>";
 
       foreach ( $batch_ids as $id ) {
            $selected = $id==$default?'selected':'';

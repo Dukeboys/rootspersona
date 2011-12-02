@@ -375,6 +375,22 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[is_system_of_record]' value='true' $yes disabled>Yes ";
         echo "&#160;<input type='radio' name='persona_plugin[is_system_of_record]' value='false' $no>No </td>";
         echo "<td>" . __( 'Only No is supported at this time (meaning some external program is the system of record)', 'rootspersona' ) . ".</td></tr>";
+             
+        echo "<tr valign='top'>";
+        echo "<td scope='row' class='left=label' ><label for='persona_plugin[debug]'>" . __( 'Debug Mode', 'rootspersona' ) . "?</label></td>";
+        $yes = $options['debug'];
+        if ( isset( $yes )
+        && $yes == 1 ) {
+            $yes = 'checked';
+            $no = '';
+        } else {
+            $yes = '';
+            $no = 'checked';
+        }
+        echo "<td><input type='checkbox' name='persona_plugin[debug]' value='true' $yes>&#160;&#160;Yes ";
+
+        echo "<td>" . __( 'Provide debug information in wp-content/debug.log', 'rootspersona' ) . ".</td></tr>";
+       
         echo "</table><p class='submit'>";
         echo "<input type='submit' name='Submit' value=' " . __( 'Save Changes', 'rootspersona' ) . " '/>";
         echo settings_fields( 'persona_plugin' );

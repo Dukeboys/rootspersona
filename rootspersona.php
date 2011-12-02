@@ -3,7 +3,7 @@
  Plugin Name: rootspersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 2.3.0
+ Version: 2.3.1
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -56,7 +56,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '2.3.0';
+        var $persona_version = '2.3.1';
 
         /**
          *
@@ -675,6 +675,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_undef_pics'] = ( $input['hide_undef_pics'] == 1 ? 1 : 0 );
             $options['hide_dates'] = ( $input['hide_dates'] == 1 ? 1 : 0 );
             $options['hide_places'] = ( $input['hide_places'] == 1 ? 1 : 0 );
+            $options['debug'] = ( $input['debug'] == true ? 1 : 0 );
             $options['privacy_default'] =
                 in_array( $input['privacy_default'], array( 'Pub', 'Pvt', 'Mbr' ) )
                     ? $input['privacy_default'] : 'Pub';
@@ -749,5 +750,12 @@ if ( isset( $roots_persona_plugin ) ) {
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
     add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );
     add_action('wp_head', array( $roots_persona_plugin, 'inject_custom_style' ) );
+    $options = get_option( 'persona_plugin' );
+    if($options['debug'] == '1') {
+        define( 'WP_DEBUG', true ); // turn on debug mode
+        define( 'WP_DEBUG_LOG', true ); // log to wp-content/debug.log
+        define( 'WP_DEBUG_DISPLAY', false ); // don't force display_errors to on
+        @ini_set( 'display_errors', 0 ); // hide errors
+    }
 }
 ?>
