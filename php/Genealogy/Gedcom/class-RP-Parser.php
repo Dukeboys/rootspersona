@@ -64,7 +64,7 @@ class RP_Parser {
     public function parse( $_filename, $callback_class = null ) {
         @ini_set('auto_detect_line_endings',true);
         $this->gedcom_filename = $_filename;
-        $callback = ( $callback_class == null ? $this : $callback_class );
+        $callback = ( $callback_class === null ? $this : $callback_class );
         $line = null;
         try {
             if ( ($fp = fopen( $this->gedcom_filename, 'r' )) !== false ) {
@@ -88,7 +88,7 @@ class RP_Parser {
                             break;
                         }
                     }
-                    if ( $line == null )$line = $next_line;if ( strpos( $line, '0 TRLR' ) !== false ) {
+                    if ( $line === null )$line = $next_line;if ( strpos( $line, '0 TRLR' ) !== false ) {
                         fclose( $fp );
                         break;
                     } else if ( feof( $fp ) ) {
@@ -150,7 +150,7 @@ class RP_Parser {
             case 'UTF-8':
                 return $str;
             case 'ANSEL':
-                if ( $this->ansel_converter == null )$this->ansel_converter = new RP_Ansel2_Unicode();
+                if ( $this->ansel_converter === null )$this->ansel_converter = new RP_Ansel2_Unicode();
                 return $this->ansel_converter->convert( $str );
             case 'ANSI':
                 return mb_convert_encoding( $str, 'UTF-8', 'CP1252' );

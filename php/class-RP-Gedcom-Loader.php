@@ -296,11 +296,11 @@ class RP_Gedcom_Loader {
             $name->name_type = $p_name->rp_name->type;
             $name->prefix = $p_name->rp_name->pieces->prefix;
             $g_name = $p_name->rp_name->get_given();
-            $name->given = $g_name == null ? '' : $g_name;
+            $name->given = $g_name === null ? '' : $g_name;
             $name->nickname = $p_name->rp_name->pieces->nick_name;
             $name->surname_prefix = $p_name->rp_name->pieces->surname_prefix;
             $s_name = $p_name->rp_name->get_surname();
-            $name->surname = $s_name == null ? '' : $s_name;
+            $name->surname = $s_name === null ? '' : $s_name;
             $name->suffix = $p_name->rp_name->pieces->suffix;
             $id = null;
             try {

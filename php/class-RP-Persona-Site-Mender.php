@@ -41,7 +41,7 @@ class RP_Persona_Site_Mender {
                             , $page->post_content );
                     $wp_page_id = RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
                             ->get_page_id( $pid, 1 );
-                    if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
+                    if ( ! isset( $wp_page_id ) || $wp_page_id === null ) {
                         if ( $is_repair ) {
                             $output[] =
                                 __( "Deleted orphaned page with no reference in",
@@ -107,7 +107,7 @@ class RP_Persona_Site_Mender {
                     $sid = @preg_replace( '/.*?sourceId=[\'|"](.*)[\'|"].*?/US', '$1', $page->post_content );
                     $wp_page_id = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                             ->get_page_id( $sid, 1 );
-                    if ( ! isset( $wp_page_id ) || $wp_page_id == null ) {
+                    if ( ! isset( $wp_page_id ) || $wp_page_id === null ) {
                         if ( $is_repair ) {
                             $output[] = __( "Deleted orphaned page with no reference in rp_source.",
                                     'rootspersona' );

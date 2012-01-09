@@ -123,7 +123,7 @@ class RP_Xml_To_Database_Importer {
         }
         $name = new RP_Name_Personal();
         $name->personal_name = $fullname;
-        $name->surname = $surname == null ? '' : $surname;
+        $name->surname = $surname === null ? '' : $surname;
         if ( $surname != null ) {
             $name->given = trim( str_replace( $surname, '', $fullname ) );
         }
@@ -227,7 +227,7 @@ class RP_Xml_To_Database_Importer {
         if ( $c1 != null
         && $c1->length > 0 ) {
             $c2 = $c1->item( 0 )->getElementsByTagName( "familyGroups" );
-            if ( $c2 == null
+            if ( $c2 === null
             && $c2->length > 0 ) {
                 $c3 = $c2->item( 0 )->getElementsByTagName( "familyGroup" );
                 for ( $idx = 0; $idx < $c3->length; $idx++ ) {
