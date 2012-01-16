@@ -78,7 +78,7 @@ div.rp_family table.familygroup td.ref {
     padding-left: 0px !important;
 }
 
-div.rp_family table.familygroup td.date {
+div.rp_family table.familygroup td.rp_date {
     padding: 0px 8px 0px 8px !important;
     width: 20%;
     font-size: smaller;

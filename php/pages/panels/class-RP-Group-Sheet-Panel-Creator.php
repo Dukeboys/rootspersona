@@ -10,10 +10,10 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     public static function create_group_child( $ancestors, $children, $options ) {
-        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
-        
-        $block = '<div class="rp_truncate">' 
+
+        $block = '<div class="rp_truncate">'
                 . '<div class="rp_family">'
                 . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"><tbody>'
                . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[2], $ancestors[4], $ancestors[5], $options )
@@ -30,7 +30,7 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     public static function create_group_spouse( $marriage, $options ) {
-        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
         $block = '<div class="rp_truncate">'
@@ -55,18 +55,18 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     static function show_parent( $parent, $grandfather, $grandmother, $options ) {
-        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
-        $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) ) 
-                        ? $options['group_fcolor'] : 'black' );  
-        $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) ) 
-                        ? $options['group_bcolor'] : null );  
-        $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) ) 
-                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );  
-        
-        $fill = "color:$color;" 
-                . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );     
-        
+        $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )
+                        ? $options['group_fcolor'] : 'black' );
+        $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) )
+                        ? $options['group_bcolor'] : null );
+        $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) )
+                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );
+
+        $fill = "color:$color;"
+                . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
+
         $row_span = 4 + ( isset( $parent->marriages ) ?  count( $parent->marriages ) : 0 );
         $birth_date = isset( $parent->birth_date ) ? $parent->birth_date : '';
         $birth_place = isset( $parent->birth_place ) ? $parent->birth_place : '';
@@ -81,11 +81,11 @@ class RP_Group_Sheet_Panel_Creator {
                 . $parent->full_name . '</a></td></tr>'
 
         . '<tr><td class="inset" rowspan="' . $row_span . '" style="' . $fill . 'border-color:' . $pframe_color . ' !important"/><td class="label" style="border-color:' . $pframe_color . ' !important">'
-        . __( 'Birth', 'rootspersona' ) . '</td>' . '<td class="date" style="border-color:' . $pframe_color . ' !important">'
+        . __( 'Birth', 'rootspersona' ) . '</td>' . '<td class="rp_date" style="border-color:' . $pframe_color . ' !important">'
         . ( $options['hide_dates'] == 1 ? '' : $birth_date ) . '</td>'
         . '<td class="notes" style="border-color:' . $pframe_color . ' !important">' . ( $options['hide_places'] == 1 ? '' : $birth_place )
         . '</td></tr>' . '<tr><td class="label" style="border-color:' . $pframe_color . ' !important">' . __( 'Death', 'rootspersona' )
-        . '</td><td class="date" style="border-color:' . $pframe_color . ' !important">' . ( $options['hide_dates'] == 1 ? '' : $death_date )
+        . '</td><td class="rp_date" style="border-color:' . $pframe_color . ' !important">' . ( $options['hide_dates'] == 1 ? '' : $death_date )
         . ' </td><td class="notes" style="border-color:' . $pframe_color . ' !important">' . ( $options['hide_places'] == 1 ? '' : $death_place )
         . '</td></tr>'
         . RP_Group_Sheet_Panel_Creator::show_marriage( $parent, $options )
@@ -106,18 +106,18 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     static function show_children( $children, $options ) {
-        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
-        $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) ) 
-                        ? $options['group_fcolor'] : 'black' );  
-        $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) ) 
-                        ? $options['group_bcolor'] : null );  
-        $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) ) 
-                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );  
-        
-        $fill = "color:$color;" 
-                . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" ); 
-        
+        $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )
+                        ? $options['group_fcolor'] : 'black' );
+        $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) )
+                        ? $options['group_bcolor'] : null );
+        $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) )
+                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );
+
+        $fill = "color:$color;"
+                . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
+
         $block = '<tr><td class="full" colspan="4" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
         . __( 'CHILDREN', 'rootspersona' ) . '</td></tr>';
         $cnt = count( $children );
@@ -128,15 +128,15 @@ class RP_Group_Sheet_Panel_Creator {
             $death_place = isset( $children[$idx]->death_place ) ? $children[$idx]->death_place : '';
 
             $row_span = 2 + count( $children[$idx]->marriages );
-            $block .= '<tr><td class="gender" style="' . $fill . 'border-color:' . $pframe_color . ' !important">' 
+            $block .= '<tr><td class="gender" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
                     . $children[$idx]->gender . '</td><td class="child" colspan="3" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
             . '<a href="' . $options['home_url'] . '?page_id=' . $children[$idx]->page . '">'
             . $children[$idx]->full_name . '</a></td></tr>'
             . '<tr><td class="inset" rowspan="' . $row_span . '" style="' . $fill . 'border-color:' . $pframe_color . ' !important"/><td class="label" style="border-color:' . $pframe_color . ' !important">'
-            . __( 'Birth', 'rootspersona' ) . '</td><td class="date" style="border-color:' . $pframe_color . ' !important">'
+            . __( 'Birth', 'rootspersona' ) . '</td><td class="rp_date" style="border-color:' . $pframe_color . ' !important">'
             . ( $options['hide_dates'] == 1 ? '' : $birth_date )
             . '</td><td class="notes" style="border-color:' . $pframe_color . ' !important">' . ( $options['hide_places'] == 1 ? '' : $birth_place )
-            . '</td></tr>' . '<tr><td class="label" style="border-color:' . $pframe_color . ' !important">' . __( 'Death', 'rootspersona' ) . '</td><td class="date" style="border-color:' . $pframe_color . ' !important">'
+            . '</td></tr>' . '<tr><td class="label" style="border-color:' . $pframe_color . ' !important">' . __( 'Death', 'rootspersona' ) . '</td><td class="rp_date" style="border-color:' . $pframe_color . ' !important">'
             . ( $options['hide_dates'] == 1 ? '' : $death_date ) . '</td><td class="notes" style="border-color:' . $pframe_color . ' !important">'
             . ( $options['hide_places'] == 1 ? '' : $death_place ) . '</td></tr>'
             . RP_Group_Sheet_Panel_Creator::show_marriage( $children[$idx], $options );
@@ -151,9 +151,9 @@ class RP_Group_Sheet_Panel_Creator {
      * @return string
      */
     static function show_marriage( $persona, $options ) {
-        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
+        $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
-       
+
         $block = '';
         $cnt = ( isset( $persona->marriages ) ?  count( $persona->marriages ) : 0 );
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
@@ -179,7 +179,7 @@ class RP_Group_Sheet_Panel_Creator {
                 $place = ' ' . __( 'at', 'rootspersona' ) . ' ' . $marriage['place'];
             }
             $block .= '<tr><td class="label" style="border-color:' . $pframe_color . ' !important">' . __( 'Marriage', 'rootspersona' )
-                    . '</td><td class="date" style="border-color:' . $pframe_color . ' !important">'
+                    . '</td><td class="rp_date" style="border-color:' . $pframe_color . ' !important">'
                     . ( $options['hide_dates'] == 1 ? '' : $marriage['date'] )
                     . '</td><td class="notes" style="border-color:' . $pframe_color . ' !important">' . $spouse . $place . '</td></tr>';
         }

@@ -20,7 +20,7 @@ div#personaIndex table#personaIndexTable th,div#personaIndex table#personaIndexT
     border-color: #444;
 }
 
-div#personaIndex table#personaIndexTable th.dates,div#personaIndex table#personaIndexTable td.dates
+div#personaIndex table#personaIndexTable th.rp_dates,div#personaIndex table#personaIndexTable td.rp_dates
     {
     width: 38%;
 }
