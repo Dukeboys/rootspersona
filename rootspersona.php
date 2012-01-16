@@ -3,7 +3,7 @@
  Plugin Name: rootspersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 2.3.1
+ Version: 2.3.2
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -56,7 +56,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '2.3.1';
+        var $persona_version = '2.3.2';
 
         /**
          *
@@ -479,14 +479,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_enqueue_style( 'rootsPersona-4' );
 
         }
-        
+
         function inject_custom_style () {
             if ( !is_admin() ) {
                 $options = get_option( 'persona_plugin' );
                 if ( isset($options['custom_style']) && !empty($options['custom_style'])) {
                     echo '<style type="text/css">' . $options['custom_style'] . '</style>';
                 }
-            }            
+            }
         }
 
         /**
