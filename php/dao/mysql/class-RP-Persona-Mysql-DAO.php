@@ -18,6 +18,17 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
     private static $_pcache = array();
     private static $_fcache = array();
 
+    public function get_top_x_surnames($cnt) {
+        if(!isset($cnt) || empty($cnt)) $cnt = 10;
+
+        $sql = 'SELECT surname, count(*) AS cnt'
+             . ' FROM rp_name_personal'
+             . ' GROUP BY surname ORDER BY count(*) DESC LIMIT 0,'
+             . $cnt;
+        $sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $rows = RP_Query_Executor::execute( $sql_query );
+        return $rows;
+    }
     /**
      * @todo Description of function deletePersona
      * @param  $id
@@ -38,17 +49,17 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
     }
 
     public function delete_all( $batch_id ) {
-        $sql_array = Array( 
+        $sql_array = Array(
             "DELETE FROM rp_name_personal WHERE id IN (SELECT name_id FROM rp_indi_name WHERE indi_batch_id = ?)",
             "DELETE FROM rp_name_cite WHERE name_id NOT IN (SELECT id FROM rp_name_personal)",
             "DELETE FROM rp_name_name WHERE name_id NOT IN (SELECT id FROM rp_name_personal)",
-            "DELETE FROM rp_name_note WHERE name_id  NOT IN (SELECT id FROM rp_name_personal)",  
-            "DELETE FROM rp_event_note WHERE event_id IN (SELECT event_id FROM rp_fam_event WHERE fam_batch_id = ?)", 
-            "DELETE FROM rp_event_note WHERE event_id IN (SELECT event_id FROM rp_indi_event WHERE indi_batch_id = ?)", 
+            "DELETE FROM rp_name_note WHERE name_id  NOT IN (SELECT id FROM rp_name_personal)",
+            "DELETE FROM rp_event_note WHERE event_id IN (SELECT event_id FROM rp_fam_event WHERE fam_batch_id = ?)",
+            "DELETE FROM rp_event_note WHERE event_id IN (SELECT event_id FROM rp_indi_event WHERE indi_batch_id = ?)",
             "DELETE FROM rp_event_cite WHERE event_id IN (SELECT event_id FROM rp_fam_event WHERE fam_batch_id = ?)",
             "DELETE FROM rp_event_cite WHERE event_id IN (SELECT event_id FROM rp_indi_event WHERE indi_batch_id = ?)",
             "DELETE FROM rp_event_detail WHERE id IN (SELECT event_id FROM rp_indi_event WHERE indi_batch_id = ?)",
-            "DELETE FROM rp_event_detail WHERE id IN (SELECT event_id FROM rp_fam_event WHERE fam_batch_id = ?)", 
+            "DELETE FROM rp_event_detail WHERE id IN (SELECT event_id FROM rp_fam_event WHERE fam_batch_id = ?)",
             "DELETE FROM rp_address  WHERE id IN (SELECT corp_addr_id FROM rp_header WHERE batch_id = ?)",
             "DELETE FROM rp_fam WHERE batch_id = ?",
             "DELETE FROM rp_fam_child WHERE fam_batch_id = ?",
@@ -72,7 +83,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             "DELETE FROM rp_submitter WHERE batch_id = ?",
             "DELETE FROM rp_submitter_note WHERE submitter_batch_id = ?"
         );
-        
+
         foreach ( $sql_array AS $sql ) {
             $sql_query = new RP_Sql_Query( $sql, $this->prefix );
             if ( strpos( $sql, '?' ) !== false ) {
@@ -81,7 +92,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             $this->execute_update( $sql_query );
         }
     }
-    
+
     /**
      * @todo Description of function updatePersonaPrivacy
      * @param  $id
@@ -158,7 +169,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         }
         return $batchids;
     }
-    
+
     public function get_indexed_page( $batch_id, $surname, $page, $per_page, $set = 'paginated' ) {
         $sql = 'SELECT ri.id AS id'
                 . ',rnp.surname AS surname'
