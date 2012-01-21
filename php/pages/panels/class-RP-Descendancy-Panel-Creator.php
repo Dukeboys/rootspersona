@@ -31,11 +31,11 @@ class RP_Descendancy_Panel_Creator {
 
         if($options['hide_dates'] == 0 ) {
             $block .= '<span style="font-size:smaller;padding-left:1em;">';
-            $d = $persona->birth_date;
+            $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' b: ' . $d;
             }
-            $d = $persona->death_date;
+            $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
             if( isset( $d ) & !empty( $d ) ) {
                 $block .= ' d: ' . $d;
             }
@@ -60,11 +60,11 @@ class RP_Descendancy_Panel_Creator {
             }
             if($options['hide_dates'] == 0 ) {
                 $block .= '<span style="font-size:smaller;padding-left:1em;">';
-                $d = $associated->birth_date;
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->birth_date );
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' b: ' . $d;
                 }
-                $d = $associated->death_date;
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->death_date );
                 if( isset( $d ) & !empty( $d ) ) {
                     $block .= ' d: ' . $d;
                 }

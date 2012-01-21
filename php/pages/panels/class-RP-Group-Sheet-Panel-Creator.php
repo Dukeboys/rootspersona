@@ -68,9 +68,9 @@ class RP_Group_Sheet_Panel_Creator {
                 . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
 
         $row_span = 4 + ( isset( $parent->marriages ) ?  count( $parent->marriages ) : 0 );
-        $birth_date = isset( $parent->birth_date ) ? $parent->birth_date : '';
+        $birth_date = isset( $parent->birth_date ) ? @preg_replace( '/@.*@(.*)/US', '$1', $parent->birth_date ): '';
         $birth_place = isset( $parent->birth_place ) ? $parent->birth_place : '';
-        $death_date = isset( $parent->death_date ) ? $parent->death_date : '';
+        $death_date = isset( $parent->death_date ) ? @preg_replace( '/@.*@(.*)/US', '$1', $parent->death_date ) : '';
         $death_place = isset( $parent->death_place ) ? $parent->death_place : '';
 
         $block = '<tr><td class="full" colspan="4" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
@@ -122,9 +122,9 @@ class RP_Group_Sheet_Panel_Creator {
         . __( 'CHILDREN', 'rootspersona' ) . '</td></tr>';
         $cnt = count( $children );
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
-            $birth_date = isset( $children[$idx]->birth_date ) ? $children[$idx]->birth_date : '';
+            $birth_date = isset( $children[$idx]->birth_date ) ? @preg_replace( '/@.*@(.*)/US', '$1', $children[$idx]->birth_date ) : '';
             $birth_place = isset( $children[$idx]->birth_place ) ? $children[$idx]->birth_place : '';
-            $death_date = isset( $children[$idx]->death_date ) ? $children[$idx]->death_date : '';
+            $death_date = isset( $children[$idx]->death_date ) ? @preg_replace( '/@.*@(.*)/US', '$1', $children[$idx]->death_date ) : '';
             $death_place = isset( $children[$idx]->death_place ) ? $children[$idx]->death_place : '';
 
             $row_span = 2 + count( $children[$idx]->marriages );

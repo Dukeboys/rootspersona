@@ -18,7 +18,7 @@ class RP_Facts_Panel_Creator {
 			if ( ! $options['hide_dates']
 			&& isset( $facts[$idx]['date'] )
 			&& ! empty( $facts[$idx]['date'] ) ) {
-				$block .= $facts[$idx]['date'] . ' - ';
+				$block .= @preg_replace( '/@.*@(.*)/US', '$1', $facts[$idx]['date'] ) . ' - ';
 			}
 			$block .= $facts[$idx]['type'];
 			if ( ! $options['hide_places']

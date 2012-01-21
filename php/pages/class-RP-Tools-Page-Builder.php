@@ -20,7 +20,7 @@ class RP_Tools_Page_Builder {
         $block .=  $this->get_excluded();
         $block .=  $this->get_validate();
         $block .=  $this->get_delete();
-        $block .=  $this->get_conversion();
+        //$block .=  $this->get_conversion();
 
         $block .= "</table>" . $this->get_secondary($batch_ids) . "</div>";
         return $block;

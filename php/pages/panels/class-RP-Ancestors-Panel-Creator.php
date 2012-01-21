@@ -23,7 +23,7 @@ class RP_Ancestors_Panel_Creator {
                 . $ancestors[4]->full_name . '</a><br/>';
         
 		if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[4]->birth_date . ' - ' . $ancestors[4]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[4]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[4]->death_date );
 		}
 		$block .= '</td></tr>' . '<tr><td class="rp_topleft" style="border-color:' . $pframe_color . ' !important">&#160;</td></tr>' 
                 . '<tr><td>&#160;</td>' 
@@ -31,7 +31,7 @@ class RP_Ancestors_Panel_Creator {
                 . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[2]->page . '">' 
                 . $ancestors[2]->full_name . '</a><br/>';
 		if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[2]->birth_date . ' - ' . $ancestors[2]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[2]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[2]->death_date );
 		}
 		$block .= '</td><td class="rp_bottom" style="border-color:' . $pframe_color . ' !important">&#160;</td><td colspan="2" rowspan="2" class="rp_left" style="border-color:' . $pframe_color . ' !important">&#160;</td></tr>';
 		$block .= '<tr><td class="rp_topleft" style="border-color:' . $pframe_color . ' !important">&#160;</td><td>&#160;</td></tr>' 
@@ -40,7 +40,7 @@ class RP_Ancestors_Panel_Creator {
                 . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[5]->page . '">' 
                 . $ancestors[5]->full_name . '</a><br/>';
 		if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[5]->birth_date . ' - ' . $ancestors[5]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[5]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[5]->death_date );
 		}
 		$block .= '</td></tr>' 
                 . '<tr><td>&#160;</td></tr><tr><td rowspan="2" class="rp_nameBox" style="border-color:' . $pframe_color . ' !important">' 
@@ -51,7 +51,7 @@ class RP_Ancestors_Panel_Creator {
                 . '<a href="' . $options['home_url'] . '?page_id=' . $ancestors[6]->page . '">' 
                 . $ancestors[6]->full_name . '</a><br/>';
 		if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[6]->birth_date . ' - ' . $ancestors[6]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[6]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[6]->death_date );
 		}
 		
         $block .= '</td></tr><tr><td class="rp_topleft" style="border-color:' . $pframe_color . ' !important">&#160;</td></tr>' 
@@ -60,7 +60,7 @@ class RP_Ancestors_Panel_Creator {
                 . $ancestors[3]->full_name . '</a><br/>';
 		
         if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[3]->birth_date . ' - ' . $ancestors[3]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[3]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[3]->death_date );
 		}
         
 		$block .= '</td><td class="rp_bottom" style="border-color:' . $pframe_color . ' !important">&#160;</td><td colspan="2" rowspan="2" class="rp_left" style="border-color:' . $pframe_color . ' !important">&#160;</td></tr>' 
@@ -70,7 +70,7 @@ class RP_Ancestors_Panel_Creator {
                 . $ancestors[7]->full_name . '</a><br/>';
 		
         if ( ! $options['hide_dates'] ) {
-			$block .= $ancestors[7]->birth_date . ' - ' . $ancestors[7]->death_date;
+			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[7]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[7]->death_date );
 		}
 		$block .= '</td></tr><tr><td>&#160;</td></tr>';
 		$block .= '</tbody></table></div></div>';

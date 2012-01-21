@@ -46,6 +46,7 @@ require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Gedcom-Loader.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Persona-Factory.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Index-Factory.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Evidence-Factory.php';
+require_once WP_PLUGIN_DIR . '/rootspersona/surname_widget.php';
 
 /**
  * First, make sure class exists

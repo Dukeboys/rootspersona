@@ -39,8 +39,8 @@ class RP_Header_Panel_Creator {
             . $persona->id . '</span>';
             
             if ( ! $options['hide_dates'] ) {
-                $block .= '<br/>b: ' . $persona->birth_date
-                        . '<br/>d: ' . $persona->death_date;
+                $block .= '<br/>b: ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date )
+                        . '<br/>d: ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
             }
             
             $block .= '</div>';
@@ -52,8 +52,8 @@ class RP_Header_Panel_Creator {
                     . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {
-                $block .= $persona->birth_date
-                        . '- ' . $persona->death_date . '<br/>';
+                $block .= @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date )
+                        . '- ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date )  . '<br/>';
             }
             $cnt = count( $persona->notes );
             for ($idx = 0; $idx < $cnt; $idx++) {

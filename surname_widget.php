@@ -1,15 +1,4 @@
 <?php
-/**
- * Plugin Name: Surname Widget
-Plugin URI: http://ed4becky.net/plugins/rootsPersona
- Description: Build one or more family history pages from a Gedcom file.
- Version: 2.3.2
- Author: Ed Thompson
- Author URI: http://ed4becky.net/
- Text Domain: rootspersona
- Domain Path: /rootspersona/localization
- License: GPL2
- */
 
 /**
  * Add function to widgets_init that'll load our widget.
