@@ -10,6 +10,7 @@ class RP_Header_Panel_Creator {
      */
     public static function create( $persona, $options ) {
         $default = '';
+        $imgprop = '';
         if ( ! isset($persona->picFiles[0])) {
             if( isset( $persona->gender )
             && $persona->gender == 'F' ) {
@@ -19,10 +20,16 @@ class RP_Header_Panel_Creator {
             }
         } else {
             $default = $persona->picFiles[0];
+            $imgprop = ' itemprop="image" ';
         }
         
-        $block = '<div class="rp_truncate">' 
-                . '<div class="rp_header">';
+        $block = '<section class="rp_truncate">' 
+                . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
+                . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
+                . '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="birth_date"></span>'
+                . '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="death_date"></span>';
         
         $cnt = count( $persona->notes );
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
@@ -30,17 +37,23 @@ class RP_Header_Panel_Creator {
         
         if( ! isset ( $options['header_style'] )  || $options['header_style'] == '1' || $cnt == 0 ) {
             // original style
-            $block .= '<a href="' . $default . '">'
-            . '<img class="rp_headerbox" src="' . $default . '" ' . $pframe_color . '/></a>'
+            $block .= '<div float:left;"><a href="' . $default . '">'
+            . '<img class="rp_headerbox" src="' . $default . '" ' . $imgprop . $pframe_color . '/></a></div>'
             . '<div class="rp_headerbox">' 
-            . '<span class="rp_headerbox">'
+            . '<span class="rp_headerbox" itemprop="name">'
             . $persona->full_name . '</span>'
             . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2;display:none;">'
             . $persona->id . '</span>';
             
             if ( ! $options['hide_dates'] ) {
-                $block .= '<br/>b: ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date )
-                        . '<br/>d: ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
+                $tmpDate = '<span id="birth_date">' 
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
+                         . '</span>';
+                $block .= '<br/>b: ' . $tmpDate;
+                $tmpDate = '<span id="death_date">' 
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
+                         . '</span>';
+                $block .= '<br/>d: ' . $tmpDate;
             }
             
             $block .= '</div>';
@@ -49,18 +62,24 @@ class RP_Header_Panel_Creator {
             $block .= '<a href="' . $default . '">'
                     . '<img class="rp_headerbox rp_biopic" '. $pframe_color 
                     . ' src="'
-                    . $default . '"/></a><span class="rp_headerbox" style="margin-bottom:5px !important;">'
+                    . $default . '"/></a><span class="rp_headerbox"  itemprop="name" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {
-                $block .= @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date )
-                        . '- ' . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date )  . '<br/>';
+                $tmpDate = '<span id="birth_date">' 
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
+                         . '</span>';
+                $block .= '<br/>b: ' . $tmpDate;
+                $tmpDate = '<span id="death_date">' 
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
+                         . '</span>';
+                $block .= '<br/>d: ' . $tmpDate;
             }
             $cnt = count( $persona->notes );
             for ($idx = 0; $idx < $cnt; $idx++) {
                 $block .= str_replace( "\n", "<br/>", $persona->notes[$idx]->note );
             }
         }
-        $block .= '</div></div>';
+        $block .= '</div></section>';
         return $block;
     }
 

@@ -13,13 +13,14 @@ class RP_Group_Sheet_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
-        $block = '<div class="rp_truncate">'
+        $block = '<section class="rp_truncate">'
+                . RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Child', 'rootspersona' ))
                 . '<div class="rp_family">'
                 . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"><tbody>'
                . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[2], $ancestors[4], $ancestors[5], $options )
                . RP_Group_Sheet_Panel_Creator::show_parent( $ancestors[3], $ancestors[6], $ancestors[7], $options )
                . RP_Group_Sheet_Panel_Creator::show_children( $children, $options )
-               . '</tbody></table></div></div>';
+               . '</tbody></table></div></section>';
         return $block;
     }
 
@@ -33,7 +34,8 @@ class RP_Group_Sheet_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
-        $block = '<div class="rp_truncate">'
+        $block = '<section class="rp_truncate">'
+            . RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Spouse', 'rootspersona' ))
             . '<div class="rp_family"><table class="familygroup" style="border-color:' . $pframe_color . ' !important"><tbody>'
             . RP_Group_Sheet_Panel_Creator::show_parent( $marriage['spouse1'],
                     $marriage['spouse1']->f_persona, $marriage['spouse1']->m_persona, $options )
@@ -42,7 +44,7 @@ class RP_Group_Sheet_Panel_Creator {
         if (isset ( $marriage['children'] ) ) {
             $block .=  RP_Group_Sheet_Panel_Creator::show_children( $marriage['children'], $options );
         }
-        $block .= '</tbody></table></div></div>';
+        $block .= '</tbody></table></div></section>';
         return $block;
     }
 

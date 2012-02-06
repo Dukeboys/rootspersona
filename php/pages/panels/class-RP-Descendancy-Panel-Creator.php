@@ -12,10 +12,11 @@ class RP_Descendancy_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
-		$block = '<div class="rp_truncate">'
-                . '<div class="rp_descendants" style="padding:10px 4px;">';
-        $block .= RP_Descendancy_Panel_Creator::build_level( $persona, $options, 1 );
-		$block .= '</div></div>';
+		$block = '<section class="rp_truncate">'
+               . RP_Persona_Helper::get_banner($options, __( 'Descendancy Chart', 'rootspersona' ))
+               . '<div class="rp_descendants" style="padding:10px 4px;">'
+               . RP_Descendancy_Panel_Creator::build_level( $persona, $options, 1 )
+		       . '</div></section>';
 		return $block;
 	}
 

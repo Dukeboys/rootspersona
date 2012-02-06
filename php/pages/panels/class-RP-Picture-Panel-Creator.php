@@ -15,8 +15,9 @@ class RP_Picture_Panel_Creator {
                 $default = $options['plugin_url'] . '/images/girl-silhouette.gif';
             }
         }
-        $block = '<div class="rp_truncate">'
-            . '<div class="rp_pictures">';
+        $block = '<section class="rp_truncate">'
+               . RP_Persona_Helper::get_banner($options, __( 'Picture Gallery', 'rootspersona' ) )
+               . '<div class="rp_pictures">';
         $cnt = 6;
         for ( $idx = 1;    $idx <= $cnt; $idx++ ) {
             if ( isset ( $persona->picFiles[$idx] ) 
@@ -32,7 +33,7 @@ class RP_Picture_Panel_Creator {
 
         $block .= '</div>'
                 . RP_Persona_Helper::get_banner($options, '')
-                . "</div>";
+                . "</section>";
         return $block;
     }
 

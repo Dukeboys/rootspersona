@@ -9,12 +9,14 @@ class RP_Bio_Panel_Creator {
      * @return string
      */
 	public static function create( $notes, $options ) {
-		$block = '<div class="rp_truncate"><div class="rp_bio" style="margin:10px; 0px !important;">';
+		$block = '<section class="rp_truncate">'
+               . RP_Persona_Helper::get_banner($options, __( 'Biography', 'rootspersona' ) )
+               . '<div class="rp_bio" style="margin:10px; 0px !important;">';
         $cnt = count( $notes);
         for ($idx = 0; $idx < $cnt; $idx++) {
             $block .= nl2br( $notes[$idx]->note ) ;
         }
-        $block .= '</div></div>';
+        $block .= '</div></section>';
 		return $block;
 	}
 }

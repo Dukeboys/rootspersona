@@ -12,7 +12,8 @@ class RP_Ancestors_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
                         ? $options['pframe_color'] : 'brown' );
         
-		$block = '<div class="rp_truncate">' 
+		$block = '<section class="rp_truncate">' 
+                . RP_Persona_Helper::get_banner($options, __( 'Ancestors', 'rootspersona' ))
                 . '<div class="rp_ancestors">' 
                 . '<table cellpadding="0" cellspacing="0" class="ancestors"><tbody>' 
                 . '<tr><td colspan="2" rowspan="6">&#160;</td>' 
@@ -73,7 +74,7 @@ class RP_Ancestors_Panel_Creator {
 			$block .= @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[7]->birth_date ) . ' - ' . @preg_replace( '/@.*@(.*)/US', '$1', $ancestors[7]->death_date );
 		}
 		$block .= '</td></tr><tr><td>&#160;</td></tr>';
-		$block .= '</tbody></table></div></div>';
+		$block .= '</tbody></table></div></section>';
 		return $block;
 	}
 }

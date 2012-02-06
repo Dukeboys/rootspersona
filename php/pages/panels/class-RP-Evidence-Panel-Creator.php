@@ -9,7 +9,8 @@ class RP_Evidence_Panel_Creator {
      * @return string
      */
     public static function create( $persona, $options ) {
-        $block = '<div class="rp_truncate">';
+        $block = '<section class="rp_truncate">';
+        $block .= RP_Persona_Helper::get_banner($options, __( 'Evidence', 'rootspersona' ) );
         $block .= '<div class="rp_evidence">';
         $block .= '<table class="rp_evi">';
         $cnt = count( $persona->sources );
@@ -33,7 +34,7 @@ class RP_Evidence_Panel_Creator {
                 . $persona->sources[$idx]['src_title']
                 . '</span></td></tr>';
         }
-        $block .= '</table></div></div>';
+        $block .= '</table></div></section>';
         return $block;
     }
 }

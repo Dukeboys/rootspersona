@@ -2,7 +2,7 @@
     margin:0px 30px 5px 0px !important;
     width:150px !important;
 }
-div.rp_banner {
+.rp_banner {
     padding: 3px 0px 3px 8px;
     background-image: url("../images/personBanner.jpg");
     color: black;
@@ -78,7 +78,7 @@ div.rp_pictures div.rp_caption {
     width: 100px;
 }
 
-div.rp_truncate {
+.rp_truncate {
     overflow: hidden !important;
 }
 
@@ -93,7 +93,7 @@ div.rp_header span.rp_headerbox {
     color: black;
 }
 
-div.rp_truncate div.rp_header img.rp_headerbox {
+.rp_truncate div.rp_header img.rp_headerbox {
     border: 4px ridge brown;
     margin: 0px 10px 10px 0px ! important;
     padding: 5px;

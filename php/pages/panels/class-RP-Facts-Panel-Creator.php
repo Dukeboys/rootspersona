@@ -9,7 +9,8 @@ class RP_Facts_Panel_Creator {
      * @return string
      */
 	public static function create( $facts, $options ) {
-		$block = '<div class="rp_truncate">';
+		$block = '<section class="rp_truncate">';
+        $block .= RP_Persona_Helper::get_banner($options, __( 'Facts', 'rootspersona' ));
 		$block .= '<div class="rp_facts">';
 		$block .= '<ul>';
 		$cnt = count( $facts );
@@ -33,7 +34,7 @@ class RP_Facts_Panel_Creator {
 			}
 			$block .= '</li>';
 		}
-		$block .= '</ul></div></div>';
+		$block .= '</ul></div></section>';
 		return $block;
 	}
 }
