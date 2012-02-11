@@ -25,20 +25,32 @@ class RP_Descendancy_Panel_Creator {
         $indent1 = ($lvl - 1) * 2;
         $indent2 = $indent1 + 1;
 
-        $block = '<div style="padding-left:' . $indent1 . 'em;">' . $lvl . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
+        $block = '<div style="padding-left:' . $indent1 . 'em;"' 
+                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
+                . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
+                . '<span  class="nospace" itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="dec' . $persona->id . '_birth_date"></span>'
+                . '<span  class="nospace" itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="dec' . $persona->id . '_death_date"></span>'
+                . $lvl 
+                . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $persona->page . '">'
-                . $persona->full_name . '</a>';
+                . '<span class="nospace" id="dec' . $persona->id . '_name" itemprop="name">' 
+                . $persona->full_name . '</span>'
+                . '</a>';
 
 
         if($options['hide_dates'] == 0 ) {
             $block .= '<span style="font-size:smaller;padding-left:1em;">';
             $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
             if( isset( $d ) & !empty( $d ) ) {
-                $block .= ' b: ' . $d;
+                $block .= ' b: ' . '<span class="nospace" id="dec' 
+                        . $persona->id . '_birth_date">' . $d . '</span>';
             }
             $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
             if( isset( $d ) & !empty( $d ) ) {
-                $block .= ' d: ' . $d;
+                $block .= ' d: ' . '<span class="nospace" id="dec' 
+                        . $persona->id . '_death_date">' . $d . '</span>';
             }
             $block .= '</span>';
         }
@@ -54,20 +66,30 @@ class RP_Descendancy_Panel_Creator {
             }
 
             if( isset( $associated ) && !empty( $associated ) ) {
-                $block .= '<div style="padding-left:' . $indent2 . 'em;">' 
+                $block .= '<div style="padding-left:' . $indent2 . 'em;"' 
+                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
+                . '<meta itemprop="gender" content="' . $associated->gender . '"/>'
+                . '<span  class="nospace" itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="dec' . $associated->id . '_birth_date"></span>'
+                . '<span  class="nospace" itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
+                . ' itemref="dec' . $associated->id . '_death_date"></span>'
                 . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'
-                . $associated->full_name . '</a>';
+                . '<span class="nospace" id="dec' . $associated->id . '_name" itemprop="name">' 
+                . $associated->full_name . '</span>' 
+                . '</a>';
             }
             if($options['hide_dates'] == 0 ) {
                 $block .= '<span style="font-size:smaller;padding-left:1em;">';
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->birth_date );
                 if( isset( $d ) & !empty( $d ) ) {
-                    $block .= ' b: ' . $d;
+                    $block .= ' b: ' . '<span class="nospace" id="dec' 
+                            . $persona->id . '_birth_date">' . $d . '</span>';
                 }
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->death_date );
                 if( isset( $d ) & !empty( $d ) ) {
-                    $block .= ' d: ' . $d;
+                    $block .= ' d: ' . '<span class="nospace" id="dec' 
+                            . $persona->id . '_death_date">' . $d . '</span>';
                 }
                 $block .= '</span>';
             }

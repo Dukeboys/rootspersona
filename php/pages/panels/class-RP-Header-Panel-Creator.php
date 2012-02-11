@@ -27,9 +27,9 @@ class RP_Header_Panel_Creator {
                 . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
                 . '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="birth_date"></span>'
+                . ' itemref="hdr_birth_date"></span>'
                 . '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="death_date"></span>';
+                . ' itemref="hdr_death_date"></span>';
         
         $cnt = count( $persona->notes );
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
@@ -40,17 +40,17 @@ class RP_Header_Panel_Creator {
             $block .= '<div float:left;"><a href="' . $default . '">'
             . '<img class="rp_headerbox" src="' . $default . '" ' . $imgprop . $pframe_color . '/></a></div>'
             . '<div class="rp_headerbox">' 
-            . '<span class="rp_headerbox" itemprop="name">'
+            . '<span class="rp_headerbox" id="hdr_name" itemprop="name">'
             . $persona->full_name . '</span>'
             . '<span class="rp_headerbox" style="padding-left:15px;align:right;color:#EBDDE2;display:none;">'
             . $persona->id . '</span>';
             
             if ( ! $options['hide_dates'] ) {
-                $tmpDate = '<span id="birth_date">' 
+                $tmpDate = '<span id="hdr_birth_date">' 
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
                          . '</span>';
                 $block .= '<br/>b: ' . $tmpDate;
-                $tmpDate = '<span id="death_date">' 
+                $tmpDate = '<span id="hdr_death_date">' 
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
                          . '</span>';
                 $block .= '<br/>d: ' . $tmpDate;

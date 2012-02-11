@@ -1,3 +1,8 @@
+#nospace {
+    padding: 0px;
+    margin: 0px;
+    border-size: 0px;
+}
 div.rp_ancestors table.ancestors {
     margin-top: 10px !important;
     margin-bottom: 10px !important;
