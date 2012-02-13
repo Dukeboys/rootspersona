@@ -26,7 +26,7 @@ class RP_Descendancy_Panel_Creator {
         $indent2 = $indent1 + 1;
 
         $block = '<div style="padding-left:' . $indent1 . 'em;"' 
-                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">' 
+                . ' itemscope itemtype="http://historical-data.org/HistoricalPerson.html">' 
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
                 . $lvl 
                 . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
@@ -72,7 +72,7 @@ class RP_Descendancy_Panel_Creator {
 
             if( isset( $associated ) && !empty( $associated ) ) {
                 $block .= '<div style="padding-left:' . $indent2 . 'em;"' 
-                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">' 
+                . ' itemscope itemtype="http://historical-data.org/HistoricalPerson.html">' 
                 . '<meta itemprop="gender" content="' . $associated->gender . '"/>'
                 . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'

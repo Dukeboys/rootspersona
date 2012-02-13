@@ -56,7 +56,7 @@ class RP_Ancestors_Panel_Creator {
 	}
 
     public static function buildBlock($ancestor, $options) {
-        $block = '<div class="nospace" itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">'
+        $block = '<div class="nospace" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
                 . '<meta itemprop="gender" content="' . $ancestor->gender . '"/>';
         $block .= '<a href="' . $options['home_url'] . '?page_id=' 
                 . $ancestor->page . '">' 

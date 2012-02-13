@@ -24,7 +24,7 @@ class RP_Header_Panel_Creator {
         }
         
         $block = '<section class="rp_truncate">' 
-                . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">'
+                . '<div class="rp_header" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>';
         
         $cnt = count( $persona->notes );
