@@ -25,11 +25,7 @@ class RP_Header_Panel_Creator {
         
         $block = '<section class="rp_truncate">' 
                 . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
-                . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
-                . '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="hdr_birth_date"></span>'
-                . '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="hdr_death_date"></span>';
+                . '<meta itemprop="gender" content="' . $persona->gender . '"/>';
         
         $cnt = count( $persona->notes );
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) ) 
@@ -46,13 +42,24 @@ class RP_Header_Panel_Creator {
             . $persona->id . '</span>';
             
             if ( ! $options['hide_dates'] ) {
-                $tmpDate = '<span id="hdr_birth_date">' 
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
+                         . (strlen($year)==4?'</span>':'')
                          . '</span>';
+                
                 $block .= '<br/>b: ' . $tmpDate;
-                $tmpDate = '<span id="hdr_death_date">' 
+                
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
+                         . (strlen($year)==4?'</span>':'')
                          . '</span>';
+                
                 $block .= '<br/>d: ' . $tmpDate;
             }
             
@@ -65,13 +72,24 @@ class RP_Header_Panel_Creator {
                     . $default . '"/></a><span class="rp_headerbox"  itemprop="name" style="margin-bottom:5px !important;">'
                     . $persona->full_name . '</span><br/>';
             if ( ! $options['hide_dates'] ) {
-                $tmpDate = '<span id="birth_date">' 
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
+                         . (strlen($year)==4?'</span>':'')
                          . '</span>';
+                
                 $block .= '<br/>b: ' . $tmpDate;
-                $tmpDate = '<span id="death_date">' 
+                
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
+                         . (strlen($year)==4?'</span>':'')
                          . '</span>';
+                
                 $block .= '<br/>d: ' . $tmpDate;
             }
             $cnt = count( $persona->notes );

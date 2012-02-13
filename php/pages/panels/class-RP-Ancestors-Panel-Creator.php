@@ -57,11 +57,7 @@ class RP_Ancestors_Panel_Creator {
 
     public static function buildBlock($ancestor, $options) {
         $block = '<div class="nospace" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
-                . '<meta itemprop="gender" content="' . $ancestor->gender . '"/>'
-                . '<span  class="nospace" itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="anc' . $ancestor->id . '_birth_date"></span>'
-                . '<span  class="nospace" itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="anc' . $ancestor->id . '_death_date"></span>';
+                . '<meta itemprop="gender" content="' . $ancestor->gender . '"/>';
         $block .= '<a href="' . $options['home_url'] . '?page_id=' 
                 . $ancestor->page . '">' 
                 . '<span class="nospace" id="anc' . $ancestor->id . '_name" itemprop="name">' 
@@ -69,11 +65,25 @@ class RP_Ancestors_Panel_Creator {
                 . '</a><br/>';
         
 		if ( ! $options['hide_dates'] ) {
-			$block .= '<span class="nospace" id="anc' . $ancestor->id . '_birth_date">' 
-                   . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->birth_date ) 
-                   . '</span> - <span  class="nospace" id="anc' . $ancestor->id . '_death_date">' 
-                   . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->death_date )
-                   . '</span>';
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->birth_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->birth_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                
+                $block .= $tmpDate;
+                
+                $d = @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->death_date );
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->death_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                
+                $block .= ' - ' . $tmpDate;
 		}      
         $block .= '</div>';
         return $block;

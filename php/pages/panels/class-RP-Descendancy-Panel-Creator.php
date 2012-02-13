@@ -28,14 +28,10 @@ class RP_Descendancy_Panel_Creator {
         $block = '<div style="padding-left:' . $indent1 . 'em;"' 
                 . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
-                . '<span  class="nospace" itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="dec' . $persona->id . '_birth_date"></span>'
-                . '<span  class="nospace" itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="dec' . $persona->id . '_death_date"></span>'
                 . $lvl 
                 . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $persona->page . '">'
-                . '<span class="nospace" id="dec' . $persona->id . '_name" itemprop="name">' 
+                . '<span class="nospace" itemprop="name">' 
                 . $persona->full_name . '</span>'
                 . '</a>';
 
@@ -44,13 +40,23 @@ class RP_Descendancy_Panel_Creator {
             $block .= '<span style="font-size:smaller;padding-left:1em;">';
             $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
             if( isset( $d ) & !empty( $d ) ) {
-                $block .= ' b: ' . '<span class="nospace" id="dec' 
-                        . $persona->id . '_birth_date">' . $d . '</span>';
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                $block .= ' b: ' . $tmpDate;
             }
             $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
             if( isset( $d ) & !empty( $d ) ) {
-                $block .= ' d: ' . '<span class="nospace" id="dec' 
-                        . $persona->id . '_death_date">' . $d . '</span>';
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                $block .= ' d: ' . $tmpDate;
             }
             $block .= '</span>';
         }
@@ -69,13 +75,9 @@ class RP_Descendancy_Panel_Creator {
                 $block .= '<div style="padding-left:' . $indent2 . 'em;"' 
                 . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
                 . '<meta itemprop="gender" content="' . $associated->gender . '"/>'
-                . '<span  class="nospace" itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="dec' . $associated->id . '_birth_date"></span>'
-                . '<span  class="nospace" itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html"' 
-                . ' itemref="dec' . $associated->id . '_death_date"></span>'
                 . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'
-                . '<span class="nospace" id="dec' . $associated->id . '_name" itemprop="name">' 
+                . '<span class="nospace" itemprop="name">' 
                 . $associated->full_name . '</span>' 
                 . '</a>';
             }
@@ -83,13 +85,23 @@ class RP_Descendancy_Panel_Creator {
                 $block .= '<span style="font-size:smaller;padding-left:1em;">';
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->birth_date );
                 if( isset( $d ) & !empty( $d ) ) {
-                    $block .= ' b: ' . '<span class="nospace" id="dec' 
-                            . $persona->id . '_birth_date">' . $d . '</span>';
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $associated->birth_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                $block .= ' b: ' . $tmpDate;
                 }
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $associated->death_date );
                 if( isset( $d ) & !empty( $d ) ) {
-                    $block .= ' d: ' . '<span class="nospace" id="dec' 
-                            . $persona->id . '_death_date">' . $d . '</span>';
+                $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
+                $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
+                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . @preg_replace( '/@.*@(.*)/US', '$1', $associated->death_date ) 
+                         . (strlen($year)==4?'</span>':'')
+                         . '</span>';
+                $block .= ' d: ' . $tmpDate;
                 }
                 $block .= '</span>';
             }
