@@ -35,7 +35,6 @@ class RP_Descendancy_Panel_Creator {
                 . $persona->full_name . '</span>'
                 . '</a>';
 
-
         if($options['hide_dates'] == 0 ) {
             $block .= '<span style="font-size:smaller;padding-left:1em;">';
             $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
@@ -112,7 +111,8 @@ class RP_Descendancy_Panel_Creator {
                 // recurse children
                for ( $idx2 = 0; $idx2 < $cnt2; $idx2++ ) {
                     $child = $marriage['children'][$idx2];
-                    $block .= RP_Descendancy_Panel_Creator::build_level( $child, $options, $lvl + 1 );
+                    if($child->full_name != 'Private')
+                        $block .= RP_Descendancy_Panel_Creator::build_level( $child, $options, $lvl + 1 );
                }
             }
         }
