@@ -8,7 +8,7 @@
  * @version 2.0.x
  * @package rootspersona_php
  * @subpackage 
- * @category rootsPersona
+ * @category rootspersona
  * @link www.ed4becky.net
  * @since 2.0.0
  * @license http://www.opensource.org/licenses/GPL-2.0

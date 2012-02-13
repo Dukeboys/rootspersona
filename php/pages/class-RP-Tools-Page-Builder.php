@@ -11,7 +11,7 @@ class RP_Tools_Page_Builder {
         $block = "<div class='wrap'>"
                 . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'></span>"
                 . "<span class='rp_clickbutton' style='background-position: -1000px -1000px;'></span>"
-                . "<h2>rootsPersona</h2>"
+                . "<h2>rootspersona</h2>"
                 . "<table class='form-table'>";
 
         $block .=  $this->get_upload();
