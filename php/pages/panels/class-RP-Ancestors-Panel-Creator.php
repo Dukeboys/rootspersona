@@ -56,7 +56,7 @@ class RP_Ancestors_Panel_Creator {
 	}
 
     public static function buildBlock($ancestor, $options) {
-        $block = '<div class="nospace" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
+        $block = '<div class="nospace" itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">'
                 . '<meta itemprop="gender" content="' . $ancestor->gender . '"/>';
         $block .= '<a href="' . $options['home_url'] . '?page_id=' 
                 . $ancestor->page . '">' 
@@ -68,7 +68,7 @@ class RP_Ancestors_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->birth_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->birth_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -78,7 +78,7 @@ class RP_Ancestors_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->death_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'')                        
                          . @preg_replace( '/@.*@(.*)/US', '$1', $ancestor->death_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';

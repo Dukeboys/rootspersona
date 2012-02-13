@@ -26,7 +26,7 @@ class RP_Descendancy_Panel_Creator {
         $indent2 = $indent1 + 1;
 
         $block = '<div style="padding-left:' . $indent1 . 'em;"' 
-                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
+                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">' 
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>'
                 . $lvl 
                 . '&nbsp;<a href="' . $options['home_url'] . '?page_id='
@@ -41,7 +41,7 @@ class RP_Descendancy_Panel_Creator {
             if( isset( $d ) & !empty( $d ) ) {
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -51,7 +51,7 @@ class RP_Descendancy_Panel_Creator {
             if( isset( $d ) & !empty( $d ) ) {
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -72,7 +72,7 @@ class RP_Descendancy_Panel_Creator {
 
             if( isset( $associated ) && !empty( $associated ) ) {
                 $block .= '<div style="padding-left:' . $indent2 . 'em;"' 
-                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson">' 
+                . ' itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">' 
                 . '<meta itemprop="gender" content="' . $associated->gender . '"/>'
                 . '+&nbsp;<a href="' . $options['home_url'] . '?page_id='
                 . $associated->page . '">'
@@ -86,7 +86,7 @@ class RP_Descendancy_Panel_Creator {
                 if( isset( $d ) & !empty( $d ) ) {
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $associated->birth_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -96,7 +96,7 @@ class RP_Descendancy_Panel_Creator {
                 if( isset( $d ) & !empty( $d ) ) {
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $associated->death_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';

@@ -24,7 +24,7 @@ class RP_Header_Panel_Creator {
         }
         
         $block = '<section class="rp_truncate">' 
-                . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson">'
+                . '<div class="rp_header" itemscope itemtype ="http://historical-data.org/HistoricalPerson.html">'
                 . '<meta itemprop="gender" content="' . $persona->gender . '"/>';
         
         $cnt = count( $persona->notes );
@@ -45,7 +45,7 @@ class RP_Header_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -55,7 +55,7 @@ class RP_Header_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'')                        
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -75,7 +75,7 @@ class RP_Header_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'' )                       
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'' )                       
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->birth_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
@@ -85,7 +85,7 @@ class RP_Header_Panel_Creator {
                 $d = @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date );
                 $year = preg_replace ("/.*([0-9][0-9][0-9][0-9]).*/i", '$1', $d);
                 $tmpDate = '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent.html">' 
-                         . (strlen($year)==4?'<span itemprop="startDate" date="' . $year . '">':'')                        
+                         . (strlen($year)==4?'<span itemprop="startDate" content="' . $year . '">':'')                        
                          . @preg_replace( '/@.*@(.*)/US', '$1', $persona->death_date ) 
                          . (strlen($year)==4?'</span>':'')
                          . '</span>';
