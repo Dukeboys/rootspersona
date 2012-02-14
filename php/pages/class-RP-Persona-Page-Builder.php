@@ -38,13 +38,13 @@ class RP_Persona_Page_Builder {
             $block .= $creator->create( $persona, $options );
         }
         if ( $options['hide_family_c'] == 0  && isset( $persona->ancestors ) ) {
-            $block .= RP_Group_Sheet_Panel_Creator::create_group_child( $persona->ancestors, $persona->siblings, $options );
+            $block .= RP_Group_Sheet_Panel_Creator::create_group_child('c0', $persona->ancestors, $persona->siblings, $options );
         }
         if ( $options['hide_family_s'] == 0 && isset( $persona->marriages )  && count( $persona->marriages ) > 0) {
             $cnt = count( $persona->marriages );
             for ( $idx = 0; $idx < $cnt; $idx++ ) {
                 $marriage = $persona->marriages[$idx];
-                $block .= RP_Group_Sheet_Panel_Creator::create_group_spouse( $marriage, $options );
+                $block .= RP_Group_Sheet_Panel_Creator::create_group_spouse('p' . $idx, $marriage, $options );
             }
         }
         if ( $options['hide_pictures'] == 0  && isset( $persona->picFiles )  && count( $persona->picFiles ) > 0) {
