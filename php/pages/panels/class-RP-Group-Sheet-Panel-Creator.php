@@ -98,7 +98,7 @@ class RP_Group_Sheet_Panel_Creator {
                 . 'border-color:' . $pframe_color . ' !important" >'
                 . '<td class="label" style="border-color:' . $pframe_color . ' !important">'
                 . __( 'Birth', 'rootspersona' ) . '</td>' 
-                . '<td id="' . $ppfx . '_bdate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
+                . '<td id="' . $ppfx . '_bdate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
                 . ( $options['hide_dates'] == 1 ? '' : $birth_date ) . '</td>'
                 . '<td id="' . $ppfx . '_bloc" itemprop="location" itemscope itemtype="http://schema.org/Place"'
                 .' class="notes" style="border-color:' . $pframe_color . ' !important">' 
@@ -107,7 +107,7 @@ class RP_Group_Sheet_Panel_Creator {
 
                 . '<tr id="' . $ppfx . '_death"><td class="label" style="border-color:' . $pframe_color . ' !important">' 
                 . __( 'Death', 'rootspersona' )
-                . '</td><td id="' . $ppfx . '_ddate" class="rp_date" style="border-color:' . $pframe_color . ' !important">' 
+                . '</td><td id="' . $ppfx . '_ddate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">' 
                 . ( $options['hide_dates'] == 1 ? '' : $death_date )
                 . ' </td><td id="' . $ppfx . '_dloc" itemprop="location" itemscope itemtype="http://schema.org/Place"'
                 . ' class="notes" style="border-color:' . $pframe_color . ' !important">' 
