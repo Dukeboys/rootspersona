@@ -1,4 +1,3 @@
-
 <?php
 
 class RP_Group_Sheet_Panel_Creator {
