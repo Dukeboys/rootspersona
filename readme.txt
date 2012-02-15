@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.3.2
+Stable tag: 2.4.0
 
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -18,6 +18,7 @@ be mixed and matched for optimum customization.
 **Features**
 <ul>
 <li> Support for GEDCOM Version 5.5
+<li> Support for HTML5 microdata from historical-data.org
 <li> Ability to upload more than one GEDCOM file from the same source and link families together
 <li> Ability to select which persons from the GEDCOM file to create pages for
 <li> As updates are made, GEDCOM files can be reloaded and existing pages will be updated
@@ -106,6 +107,10 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.4.0 =
+* Support for HTML5 microdata from historical-data.org
+* Added a top 10 surname widget
+
 = 2.3.2 =
 * minor fix to CSS for date fields
 
