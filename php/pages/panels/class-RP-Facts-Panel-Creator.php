@@ -15,13 +15,19 @@ class RP_Facts_Panel_Creator {
 		$block .= '<ul>';
 		$cnt = count( $facts );
 		for ( $idx = 0; $idx < $cnt; $idx++ ) {
+            if((!isset($facts[$idx]['classification']) 
+                    || empty($facts[$idx]['classification']))
+               && ($options['hide_dates'] 
+                    || !isset($facts[$idx]['date']) 
+                    || empty($facts[$idx]['date'])))
+                continue;  // no real meaningfull data, so skip it
 			$block .= '<li>';
 			if ( ! $options['hide_dates']
 			&& isset( $facts[$idx]['date'] )
 			&& ! empty( $facts[$idx]['date'] ) ) {
 				$block .= @preg_replace( '/@.*@(.*)/US', '$1', $facts[$idx]['date'] ) . ' - ';
 			}
-			$block .= $facts[$idx]['type'];
+			$block .= $facts[$idx]['type'] . ' - ' . $facts[$idx]['classification'];
 			if ( ! $options['hide_places']
 			&& isset( $facts[$idx]['place'] )
 			&& ! empty( $facts[$idx]['place'] ) ) {

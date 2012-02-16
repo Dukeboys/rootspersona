@@ -274,6 +274,36 @@ class RP_Gedcom_Loader {
             }
             $this->update_event_citations( $id, $this->batch_id, $p_event->citations );
         }
+        
+        foreach ( $person->attributes as $p_event ) {
+            $event = new RP_Event_Detail();
+            $event->event_type = ( $p_event->tag === 'FACT' ? $p_event->type : $p_event->_TYPES[$p_event->tag] );
+            $event->classification = $p_event->descr;
+            $event->event_date = $p_event->date;
+            $event->place = $p_event->place->name;
+            //$event->addrId;
+            $event->resp_agency = $p_event->resp_agency;
+            $event->religious_aff = $p_event->religious_affiliation;
+            $event->cause = $p_event->cause;
+            $event->restriction_notice = $p_event->restriction;
+            $id = null;
+            try {
+                $id = RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->insert( $event );
+            } catch ( Exception $e ) {
+                echo $e->getMessage();
+                throw $e;
+            }
+            $indi_event = new RP_Indi_Event();
+            $indi_event->indi_id = $person->id;
+            $indi_event->indi_batch_id = $this->batch_id;
+            $indi_event->event_id = $id;try {
+                RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->insert( $indi_event );
+            } catch ( Exception $e ) {
+                echo $e->getMessage();
+                throw $e;
+            }
+            $this->update_event_citations( $id, $this->batch_id, $p_event->citations );
+        }
     }
 
     /**
