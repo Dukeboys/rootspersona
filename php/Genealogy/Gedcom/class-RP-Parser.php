@@ -159,6 +159,7 @@ class RP_Parser {
             case 'ISO-8859-1':
                 return mb_convert_encoding( $str, 'UTF-8', 'ISO-8859-1' );
             case 'IBMPC':
+            case 'IBM WINDOWS':
                 // Note:The IBMPC character set is not allowed.
                 // This character set cannot be interpreted properly
                 // without knowing which code page the sender was using.
