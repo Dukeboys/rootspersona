@@ -82,22 +82,6 @@ class RP_Tools_Page_Builder {
         return $block;
     }
 
-    function get_conversion() {
-      $win2 = __( 'All persona files will be used to populate the database tables','rootspersona')
-            . '. ' . __('The files will NOT be deleted. Proceed?', 'rootspersona' );
-      $block = "<tr style='vertical-align: top'>" 
-            . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover . ">"
-            . "<a href='#' onClick='rootsConfirm(\"" . $win2 . "\",\""
-            . admin_url('/tools.php?page=rootsPersona&rootspage=util')
-            . "&utilityAction=convert2\");return false;'>"
-            . __( 'Convert to 2.x Format', 'rootspersona' )
-            . "</a></div></td>"
-            . "<td style='vertical-align:middle'>"
-            . __( 'Perform a bulk conversion from the pre 2.x file format to the 2.x database format.', 'rootspersona' )
-            . "</td></tr>";
-      return $block;
-    }
-
     function get_delete() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
@@ -148,7 +132,7 @@ class RP_Tools_Page_Builder {
                 . "Only change if you have segregated data.</span>"
                 . "<br/><span id='batch_ids_span' name='batch_ids_span' style='display:none;overflow:hidden;margin:-4px 0px 0px 0px;'>"
                 . "<label class='label8' for='batch_ids'>&nbsp;</label>"
-                . "<select id='batch_ids' name='batch_ids' style='width:7.6em;zIndex=1;'"
+                . "<select id='batch_ids' name='batch_ids' style='width:7.6em;z-index=4;'"
                 . " onchange='synchBatchText();' size='$s'>";
 
       foreach ( $batch_ids as $id ) {

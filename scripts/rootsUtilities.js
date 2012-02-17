@@ -97,14 +97,14 @@ function revealBatchSpan(obj, url) {
     } else if(obj.id == 'review') {
         action='include';
     }
-    if ( jQuery('#batch_ids').length == 1 ) {
-        batch_id = jQuery('#batch_ids').val();
+    var b = jQuery('#batch_ids option')
+    if ( b.size() < 2 ) {
+        batch_id = b.val();
         event = new Object();
         event.data = new Object();
         event.data.url = url + '/tools.php?page=rootsPersona&rootspage=';
         event.data.action = action;
         processBatchSpan(event);
-        
     } else {
         var spanpos = jQuery('#' + obj.id).parent().next().children('span:first');
 
@@ -139,7 +139,7 @@ function refreshAddPerson() {
 	jQuery.get(ajaxurl, data, function(response) {
         document.body.style.cursor = "default";
         var res = jQuery.parseJSON(response);
-        jQuery.each(res, function(index,p) {
+        jQuery.each(res, function(index, p) {
             // add items to List box
             jQuery("#persons").append("<option id='" + p.id + "'>"
                         + p.surname + ", " + p.given + "</option");

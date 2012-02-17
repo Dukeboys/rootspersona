@@ -378,9 +378,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     return;
                 } else if ( $action == 'evidence' ) {
                     return $mender->add_evidence_pages( $options, $batch_id );
-                } else if ( $action == 'convert2' ) {
-                    $installer = new RP_Persona_Installer();
-                    return $installer->convert2( $options );
                 } else {
                     return $action . ' ' . __('action not supported', 'rootspersona' ) . '.<br/>';
                 }
@@ -570,8 +567,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function persona_menus() {
             $hook = add_options_page(
-                        'rootsPersona Options',
-                        'rootsPersona',
+                        'rootspersona Options',
+                        'rootspersona',
                         'manage_options',
                         'rootsPersona',
                         array( $this, 'build_roots_options_page' )
@@ -581,8 +578,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
             $hook = add_submenu_page(
                                 'tools.php',
-                                'rootsPersona Tools',
-                                'rootsPersona',
+                                'rootspersona Tools',
+                                'rootspersona',
                                 'manage_options',
                                 'rootsPersona',
                                 array( $this, 'build_roots_tools_page' )

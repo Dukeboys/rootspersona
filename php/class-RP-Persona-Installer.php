@@ -1,7 +1,6 @@
 <?php
 require_once ( ABSPATH . 'wp-admin/includes/upgrade.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Table-Creator.php' );
-require_once ( WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Xml-To-Database-Importer.php' );
 require_once ( WP_PLUGIN_DIR . '/rootspersona/php/dao/sql/class-RP-Credentials.php' );
 
 class RP_Persona_Installer {
@@ -75,95 +74,6 @@ class RP_Persona_Installer {
      */
     function persona_upgrade( $plugin_dir, $version, $options, $prefix ) {
 
-        if ( $options[ 'version' ] < '1.4.0' ) {
-            delete_option( 'rootsHideFamily' );
-            unregister_setting( 'persona_plugin', 'rootsHideFamily' );
-        }
-
-        if ( $options[ 'version' ] < '2.0.0' ) {
-            $options['parent_page'] = get_option( 'rootsPersonaParentPage' );
-            $opt = get_option( 'rootsIsSystemOfRecord', 0 );
-            $options['is_system_of_record'] = ( ( $opt == false ) ? 0 : 1 );
-            //$options['index_page'] = get_option( 'rootsPersonaIndexPage' );
-            //$options['evidence_page'] = get_option( 'rootsEvidencePage' );
-            $options['hide_header'] = get_option( 'rootsHideHeader', 0 );
-            $options['hide_bio'] = 0;
-            $options['header_style'] = 1;
-            $options['hide_facts'] = get_option( 'rootsHideFacts', 0 );
-            $options['hide_ancestors'] = get_option( 'rootsHideAncestors', 0 );
-            $options['hide_family_c'] = get_option( 'rootsHideFamilyC', 0 );
-            $options['hide_family_s'] = get_option( 'rootsHideFamilyS', 0 );
-            $options['hide_evidence'] = get_option( 'rootsHideEvidence', 0 );
-            $options['hide_pictures'] = get_option( 'rootsHidePictures', 0 );
-            $options['hide_edit_links'] = get_option( 'rootsHideEditLinks', 0 );
-            $options['hide_dates'] = get_option( 'rootsPersonaHideDates', 0 );
-            $options['hide_places'] = get_option( 'rootsPersonaHidePlaces', 0 );
-            $options['privacy_default'] = 'Pub';
-            $options['privacy_living'] = 'Mbr';
-            $options['per_page'] = 25;
-
-            $page = get_option( 'rootsEvidencePage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsPersonaIndexPage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsUtilityPage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsEditPage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsIncludePage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsCreatePage' );
-            wp_delete_post( $page );
-            $page = get_option( 'rootsUploadGedcomPage' );
-            wp_delete_post( $page );
-
-            delete_option( 'rootsDataDir' );
-            delete_option( 'rootsPersonaParentPage' );
-            delete_option( 'rootsIsSystemOfRecord' );
-            delete_option( 'rootsUploadGedcomPage' );
-            delete_option( 'rootsCreatePage' );
-            delete_option( 'rootsEditPage' );
-            delete_option( 'rootsIncludePage' );
-            delete_option( 'rootsPersonaIndexPage' );
-            delete_option( 'rootsUtilityPage' );
-            delete_option( 'rootsEvidencePage' );
-            delete_option( 'rootsHideHeader' );
-            delete_option( 'rootsHideFacts' );
-            delete_option( 'rootsHideAncestors' );
-            delete_option( 'rootsHideFamilyC' );
-            delete_option( 'rootsHideFamilyS' );
-            delete_option( 'rootsHideEvidence' );
-            delete_option( 'rootsHidePictures' );
-            delete_option( 'rootsHideEditLinks' );
-            delete_option( 'rootsPersonaHideDates' );
-            delete_option( 'rootsPersonaHidePlaces' );
-            delete_option( 'rootsPrivacyDefault' );
-            delete_option( 'rootsPrivacyLiving' );
-
-            $creator = new RP_Table_Creator();
-            $creator->update_tables( $this->sql_file_to_create_tables, $prefix );
-            $options['version'] = $version;
-
-            $page = $this->create_page( __( 'Evidence Index', 'rootspersona' ),
-                        "[rootsEvidencePage batchId='1'/]", '', 'publish' );
-            //$options['evidence_page'] = $page;
-
-
-            $page = $this->create_page( __( 'Person Index', 'rootspersona' ),
-                        '[rootsPersonaIndexPage batchId="1"/]', '', 'publish'  );
-            //$options['index_page'] = $page;
-
-            $parent_page = $this->get_parent_page();
-            $page = $this->create_page( __( 'rootspersona Tree', 'rootspersona' ),
-                        $parent_page, '', 'publish' );
-            $options['parent_page'] = $page;
-
-            if ( ! isset( $options['is_system_of_record'] )
-            || empty( $options['is_system_of_record'] ) ) {
-                $options['is_system_of_record'] = 0;
-            }
-        }
-
         if ( $options[ 'version' ] < '2.0.3' ) {
             unset( $options['evidence_page'] );
             unset( $options['index_page'] );
@@ -217,28 +127,6 @@ class RP_Persona_Installer {
 
         $options = get_option('persona_plugin');
 
-        delete_option( 'rootsPersonaVersion' );
-        delete_option( 'rootsDataDir' );
-        delete_option( 'rootsEditPage' );
-        delete_option( 'rootsCreatePage' );
-        delete_option( 'rootsUploadGedcomPage' );
-        delete_option( 'rootsIncludePage' );
-        delete_option( 'rootsPersonaIndexPage' );
-        delete_option( 'rootsUtilityPage' );
-        delete_option( 'rootsEvidencePage' );
-        delete_option( 'rootsPersonaParentPage' );
-        delete_option( 'rootsIsSystemOfRecord' );
-        delete_option( 'rootsHideHeader' );
-        delete_option( 'rootsHideFacts' );
-        delete_option( 'rootsHideAncestors' );
-        delete_option( 'rootsHideFamily' );
-        delete_option( 'rootsHideFamilyC' );
-        delete_option( 'rootsHideFamilyS' );
-        delete_option( 'rootsHidePictures' );
-        delete_option( 'rootsHideEvidence' );
-        delete_option( 'rootsPersonaHideDates' );
-        delete_option( 'rootsPersonaHidePlaces' );
-        delete_option( 'rootsHideEditLinks' );
         delete_option( 'persona_plugin' );
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );
         $force_delete = true;
@@ -278,21 +166,6 @@ class RP_Persona_Installer {
 
         return $block;
 
-    }
-
-    /**
-     *
-     * @param array $options
-     * @return string
-     */
-    public function convert2( $options ) {
-        global $wpdb;
-       $credentials = new RP_Credentials();
-       $credentials->prefix = $wpdb->prefix;
-       $data_dir = WP_CONTENT_DIR . '/rootsPersonaData';
-       $g = new RP_Xml_To_Database_Importer();
-       $g->load_tables( $credentials, $data_dir );
-       return __('Conversion complete', 'rootspersona') . '.<br/>';
     }
 }
 ?>
