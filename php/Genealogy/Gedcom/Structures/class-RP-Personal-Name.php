@@ -45,7 +45,7 @@ class RP_Personal_Name extends RP_Entity_Abstract {
         $this->rp_name = new RP_Name();
     }
     /**
-     * Returns a concatenated string of a 'Full' name
+     * returns a concatenated string of a 'Full' name
      *
      * @return string The full name
      */

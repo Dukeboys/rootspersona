@@ -283,7 +283,10 @@ class RP_Persona_Site_Mender {
                 . "</a></span><span>&#160;&#160;</span>";
         }
 
-        $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
+        $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
+                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
+                . admin_url('/tools.php?page=rootsPersona') 
+                . "\");'><a href=' "
                 . admin_url() . "tools.php?page=rootsPersona'>"
                 . __( 'Return', 'rootspersona' )
                 . "</a></span></div></div>";
@@ -321,7 +324,10 @@ class RP_Persona_Site_Mender {
                 . "&utilityAction=deldata&batch_id=" . $batch_id . "'>"
             . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"    
             ."<span style='display:inline-block;width:5em;'>&#160;</span>"
-            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
+            . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
+                . admin_url('/tools.php?page=rootsPersona') 
+                . "\");'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
             . "</div></div>";
@@ -343,7 +349,10 @@ class RP_Persona_Site_Mender {
                     . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
                     . "<br/>"
                     . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-                    . "<span class='rp_linkbutton'" . RP_Tools_Page_Builder::hover . "style='border:2px outset orange;padding:5px;'><a href=' "
+                    . "<span class='rp_linkbutton'" . RP_Tools_Page_Builder::hover 
+                    . "style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
+                . admin_url('/tools.php?page=rootsPersona') 
+                . "\");'><a href=' "
                     . admin_url() . "tools.php?page=rootsPersona'>"
                     . __( 'Return', 'rootspersona' ) . "</a></span>"
                     . "</div></div>";
@@ -357,7 +366,10 @@ class RP_Persona_Site_Mender {
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
             . __( 'Tables emptied.', 'rootspersona' ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='border:2px outset orange;padding:5px;'><a href=' "
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
+                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
+                . admin_url('/tools.php?page=rootsPersona') 
+                . "\");'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
             . "</div></div>";

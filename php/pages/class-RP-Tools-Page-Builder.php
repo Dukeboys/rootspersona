@@ -29,7 +29,8 @@ class RP_Tools_Page_Builder {
     function get_upload() {
         $block =  "<tr style='vertical-align: top'>"
             . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
-            . "><a href=' "
+            . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=upload') 
+                . "\");'><a href=' "
             . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
 
             . __( 'Upload GEDCOM', 'rootspersona' ) . "</a></div></td>"
@@ -42,7 +43,8 @@ class RP_Tools_Page_Builder {
     function get_add() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
-                . "><a href=' "
+                . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=create') 
+                . "\");'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'>"
 
                 . __( 'Add Uploaded Persons', 'rootspersona' )
