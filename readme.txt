@@ -55,16 +55,9 @@ For detailed documentation, goto [ed4becky.net/plugins/rootsPersona](http://ed4b
 
 At this point the plugin is ready to use!
 
-== Upgrading from versions earlier than 2.0.0 ==
+== Upgrading from versions earlier than 2.4.0 ==
 
-1. DO NOT DEACTIVATE THE OLDER VERSION.  (Unfortunately the old deactivate performs an uninstall,
-   which will cause the loss of old data and probably timeout trying to delete pages.)
-2. Upgrade the plugin as you normally would.  Make sure it is activated.
-3. If you upgarde with a zip file, the first time you enter an Admin page the plugin upgrade process will kick off.
-   This may cause a delay in rendering your admin page, but should be short.
-3. Execute the conversion routine:  Tools->rootsPersona->Convert to 2.x format
-   This will convert the old files to the new database, and may take a while to run.
-4. Execute the validation routine: Tools->rootsPersona->Validate persona pages
+1. If you are still running a version earlier than 2.4.0, you must first upgrade to 2.4.0 before going any higher
 
 Usage:
 
@@ -98,6 +91,14 @@ You can change the default privacy setting on the Options page, or override the 
 
 This is usually a timeout issue on your site.  See the explanation on the upload page.
 
+= Can a reload a GEDCOM? =
+
+Yes.  As long as the INDI ids are the same, existing records will be updated, not duplicated.  
+HOWEVER if your program assigns new ids to the same people, your data may become corrupt, so make sure you check.
+You may also delete pages and data using the <i>Tools->rootspersona->Delete Pages</i> and reload the GEDCOM.
+
+Currently you will lose any links to pictures if you do that.
+
 == Screenshots ==
 
 1. Formatted persona screen
@@ -107,6 +108,11 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 5. Lots of options for customization
 
 == Changelog ==
+= 2.5.0 =
+* Facts panel now displays Facts and Events
+* Cleaned up the options screen
+* fixed a couple of minor javascript bugs
+
 = 2.4.0 =
 * Support for HTML5 microdata from historical-data.org
 * Added a top 10 surname widget
@@ -183,4 +189,3 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 * upload process now converts most character encodings to UTF-8
 * added error checking for file not found, empty HTML pages
 * added Evidence pages
-
