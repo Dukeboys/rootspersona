@@ -289,69 +289,69 @@ class RP_Option_Page_Builder {
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[banner_fcolor]'>" . __( 'Banner Foreground Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>color:<input type='text' size='8' name='persona_plugin[banner_fcolor]' id='banner_fcolor'";
+        echo "<td colspan='2'>color:<br/><input type='text' size='8' name='persona_plugin[banner_fcolor]' id='banner_fcolor'";
         echo " value='" . ( isset( $options['banner_fcolor'] ) ?  $options['banner_fcolor'] : '' ) . "'/>;</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default foreground color for the banners between %s panels.', 'rootspersona' ), "persona" ) . "</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[banner_bcolor]'>" . __( 'Banner Background Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colsspan='2'>background-color:<input type='text' size='8' name='persona_plugin[banner_bcolor]' id='banner_bcolor'";
+        echo "<td colsspan='2'>background-color:<br/><input type='text' size='8' name='persona_plugin[banner_bcolor]' id='banner_bcolor'";
         echo " value='" . ( isset( $options['banner_bcolor'] ) ?  $options['banner_bcolor'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[banner_image]'>" . __( 'Banner Image', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>background-image:url('<input type='text' size='65' name='persona_plugin[banner_image]' id='banner_image'";
+        echo "<td colspan='2'>background-image:<br/>url('<input type='text' size='65' name='persona_plugin[banner_image]' id='banner_image'";
         echo " value='" . ( isset( $options['banner_image'] ) ?  $options['banner_image'] : '' ) . "'/>');</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[group_fcolor]'>" . __( 'Group Foreground Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>color:<input type='text' size='8' name='persona_plugin[group_fcolor]' id='group_fcolor'";
+        echo "<td colspan='2'>color:<br/><input type='text' size='8' name='persona_plugin[group_fcolor]' id='group_fcolor'";
         echo " value='" . ( isset( $options['group_fcolor'] ) ?  $options['group_fcolor'] : '' ) . "'/>;</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default foreground color for the banners between %s panels.', 'rootspersona' ), "persona" ) . "</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[group_bcolor]'>" . __( 'Group Background Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colsspan='2'>background-color:<input type='text' size='8' name='persona_plugin[group_bcolor]' id='group_bcolor'";
+        echo "<td colsspan='2'>background-color:<br/><input type='text' size='8' name='persona_plugin[group_bcolor]' id='group_bcolor'";
         echo " value='" . ( isset( $options['group_bcolor'] ) ?  $options['group_bcolor'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[group_image]'>" . __( 'Group Image', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>background-image:url('<input type='text' size='65' name='persona_plugin[group_image]' id='group_image'";
+        echo "<td colspan='2'>background-image:<br/>url('<input type='text' size='65' name='persona_plugin[group_image]' id='group_image'";
         echo " value='" . ( isset( $options['group_image'] ) ?  $options['group_image'] : '' ) . "'/>');</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[pframe_color]'>" . __( 'Persona Frames', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'>border-color:<input type='text' size='8' name='persona_plugin[pframe_color]' id='pframe_color'";
+        echo "<td colspan='2'>border-color:<br/><input type='text' size='8' name='persona_plugin[pframe_color]' id='pframe_color'";
         echo " value='" . ( isset( $options['pframe_color'] ) ?  $options['pframe_color'] : '' ) . "'/>;</td>";
         //echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[index_even_color]'>" . __( 'Index Even Row Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colsspan='2'>background-color:<input type='text' size='8' name='persona_plugin[index_even_color]' id='index_even_color'";
+        echo "<td colsspan='2'>background-color:<br/><input type='text' size='8' name='persona_plugin[index_even_color]' id='index_even_color'";
         echo " value='" . ( isset( $options['index_even_color'] ) ?  $options['index_even_color'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[index_odd_color]'>" . __( 'Index Odd Row Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colsspan='2'>background-color:<input type='text' size='8' name='persona_plugin[index_odd_color]' id='index_odd_color'";
+        echo "<td colsspan='2'>background-color:<br/><input type='text' size='8' name='persona_plugin[index_odd_color]' id='index_odd_color'";
         echo " value='" . ( isset( $options['index_odd_color'] ) ?  $options['index_odd_color'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[index_hdr_color]'>" . __( 'Index Header Row Color', 'rootspersona' ) . "</label></td>";
-        echo "<td colsspan='2'>background-color:<input type='text' size='8' name='persona_plugin[index_hdr_color]' id='index_hdr_color'";
+        echo "<td colsspan='2'>background-color:<br/><input type='text' size='8' name='persona_plugin[index_hdr_color]' id='index_hdr_color'";
         echo " value='" . ( isset( $options['index_hdr_color'] ) ?  $options['index_hdr_color'] : '' ) . "'/>;</td>";
        // echo "<td>" . sprintf( __( 'Overrides the default background image for the banners between %s panels. If both color and image are provided, color will take precedence', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[custom_style]'>" . __( 'Custom Style', 'rootspersona' ) . "</label></td>";
-        echo "<td colspan='2'><label style='vertical-align:top;'>&lt;style&gt;</label><textarea cols='65' rows='4' name='persona_plugin[custom_style]' id='custom_style' />";
-        echo ( isset( $options['custom_style'] ) ?  $options['custom_style'] : '' ) . "</textarea>&lt;/style&gt;</span></td>";
+        echo "<td colspan='2'><label style='vertical-align:top;'>&lt;style&gt;</label><br/><textarea cols='65' rows='4' name='persona_plugin[custom_style]' id='custom_style' />";
+        echo ( isset( $options['custom_style'] ) ?  $options['custom_style'] : '' ) . "</textarea><span style='vertical-align:bottom;'>&lt;/style&gt;</span></span></td>";
         
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
