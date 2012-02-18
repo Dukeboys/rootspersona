@@ -100,7 +100,7 @@ function revealBatchSpan(obj, url) {
     var b = jQuery('#batch_ids option')
     if ( b.size() < 2 ) {
         batch_id = b.val();
-        event = new Object();
+        var event = new Object();
         event.data = new Object();
         event.data.url = url + '/tools.php?page=rootsPersona&rootspage=';
         event.data.action = action;
