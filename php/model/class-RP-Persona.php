@@ -14,6 +14,10 @@
  * @license http://www.opensource.org/licenses/GPL-2.0
  */
 class RP_Persona extends Rp_Simple_Person {
+    var $surname_prefix = "";
+    var $prefix = "";
+    var $nickname = "";
+    var $suffix = "";
     var $facts;
     var $sources;
     var $ancestors;

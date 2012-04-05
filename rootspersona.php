@@ -648,7 +648,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['version'] = trim( esc_attr( $this->persona_version ) );
             $options['parent_page'] = intval( $input['parent_page'] );
             $options['per_page'] = intval( $input['per_page'] );
-            $options['is_system_of_record']  = 0;
+            $options['is_system_of_record']  = ( $input['is_system_of_record'] == true ? 1 : 0 );
             $options['index_even_color'] = trim( esc_attr( $input['index_even_color'] ) );
             $options['index_odd_color'] = trim( esc_attr( $input['index_odd_color'] ) );
             $options['index_hdr_color'] = trim( esc_attr( $input['index_hdr_color'] ) );

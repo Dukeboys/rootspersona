@@ -244,7 +244,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[hide_evidence]' value='1' $yes>" . __('Yes','rootspersona');
         echo "&#160;<input type='radio' name='persona_plugin[hide_evidence]' value='0' $no>" . __('No','rootspersona') . "</td>";
         echo "<td>" . __( 'Skip the evidence panel in persona pages.', 'rootspersona' ) . "</td></tr>";
-      
+
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[hide_edit_links]'>" . __( 'Hide Edit Links', 'rootspersona' ) . "?</label></td>";
         $yes = $options['hide_edit_links'];
@@ -259,7 +259,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[hide_edit_links]' value='1' $yes>" . __('Yes','rootspersona');
         echo "&#160;<input type='radio' name='persona_plugin[hide_edit_links]' value='0' $no>" . __('No','rootspersona') . "</td>";
         echo "<td>" . sprintf( __( 'Some people may want to hide the edit links at the bottom of the %s page', 'rootspersona' ), "persona" ) . ".</td></tr>";
-       
+
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left-label'><label for='persona_plugin[hide_undef_pics]'>" . __( 'Hide Silhouettes', 'rootspersona' ) . "?</label></td>";
         $yes = $options['hide_undef_pics'];
@@ -274,7 +274,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[hide_undef_pics]' value='1' $yes>" . __('Yes','rootspersona');
         echo "&#160;<input type='radio' name='persona_plugin[hide_undef_pics]' value='0' $no>" . __('No','rootspersona') . "</td>";
         echo "<td>" .__( 'Some people may want to hide the silhouette placeholders in the picture panel', 'rootspersona' ) . ".</td></tr>";
-       
+
         // Misc
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Utility Pages','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
@@ -282,7 +282,7 @@ class RP_Option_Page_Builder {
         echo "<td scope='row' class='left-label'><label for='persona_plugin[parent_page]'>" . __( 'Parent Page Id', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[parent_page]' id='parent_page'";
         echo " value='" . $options['parent_page'] . "'/></td>";
-        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> " 
+        echo "<td><a href=' " . $options['home_url'] . "?page_id=" . $options['parent_page'] . "'>" . __( 'Page', 'rootspersona' ) . "</a> "
                 . sprintf( __( 'you want %s pages to be organized under in a menu structure.  0 indicates no parent page', 'rootspersona' ), "persona" ) . ".</td></tr>";
 
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Style Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
@@ -352,7 +352,7 @@ class RP_Option_Page_Builder {
         echo "<td scope='row' class='left-label'><label for='persona_plugin[custom_style]'>" . __( 'Custom Style', 'rootspersona' ) . "</label></td>";
         echo "<td colspan='2'><label style='vertical-align:top;'>&lt;style&gt;</label><br/><textarea cols='65' rows='4' name='persona_plugin[custom_style]' id='custom_style' />";
         echo ( isset( $options['custom_style'] ) ?  $options['custom_style'] : '' ) . "</textarea><span style='vertical-align:bottom;'>&lt;/style&gt;</span></span></td>";
-        
+
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
         echo "<tr valign='top'>";
@@ -372,10 +372,12 @@ class RP_Option_Page_Builder {
             $yes = '';
             $no = 'checked';
         }
-        echo "<td><input type='radio' name='persona_plugin[is_system_of_record]' value='true' $yes disabled>Yes ";
+        echo "<td><input type='radio' name='persona_plugin[is_system_of_record]' value='true' $yes >Yes ";
         echo "&#160;<input type='radio' name='persona_plugin[is_system_of_record]' value='false' $no>No </td>";
-        echo "<td>" . __( 'Only No is supported at this time (meaning some external program is the system of record)', 'rootspersona' ) . ".</td></tr>";
-             
+        echo "<td>"
+                . __( 'Yes indicates data may be entered from this website. Editing data from this website AND importing GEDCOM data is NOT recommneded.', 'rootspersona' )
+                . ".</td></tr>";
+
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left=label' ><label for='persona_plugin[debug]'>" . __( 'Debug Mode', 'rootspersona' ) . "?</label></td>";
         $yes = $options['debug'];
@@ -390,7 +392,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='checkbox' name='persona_plugin[debug]' value='true' $yes>&#160;&#160;Yes ";
 
         echo "<td>" . __( 'Provide debug information in wp-content/debug.log', 'rootspersona' ) . ".</td></tr>";
-       
+
         echo "</table><p class='submit'>";
         echo "<input type='submit' name='Submit' value=' " . __( 'Save Changes', 'rootspersona' ) . " '/>";
         echo settings_fields( 'persona_plugin' );

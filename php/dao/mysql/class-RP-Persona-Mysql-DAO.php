@@ -411,6 +411,12 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             $sql1 = "SELECT ri.id AS id, ri.batch_id AS batch_id,"
             . "IFNULL(rio.privacy_code,'Def') AS privacy"
             . ",replace(rnp.personal_name,'/','') AS full_name"
+            . ",rnp.prefix AS prefix"
+            . ",rnp.surname AS surname"
+            . ",rnp.given AS given"
+            . ",rnp.nickname AS nickname"
+            . ",rnp.surname_prefix AS surname_prefix"
+            . ",rnp.suffix AS suffix"
             . ",ri.gender AS gender"
             . ",rf.spouse1 AS father"
             . ",rf.spouse2 AS mother"
@@ -681,6 +687,12 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         $rp_persona->batch_id = $row['batch_id'];
         $rp_persona->gender = $row['gender'];
         $rp_persona->full_name = $row['full_name'];
+        $rp_persona->surname = $row['surname'];
+        $rp_persona->given = $row['given'];
+        $rp_persona->nickname = $row['nickname'];
+        $rp_persona->surname_prefix = $row['surname_prefix'];
+        $rp_persona->prefix = $row['prefix'];
+        $rp_persona->suffix = $row['suffix'];
         $rp_persona->father = $row['father'];
         $rp_persona->mother = $row['mother'];
         $rp_persona->famc = $row['famc'];
