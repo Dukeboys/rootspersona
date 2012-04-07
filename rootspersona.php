@@ -199,12 +199,18 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     $src_page = isset( $_GET['srcPage'] )
                             ? trim( esc_attr( $_GET['srcPage'] ) )  : '';
                     if ( $edit_action == 'edit' ) {
+
+                        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
                         $options['src_page'] = $src_page;
                         $builder = new RP_Edit_Page_Builder();
                         $options = $builder->get_persona_options( $options );
 
                         $factory = new RP_Persona_Factory( $this->credentials );
-                        $persona = $factory->get_for_edit( $persona_id, $batch_id, $options );
+                        if($isSOR == false ) {
+                            $persona = $factory->get_for_edit( $persona_id, $batch_id, $options );
+                        } else {
+                            $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                        }
                         return $builder->build( $persona, $action, $options );
                     } elseif ( $edit_action == 'delete' ) {
                         wp_delete_post( $src_page );
@@ -475,6 +481,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_register_style( 'rootsPersona-4',
                     plugins_url( 'css/indexTable.css',__FILE__ ), false, '1.0', 'screen' );
             wp_enqueue_style( 'rootsPersona-4' );
+            wp_register_style('jquery.ui.autocomplete', plugins_url('css/jquery.ui.autocomplete.css',__FILE__), false);
+			wp_enqueue_style( 'jquery.ui.autocomplete');
 
         }
 
@@ -507,6 +515,36 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_register_script( 'rootsUtilities',
                     plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
             wp_enqueue_script( 'rootsUtilities' );
+
+            wp_register_script( 'jquery.validate',
+                                plugins_url( 'js/jquery.validate.min.js', __FILE__ ),
+                                array('jquery'), '1.8.1', true );
+            wp_enqueue_script( 'jquery.validate' );
+
+            wp_register_script( 'jquery.maskedinput',
+                                plugins_url( 'js/jquery.maskedinput.min.js', __FILE__ ),
+                                array('jquery'), '1.3', true );
+            wp_enqueue_script( 'jquery.maskedinput' );
+
+            wp_register_script( 'jquery.ui.core',
+                                plugins_url( 'js/jquery.ui.core.js', __FILE__ ),
+                                array('jquery'), '1.8.16', true );
+            wp_enqueue_script( 'jquery.ui.core' );
+
+            wp_register_script( 'jquery.ui.widget',
+                                plugins_url( 'js/jquery.ui.widget.js', __FILE__ ),
+                                array('jquery'), '1.8.16', true );
+            wp_enqueue_script( 'jquery.ui.widget' );
+
+            wp_register_script( 'jquery.ui.position',
+                                plugins_url( 'js/jquery.ui.position.js', __FILE__ ),
+                                array('jquery'), '1.8.16', true );
+            wp_enqueue_script( 'jquery.ui.position' );
+
+            wp_register_script( 'jquery.ui.autocomplete',
+                                plugins_url( 'js/jquery.ui.autocomplete.js', __FILE__ ),
+                                array('jquery.ui.core','jquery.ui.position','jquery.ui.widget'), '1.8.16', true );
+            wp_enqueue_script( 'jquery.ui.autocomplete' );
         }
 
         /**

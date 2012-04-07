@@ -10,26 +10,41 @@ class RP_Edit_Page_Builder {
      * @return string
      */
     function build( $persona, $action, $options, $msg = '' ) {
-        $block = "<div style='overflow:hidden;width:60%;margin:40px;'><form  action='" . $action . "' method='POST'>";
-        $creator = new RP_Header_Panel_Creator();
 
-        $block .= $creator->create_for_edit($persona, $options)
-                . $this->create_privacy_panel($persona, $options);
+        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
+        $block = "<div style='overflow:hidden;margin:20px;'>"
+                . "<form  action='" . $action . "' method='POST'>"
+                . "<div  class='rp_banner' style='padding-right:15px;margin-bottom:15px;font-size:smaller;'>"
+                . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
+                . __( 'Save', 'rootspersona' ) . "'/>"
+                . "&#160;&#160;&#160;<input type='button' name='reset' value='"
+                . __( 'Reset', 'rootspersona' ) . "'/></div>";
+
+        $creator = new RP_Header_Panel_Creator();
+        $block .= $creator->create_for_edit($persona, $options);
+
+        if($isSOR) {
+            $creator = new RP_Facts_Panel_Creator();
+            $block .= RP_Persona_Helper::get_banner($options, 'Facts')
+                    . $creator->create_for_edit($persona->facts, $options);
+        }
+
+        $block .= $this->create_privacy_panel($persona, $options);
 
         $creator = new RP_Picture_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options)
-               . "<div style='float:right;padding-right:15px;'><input type='submit'"
-                . " name='submitPersonForm' id='submitPersonForm' value='"
-                . __( 'Submit', 'rootspersona' ) . "'/>"
-                . "&#160;&#160;&#160;<input type='reset' name='reset' value='"
+               . "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
+                . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
+                . __( 'Save', 'rootspersona' ) . "'/>"
+                . "&#160;&#160;&#160;<input type='button' name='reset' value='"
                 . __( 'Reset', 'rootspersona' ) . "'/></div>"
 
-                . RP_Persona_Helper::get_banner($options, '&#160;')
                 . "<input type='hidden' name='srcPage' id='srcPage' value='" . $options['src_page'] . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
-                . "</div></div>"
+                . "<input type='hidden' name='imgPath' id='imgPath' value='" . $persona->full_name . "'>"
+                //. "</div></div>"
                 . "</form></div>";
         return $block;
     }

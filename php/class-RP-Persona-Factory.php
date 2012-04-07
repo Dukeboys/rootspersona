@@ -179,6 +179,7 @@ class RP_Persona_Factory {
      * @return RP_Persona
      */
     protected function get_persona( $id, $batch_id, $uscore, $options ) {
+
         $persona = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_persona( $id, $batch_id );
         $this->check_permission( $persona, $uscore, $options );
@@ -328,6 +329,7 @@ class RP_Persona_Factory {
     public function get_for_edit( $id, $batch_id, $options ) {
         $persona = null;
         $uscore = $options['uscore'];
+        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
         $transaction = new RP_Transaction( $this->credentials, true );
         $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
         $transaction->close();

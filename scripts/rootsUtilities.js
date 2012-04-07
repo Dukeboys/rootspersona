@@ -57,6 +57,135 @@ jQuery(document).ready(function() {
         return false;
     });
 
+    var claimTypes = [
+        "Adoption",
+        "Adult Christening",
+        "Annulment",
+        "Baptism",
+        "Bar Mitzvah",
+        "Bas Mitzvah",
+        "Birth",
+        "Blessing",
+        "Burial",
+        "Caste",
+        "Census",
+        "Christening",
+        "Confirmation",
+        "Cremation",
+        "Death",
+        "Divorce",
+        "Divorce Filed",
+        "Education",
+        "Emmigration",
+        "Engagement",
+        "Event",
+        "Fact",
+        "First Communion",
+        "Graduation",
+        "Head of House",
+        "Immigration",
+        "Marriage",
+        "Marriage Bann",
+        "Marriage Contract",
+        "Marriage License",
+        "Marriage Settlement",
+        "Nationality",
+        "Naturalization",
+        "Nobility Title",
+        "Occupation",
+        "Ordnance",
+        "Possessions",
+        "Probate",
+        "Religion",
+        "Residence",
+        "Retirement",
+        "Social Security Nbr",
+        "Will"
+	];
+
+    jQuery('.claimType').each(function(index) {
+            jQuery(this).autocomplete({
+                source: claimTypes
+            });
+    });
+
+    function addFactsRow() {
+        var claim = jQuery('#newclaim').val();
+        if(claim != null && claim != "") {
+            var newRow = '<tr><td><input id="newclaim" type="text" class="claimType" value=""></td>'
+                        + '<td><input id="newdate" type="text" value=""></td>'
+                        + '<td><input id="newplace" type="text" value=""></td>'
+                        + '<td><input id="newclassification" type="text" value=""></td>'
+                        + '<td id="newbutton"></td></tr>';
+            var delPath = jQuery('#imgPath').val() + 'delete-icon.png';
+
+            var claimfield = jQuery('#newclaim');
+            var datefield  = jQuery('#newdate');
+            var placefield  = jQuery('#newplace');
+            var classfield  = jQuery('#newclassification');
+            var buttoncell = jQuery('#newbutton');
+
+            buttoncell.append('<img alt="Delete" src="' + delPath + '" class="delFacts"/>');
+            buttoncell.children().each(function(index) {
+                jQuery(this).click(deleteFactsRow);
+                jQuery(this).mouseover(function() {
+                    var imgPath = jQuery('#imgPath').val() + 'delete-icon-hover.png';
+                    jQuery(this).attr('src',imgPath);
+                });
+                jQuery(this).mouseout(function() {
+                    var imgPath = jQuery('#imgPath').val() + 'delete-icon.png';
+                    jQuery(this).attr('src',imgPath);
+                });
+                jQuery(this).mousedown(function() {
+                    var imgPath = jQuery('#imgPath').val() + 'delete-icon-click.png';
+                    jQuery(this).attr('src',imgPath);
+                });
+            });
+            var tbody = jQuery('#facts');
+            tbody.append(newRow);
+
+            var rowCnt = tbody.children().length - 2;
+            claimfield.removeAttr('id');
+            datefield.removeAttr('id');
+            placefield.removeAttr('id');
+            classfield.removeAttr('id');
+            buttoncell.removeAttr('id');
+            classfield.unbind('blur');
+
+            jQuery('#facts > tbody').each(function(index) {
+                jQuery(this).append(newRow);
+            });
+            jQuery('#newclaim').autocomplete({
+                source: claimTypes
+            });
+            jQuery('#newclaim').focus();
+            jQuery('#newclassification').blur(addFactsRow);
+        }
+    }
+
+    jQuery('#newclassification').blur(addFactsRow);
+
+    function deleteFactsRow() {
+        // img > cell > row
+        jQuery(this).parent().parent().remove();
+    }
+
+    jQuery('.delFacts').each(function(index) {
+        jQuery(this).click(deleteFactsRow);
+        jQuery(this).mouseover(function() {
+           var imgPath = jQuery('#imgPath').val() + 'delete-icon-hover.png';
+           jQuery(this).attr('src',imgPath);
+        });
+        jQuery(this).mouseout(function() {
+           var imgPath = jQuery('#imgPath').val() + 'delete-icon.png';
+           jQuery(this).attr('src',imgPath);
+        });
+        jQuery(this).mousedown(function() {
+           var imgPath = jQuery('#imgPath').val() + 'delete-icon-click.png';
+           jQuery(this).attr('src',imgPath);
+        });
+    });
+
     window.send_to_editor = function(html) {
         imgurl = jQuery('img',html).attr('src');
         jQuery('#' + formfield).val(imgurl);
@@ -115,7 +244,7 @@ function revealBatchSpan(obj, url) {
 
             var caller = spanpos.offset();
             jQuery('#batchspan').show();
-            jQuery('#batchspan').offset({ top: (caller.top - 25), left: (caller.left - 10) });
+            jQuery('#batchspan').offset({top: (caller.top - 25), left: (caller.left - 10)});
         }
     }
 }

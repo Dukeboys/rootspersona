@@ -68,7 +68,7 @@ class RP_Picture_Panel_Creator {
         }
 
         $block .= '</div>'
-                . RP_Persona_Helper::get_banner($options, '')
+                //. RP_Persona_Helper::get_banner($options, '')
                 . "</div>";
         return $block;
     }
