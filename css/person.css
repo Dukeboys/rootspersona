@@ -1,5 +1,13 @@
 form#editPersonaForm * input[type='button'] {
-    background: url("../images/sbutton2.jpg") repeat-x scroll left bottom transparent;
+    background: url("../images/sbutton.jpg") repeat-x left bottom transparent;
+}
+
+form#editPersonaForm * input[type='text'] {
+    background-color:lavender;
+}
+
+form#editPersonaForm * textarea {
+    background-color: lavender;
 }
 
 .rp_biopic {
