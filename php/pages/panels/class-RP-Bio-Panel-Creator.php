@@ -19,5 +19,17 @@ class RP_Bio_Panel_Creator {
         $block .= '</div></section>';
 		return $block;
 	}
+
+    public static function create_for_edit( $notes, $options ) {
+		$block = '<section class="rp_truncate">'
+               . RP_Persona_Helper::get_banner($options, __( 'Biography', 'rootspersona' ) )
+               . '<div class="rp_bio" style="margin:10px; 0px !important;">';
+        $cnt = count( $notes);
+        for ($idx = 0; $idx < $cnt; $idx++) {
+            $block .= '<textarea cols="120" rows="5">' . $notes[$idx]->note . '</textarea><br/>' ;
+        }
+        $block .= '</div></section>';
+		return $block;
+    }
 }
 ?>

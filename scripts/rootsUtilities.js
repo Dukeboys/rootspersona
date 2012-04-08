@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
             var newRow = '<tr><td><input id="newclaim" type="text" class="claimType" value=""></td>'
                         + '<td><input id="newdate" type="text" value=""></td>'
                         + '<td><input id="newplace" type="text" value=""></td>'
-                        + '<td><input id="newclassification" type="text" value=""></td>'
+                        + '<td><textarea id="newclassification" type="text" cols="30" rows="1"></textarea>'
                         + '<td id="newbutton"></td></tr>';
             var delPath = jQuery('#imgPath').val() + 'delete-icon.png';
 
@@ -278,5 +278,3 @@ function refreshAddPerson() {
 
     return false;
 }
-
-

@@ -45,12 +45,12 @@ class RP_Facts_Panel_Creator {
 	}
 
     public static function create_for_edit( $facts, $options ) {
-        $edit = WP_PLUGIN_URL . '/rootspersona/images/edit-icon.png';
         $del = WP_PLUGIN_URL . '/rootspersona/images/delete-icon.png';
 
         $block = '<div class="rp_truncate">'
                 . '<div class="rp_header" style="overflow:hidden;">'
-                . "<input type='hidden' name='imgPath' id='imgPath' value='" . WP_PLUGIN_URL . "/rootspersona/images/'>";
+                . "<input type='hidden' name='imgPath' id='imgPath' value='"
+                . WP_PLUGIN_URL . "/rootspersona/images/'>";
         $block .= '<table style="margin:10px 5px;"><thead>'
                 . '<tr><th>Fact/Event</th><th>Date</th><th>Place</th><th>Notes</th><th></th></tr>'
                 . '</thead><tbody id="facts">';
@@ -79,12 +79,12 @@ class RP_Facts_Panel_Creator {
 			}
             $block .= '"/></td>';
             //Notes
-            $block .= '<td><input type="text" value="';
+            $block .= '<td><textarea cols="30" rows="1" type="text">';
             if ( isset( $facts[$idx]['classification'] )
 			&& ! empty( $facts[$idx]['classification'] ) ) {
 				$block .= $facts[$idx]['classification'];
 			}
-            $block .= '"/></td>';
+            $block .= '</textarea>';
             $block .= '<td>'
                 . '<img alt="Delete" src="' . $del . '" class="delFacts"/>'
                 . '</td>';
@@ -98,7 +98,7 @@ class RP_Facts_Panel_Creator {
             //Place
             $block .= '<td><input id="newplace" type="text" value=""/></td>';
             //Notes
-            $block .= '<td><input id="newclassification" type="text" value=""/></td>';
+            $block .= '<td><textarea id="newclassification" type="text" cols="30" rows="1"/></textarea></td>';
             $block .= '<td id="newbutton">'
                 . '</td>';
             $block .= '</tr>';

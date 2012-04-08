@@ -17,16 +17,24 @@ class RP_Edit_Page_Builder {
                 . "<div  class='rp_banner' style='padding-right:15px;margin-bottom:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "'/>"
-                . "&#160;&#160;&#160;<input type='button' name='reset' value='"
-                . __( 'Reset', 'rootspersona' ) . "'/></div>";
+                . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
+                . __( 'Cancel', 'rootspersona' ) . "'/></div>";
 
         $creator = new RP_Header_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options);
 
         if($isSOR) {
+           // if($options['header_style'] == '2') {
+                $creator = new RP_Bio_Panel_Creator();
+                $block .= $creator->create_for_edit($persona->notes, $options);
+           // }
             $creator = new RP_Facts_Panel_Creator();
             $block .= RP_Persona_Helper::get_banner($options, 'Facts')
                     . $creator->create_for_edit($persona->facts, $options);
+
+            $creator = new RP_Group_Sheet_Panel_Creator();
+            $block .= RP_Persona_Helper::get_banner($options, 'Family Groups')
+                    . $creator->create_for_edit($persona, $options);
         }
 
         $block .= $this->create_privacy_panel($persona, $options);
@@ -36,8 +44,8 @@ class RP_Edit_Page_Builder {
                . "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "'/>"
-                . "&#160;&#160;&#160;<input type='button' name='reset' value='"
-                . __( 'Reset', 'rootspersona' ) . "'/></div>"
+                . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
+                . __( 'Cancel', 'rootspersona' ) . "'/></div>"
 
                 . "<input type='hidden' name='srcPage' id='srcPage' value='" . $options['src_page'] . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
@@ -81,8 +89,8 @@ class RP_Edit_Page_Builder {
         $block = RP_Persona_Helper::get_banner($options, 'Select Privacy Setting')
                 . '<div class="rp_truncate">'
                 . '<div class="rp_header" style="overflow:hidden;">'
-                . '<div style="font-size:smaller;padding:10px;">'
-                . '<div style="width:99%;clear:left;"><div style="width:9em;float:left;font-weight:bold;">'
+                . '<div style="font-size:smaller;padding:10px;overflow:hidden">'
+                . '<div style="width:99%;clear:left;;"><div style="width:9em;float:left;font-weight:bold;">'
                 . '<input type="radio" name="privacy_grp" value="Exc" ' . $exc . '>Exclude'
                 . '</div><div style="float:left;width:35em;">'
                 .  __( 'Delete page and exclude this person FROM future uploads.', 'rootspersona' )

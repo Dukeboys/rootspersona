@@ -80,7 +80,7 @@ class RP_Group_Sheet_Panel_Creator {
 
         $ppfx = $pfx . $parent->id;
         $block = '<tr id="' . $ppfx . '" itemprop="parents" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
-                . '<td class="full" colspan="4" style="' . $fill 
+                . '<td class="full" colspan="4" style="' . $fill
                 . 'border-color:' . $pframe_color . ' !important">'
                 . __( 'PARENT', 'rootspersona' )
                 . ' (<span itemprop="gender">' . $parent->gender . '</span>) '
@@ -94,43 +94,43 @@ class RP_Group_Sheet_Panel_Creator {
                 . '<span itemprop="parents" itemscope itemtype="http://historical-data.org/HistoricalPerson" itemref="' . $ppfx . '_mother"></span>'
                 . '</td></tr>'
 
-                . '<tr id="' . $ppfx . '_birth"><td class="inset" rowspan="' . $row_span . '" style="' . $fill 
+                . '<tr id="' . $ppfx . '_birth"><td class="inset" rowspan="' . $row_span . '" style="' . $fill
                 . 'border-color:' . $pframe_color . ' !important" >'
                 . '<td class="label" style="border-color:' . $pframe_color . ' !important">'
-                . __( 'Birth', 'rootspersona' ) . '</td>' 
+                . __( 'Birth', 'rootspersona' ) . '</td>'
                 . '<td id="' . $ppfx . '_bdate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
                 . ( $options['hide_dates'] == 1 ? '' : $birth_date ) . '</td>'
                 . '<td id="' . $ppfx . '_bloc" itemprop="location" itemscope itemtype="http://schema.org/Place"'
-                .' class="notes" style="border-color:' . $pframe_color . ' !important">' 
+                .' class="notes" style="border-color:' . $pframe_color . ' !important">'
                 . ( $options['hide_places'] == 1 ? '' : ( '<span itemprop="name">' . $birth_place . '</span>' ) )
                 . '</td></tr>'
 
-                . '<tr id="' . $ppfx . '_death"><td class="label" style="border-color:' . $pframe_color . ' !important">' 
+                . '<tr id="' . $ppfx . '_death"><td class="label" style="border-color:' . $pframe_color . ' !important">'
                 . __( 'Death', 'rootspersona' )
-                . '</td><td id="' . $ppfx . '_ddate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">' 
+                . '</td><td id="' . $ppfx . '_ddate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
                 . ( $options['hide_dates'] == 1 ? '' : $death_date )
                 . ' </td><td id="' . $ppfx . '_dloc" itemprop="location" itemscope itemtype="http://schema.org/Place"'
-                . ' class="notes" style="border-color:' . $pframe_color . ' !important">' 
+                . ' class="notes" style="border-color:' . $pframe_color . ' !important">'
                 . ( $options['hide_places'] == 1 ? '' : ( '<span itemprop="name">' . $death_place . '</span>' ) )
                 . '</td></tr>'
 
                 . RP_Group_Sheet_Panel_Creator::show_marriage($ppfx, $parent, $options )
 
                 . '<tr id="' . $ppfx . '_father">'
-                . '<td class="label" style="border-color:' . $pframe_color 
-                . ' !important">' 
+                . '<td class="label" style="border-color:' . $pframe_color
+                . ' !important">'
                 . __( 'Father', 'rootspersona' )
-                . '</td><td class="parent" colspan="2" style="border-color:' . $pframe_color . ' !important">' 
+                . '</td><td class="parent" colspan="2" style="border-color:' . $pframe_color . ' !important">'
                 . '<a href="' . $options['home_url'] . '?page_id=' . $grandfather->page . '" itemprop="name">'
-                . $grandfather->full_name . '</a></td></tr>' 
+                . $grandfather->full_name . '</a></td></tr>'
 
                 . '<tr id="' . $ppfx . '_mother">'
-                . '<td class="label" style="border-color:' . $pframe_color 
+                . '<td class="label" style="border-color:' . $pframe_color
                 . ' !important">'
-                . __( 'Mother', 'rootspersona' ) 
+                . __( 'Mother', 'rootspersona' )
                 . '</td><td class="parent" colspan="2" style="border-color:' . $pframe_color . ' !important">'
                 . '<a href="' . $options['home_url'] . '?page_id=' . $grandmother->page . '" itemprop="name">'
-                . $grandmother->full_name 
+                . $grandmother->full_name
                 . '</a></td></tr>';
         return $block;
     }
@@ -167,28 +167,28 @@ class RP_Group_Sheet_Panel_Creator {
             $row_span = 2 + count( $children[$idx]->marriages );
             $block .= '<tr id="' . $ppfx . '" itemprop="children" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
                     . '<td class="gender" style="' . $fill . 'border-color:' . $pframe_color . ' !important" itemprop="gender">'
-                    . $children[$idx]->gender 
+                    . $children[$idx]->gender
                     . '</td><td class="child" colspan="3" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
                     . '<a href="' . $options['home_url'] . '?page_id=' . $children[$idx]->page . '" itemprop="name">'
                     . $children[$idx]->full_name . '</a>'
                     . '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_bdate ' . $ppfx . '_bloc"></span>'
                     . '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_ddate ' . $ppfx . '_dloc"></span>'
                     . '<span itemprop="marriages" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_mdate ' . $ppfx . '_mloc"></span>'
-                
+
                     . '</td></tr>'
-                    
+
             . '<tr id="' . $ppfx . '_birth">'
             . '<td class="inset" rowspan="' . $row_span . '" style="' . $fill . 'border-color:' . $pframe_color . ' !important"/>'
             . '<td class="label" style="border-color:' . $pframe_color . ' !important">'
-            . __( 'Birth', 'rootspersona' ) . '</td>' 
+            . __( 'Birth', 'rootspersona' ) . '</td>'
             . '<td id="' . $ppfx . '_bdate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
             . ( $options['hide_dates'] == 1 ? '' : $birth_date )
             . '</td><td id="' . $ppfx . '_bloc" itemprop="location" itemscope itemtype="http://schema.org/Place"'
-            . ' class="notes" style="border-color:' . $pframe_color . ' !important">' 
+            . ' class="notes" style="border-color:' . $pframe_color . ' !important">'
             . '<span itemprop="name">' .  ( $options['hide_places'] == 1 ? '' : $birth_place )
-            . '</span></td></tr>' 
-                    
-            . '<tr id="' . $ppfx . '_death"><td class="label" style="border-color:' . $pframe_color . ' !important">' 
+            . '</span></td></tr>'
+
+            . '<tr id="' . $ppfx . '_death"><td class="label" style="border-color:' . $pframe_color . ' !important">'
             . __( 'Death', 'rootspersona' ) . '</td>'
             . '<td id="' . $ppfx . '_ddate" itemprop="startDate" class="rp_date" style="border-color:' . $pframe_color . ' !important">'
             . ( $options['hide_dates'] == 1 ? '' : $death_date ) . '</td>'
@@ -226,7 +226,7 @@ class RP_Group_Sheet_Panel_Creator {
             && ! empty( $associated->full_name ) ) {
                 $spouse = __( 'to' )
                         . ' <a href="' . $options['home_url']
-                        . '?page_id=' . $associated->page 
+                        . '?page_id=' . $associated->page
                         . '" itemprop="attendees" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
                         . '<span itemprop="name">' . $associated->full_name . '</span></a> ';
             }
@@ -236,14 +236,65 @@ class RP_Group_Sheet_Panel_Creator {
             && ! ( $options['hide_places'] == 1 ) ) {
                 $place = ' ' . __( 'at', 'rootspersona' ) . ' ' . $marriage['place'];
             }
-            $block .= '<tr id="' . $ppfx . '_marriage"><td class="label" style="border-color:' 
+            $block .= '<tr id="' . $ppfx . '_marriage"><td class="label" style="border-color:'
                     . $pframe_color . ' !important">' . __( 'Marriage', 'rootspersona' )
                     . '</td><td id="' . $ppfx . '_mdate" class="rp_date" style="border-color:' . $pframe_color . ' !important" itemprop="startDate">'
                     . ( $options['hide_dates'] == 1 ? '' : $marriage['date'] )
-                    . '</td><td class="notes" style="border-color:' . $pframe_color . ' !important">' 
+                    . '</td><td class="notes" style="border-color:' . $pframe_color . ' !important">'
                     . $spouse . '<span  id="' . $ppfx . '_mloc" itemprop="location" itemscope itemtype="http://schema.org/Place">'
                     . '<span itemprop="name">' . $place . '</span></span></td></tr>';
         }
+        return $block;
+    }
+
+    public static function create_for_edit( $persona, $options ) {
+        $father = '';
+        $mother = '';
+        if(isset($persona->ancestors)) {
+            if( isset($persona->ancestors[2])) {
+                $father = $persona->ancestors[2]->full_name;
+            }
+            if( isset($persona->ancestors[3])) {
+                $mother = $persona->ancestors[3]->full_name;
+            }
+        }
+        $block = '<div class="rp_truncate">'
+                . '<div class="rp_header" style="overflow:hidden;margin:10px;">';
+
+        $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
+                . '<input type="button" name="unlinkparents" value="'
+                . sprintf ( __( 'Unlink %s from this Family Group',
+                'rootspersona' ), $persona->full_name ) . '"></div>'
+                . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>' . $father . '</div>'
+                . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>' . $mother . '</div>';
+
+        $cnt = ( isset( $persona->marriages ) ?  count( $persona->marriages ) : 0 );
+        for ( $idx = 0; $idx < $cnt; $idx++ ) {
+            $marriage = $persona->marriages[$idx];
+            $block .= '<div style="margin-top:10px;">'
+                . '<span style="font-weight:bold;font-size:14px;">Family Groups:</span></div>';
+            $associated = '';
+            if ( $marriage['spouse1']->id == $persona->id ) {
+                $associated = $marriage['spouse2']->full_name;
+            } else {
+                $associated = $marriage['spouse1']->full_name;
+            }
+            $block .= '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
+                   . '<input type="button" name="unlinkspouse" value="'
+                    . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
+                    . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
+            $cnt2 = count( $marriage['children'] );
+            if($cnt2 > 0) {
+                $block .= '<div style="margin-left:20px;font-weight:bold;font-style:italic;display:inline-block;width:5em;">Children: </div>';
+                for ( $idx2 = 0; $idx2 < $cnt2; $idx2++ ) {
+                    $child = $marriage['children'][$idx2];
+                    $child->full_name;
+                    $block .= '<div style="margin-left:40px;">' . $child->full_name . '</div>';
+                }
+            }
+        }
+
+        $block .= '</div></div>';
         return $block;
     }
 }
