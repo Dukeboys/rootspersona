@@ -293,7 +293,9 @@ class RP_Group_Sheet_Panel_Creator {
                 }
             }
         }
-
+        $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
+               . '<input type="button" name="linkspouse" value="'
+               . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>';
         $block .= '</div></div>';
         return $block;
     }

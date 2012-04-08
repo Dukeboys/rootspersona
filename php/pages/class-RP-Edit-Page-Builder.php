@@ -13,7 +13,7 @@ class RP_Edit_Page_Builder {
 
         $isSOR = ($options['is_system_of_record'] == '1'?true:false);
         $block = "<div style='overflow:hidden;margin:20px;'>"
-                . "<form  action='" . $action . "' method='POST'>"
+                . "<form id='editPersonaForm' action='" . $action . "' method='POST'>"
                 . "<div  class='rp_banner' style='padding-right:15px;margin-bottom:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "'/>"

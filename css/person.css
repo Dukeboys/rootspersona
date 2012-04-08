@@ -1,3 +1,7 @@
+form#editPersonaForm * input[type='button'] {
+    background: url("../images/sbutton2.jpg") repeat-x scroll left bottom transparent;
+}
+
 .rp_biopic {
     margin:0px 30px 5px 0px !important;
     width:150px !important;
