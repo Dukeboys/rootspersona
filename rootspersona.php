@@ -555,11 +555,30 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             global $wpdb;
             $options = get_option( 'persona_plugin' );
             $installer = new RP_Persona_Installer();
+
+            if (function_exists('is_multisite') && is_multisite()) {
+                // check if it is a network activation - if so, run the activation function for each blog id
+                if (isset($_GET['networkwide']) && ($_GET['networkwide'] == 1)) {
+                     $old_blog = $wpdb->blogid;
+                    // Get all blog ids
+                    $blogids = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs"));
+                    foreach ($blogids as $blog_id) {
+                        switch_to_blog($blog_id);
+                        $installer->persona_install(
+                            WP_PLUGIN_DIR . '/rootspersona/',
+                            $this->persona_version,
+                            $options, $wpdb->prefix
+                            );
+                    }
+                    switch_to_blog($old_blog);
+                    return;
+                }
+            }
             $installer->persona_install(
-                        WP_PLUGIN_DIR . '/rootspersona/',
-                        $this->persona_version,
-                        $options, $wpdb->prefix
-                        );
+                    WP_PLUGIN_DIR . '/rootspersona/',
+                    $this->persona_version,
+                    $options, $wpdb->prefix
+                   );
         }
 
         /**
@@ -787,10 +806,10 @@ if ( isset( $roots_persona_plugin ) ) {
     add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );
     add_action('wp_head', array( $roots_persona_plugin, 'inject_custom_style' ) );
     $options = get_option( 'persona_plugin' );
-    if($options['debug'] == '1') {
-        define( 'WP_DEBUG', true ); // turn on debug mode
-        define( 'WP_DEBUG_LOG', true ); // log to wp-content/debug.log
-        define( 'WP_DEBUG_DISPLAY', false ); // don't force display_errors to on
+    if(isset($options['debug']) && $options['debug'] == '1') {
+        if(!defined('WP_DEBUG')) define( 'WP_DEBUG', true ); // turn on debug mode
+        if(!defined('WP_DEBUG_LOG')) define( 'WP_DEBUG_LOG', true ); // log to wp-content/debug.log
+        if(!defined('WP_DEBUG_DISPLAY')) define( 'WP_DEBUG_DISPLAY', false ); // don't force display_errors to on
         @ini_set( 'display_errors', 0 ); // hide errors
     }
 }

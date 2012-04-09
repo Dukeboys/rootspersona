@@ -61,6 +61,19 @@ class RP_Persona_Installer {
             $options['hide_dates'] = 0;
             $options['hide_places'] = 0;
             $options['per_page'] = 25;
+            $options['hide_undef_pics'] = 0;
+            $options['debug'] = 0;
+            $options['banner_bcolor'] = '';
+            $options['banner_fcolor'] = '';
+            $options['banner_image'] = '';
+            $options['custom_style'] = '';
+            $options['group_bcolor'] = '';
+            $options['group_fcolor'] = '';
+            $options['group_image'] = '';
+            $options['index_even_color'] = '';
+            $options['index_hdr_color'] = '';
+            $options['index_odd_color'] = '';
+            $options['pframe_color'] = '';
             update_option( 'persona_plugin', $options );
         }
     }
@@ -124,8 +137,6 @@ class RP_Persona_Installer {
      */
     function persona_uninstall( $prefix ) {
         global $wpdb;
-
-        $options = get_option('persona_plugin');
 
         delete_option( 'persona_plugin' );
         $args = array( 'numberposts' => - 1, 'post_type' => 'page', 'post_status' => 'any' );

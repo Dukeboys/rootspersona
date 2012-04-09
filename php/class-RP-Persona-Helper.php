@@ -153,7 +153,8 @@ class RP_Persona_Helper {
         if ( empty( $page ) ) {
             $page_id = wp_insert_post( $my_post );
         } else {
-            $my_post['ID'] = $page;wp_update_post( $my_post );
+            $my_post['ID'] = $page;
+            wp_update_post( $my_post );
             $page_id = $page;
         }
         return $page_id;
