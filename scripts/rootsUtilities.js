@@ -7,10 +7,34 @@ function rootsConfirm(winText, trueAction) {
     }
 }
 
-function findPage(site_url) {
+function findPersonaPage(site_url) {
     var e = document.getElementById("persona_page");
     var page = e.options[e.selectedIndex].value;
     window.location=site_url + '?page_id=' + page;
+}
+
+function gotoPersonaPage(site_url) {
+    var e = document.getElementById("persona_page");
+    var page = e.value;
+    window.location=site_url + '?page_id=' + page;
+}
+
+function updatePersona() {
+           var postData = jQuery('#editPersonaForm').serialize();
+            var data = {
+                action: 'my_action',
+                datastr: postData,
+                form_action: 'updatePersona'
+            };
+            document.body.style.cursor = "wait";
+            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+            jQuery.post(ajaxurl, data, function(data) {
+                //alert(data);
+                var obj = jQuery.parseJSON(data);
+                isErr = false;
+                document.body.style.cursor = "default";
+            });
+
 }
 
 jQuery(document).ready(function() {
@@ -150,6 +174,10 @@ jQuery(document).ready(function() {
             placefield.removeAttr('id');
             classfield.removeAttr('id');
             buttoncell.removeAttr('id');
+            claimfield.attr('name', 'rp_claimtype');
+            datefield.attr('name', 'rp_claimdate');
+            placefield.attr('name', 'rp_claimplace');
+            classfield.attr('name', 'rp_classification');
             classfield.unbind('blur');
 
             jQuery('#facts > tbody').each(function(index) {

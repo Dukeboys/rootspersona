@@ -246,6 +246,9 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
         function my_action_callback() {
             global $wpdb; // this is how you get access to the database
+            $options = get_option( 'persona_plugin' );
+            $options['home_url'] = home_url();
+            $options['admin_url'] = admin_url();
 
             if ( isset( $_GET['refresh'] ) ) {
                 $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
@@ -254,6 +257,19 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         ->get_persons_no_page( $batch_id );
                 $transaction->close();
                 echo json_encode($persons);
+            } else if (isset( $_POST['form_action'] ) ) {
+
+                $mgr = new Persona_Manager();
+                $data = urldecode( $_POST['datastr'] );
+                $parms = explode( '&', $data );
+                $form = array();
+                foreach ( $parms AS $p ) {
+                    $pair = explode( '=', $p );
+                    $form[$pair[0]] = isset($pair[1])?$pair[1]:'';
+                }
+                if($_POST['form_action'] == 'updatePersona') {
+                    $response =  $mgr->process_form( $this->credentials, $form, $options );
+                }
             }
 
             die(); // this is required to return a proper result

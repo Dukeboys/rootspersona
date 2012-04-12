@@ -16,9 +16,9 @@ class RP_Edit_Page_Builder {
                 . "<form id='editPersonaForm' action='" . $action . "' method='POST'>"
                 . "<div  class='rp_banner' style='padding-right:15px;margin-bottom:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
-                . __( 'Save', 'rootspersona' ) . "'/>"
+                . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
                 . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
-                . __( 'Cancel', 'rootspersona' ) . "'/></div>";
+                . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>";
 
         $creator = new RP_Header_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options);
@@ -43,11 +43,11 @@ class RP_Edit_Page_Builder {
         $block .= $creator->create_for_edit($persona, $options)
                . "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
-                . __( 'Save', 'rootspersona' ) . "'/>"
+                . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
                 . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
-                . __( 'Cancel', 'rootspersona' ) . "'/></div>"
+                . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>"
 
-                . "<input type='hidden' name='srcPage' id='srcPage' value='" . $options['src_page'] . "'>"
+                . "<input type='hidden' name='persona_page' id='persona_page' value='" . $options['src_page'] . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"

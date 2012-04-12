@@ -22,7 +22,7 @@ class RP_Index_Page_Builder {
         $rows = $options['per_page'];
 
         $block = "<div id='personaIndexTable' style='text-align:center'><form>"
-                . "<select id='persona_page' name='persona_page' size='$rows' onChange='javascript:findPage(\""
+                . "<select id='persona_page' name='persona_page' size='$rows' onChange='findPersonaPage(\""
                 . $options['home_url'] ."\");'>";
 
         foreach($index AS $entry) {

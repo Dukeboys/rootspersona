@@ -58,28 +58,28 @@ class RP_Facts_Panel_Creator {
 		for ( $idx = 0; $idx < $cnt; $idx++ ) {
             $block .= '<tr>';
             //Fact
-            $block .= '<td><input type="text" class="claimType" value="';
+            $block .= '<td><input type="text" class="claimType" name="rp_claimtype" value="';
             if ( isset( $facts[$idx]['type'] )
 			&& ! empty( $facts[$idx]['type'] ) ) {
 				$block .= $facts[$idx]['type'];
 			}
             $block .= '"/></td>';
             //Date
-            $block .= '<td><input type="text" value="';
+            $block .= '<td><input type="text" name=""rp_claimdate" value="';
             if ( isset( $facts[$idx]['date'] )
 			&& ! empty( $facts[$idx]['date'] ) ) {
 				$block .= @preg_replace( '/@.*@(.*)/US', '$1', $facts[$idx]['date'] );
 			}
             $block .= '"/></td>';
             //Place
-            $block .= '<td><input type="text" value="';
+            $block .= '<td><input type="text" name="rp_claimplace" value="';
             if ( isset( $facts[$idx]['place'] )
 			&& ! empty( $facts[$idx]['place'] ) ) {
 				$block .= $facts[$idx]['place'];
 			}
             $block .= '"/></td>';
             //Notes
-            $block .= '<td><textarea cols="30" rows="1" type="text">';
+            $block .= '<td><textarea cols="30" rows="1" name="rp_classification">';
             if ( isset( $facts[$idx]['classification'] )
 			&& ! empty( $facts[$idx]['classification'] ) ) {
 				$block .= $facts[$idx]['classification'];

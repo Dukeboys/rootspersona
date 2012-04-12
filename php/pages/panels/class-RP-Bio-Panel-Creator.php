@@ -26,7 +26,7 @@ class RP_Bio_Panel_Creator {
                . '<div class="rp_bio" style="margin:10px; 0px !important;">';
         $cnt = count( $notes);
         for ($idx = 0; $idx < $cnt; $idx++) {
-            $block .= '<textarea cols="120" rows="5">' . $notes[$idx]->note . '</textarea><br/>' ;
+            $block .= '<textarea id="rp_bio" name="rp_bio" cols="120" rows="5">' . $notes[$idx]->note . '</textarea><br/>' ;
         }
         $block .= '</div></section>';
 		return $block;

@@ -137,30 +137,30 @@ class RP_Header_Panel_Creator {
 
        if($isSOR) {
            if(!empty($persona->surname)) {
-            $block .= "<label class='label6' for='_prefix'>Title"
+            $block .= "<label class='label6' for='rp_prefix'>Title"
                 . ":</label>"
-                . "<input id='_prefix' name='_prefix' type='text' size='6' value='"
+                . "<input id='rp_prefix' name='rp_prefix' type='text' size='6' value='"
                 . $persona->prefix . "' >"
                 . "<span style='font-size:smaller;font_style:italic;margin-left:10px;'>(Rev., Col., Dr., etc...)</span>"
                 . "<br/>"
-                . "<label class='label6' id='section_label' for='_first'>Given:</label>"
-                . "<input id='_first' name='_first' type='text' size='28' value='"
+                . "<label class='label6' id='section_label' for='rp_first'>Given:</label>"
+                . "<input id='rp_first' name='rp_first' type='text' size='28' value='"
                 . $persona->given . "' >"
-                . "<label class='label4' for='_middle'>Nick:</label>"
-                . "<input id='_middle' name='_middle' type='text' size='6' value='"
+                . "<label class='label4' for='rp_middle'>Nick:</label>"
+                . "<input id='rp_middle' name='rp_middle' type='text' size='6' value='"
                 . $persona->nickname . "' >"
                 . "<br/>"
-                . "<label class='label6' for='_last' >SurName:</label>"
-                . "<input id='_last' name='_last' type='text' size='28' value='"
+                . "<label class='label6' for='rp_last' >SurName:</label>"
+                . "<input id='rp_last' name='rp_last' type='text' size='28' value='"
                 . $persona->surname . "' >"
-                . "<label class='label4' for='_suffix'>Suffix"
+                . "<label class='label4' for='rp_suffix'>Suffix"
                 . ":</label>"
-                . "<input id='_suffix' name='_suffix' type='text' size='6' value='"
+                . "<input id='rp_suffix' name='rp_suffix' type='text' size='6' value='"
                 . $persona->suffix . "' >"
                 . "<span style='margin-right:4px;font-size:smaller;font_style:italic;margin-left:10px;'>(Sr., Jr., etc...)</span>";
            } else {
-                $block .= "<label class='label6' for='_last' >Full Name:</label>"
-                . "<input id='_full' name='_full' type='text' size='40' value='"
+                $block .= "<label class='label6' for='rp_last' >Full Name:</label>"
+                . "<input id='rp_full' name='rp_full' type='text' size='40' value='"
                 . ( isset( $persona->full_name ) ? $persona->full_name : '' ) . "' >";
            }
        } else {

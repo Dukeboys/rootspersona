@@ -66,8 +66,8 @@ class RP_Evidence_Page_Builder {
         } else {
             return $this->build_paginated( $sources, $cnt, $options );
         }
-    }    
-    
+    }
+
     function build_paginated( $sources, $cnt, $options ) {
         $target_url = $options['home_url'] . "?page_id="
             . RP_Persona_Helper::get_page_id();
@@ -78,16 +78,16 @@ class RP_Evidence_Page_Builder {
         $xofy_end = $xofy_start + count( $sources ) - 1;
         $xofy = "<div class='xofy'>Displaying " . $xofy_start . ' - ' . $xofy_end . "</div>";
         $home_url = $options['home_url'];
-        $hdrcolor = ((isset($options['index_hdr_color']) && !empty($options['index_hdr_color'])) 
+        $hdrcolor = ((isset($options['index_hdr_color']) && !empty($options['index_hdr_color']))
                         ? $options['index_hdr_color'] : '#CCCCCC');
         $block = $pagination . $xofy;
         $block .= "<table id='personaIndexTable' cellpadding='0' cellspacing='0'>"
                 . "<tr><th style='background-color:$hdrcolor' class='source_name'>Source Name</th>"
                 . "<th style='background-color:$hdrcolor' class='page'>Link</th></tr>";
         $evenodd = 'even';
-                $evencolor = ((isset($options['index_even_color']) && !empty($options['index_even_color'])) 
+                $evencolor = ((isset($options['index_even_color']) && !empty($options['index_even_color']))
                         ? $options['index_even_color'] : 'white');
-        $oddcolor = ((isset($options['index_odd_color']) && !empty($options['index_odd_color'])) 
+        $oddcolor = ((isset($options['index_odd_color']) && !empty($options['index_odd_color']))
                         ? $options['index_odd_color'] : '#DDDDDD');
         $evenoddcolor = $evencolor;
         if( count( $sources ) > 0 ) {
@@ -104,14 +104,14 @@ class RP_Evidence_Page_Builder {
         $block .= '</table>' . $xofy . $pagination;
         return $block;
     }
-    
+
     function build_scrollable( $index, $options ) {
         $rows = $options['per_page'];
-        
+
         $block = "<div id='personaIndexTable' style='text-align:center'><form>"
-                . "<select id='persona_page' name='persona_page' size='$rows' onChange='javascript:findPage(\""
+                . "<select id='persona_page' name='persona_page' size='$rows' onChange='findPersonaPage(\""
                 . $options['home_url'] ."\");'>";
-        
+
         if( count( $index ) > 0 ) {
             foreach( $index AS $entry ) {
                 $block .= "<option value='" . $entry->page . "'>"
@@ -119,11 +119,11 @@ class RP_Evidence_Page_Builder {
                         . "</option>";
             }
         }
-        
+
         $block .= "</select></form></div>";
         return $block;
     }
-    
+
     /**
      *
      * @global WP_Query $wp_query
@@ -139,7 +139,7 @@ class RP_Evidence_Page_Builder {
                 ? $options['per_page'] : 25;
         $options['home_url'] = home_url();
         $options['uscore'] = RP_Persona_Helper::score_user();
-        $options['style'] = isset( $atts['style'] )? $atts['style'] : 'paginated';  
+        $options['style'] = isset( $atts['style'] )? $atts['style'] : 'paginated';
         return $options;
     }
 }
