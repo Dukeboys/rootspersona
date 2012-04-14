@@ -134,6 +134,8 @@ class RP_Individual_Record extends RP_Record_Abstract {
 	 * @var array
 	 */
 	var $media_links = array();
+
+    var $page = null;
 	/**
 	 * Initializes complex attributes
 	 *
@@ -318,14 +320,14 @@ class RP_Individual_Record extends RP_Record_Abstract {
 				$tmp = new RP_Family_Link();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver, Rp_Tags::CHILDFAMILY );
 				$this->child_family_links[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			$off = 0;
 			while ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::SPOUSEFAMILY, $off ) ) !== false ) {
 				$tmp = new RP_Family_Link();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver, Rp_Tags::SPOUSEFAMILY );
 				$this->spouse_family_links[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			$off = 0;
 			while ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::SUBMITTER, $off ) ) !== false ) {
@@ -337,7 +339,7 @@ class RP_Individual_Record extends RP_Record_Abstract {
 				$tmp = new RP_Association();
 				$tmp->parse_tree( array( $sub2[$i1] ), $ver );
 				$this->associations[] = $tmp;
-	$off = $i1 + 1;
+                $off = $i1 + 1;
 			}
 			$off = 0;
 			while ( ( $i1 = parent::find_tag( $sub2, Rp_Tags::ALIAS, $off ) ) !== false ) {

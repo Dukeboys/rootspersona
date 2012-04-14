@@ -20,21 +20,20 @@ function gotoPersonaPage(site_url) {
 }
 
 function updatePersona() {
-           var postData = jQuery('#editPersonaForm').serialize();
-            var data = {
-                action: 'my_action',
-                datastr: postData,
-                form_action: 'updatePersona'
-            };
-            document.body.style.cursor = "wait";
-            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.post(ajaxurl, data, function(data) {
-                //alert(data);
-                var obj = jQuery.parseJSON(data);
-                isErr = false;
-                document.body.style.cursor = "default";
-            });
-
+        var postData = jQuery('#editPersonaForm').serialize();
+        var data = {
+            action: 'rp_action',
+            datastr: postData,
+            form_action: 'updatePersona'
+        };
+        document.body.style.cursor = "wait";
+        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+        jQuery.post(ajaxurl, data, function(data) {
+            //alert(data);
+            var obj = jQuery.parseJSON(data);
+            isErr = false;
+            document.body.style.cursor = "default";
+        });
 }
 
 jQuery(document).ready(function() {
@@ -174,10 +173,10 @@ jQuery(document).ready(function() {
             placefield.removeAttr('id');
             classfield.removeAttr('id');
             buttoncell.removeAttr('id');
-            claimfield.attr('name', 'rp_claimtype');
-            datefield.attr('name', 'rp_claimdate');
-            placefield.attr('name', 'rp_claimplace');
-            classfield.attr('name', 'rp_classification');
+            claimfield.attr('name', 'rp_claimtype_' + rowCnt);
+            datefield.attr('name', 'rp_claimdate_' + rowCnt);
+            placefield.attr('name', 'rp_claimplace_' + rowCnt);
+            classfield.attr('name', 'rp_classification_' + rowCnt);
             classfield.unbind('blur');
 
             jQuery('#facts > tbody').each(function(index) {
@@ -196,6 +195,22 @@ jQuery(document).ready(function() {
     function deleteFactsRow() {
         // img > cell > row
         jQuery(this).parent().parent().remove();
+        var tbody = jQuery('#facts');
+        var cnt = tbody.children().length - 1;
+        tbody.children().each(function(index) {
+            var trow = jQuery(this);
+            var cells = trow.children("td");
+            var inp = cells.eq(0).children().eq(0);
+            if(inp.attr("id") == "newclaim" ) return;
+
+            inp.attr("name","rp_claimtype_" + index);
+            inp = cells.eq(1).children().eq(0);
+            inp.attr("name","rp_claimdate_" + index);
+            inp = cells.eq(2).children().eq(0);
+            inp.attr("name","rp_claimplace_" + index);
+            inp = cells.eq(3).children().eq(0);
+            inp.attr("name","rp_classification_" + index);
+        });
     }
 
     jQuery('.delFacts').each(function(index) {
@@ -287,7 +302,7 @@ function refreshAddPerson() {
     var b = jQuery('#batch_ids option:selected').val();
     jQuery("#persons").contents().remove();
 	var data = {
-        action: 'my_action',
+        action: 'rp_action',
         refresh: 1,
         batch_id: b
 	};

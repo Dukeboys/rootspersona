@@ -46,6 +46,8 @@ require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Gedcom-Loader.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Persona-Factory.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Index-Factory.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Evidence-Factory.php';
+require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Persona-Validator.php';
+require_once WP_PLUGIN_DIR . '/rootspersona/php/class-RP-Persona-Manager.php';
 require_once WP_PLUGIN_DIR . '/rootspersona/surname_widget.php';
 
 /**
@@ -244,7 +246,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             }
         }
 
-        function my_action_callback() {
+        function rp_action_callback() {
             global $wpdb; // this is how you get access to the database
             $options = get_option( 'persona_plugin' );
             $options['home_url'] = home_url();
@@ -281,7 +283,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function add_page_handler(  ) {
-
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
             $msg = '';
             $options = get_option( 'persona_plugin' );
@@ -338,7 +339,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function include_page_handler(  ) {
-
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
             $msg = '';
             $options = get_option( 'persona_plugin' );
@@ -412,7 +412,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function upload_gedcom_handler( ) {
-
             if ( !current_user_can( 'upload_files' ) ) {
                 wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
             }
@@ -819,7 +818,7 @@ if ( isset( $roots_persona_plugin ) ) {
     load_plugin_textdomain('rootspersona', false,  '/rootspersona/localization');
     add_filter( 'query_vars', array( $roots_persona_plugin, 'parameter_queryvars' ) );
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
-    add_action('wp_ajax_my_action', array( $roots_persona_plugin, 'my_action_callback' ) );
+    add_action('wp_ajax_rp_action', array( $roots_persona_plugin, 'rp_action_callback' ) );
     add_action('wp_head', array( $roots_persona_plugin, 'inject_custom_style' ) );
     $options = get_option( 'persona_plugin' );
     if(isset($options['debug']) && $options['debug'] == '1') {
