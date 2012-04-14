@@ -7,27 +7,25 @@ class Persona_Manager {
         $ret = $validator->validate( $parms, $options );
         $options = $ret[1];
         if($ret[0] !== false ) {
-//            $handler = new RP_Gedcom_Loader();
-//            $indi = $handler->process_individual( $ret[0] );
-//            if( $indi instanceof RP-Individual-Record ) {
-//                $pid = $indi->get_id();
-//                if( isset( $pid ) && !empty( $pid ) ) {
+            $handler = new RP_Gedcom_Loader();
+            $indi = $handler->process_individual( $ret[0] );
+            if( $indi instanceof RP-Individual-Record ) {
+                if( isset( $indi->id ) && !empty( $indi->id ) ) {
 //                    $page = $indi->get_deceased()->get_page();
 //                    if( !isset( $page ) || empty( $page ) ) {
 //                        $name = $indi->getName();
-//                        $title =   $name->get_last_name()
-//                                . ', ' . $name->get_first_name()
-//                                . ' ' . $name->get_middle_name() ;
-//                        $contents = "[cemeteriat personid='$pid'/]";
+//                        $title =   $name->surname
+//                                . ', ' . $name->given();
+//                        $contents = "[rotospersona personid='$pid'/]";
 //                        $page_id = $this->add_page( $title, $contents, $options, '');
 //                        $indi->get_deceased()->set_page($page_id);
 //                        $handler->update_page($indi->get_deceased());
 //                    }
-//                }
-//            } else {
-//                $options['errors']['location'] = $indi->getMessage();
-//                $indi = $ret[0];
-//            }
+                }
+            } else {
+                $options['errors']['location'] = $indi->getMessage();
+                $indi = $ret[0];
+            }
         } else {
             return false;
         }

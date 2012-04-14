@@ -29,20 +29,10 @@ be mixed and matched for optimum customization.
 <li> MANY customization options...
 </ul>
 
-** New in 2.0! **
+** New in 3.0! **
 <ul>
-<li> changed the underlying code to be database driven
-<li> added more flexible privacy options
-<li> picture selection now interfaces with the WordPress media picker
-<li> pictures now wrap on the persona page
-<li> no more xsl processing
-<li> plugin processes with less memory
-<li> improved localization, available in more languages
-<li> indexes now paginated (but sorting is gone)
-<li> you can now customize the banner (the divider between persona panels) to be more consistent with your theme
-<li> support for multiple character encodings
-<li> added a second panel design for the header panel that display a bio
-<li> added an optional bio panel
+<li> if you define rootspersona as the system of record, you can now edit your data online!
+<li> enhanced installer now supports multi-site installation!
 </ul>
 
 For detailed documentation, goto [ed4becky.net/plugins/rootsPersona](http://ed4becky.net/plugins/rootsPersona "Documentation")
@@ -93,7 +83,7 @@ This is usually a timeout issue on your site.  See the explanation on the upload
 
 = Can a reload a GEDCOM? =
 
-Yes.  As long as the INDI ids are the same, existing records will be updated, not duplicated.  
+Yes.  As long as the INDI ids are the same, existing records will be updated, not duplicated.
 HOWEVER if your program assigns new ids to the same people, your data may become corrupt, so make sure you check.
 You may also delete pages and data using the <i>Tools->rootspersona->Delete Pages</i> and reload the GEDCOM.
 
@@ -108,6 +98,12 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.0.0 =
+* Added System of Record support, including adding and editing persons
+* Better handling of surname slashes to avoid mushed names
+* Updated installer to support multi-site WP
+* removed null surnames from top ten list
+
 = 2.5.0 =
 * Facts panel now displays Facts and Events
 * Cleaned up the options screen

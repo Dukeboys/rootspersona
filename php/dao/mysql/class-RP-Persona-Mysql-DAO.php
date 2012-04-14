@@ -23,6 +23,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
 
         $sql = 'SELECT surname, count(*) AS cnt'
              . ' FROM rp_name_personal'
+             . ' WHERE surname IS NOT NULL'
              . ' GROUP BY surname ORDER BY count(*) DESC LIMIT 0,'
              . $cnt;
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -333,7 +334,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
      * @return
      */
     public function get_fullname( $id, $batch_id ) {
-        $sql = "SELECT replace(rnp.personal_name,'/','') AS fullname"
+        $sql = "SELECT trim(replace(rnp.personal_name,'/',' ')) AS fullname"
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id"
             . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
@@ -410,7 +411,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         } else {
             $sql1 = "SELECT ri.id AS id, ri.batch_id AS batch_id,"
             . "IFNULL(rio.privacy_code,'Def') AS privacy"
-            . ",replace(rnp.personal_name,'/','') AS full_name"
+            . ",trim(replace(rnp.personal_name,'/',' ')) AS full_name"
             . ",rnp.prefix AS prefix"
             . ",rnp.surname AS surname"
             . ",rnp.given AS given"
@@ -652,7 +653,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
 
     public function get_persons_with_pages( $batch_id ) {
         $sql = "SELECT ri.id AS id, ri.batch_id AS batch_id"
-            . ",replace(rnp.personal_name,'/','') AS full_name"
+            . ",trim(replace(rnp.personal_name,'/',' ')) AS full_name"
             . ",ri.wp_page_id AS page"
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id AND rip.seq_nbr = 1"
