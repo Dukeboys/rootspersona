@@ -29,10 +29,13 @@ function updatePersona() {
         document.body.style.cursor = "wait";
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(ajaxurl, data, function(data) {
-            //alert(data);
-            var obj = jQuery.parseJSON(data);
-            isErr = false;
             document.body.style.cursor = "default";
+            try {
+                var obj = jQuery.parseJSON(data);
+            } catch (err) {
+                alert(data);
+            }
+
         });
 }
 
@@ -226,6 +229,23 @@ jQuery(document).ready(function() {
         jQuery(this).mousedown(function() {
            var imgPath = jQuery('#imgPath').val() + 'delete-icon-click.png';
            jQuery(this).attr('src',imgPath);
+        });
+    });
+
+    jQuery('.submitPersonForm').each(function(index) {
+        jQuery(this).click(updatePersona);
+        jQuery(this).mouseover(function() {
+           jQuery(this).removeClass('submitPersonForm').addClass('submitPersonFormHover');
+        });
+        jQuery(this).mouseout(function() {
+
+           jQuery(this).removeClass('submitPersonFormHover').addClass('submitPersonForm');
+        });
+        jQuery(this).mousedown(function() {
+           jQuery(this).removeClass('submitPersonFormHover').addClass('submitPersonFormClick');
+        });
+       jQuery(this).mouseup(function() {
+           jQuery(this).removeClass('submitPersonFormClick').addClass('submitPersonFormHover');
         });
     });
 

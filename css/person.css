@@ -1,7 +1,7 @@
-form#editPersonaForm * input[type='button'] {
+/*form#editPersonaForm * input[type='button'] {
     background: url("../images/sbutton.jpg") repeat-x left bottom transparent;
 }
-
+*/
 form#editPersonaForm * input[type='text'] {
     background-color:lavender;
 }
@@ -191,4 +191,13 @@ table.form-table tr td.left-label {
 }
 .label8 {
 	width:8em;
+}
+form#editPersonaForm input.submitPersonForm {
+    background: url("../images/sbutton.jpg") repeat-x scroll left bottom transparent;
+}
+form#editPersonaForm input.submitPersonFormHover {
+    background: url("../images/sbutton2.jpg") repeat-x scroll left bottom transparent;
+}
+form#editPersonaForm input.submitPersonFormClick {
+    background: url("../images/sbutton3.jpg") repeat-x scroll left bottom transparent;
 }

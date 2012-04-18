@@ -59,9 +59,9 @@ class RP_Picture_Panel_Creator {
             $block .= '<div class="rp_picture" style="text-align:center;"><a href="' . $link
                     . '"><img id="img' . $i . '" width="100px" src="' . $link . '"/></a>'
                     . '<input style="display:none;" id="img' . $i . '_upload" type="text" size="36" name="img' . $i . '_upload" value="' . $link . '"/>'
-                    . '<br/><input id="img' . $i . '_upload_button" type="button" value="Browse" />'
+                    . '<br/><input class="submitPersonForm"  id="img' . $i . '_upload_button" type="button" value="Browse" />'
 
-                    . '<div class="rp_caption"><textarea id="cap' . $i . '" name="cap' . $i . '" cols="17">'
+                    . '<div class="rp_caption"><textarea id="cap' . $i . '" name="cap' . $i . '" cols="12">'
                     . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' )
                     . '</textarea></div>'
                     . '</div>';

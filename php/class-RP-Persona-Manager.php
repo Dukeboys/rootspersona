@@ -8,6 +8,8 @@ class Persona_Manager {
         $options = $ret[1];
         if($ret[0] !== false ) {
             $handler = new RP_Gedcom_Loader();
+            $handler->credentials = $credentials;
+            $handler->batch_id = $ret[0]->batch_id;
             $indi = $handler->process_individual( $ret[0] );
             if( $indi instanceof RP-Individual-Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {

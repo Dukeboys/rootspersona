@@ -52,10 +52,10 @@ class RP_Gedcom_Loader {
      * @var RP_Credentials
      */
     var $credentials;
-    
+
     /**
      *
-     * @var integer 
+     * @var integer
      */
     var $batch_id;
 
@@ -165,6 +165,7 @@ class RP_Gedcom_Loader {
         $this->update_family_links( $person );
         $this->update_notes( $person );
         $transaction->commit();
+        return $indi;
     }
 
     /**
@@ -274,7 +275,7 @@ class RP_Gedcom_Loader {
             }
             $this->update_event_citations( $id, $this->batch_id, $p_event->citations );
         }
-        
+
         foreach ( $person->attributes as $p_event ) {
             $event = new RP_Event_Detail();
             $event->event_type = ( $p_event->tag === 'FACT' ? $p_event->type : $p_event->_TYPES[$p_event->tag] );

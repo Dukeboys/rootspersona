@@ -15,9 +15,9 @@ class RP_Edit_Page_Builder {
         $block = "<div style='overflow:hidden;margin:20px;'>"
                 . "<form id='editPersonaForm' action='" . $action . "' method='POST'>"
                 . "<div  class='rp_banner' style='padding-right:15px;margin-bottom:15px;font-size:smaller;'>"
-                . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
+                . "<input type='button' name='submitPersonForm' class='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
-                . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
+                . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
                 . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>";
 
         $creator = new RP_Header_Panel_Creator();
@@ -42,9 +42,9 @@ class RP_Edit_Page_Builder {
         $creator = new RP_Picture_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options)
                . "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
-                . "<input type='button' name='submitPersonForm' id='submitPersonForm' value='"
+                . "<input type='button' name='submitPersonForm' class='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
-                . "&#160;&#160;&#160;<input type='button' name='cancel' value='"
+                . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
                 . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>"
 
                 . "<input type='hidden' name='persona_page' id='persona_page' value='" . $options['src_page'] . "'>"
