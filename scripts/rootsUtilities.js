@@ -20,23 +20,72 @@ function gotoPersonaPage(site_url) {
 }
 
 function updatePersona() {
-        var postData = jQuery('#editPersonaForm').serialize();
-        var data = {
-            action: 'rp_action',
-            datastr: postData,
-            form_action: 'updatePersona'
-        };
-        document.body.style.cursor = "wait";
-        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-        jQuery.post(ajaxurl, data, function(data) {
-            document.body.style.cursor = "default";
-            try {
-                var obj = jQuery.parseJSON(data);
-            } catch (err) {
-                alert(data);
-            }
+    var postData = jQuery('#editPersonaForm').serialize();
+    var data = {
+        action: 'rp_action',
+        datastr: postData,
+        form_action: 'updatePersona'
+    };
+    document.body.style.cursor = "wait";
+    // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+    jQuery.post(ajaxurl, data, function(data) {
+        document.body.style.cursor = "default";
+        try {
+            var obj = jQuery.parseJSON(data);
+        } catch (err) {
+            alert(data);
+        }
 
-        });
+    });
+}
+
+function unlinkparents(fid,mid) {
+	var data = {
+        action: 'rp_action',
+        datastr: "&fid=" + fid + "&mid=" + mid,
+        form_action: 'unlinkparents'
+	};
+    document.body.style.cursor = "wait";
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.get(ajaxurl, data, function(response) {
+        document.body.style.cursor = "default";
+	});
+}
+function linkparents() {
+	var data = {
+        action: 'rp_action',
+        datastr: '',
+        form_action: 'linkparents'
+	};
+    document.body.style.cursor = "wait";
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.get(ajaxurl, data, function(response) {
+        document.body.style.cursor = "default";
+	});
+}
+function unlinkspouse(sid) {
+	var data = {
+        action: 'rp_action',
+        datastr: "&sid=" + sid,
+        form_action: 'unlinkspouse'
+	};
+    document.body.style.cursor = "wait";
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.get(ajaxurl, data, function(response) {
+        document.body.style.cursor = "default";
+	});
+}
+function linkspouse() {
+	var data = {
+        action: 'rp_action',
+        datastr: '',
+        form_action: 'linkspouse'
+	};
+    document.body.style.cursor = "wait";
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.get(ajaxurl, data, function(response) {
+        document.body.style.cursor = "default";
+	});
 }
 
 jQuery(document).ready(function() {
@@ -233,7 +282,6 @@ jQuery(document).ready(function() {
     });
 
     jQuery('.submitPersonForm').each(function(index) {
-        jQuery(this).click(updatePersona);
         jQuery(this).mouseover(function() {
            jQuery(this).removeClass('submitPersonForm').addClass('submitPersonFormHover');
         });

@@ -271,6 +271,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
                 if($_POST['form_action'] == 'updatePersona') {
                     $response =  $mgr->process_form( $this->credentials, $form, $options );
+                } else if($_POST['form_action'] == 'unlinkparents') {
+
+                } else if($_POST['form_action'] == 'linkparents') {
+
+                } else if($_POST['form_action'] == 'unlinkspouse') {
+
+                } else if($_POST['form_action'] == 'linkspouse') {
+
                 }
             }
 

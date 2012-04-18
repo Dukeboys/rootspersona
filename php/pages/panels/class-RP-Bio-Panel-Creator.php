@@ -25,6 +25,9 @@ class RP_Bio_Panel_Creator {
                . RP_Persona_Helper::get_banner($options, __( 'Biography', 'rootspersona' ) )
                . '<div class="rp_bio" style="margin:10px; 0px !important;">';
         $cnt = count( $notes);
+        if($cnt == 0) {
+           $block .= '<textarea id="rp_bio" name="rp_bio" cols="120" rows="5"></textarea><br/>' ;
+        }
         for ($idx = 0; $idx < $cnt; $idx++) {
             $block .= '<textarea id="rp_bio" name="rp_bio" cols="120" rows="5">' . $notes[$idx]->note . '</textarea><br/>' ;
         }
