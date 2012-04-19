@@ -266,12 +266,12 @@ class RP_Group_Sheet_Panel_Creator {
                 . '<div class="rp_header" style="overflow:hidden;margin:10px;">';
 
         $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
-                . '<input class="submitPersonForm" type="button" onclick="unlinkparents("' . $fid .'","' .$mid . '");" value="'
+                . '<input class="submitPersonForm" type="button" onclick="unlinkparents(\"' . $fid .'\",\"' .$mid . '\");" value="'
                 . sprintf ( __( 'Unlink %s from this Family Group',
-                'rootspersona' ), $persona->full_name ) . '"></div>'
+                'rootspersona' ), $persona->full_name ) . '">'
                 . '<input class="submitPersonForm" type="button" onclick="linkparents();" value="'
                 . sprintf ( __( 'Link %s to a Family Group',
-                'rootspersona' ), $persona->full_name ) . '" style="display:hidden;"></div>'
+                'rootspersona' ), $persona->full_name ) . '" style="display:none;"></div>'
                 . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>' . $father . '</div>'
                 . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>' . $mother . '</div>';
 
@@ -290,7 +290,7 @@ class RP_Group_Sheet_Panel_Creator {
                 $sid = $marriage['spouse1']->id;
             }
             $block .= '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
-                   . '<input class="submitPersonForm" type="button" onclick="unlinkspouse("' . $sid . '");"  value="'
+                   . '<input class="submitPersonForm" type="button" onclick="unlinkspouse(\"' . $sid . '\");"  value="'
                     . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
                     . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
             $cnt2 = count( $marriage['children'] );

@@ -135,6 +135,9 @@ class RP_Individual_Record extends RP_Record_Abstract {
 	 */
 	var $media_links = array();
 
+    var $images = array();
+	var $captions = array();
+
     var $page = null;
 	/**
 	 * Initializes complex attributes

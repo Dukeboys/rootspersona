@@ -51,7 +51,7 @@ class RP_Edit_Page_Builder {
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
-                . "<input type='hidden' name='imgPath' id='imgPath' value='" . $persona->full_name . "'>"
+                . "<input type='hidden' name='imgPath' id='imgPath' value='" . WP_PLUGIN_URL . '/rootspersona/images' . "'>"
                 //. "</div></div>"
                 . "</form></div>";
         return $block;

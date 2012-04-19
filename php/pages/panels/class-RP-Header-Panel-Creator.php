@@ -109,7 +109,7 @@ class RP_Header_Panel_Creator {
                 . '<div class="rp_picture" style="text-align:center;width:120px;overflow:hidden;float:left;padding-bottom:10px;">';
         if ( isset( $persona->picFiles[0] ) ) {
             $block .= '<a style="margin-bottom:0px;" href="' . $persona->picFiles[0]
-                    . '"><img id="img1" name="img1" src="'
+                    . '"><img id="img_1" name="img_1" src="'
                     . $persona->picFiles[0] . '"';
             $tempPic = $persona->picFiles[0];
 
@@ -117,17 +117,17 @@ class RP_Header_Panel_Creator {
             $block .= "<a style='margin-bottom:0px;' href='" . $options['plugin_url'] . "/images/";
             if ( isset( $persona->gender )
             && $persona->gender == 'F' ) {
-                $block .= "/girl-silhouette.gif'><img id='img1' name='img1' src='"
+                $block .= "/girl-silhouette.gif'><img id='img_1' name='img_1' src='"
                     . $options['plugin_url'] . "/images/girl-silhouette.gif'";
             } else {
-                $block .= "/boy-silhouette.gif'><img id='img1' name='img1' src='"
+                $block .= "/boy-silhouette.gif'><img id='img_1' name='img_1' src='"
                     . $options['plugin_url'] . "/images/boy-silhouette.gif'";
             }
         }
 
         $block .= ' class="rp_headerbox" style="padding-bottom:0px;margin-bottom:0px ! important;"/>'
-            . '</a><input style="display:none;" id="img1_upload" type="text" size="36" name="img1_upload" value="' . $tempPic . '" />'
-            . '<input class="submitPersonForm" id="img1_upload_button" type="button" value="Browse" /></div>'
+            . '</a><input style="display:none;" id="img_path_1" type="text" size="36" name="img_path_1" value="' . $tempPic . '" />'
+            . '<input class="submitPersonForm" id="img_1_upload_button" type="button" value="Browse" /></div>'
             . '<div class="rp_headerbox" style="float:left;padding:5px;">'
             . '<span class="rp_headerbox" style="color:#7c7c7c;display:block;margin-bottom:10px;">Id: '
             . ( isset( $persona->id ) ? $persona->id : '&#160;' )

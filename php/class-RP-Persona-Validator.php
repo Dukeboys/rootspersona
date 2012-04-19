@@ -64,80 +64,50 @@ class Persona_Validator {
             $note->text = trim(esc_attr($form['rp_bio']));
             $is_update = true;
         }
-/*
-        if (isset($form['rp_claimtype']) && !empty($form['rp_claimtype'])) {
-            $indi->id(trim(esc_attr($form['rp_claimtype'])));
-            $is_update = true;
+
+        $claims = array_keys($form);
+        $cnt = count($claims);
+        for($i=0; $i < $cnt; $i++) {
+            if(strpos($claims[$i],'rp_claimtype') === false ) continue;
+            $ev = new RP_Event();
+            $sfx = strrpos($claims[$i],'_');
+            $sfx = substr($claims[$i],$sfx+1);
+            if (isset($form['rp_claimtype_' . $sfx]) && !empty($form['rp_claimtype_' . $sfx])) {
+                $ev->type = trim(esc_attr($form['rp_claimtype_' . $sfx]));
+                $is_update = true;
+            }
+            if (isset($form['rp_claimdate_' . $sfx]) && !empty($form['rp_claimdate_' . $sfx])) {
+                $ev->date = trim(esc_attr($form['rp_claimdate_' . $sfx]));
+                $is_update = true;
+            }
+            if (isset($form['rp_claimplace_' . $sfx]) && !empty($form['rp_claimplace_' . $sfx])) {
+                $ev->place->name = trim(esc_attr($form['rp_claimplace_' . $sfx]));
+                $is_update = true;
+            }
+            if (isset($form['rp_classification_' . $sfx]) && !empty($form['rp_classification_' . $sfx])) {
+                $ev->cause = trim(esc_attr($form['rp_classification_' . $sfx]));
+                $is_update = true;
+            }
+            $indi->events[] = $ev;
         }
-        if (isset($form['rp_claimdate']) && !empty($form['rp_claimdate'])) {
-            $indi->id(trim(esc_attr($form['rp_claimdate'])));
-            $is_update = true;
+
+        for($i=1; $i <= $cnt; $i++) {
+            if(strpos($claims[$i],'img_path') === false ) continue;
+            $sfx = strrpos($claims[$i],'_');
+            $sfx = substr($claims[$i],$sfx+1);
+
+            if (isset($form['img_path_' . $sfx]) && !empty($form['img_path_' . $sfx])) {
+                $p = trim(esc_attr($form['img_path_' . $sfx]));
+                if (substr($p, '-silhouette.gif') !== false) continue;
+                $indi->images[] =
+                $is_update = true;
+            }
+
+            if (isset($form['cap_' . $sfx]) && !empty($form['cap_' . $sfx])) {
+                $indi->captions[] = trim(esc_attr($form['cap_' . $sfx]));
+                $is_update = true;
+            }
         }
-        if (isset($form['rp_claimplace']) && !empty($form['rp_claimplace'])) {
-            $indi->id(trim(esc_attr($form['rp_claimplace'])));
-            $is_update = true;
-        }
-        if (isset($form['rp_classification']) && !empty($form['rp_classification'])) {
-            $indi->id(trim(esc_attr($form['rp_classification'])));
-            $is_update = true;
-        }
-        if (isset($form['img1']) && !empty($form['img1'])) {
-            $indi->id(trim(esc_attr($form['img1'])));
-            $is_update = true;
-        }
-        if (isset($form['img2']) && !empty($form['img2'])) {
-            $indi->id(trim(esc_attr($form['img2'])));
-            $is_update = true;
-        }
-        if (isset($form['img3']) && !empty($form['img3'])) {
-            $indi->id(trim(esc_attr($form['img3'])));
-            $is_update = true;
-        }
-        if (isset($form['img4']) && !empty($form['img4'])) {
-            $indi->id(trim(esc_attr($form['img4'])));
-            $is_update = true;
-        }
-        if (isset($form['img5']) && !empty($form['img5'])) {
-            $indi->id(trim(esc_attr($form['img5'])));
-            $is_update = true;
-        }
-        if (isset($form['img6']) && !empty($form['img6'])) {
-            $indi->id(trim(esc_attr($form['img6'])));
-            $is_update = true;
-        }
-        if (isset($form['img7']) && !empty($form['img7'])) {
-            $indi->id(trim(esc_attr($form['img7'])));
-            $is_update = true;
-        }
-        if (isset($form['cap1']) && !empty($form['cap1'])) {
-            $indi->id(trim(esc_attr($form['cap1'])));
-            $is_update = true;
-        }
-        if (isset($form['cap2']) && !empty($form['cap2'])) {
-            $indi->id(trim(esc_attr($form['cap2'])));
-            $is_update = true;
-        }
-        if (isset($form['cap3']) && !empty($form['cap3'])) {
-            $indi->id(trim(esc_attr($form['cap3'])));
-            $is_update = true;
-        }
-        if (isset($form['cap4']) && !empty($form['cap4'])) {
-            $indi->id(trim(esc_attr($form['cap4'])));
-            $is_update = true;
-        }
-        if (isset($form['cap5']) && !empty($form['cap5'])) {
-            $indi->id(trim(esc_attr($form['cap5'])));
-            $is_update = true;
-        }
-        if (isset($form['cap6']) && !empty($form['cap6'])) {
-            $indi->id(trim(esc_attr($form['cap6'])));
-            $is_update = true;
-        }
-        if (isset($form['cap7']) && !empty($form['cap7'])) {
-            $indi->id(trim(esc_attr($form['cap7'])));
-            $is_update = true;
-        }
- * */
         return ( isset($options['errors']) ? array(false, $options) : array($indi, $options) );
     }
 }

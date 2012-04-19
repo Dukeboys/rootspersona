@@ -57,11 +57,11 @@ class RP_Picture_Panel_Creator {
             $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
             $i = $idx + 1;
             $block .= '<div class="rp_picture" style="text-align:center;"><a href="' . $link
-                    . '"><img id="img' . $i . '" width="100px" src="' . $link . '"/></a>'
-                    . '<input style="display:none;" id="img' . $i . '_upload" type="text" size="36" name="img' . $i . '_upload" value="' . $link . '"/>'
-                    . '<br/><input class="submitPersonForm"  id="img' . $i . '_upload_button" type="button" value="Browse" />'
+                    . '"><img id="img_' . $i . '" width="100px" src="' . $link . '"/></a>'
+                    . '<input style="display:none;" id="img_path_' . $i . '" type="text" size="36" name="img_path_' . $i . '" value="' . $link . '"/>'
+                    . '<br/><input class="submitPersonForm"  id="img_' . $i . '_upload_button" type="button" value="Browse" />'
 
-                    . '<div class="rp_caption"><textarea id="cap' . $i . '" name="cap' . $i . '" cols="12">'
+                    . '<div class="rp_caption"><textarea id="cap_' . $i . '" name="cap_' . $i . '" cols="12">'
                     . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' )
                     . '</textarea></div>'
                     . '</div>';
