@@ -265,13 +265,21 @@ class RP_Group_Sheet_Panel_Creator {
         $block = '<div class="rp_truncate">'
                 . '<div class="rp_header" style="overflow:hidden;margin:10px;">';
 
+        if(isset($persona->ancestors[2]) || isset($persona->ancestors[3])) {
+            $u = '';
+            $l = 'style="display:none;"';
+        } else {
+            $u = 'style="display:none;"';
+            $l = '';
+        }
+
         $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
                 . '<input class="submitPersonForm" type="button" onclick="unlinkparents(\"' . $fid .'\",\"' .$mid . '\");" value="'
-                . sprintf ( __( 'Unlink %s from this Family Group',
-                'rootspersona' ), $persona->full_name ) . '">'
+                . sprintf ( __( 'Unlink %s from this Father/Mother Family Group',
+                'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'
                 . '<input class="submitPersonForm" type="button" onclick="linkparents();" value="'
-                . sprintf ( __( 'Link %s to a Family Group',
-                'rootspersona' ), $persona->full_name ) . '" style="display:none;"></div>'
+                . sprintf ( __( 'Link %s to a Father/Mother',
+                'rootspersona' ), $persona->full_name ) . '" ' . $l . '></div>'
                 . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>' . $father . '</div>'
                 . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>' . $mother . '</div>';
 

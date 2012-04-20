@@ -18,6 +18,10 @@ class Persona_Validator {
             $indi->batch_id = trim(esc_attr($form['batchId']));
             $is_update = true;
         }
+        if (isset($form['persona_page']) && !empty($form['persona_page'])) {
+            $indi->page = trim(esc_attr($form['persona_page']));
+            $is_update = true;
+        }
 
         $name = new RP_Personal_Name();
         $indi->names[] = $name;

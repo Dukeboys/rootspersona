@@ -13,16 +13,15 @@ class Persona_Manager {
             $indi = $handler->process_individual( $ret[0] );
             if( $indi instanceof RP-Individual-Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {
-//                    $page = $indi->get_deceased()->get_page();
-//                    if( !isset( $page ) || empty( $page ) ) {
-//                        $name = $indi->getName();
-//                        $title =   $name->surname
-//                                . ', ' . $name->given();
-//                        $contents = "[rotospersona personid='$pid'/]";
-//                        $page_id = $this->add_page( $title, $contents, $options, '');
-//                        $indi->get_deceased()->set_page($page_id);
-//                        $handler->update_page($indi->get_deceased());
-//                    }
+                    $page = $indi->page;
+                    if( !isset( $page ) || empty( $page ) ) {
+                        $name = $indi->getName();
+                        $title =   $name->surname
+                                . ', ' . $name->given();
+                        $contents = "[rootspersona personid='$indi->id'/]";
+                        $page_id = $this->add_page( $title, $contents, $options, '');
+                        $indi->page = $page_id;
+                    }
                 }
             } else {
                 $options['errors']['location'] = $indi->getMessage();

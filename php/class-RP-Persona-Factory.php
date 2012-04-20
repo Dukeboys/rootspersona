@@ -308,13 +308,18 @@ class RP_Persona_Factory {
             if ( ! empty( $ancestors[3]->mother ) )$ancestors[7]
                     = $this->get_persona( $ancestors[3]->mother, $persona->batch_id, $uscore, $options );
         }
+
+        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
         for ( $idx = 1; $idx <= 7; $idx++ ) {
-            if ( ! isset( $ancestors[$idx] )
-            || empty( $ancestors[$idx] ) ) {
+            if ( ! isset( $ancestors[$idx] ) || empty( $ancestors[$idx] ) ) {
                 $ancestors[$idx] = RP_Persona_Helper::get_unknown( $persona, false );
+                if( $isSOR === true ) {
+                   // need to setup edit page logged in
+                }
             }
-            if ( empty( $ancestors[$idx]->page ) )$ancestors[$idx]->page
-                    = $ancestors[1]->page;
+            if ( empty( $ancestors[$idx]->page ) ) {
+                $ancestors[$idx]->page = $ancestors[1]->page;
+            }
         }
         return $ancestors;
     }

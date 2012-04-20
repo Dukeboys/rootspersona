@@ -191,6 +191,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
             $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $options = get_option( 'persona_plugin' );
+            $isSOR = ($options['is_system_of_record'] == '1'?true:false);
+            
             if ( !isset( $_POST['submitPersonForm'] ) ) {
                 $persona_id  = isset( $_GET['personId'] )
                         ? trim( esc_attr( $_GET['personId'] ) )  : '';
@@ -201,8 +203,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     $src_page = isset( $_GET['srcPage'] )
                             ? trim( esc_attr( $_GET['srcPage'] ) )  : '';
                     if ( $edit_action == 'edit' ) {
-
-                        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
                         $options['src_page'] = $src_page;
                         $builder = new RP_Edit_Page_Builder();
                         $options = $builder->get_persona_options( $options );
@@ -219,6 +219,11 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         return RP_Persona_Helper::redirect_to_page( $src_page );
                     }
                 } else {
+                    if($isSOR === true) {
+                        $builder = new RP_Edit_Page_Builder();
+                        $options = $builder->get_persona_options( $options );
+                        return $builder->build( new RP_Persona(), $action, $options );
+                    }
                     return  __( 'Missing', 'rootspersona' ) . ' personId:' . $persona_id;
                 }
             } else {

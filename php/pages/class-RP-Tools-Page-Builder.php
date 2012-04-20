@@ -8,6 +8,8 @@ class RP_Tools_Page_Builder {
      * @param array $options
      */
     function build( $options, $batch_ids ) {
+
+        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
         $block = "<div class='wrap'>"
                 . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'></span>"
                 . "<span class='rp_clickbutton' style='background-position: -1000px -1000px;'></span>"
@@ -16,6 +18,9 @@ class RP_Tools_Page_Builder {
 
         $block .=  $this->get_upload();
         $block .=  $this->get_add();
+        if($isSOR) {
+            $block .= $this->get_add_indi();
+        }
         $block .=  $this->get_evidence();
         $block .=  $this->get_excluded();
         $block .=  $this->get_validate();
@@ -28,8 +33,8 @@ class RP_Tools_Page_Builder {
 
     function get_upload() {
         $block =  "<tr style='vertical-align: top'>"
-            . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
-            . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=upload') 
+            . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover
+            . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=upload')
                 . "\");'><a href=' "
             . admin_url('/tools.php?page=rootsPersona&rootspage=upload') . "'>"
 
@@ -40,10 +45,27 @@ class RP_Tools_Page_Builder {
         return $block;
     }
 
+    function get_add_indi() {
+        $edit_page = admin_url('/tools.php?page=rootsPersona&rootspage=edit')
+            . "&action=edit";
+
+        $block =  "<tr style='vertical-align: top'>"
+                . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover
+                . " onclick='window.open(\"" . $edit_page . "\");'>"
+                . "<a href=' " . $edit_page . "'>"
+
+                . __( 'Add Individual', 'rootspersona' )
+                . "</a></div></td>"
+                . "<td style='vertical-align:middle'>"
+                . __( 'If rootspersona is set as the System of record, this screenallows you to add a  new individual from scratch.', 'rootspersona' )
+                . "</td></tr>";
+        return $block;
+    }
+
     function get_add() {
         $block =  "<tr style='vertical-align: top'>"
-                . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover 
-                . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=create') 
+                . "<td style='width:200px;'><div class='rp_linkbutton' " . RP_Tools_Page_Builder::hover
+                . " onclick='window.open(\"" . admin_url('/tools.php?page=rootsPersona&rootspage=create')
                 . "\");'><a href=' "
                 . admin_url('/tools.php?page=rootsPersona&rootspage=create') . "'>"
 
@@ -58,7 +80,7 @@ class RP_Tools_Page_Builder {
     function get_excluded() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover
                 . " id='review' name='review' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Review Excluded Persons', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
@@ -72,7 +94,7 @@ class RP_Tools_Page_Builder {
     function get_validate() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover
                 . " id='validate' name='validate' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Validate persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
@@ -87,7 +109,7 @@ class RP_Tools_Page_Builder {
     function get_delete() {
         $block =  "<tr style='vertical-align: top'>"
                 . "<td style='width:200px;'>"
-                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover 
+                . "<div class='rp_linkbutton'" .  RP_Tools_Page_Builder::hover
                 . " id='delete' name='delete' onclick='revealBatchSpan(this,\"" . admin_url() . "\");'>"
                 . __( 'Delete persona Pages', 'rootspersona' ) . "</div></td>"
                 . "<td style='vertical-align:middle'>";
