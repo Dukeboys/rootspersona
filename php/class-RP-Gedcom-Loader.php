@@ -143,7 +143,8 @@ class RP_Gedcom_Loader {
         $indi->ged_change_date = $person->change_date->date;
         try {
             $transaction = new RP_Transaction( $this->credentials );
-            RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->insert( $indi );
+            $person->id =
+                    RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->insert( $indi );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
@@ -165,7 +166,7 @@ class RP_Gedcom_Loader {
         $this->update_family_links( $person );
         $this->update_notes( $person );
         $transaction->commit();
-        return $indi;
+        return $person;
     }
 
     /**
@@ -583,7 +584,7 @@ class RP_Gedcom_Loader {
      * @param RP_Individual_Record $rec
      */
     function process_individual( $rec ) {
-        $this->add_indi( $rec );
+        return $this->add_indi( $rec );
     }
 
     /**

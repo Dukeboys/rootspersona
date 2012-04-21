@@ -27,3 +27,4 @@ DROP TABLE IF EXISTS rp_source_cite;
 DROP TABLE IF EXISTS rp_source_note;
 DROP TABLE IF EXISTS rp_submitter;
 DROP TABLE IF EXISTS rp_submitter_note;
+DROP TABLE IF EXISTS rp_indi_seq;

@@ -379,3 +379,6 @@ CREATE TABLE IF NOT EXISTS rp_submitter_note (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE rp_fam ADD UNIQUE( `id`, `batch_id`, `spouse1`, `indi_batch_id_1`, `spouse2`, `indi_batch_id_2`);
+
+CREATE TABLE rp_indi_seq (id INT NOT NULL);
+INSERT INTO rp_indi_seq VALUES (100000);

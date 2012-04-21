@@ -86,6 +86,7 @@ class RP_Persona_Installer {
      * @param string $prefix
      */
     function persona_upgrade( $plugin_dir, $version, $options, $prefix ) {
+        global $wpdb;
 
         if ( $options[ 'version' ] < '2.0.3' ) {
             unset( $options['evidence_page'] );
@@ -94,6 +95,28 @@ class RP_Persona_Installer {
 
         if ( $options[ 'version' ] < '2.2.0' ) {
             $options['hide_descendancy'] = 0;
+        }
+
+        if ( $options[ 'version' ] < '3.0.0' ) {
+
+            $sql = "CREATE TABLE rp_indi_seq (id INT NOT NULL)";
+            if ( $prefix != null ) {
+                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+            }
+            $result = $wpdb->query( $stmt );
+            if ( $result === false ) {
+               $wpdb->print_error();
+               throw new Exception( $stmt );
+            }
+            $sql = "INSERT INTO rp_indi_seq VALUES (100000)";
+            if ( $prefix != null ) {
+                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+            }
+            $result = $wpdb->query( $stmt );
+            if ( $result === false ) {
+               $wpdb->print_error();
+               throw new Exception( $stmt );
+            }
         }
 
         $options['version'] = $version;

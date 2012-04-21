@@ -11,26 +11,30 @@ class Persona_Manager {
             $handler->credentials = $credentials;
             $handler->batch_id = $ret[0]->batch_id;
             $indi = $handler->process_individual( $ret[0] );
-            if( $indi instanceof RP-Individual-Record ) {
+            if( $indi instanceof RP_Individual_Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {
                     $page = $indi->page;
                     if( !isset( $page ) || empty( $page ) ) {
-                        $name = $indi->getName();
-                        $title =   $name->surname
-                                . ', ' . $name->given();
-                        $contents = "[rootspersona personid='$indi->id'/]";
+                        $name = $indi->names[0];
+                        $title =   $name->rp_name->pieces->surname
+                                . ', ' . $name->rp_name->pieces->given;
+                        $contents = "[rootsPersona  personid='$indi->id' batchId='$indi->batch_id'/]";
                         $page_id = $this->add_page( $title, $contents, $options, '');
                         $indi->page = $page_id;
                     }
                 }
             } else {
-                $options['errors']['location'] = $indi->getMessage();
-                $indi = $ret[0];
+                $r = array();
+                $r['error'] = 'Error saving record.';
+                return $r;
             }
         } else {
-            return false;
+            return $ret[1]['errors'];
         }
-        return true;
+        $r = array();
+        $r['rp_id'] = $indi->id;
+        $r['rp_page'] = $indi->page;
+        return $r;
 	}
 
     function add_page( $title, $contents, $options, $page = '') {

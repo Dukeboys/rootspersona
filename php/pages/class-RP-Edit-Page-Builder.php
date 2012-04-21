@@ -20,6 +20,7 @@ class RP_Edit_Page_Builder {
                 . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
                 . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>";
 
+        $block .= "<div class='persona_msg'></div>";
         $creator = new RP_Header_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options);
 
@@ -40,8 +41,12 @@ class RP_Edit_Page_Builder {
         $block .= $this->create_privacy_panel($persona, $options);
 
         $creator = new RP_Picture_Panel_Creator();
-        $block .= $creator->create_for_edit($persona, $options)
-               . "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
+        $block .= $creator->create_for_edit($persona, $options);
+
+
+        $block .= "<div class='persona_msg'></div>";
+
+        $block .= "<div  class='rp_banner' style='padding-right:15px;font-size:smaller;'>"
                 . "<input type='button' name='submitPersonForm' class='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
                 . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"

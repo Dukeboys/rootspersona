@@ -27,12 +27,43 @@ function updatePersona() {
         form_action: 'updatePersona'
     };
     document.body.style.cursor = "wait";
+    var msgs = jQuery('.persona_msg');
+    jQuery.each(msgs, function(index, item){
+        item.innerHTML = '';
+    });
     // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
     jQuery.post(ajaxurl, data, function(data) {
         document.body.style.cursor = "default";
         try {
             var obj = jQuery.parseJSON(data);
+            var isErr = false;
+            jQuery.each(obj, function(key, value){
+                  if(key == 'error') {
+                      var msgs = jQuery('.persona_msg');
+                        jQuery.each(msgs, function(index, item){
+                            item.innerHTML = value;
+                            jQuery(item).css('color','red');
+                        });
+                        isErr = true;
+                      return;
+                  } else if (key == 'rp_id') {
+                      jQuery("#rp_id").text(value);
+                      jQuery('#personId').val(value);
+                  } else if (key == 'rp_page') {
+                      jQuery("#rp_page").text(value);
+                      jQuery('#persona_page').val(value);
+                  }
+            });
+
+            if(!isErr) {
+                var msgs = jQuery('.persona_msg');
+                jQuery.each(msgs, function(index, item){
+                    item.innerHTML = 'Saved.';
+                    jQuery(item).css('color','green');
+                });
+            }
         } catch (err) {
+            if (data == null) data = err;
             alert(data);
         }
 

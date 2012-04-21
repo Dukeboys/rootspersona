@@ -192,7 +192,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
             $options = get_option( 'persona_plugin' );
             $isSOR = ($options['is_system_of_record'] == '1'?true:false);
-            
+
             if ( !isset( $_POST['submitPersonForm'] ) ) {
                 $persona_id  = isset( $_GET['personId'] )
                         ? trim( esc_attr( $_GET['personId'] ) )  : '';
@@ -276,6 +276,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 }
                 if($_POST['form_action'] == 'updatePersona') {
                     $response =  $mgr->process_form( $this->credentials, $form, $options );
+                    echo json_encode($response);
                 } else if($_POST['form_action'] == 'unlinkparents') {
 
                 } else if($_POST['form_action'] == 'linkparents') {

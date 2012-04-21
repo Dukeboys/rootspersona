@@ -2,6 +2,10 @@
     background: url("../images/sbutton.jpg") repeat-x left bottom transparent;
 }
 */
+div.persona_msg{
+    margin: 5px;
+    font-weight: bold;
+}
 form#editPersonaForm * input[type='text'] {
     background-color:lavender;
 }

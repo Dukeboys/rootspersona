@@ -49,6 +49,21 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $batch_id );
 		return $this->query_single_result( $sql_query );
 	}
+	/**
+	 * @todo Description of function getNextId
+	 * @param  $id
+	 * @param  $batchId
+	 * @return
+	 */
+	public function get_next_id(  ) {
+		$sql = 'UPDATE rp_indi_seq SET id=LAST_INSERT_ID(id+1)';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $this->execute_update($sql_query);
+		$sql = 'SELECT LAST_INSERT_ID()';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		return $this->query_single_result( $sql_query );
+	}
+
     /**
 	 * Get Domain object by primry key
 	 *
@@ -80,6 +95,9 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpIndiMySql rpIndi
 	 */
 	public function insert( $rp_indi ) {
+        if($rp_indi->id == null || empty($rp_indi->id)) {
+            $rp_indi->id = $this->get_next_id();
+        }
 		$sql = 'INSERT INTO rp_indi (restriction_notice, gender, perm_rec_file_nbr, anc_rec_file_nbr, auto_rec_id, ged_change_date, update_datetime, id, batch_id) VALUES (?, ?, ?, ?, ?, ?, now(), ?, ?)';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi->restriction_notice );
@@ -91,9 +109,7 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_indi->id );
 		$sql_query->set_number( $rp_indi->batch_id );
 		$this->execute_insert( $sql_query );
-		//$rpIndi->id = $id;
-		//return $id;
-
+		return $rp_indi->id;
 	}
 	/**
 	 * Update record in table
@@ -132,6 +148,5 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 		$rp_indi->update_datetime = $row['update_datetime'];
 		return $rp_indi;
 	}
-
 }
 ?>

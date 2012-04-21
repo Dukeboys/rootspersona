@@ -129,14 +129,19 @@ class RP_Header_Panel_Creator {
             . '</a><input style="display:none;" id="img_path_1" type="text" size="36" name="img_path_1" value="' . $tempPic . '" />'
             . '<input class="submitPersonForm" id="img_1_upload_button" type="button" value="Browse" /></div>'
             . '<div class="rp_headerbox" style="float:left;padding:5px;">'
-            . '<span class="rp_headerbox" style="color:#7c7c7c;display:block;margin-bottom:10px;">Id: '
-            . ( isset( $persona->id ) ? $persona->id : '&#160;' )
-            . '&#160;&#160;Batch Id: '
-            . ( isset( $persona->batch_id ) ? $persona->batch_id : '&#160;' )
-            . '</span>';
+            . '<span class="rp_headerbox" style="color:#7c7c7c;display:block;margin-bottom:10px;">Id: <span id="rp_id" style="color:black">'
+            . ( isset( $persona->id ) ? $persona->id : 'TBD' )
+            . '</span>&#160;&#160;Batch Id: ';
 
+        if($isSOR && empty($persona->id)) {
+            $block .= "<input id='rp_batch_id' name='rp_batch_id' type='text' size='2' value='1'>" ;
+        } else {
+            $block .= ( isset( $persona->batch_id ) ? $persona->batch_id : '&#160;' );
+
+        }
+        $block .= '</span>';
        if($isSOR) {
-           if(!empty($persona->surname)) {
+           if(!empty($persona->surname) || empty($persona->id)) {
             $block .= "<label class='label6' for='rp_prefix'>Title"
                 . ":</label>"
                 . "<input id='rp_prefix' name='rp_prefix' type='text' size='6' value='"
