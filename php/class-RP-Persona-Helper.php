@@ -167,11 +167,12 @@ class RP_Persona_Helper {
      * @param array $options
      * @return integer
      */
-    public static function add_page( $person, $name, $options, $batch_id ) {
+    public static function add_page( $person, $name, $options, $batch_id, $content = null ) {
         // Create post object
         $my_post = array();
         $my_post['post_title'] = $name;
-        $my_post['post_content'] = "[rootsPersona personId='$person' batchId='$batch_id'/]";
+        $my_post['post_content'] =
+            $content == null?"[rootsPersona personId='$person' batchId='$batch_id'/]":$content;
         $my_post['post_status'] = 'publish';
         $my_post['post_author'] = 0;
         $my_post['post_type'] = 'page';

@@ -68,11 +68,10 @@ class Persona_Validator {
             $is_update = true;
         }
 
-        //if (isset($form['privacy_grp']) && !empty($form['privacy_grp'])) {
-        //    $indi->id(trim(esc_attr($form['privacy_grp'])));
-        //    $is_update = true;
-        //}
-
+        if (isset($form['privacy_grp']) && !empty($form['privacy_grp'])) {
+            $indi->privacy = trim(esc_attr($form['privacy_grp']));
+            $is_update = true;
+        }
 
         if (isset($form['rp_bio']) && !empty($form['rp_bio'])) {
             $note = new RP_Note();
@@ -81,13 +80,13 @@ class Persona_Validator {
             $is_update = true;
         }
 
-        $claims = array_keys($form);
-        $cnt = count($claims);
+        $fields = array_keys($form);
+        $cnt = count($fields);
         for($i=0; $i < $cnt; $i++) {
-            if(strpos($claims[$i],'rp_claimtype') === false ) continue;
+            if(strpos($fields[$i],'rp_claimtype') === false ) continue;
             $ev = new RP_Event();
-            $sfx = strrpos($claims[$i],'_');
-            $sfx = substr($claims[$i],$sfx+1);
+            $sfx = strrpos($fields[$i],'_');
+            $sfx = substr($fields[$i],$sfx+1);
             if (isset($form['rp_claimtype_' . $sfx]) && !empty($form['rp_claimtype_' . $sfx])) {
                 $ev->type = trim(esc_attr($form['rp_claimtype_' . $sfx]));
                 $is_update = true;
@@ -107,15 +106,15 @@ class Persona_Validator {
             $indi->events[] = $ev;
         }
 
-        for($i=1; $i <= $cnt; $i++) {
-            if(strpos($claims[$i],'img_path') === false ) continue;
-            $sfx = strrpos($claims[$i],'_');
-            $sfx = substr($claims[$i],$sfx+1);
+        for($i=0; $i <= $cnt; $i++) {
+            if(strpos($fields[$i],'img_path') === false ) continue;
+            $sfx = strrpos($fields[$i],'_');
+            $sfx = substr($fields[$i],$sfx+1);
 
             if (isset($form['img_path_' . $sfx]) && !empty($form['img_path_' . $sfx])) {
                 $p = trim(esc_attr($form['img_path_' . $sfx]));
                 if (strpos($p, '-silhouette.gif') !== false) continue;
-                $indi->images[] =
+                $indi->images[] = $p;
                 $is_update = true;
             }
 

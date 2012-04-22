@@ -14,13 +14,56 @@ class Persona_Manager {
             if( $indi instanceof RP_Individual_Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {
                     $page = $indi->page;
-                    if( !isset( $page ) || empty( $page ) ) {
+                    if( (!isset( $page ) || empty( $page )) ) {
                         $name = $indi->names[0];
                         $title =   $name->rp_name->pieces->surname
                                 . ', ' . $name->rp_name->pieces->given;
-                        $contents = "[rootsPersona  personid='$indi->id' batchId='$indi->batch_id'/]";
-                        $page_id = $this->add_page( $title, $contents, $options, '');
+                        $content = "[rootsPersona   personid='$indi->id' batchId='$indi->batch_id'";
+                        for ( $i = 1;$i <= 7;    $i++ ) {
+                            $pf = 'picFile' . $i;
+                            if ( isset( $indi->images[$i-1] ) ) {
+                                $content = $content . ' ' . $pf . "='" . $indi->images[$i-1] . "'";
+                                $pc = 'picCap' . $i;
+                                if ( isset( $indi->captions[$i-1] )) {
+                                    $content = $content . ' ' . $pc . "='" . $indi->captions[$i-1] . "'";
+                                }
+                            }
+                        }
+
+                        $content = $content . "/]";
+                        $page_id = RP_Persona_Helper::add_page( null, $title, $options, null, $content );
                         $indi->page = $page_id;
+                    } else if ($indi->privacy != 'Exc') {
+                        $my_post = array();
+                        $my_post['ID'] = $page;
+
+                        $name = $indi->names[0];
+                        $title =   $name->rp_name->pieces->surname
+                                . ', ' . $name->rp_name->pieces->given;
+                        $my_post['post_title'] = $title;
+
+                        $content = "[rootsPersona   personid='$indi->id' batchId='$indi->batch_id'";
+                        for ( $i = 1;$i <= 7;    $i++ ) {
+                            $pf = 'picFile' . $i;
+                            if ( isset( $indi->images[$i-1] ) ) {
+                                $content = $content . ' ' . $pf . "='" . $indi->images[$i-1] . "'";
+                                $pc = 'picCap' . $i;
+                                if ( isset( $indi->captions[$i-1] )) {
+                                    $content = $content . ' ' . $pc . "='" . $indi->captions[$i-1] . "'";
+                                }
+                            }
+                        }
+
+                        $content = $content . "/]";
+                        $my_post['post_content'] = $content;
+                        wp_update_post( $my_post );
+                    } else {
+                        wp_delete_post( $page );
+                        RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                ->delete_persona( $indi->id, $indi->batch_id );
+                        $r = array();
+                        $r['error'] = 'Persona deleted.';
+                        return $r;
                     }
                 }
             } else {
@@ -36,26 +79,17 @@ class Persona_Manager {
         $r['rp_page'] = $indi->page;
         return $r;
 	}
-
-    function add_page( $title, $contents, $options, $page = '') {
-        // Create post object
-        $my_post = array();
-        $my_post['post_title'] = $title;
-        $my_post['post_content'] = $contents;
-        $my_post['post_status'] = 'publish';
-        $my_post['post_author'] = 0;
-        $my_post['post_type'] = 'page';
-        $my_post['ping_status'] = 'closed';
-        $my_post['comment_status'] = 'closed';
-        $my_post['post_parent'] = $options['headstones'];
-        $page_id = '';
-        if ( empty( $page ) ) {
-            $page_id = wp_insert_post( $my_post );
-        } else {
-            $my_post['ID'] = $page;
-            wp_update_post( $my_post );
-            $page_id = $page;
-        }
-        return $page_id;
-    }
 }
+/*
+                if ( $opt == 'Exc' ) {
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
+                    wp_delete_post( $src_page );
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                            ->delete_persona( $persona_id, $batch_id );
+                } else {
+                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
+                }
+ * */
+

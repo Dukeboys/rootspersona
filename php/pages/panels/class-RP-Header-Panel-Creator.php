@@ -126,7 +126,7 @@ class RP_Header_Panel_Creator {
         }
 
         $block .= ' class="rp_headerbox" style="padding-bottom:0px;margin-bottom:0px ! important;"/>'
-            . '</a><input style="display:none;" id="img_path_1" type="text" size="36" name="img_path_1" value="' . $tempPic . '" />'
+            . '</a><input id="img_path_1" type="hidden" name="img_path_1" value="' . $tempPic . '" />'
             . '<input class="submitPersonForm" id="img_1_upload_button" type="button" value="Browse" /></div>'
             . '<div class="rp_headerbox" style="float:left;padding:5px;">'
             . '<span class="rp_headerbox" style="color:#7c7c7c;display:block;margin-bottom:10px;">Id: <span id="rp_id" style="color:black">'
