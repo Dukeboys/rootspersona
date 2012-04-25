@@ -70,18 +70,14 @@ function updatePersona() {
     });
 }
 
-function unlinkparents(fid,mid) {
-	var data = {
-        action: 'rp_action',
-        datastr: "&fid=" + fid + "&mid=" + mid,
-        form_action: 'unlinkparents'
-	};
-    document.body.style.cursor = "wait";
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.get(ajaxurl, data, function(response) {
-        document.body.style.cursor = "default";
-	});
+function unlinkparents(fid) {
+    jQuery('#' + fid).val('');
+    jQuery('#rp_father').html('');
+    jQuery('#rp_mother').html('');
+    jQuery('#rp_unlink_parents').css('display','none');
+    jQuery('#rp_link_parents').css('display','inline');
 }
+
 function linkparents() {
 	var data = {
         action: 'rp_action',
@@ -94,18 +90,12 @@ function linkparents() {
         document.body.style.cursor = "default";
 	});
 }
-function unlinkspouse(sid) {
-	var data = {
-        action: 'rp_action',
-        datastr: "&sid=" + sid,
-        form_action: 'unlinkspouse'
-	};
-    document.body.style.cursor = "wait";
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.get(ajaxurl, data, function(response) {
-        document.body.style.cursor = "default";
-	});
+function unlinkspouse(fid) {
+    jQuery('#' + fid).val('');
+    famid = fid.replace('rp_fams_','');
+    jQuery('#rp_group_' + famid).remove();
 }
+
 function linkspouse() {
 	var data = {
         action: 'rp_action',

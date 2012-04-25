@@ -200,6 +200,8 @@ class RP_Gedcom_Loader {
      */
     function update_family_links( $person ) {
         RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $person->id, $this->batch_id  );
+        RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_by_child( $person->id, $person->batch_id  );
+        RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->delete_spouse( $person->id, $person->batch_id  );
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;

@@ -6,13 +6,13 @@
  * @date: 2011-04-02 09:44
  */
 class RP_Fam_Child_Mysql_Dao extends Rp_Mysql_DAO {
-	
+
 
 	/**
 	 * @todo Description of function loadChildren
-	 * @param  $famId 
+	 * @param  $famId
 	 * @param  $famBatchId
-	 * @return 
+	 * @return
 	 */
 	public function load_children( $fam_id, $fam_batch_id ) {
 		$sql = 'SELECT * FROM rp_fam_child WHERE fam_id = ?  AND fam_batch_id = ? ';
@@ -21,13 +21,13 @@ class RP_Fam_Child_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $fam_batch_id );
 		return $this->get_list( $sql_query );
 	}
-	
+
 
 	/**
 	 * @todo Description of function deleteChildren
-	 * @param  $famId 
+	 * @param  $famId
 	 * @param  $famBatchId
-	 * @return 
+	 * @return
 	 */
 	public function delete_children( $fam_id, $fam_batch_id ) {
 		$sql = 'DELETE FROM rp_fam_child WHERE fam_id = ?  AND fam_batch_id = ?';
@@ -65,7 +65,19 @@ class RP_Fam_Child_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $indi_batch_id );
 		return $this->execute_update( $sql_query );
 	}
-    
+
+ 	/**
+	 * Delete record FROM table
+	 * @param rpFamChild primary key
+	 */
+	public function delete_by_child( $child_id, $indi_batch_id ) {
+		$sql = 'DELETE FROM rp_fam_child WHERE child_id = ?  AND indi_batch_id = ? ';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $child_id );
+		$sql_query->set_number( $indi_batch_id );
+		return $this->execute_update( $sql_query );
+	}
+
 	/**
 	 * Insert record to table
 	 *
@@ -81,9 +93,9 @@ class RP_Fam_Child_Mysql_Dao extends Rp_Mysql_DAO {
 		$this->execute_insert( $sql_query );
 		//$rpFamChild->id = $id;
 		//return $id;
-		
+
 	}
-    
+
 	/**
 	 * Update record in table
 	 *

@@ -32,6 +32,28 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		return $this->execute_update( $sql_query );
 	}
 	/**
+	 * Delete record FROM table
+	 * @param rpFam primary key
+	 */
+	public function delete_spouse( $id, $batch_id ) {
+		$sql = 'UPDATE rp_fam SET spouse1=null,indi_batch_id_1=null WHERE spouse1 = ?  AND indi_batch_id_1 = ?';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $id );
+		$sql_query->set_number( $batch_id );
+		$this->execute_update( $sql_query );
+
+		$sql = 'UPDATE rp_fam SET spouse2=null,indi_batch_id_2=null WHERE spouse2 = ?  AND indi_batch_id_2 = ?';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $id );
+		$sql_query->set_number( $batch_id );
+		$this->execute_update( $sql_query );
+
+		$sql = 'DELETE FROM rp_fam WHERE spouse1 IS NULL AND spouse2 IS NULL';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$this->execute_update( $sql_query );
+		return $this->execute_update( $sql_query );
+	}
+	/**
 	 * Insert record to table
 	 *
 	 * @param RpFamMySql rpFam
@@ -51,7 +73,7 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$this->execute_insert( $sql_query );
 		//$rpFam->id = $id;
 		//return $id;
-		
+
 	}
 	/**
 	 * Update record in table

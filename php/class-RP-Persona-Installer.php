@@ -117,6 +117,25 @@ class RP_Persona_Installer {
                $wpdb->print_error();
                throw new Exception( $stmt );
             }
+
+            $sql = "CREATE TABLE rp_fam_seq (id INT NOT NULL)";
+            if ( $prefix != null ) {
+                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+            }
+            $result = $wpdb->query( $stmt );
+            if ( $result === false ) {
+               $wpdb->print_error();
+               throw new Exception( $stmt );
+            }
+            $sql = "INSERT INTO rp_fam_seq VALUES (100000)";
+            if ( $prefix != null ) {
+                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+            }
+            $result = $wpdb->query( $stmt );
+            if ( $result === false ) {
+               $wpdb->print_error();
+               throw new Exception( $stmt );
+            }
         }
 
         $options['version'] = $version;

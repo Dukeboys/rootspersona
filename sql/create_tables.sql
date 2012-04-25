@@ -382,3 +382,5 @@ ALTER TABLE rp_fam ADD UNIQUE( `id`, `batch_id`, `spouse1`, `indi_batch_id_1`, `
 
 CREATE TABLE rp_indi_seq (id INT NOT NULL);
 INSERT INTO rp_indi_seq VALUES (100000);
+CREATE TABLE rp_fam_seq (id INT NOT NULL);
+INSERT INTO rp_fam_seq VALUES (100000);

@@ -123,6 +123,26 @@ class Persona_Validator {
                 $is_update = true;
             }
         }
+
+        if (isset($form['rp_famc']) && !empty($form['rp_famc'])) {
+            $famlink = new RP_Family_Link();
+            $famlink->family_id = trim(esc_attr($form['rp_famc']));
+            $indi->spouse_family_links[] = $famlink;
+            $is_update = true;
+        }
+
+        for($i=0; $i <= $cnt; $i++) {
+            if(strpos($fields[$i],'rp_fams') === false ) continue;
+            $sfx = strrpos($fields[$i],'_');
+            $sfx = substr($fields[$i],$sfx+1);
+
+            if (isset($form['rp_fams_' . $sfx]) && !empty($form['rp_fams_' . $sfx])) {
+                $famlink = new RP_Family_Link();
+                $famlink->family_id = trim(esc_attr($form['rp_fams_' . $sfx]));
+                $indi->child_family_links[] = $famlink;
+                $is_update = true;
+            }
+        }
         return ( isset($options['errors']) ? array(false, $options) : array($indi, $options) );
     }
     /**
