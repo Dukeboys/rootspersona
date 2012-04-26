@@ -43,6 +43,7 @@ class RP_Family_Link extends RP_Entity_Abstract {
      * @var array
      */
     var $notes = array();
+    var $spouse_seq;
     /**
      * Flattens the object into a GEDCOM compliant format
      *

@@ -10,7 +10,8 @@ class Persona_Manager {
             $handler = new RP_Gedcom_Loader();
             $handler->credentials = $credentials;
             $handler->batch_id = $ret[0]->batch_id;
-            $indi = $handler->process_individual( $ret[0] );
+            $options['editMode'] = true;
+            $indi = $handler->process_individual( $ret[0], $options );
             if( $indi instanceof RP_Individual_Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {
                     $page = $indi->page;
@@ -80,16 +81,3 @@ class Persona_Manager {
         return $r;
 	}
 }
-/*
-                if ( $opt == 'Exc' ) {
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
-                    wp_delete_post( $src_page );
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->delete_persona( $persona_id, $batch_id );
-                } else {
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
-                }
- * */
-

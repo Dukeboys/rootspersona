@@ -296,15 +296,20 @@ class RP_Group_Sheet_Panel_Creator {
 
             $associated = '';
             $sid = '';
+            $sseq = '';
             if ( $marriage['spouse1']->id == $persona->id ) {
                 $associated = $marriage['spouse2']->full_name;
                 $sid = $marriage['spouse2']->id;
+                $sseq = 2;
             } else {
                 $associated = $marriage['spouse1']->full_name;
                 $sid = $marriage['spouse1']->id;
+                $sseq = 1;
             }
             $block .= '<div id="rp_group_' . $idx . '" name="rp_group_' . $idx . '">'
                    . '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
+                   . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
+                   . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
                    . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
                    . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
                    . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'

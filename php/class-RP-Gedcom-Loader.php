@@ -130,7 +130,7 @@ class RP_Gedcom_Loader {
      *
      * @param RP_Individual_Record $person
      */
-    function add_indi( $person ) {
+    function add_indi( $person, $options ) {
         $need_update = false;
         $indi = new RP_Indi();
         $indi->id = $person->id;
@@ -163,7 +163,7 @@ class RP_Gedcom_Loader {
         }
         $this->update_names( $person );
         $this->update_indi_events( $person );
-        $this->update_family_links( $person );
+        $this->update_family_links( $person, $options );
         $this->update_notes( $person );
         $transaction->commit();
         return $person;
@@ -198,10 +198,12 @@ class RP_Gedcom_Loader {
      *
      * @param RP_Individual_Record $person
      */
-    function update_family_links( $person ) {
+    function update_family_links( $person, $options ) {
         RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $person->id, $this->batch_id  );
-        RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_by_child( $person->id, $person->batch_id  );
-        RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->delete_spouse( $person->id, $person->batch_id  );
+        if(isset($options['editMode'])) {
+            RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_by_child( $person->id, $person->batch_id  );
+            RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->delete_spouse( $person->id, $person->batch_id  );
+        }
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;
@@ -211,6 +213,20 @@ class RP_Gedcom_Loader {
             $link->link_type = 'S';
             try {
                 RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
+
+                if(isset($options['editMode'])) {
+                    $family = new RP_Family_Record();
+                    $family->id = $spousal->family_id;
+                    $family->batch_id = $this->batch_id;
+                    if($spousal->spouse_seq == 2) {
+                        $family->husband = $person->id;
+                        $family->wife = $spousal_sid;
+                    } else {
+                        $family->husband = $spousal_sid;
+                        $family->wife = $person->id;
+                    }
+                    $this->add_fam($family, $options);
+                }
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 throw $e;
@@ -227,6 +243,14 @@ class RP_Gedcom_Loader {
             $link->pedigree = $child->linkage_type;
             try {
                 RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
+
+                if(isset($options['editMode'])) {
+                    $family = new RP_Family_Record();
+                    $family->id = $child->family_id;
+                    $family->batch_id = $this->batch_id;
+                    $family->children[] = $person->id;
+                    $this->update_children($family, $options);
+                }
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 throw $e;
@@ -361,7 +385,7 @@ class RP_Gedcom_Loader {
      *
      * @param RP_Family_Record $family
      */
-    function add_fam( $family ) {
+    function add_fam( $family, $options ) {
         $need_update = false;
         $fam = new RP_Fam();
         $fam->id = $family->id;
@@ -392,17 +416,22 @@ class RP_Gedcom_Loader {
                 throw $e;
             }
         }
-        $this->update_children( $family );
-        $this->update_fam_events( $family );
-        $transaction->commit();
+
+        if(!isset($options['editMode'])) {
+            $this->update_children( $family, $options );
+            $this->update_fam_events( $family );
+            $transaction->commit();
+        }
     }
 
     /**
      *
      * @param RP_Family_Record $family
      */
-    function update_children( $family ) {
-        RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $family->id, $this->batch_id);
+    function update_children( $family, $options ) {
+        if(!isset($options['editMode'])) {
+            RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $family->id, $this->batch_id);
+        }
         foreach ( $family->children as $child ) {
             $fam_child = new RP_Fam_Child();
             $fam_child->fam_id = $family->id;
@@ -577,16 +606,16 @@ class RP_Gedcom_Loader {
      *
      * @param RP_Family_Record $rec
      */
-    function process_family( $rec ) {
-        $this->add_fam( $rec );
+    function process_family( $rec, $options ) {
+        $this->add_fam( $rec, $options );
     }
 
     /**
      *
      * @param RP_Individual_Record $rec
      */
-    function process_individual( $rec ) {
-        return $this->add_indi( $rec );
+    function process_individual( $rec, $options ) {
+        return $this->add_indi( $rec, $options );
     }
 
     /**

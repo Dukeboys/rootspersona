@@ -127,7 +127,7 @@ class Persona_Validator {
         if (isset($form['rp_famc']) && !empty($form['rp_famc'])) {
             $famlink = new RP_Family_Link();
             $famlink->family_id = trim(esc_attr($form['rp_famc']));
-            $indi->spouse_family_links[] = $famlink;
+            $indi->child_family_links[] = $famlink;
             $is_update = true;
         }
 
@@ -139,7 +139,9 @@ class Persona_Validator {
             if (isset($form['rp_fams_' . $sfx]) && !empty($form['rp_fams_' . $sfx])) {
                 $famlink = new RP_Family_Link();
                 $famlink->family_id = trim(esc_attr($form['rp_fams_' . $sfx]));
-                $indi->child_family_links[] = $famlink;
+                $famlink->spouse_id = $form['rp_sid_' . $sfx];
+                $famlink->spouse_seq = $form['rp_sseq_' . $sfx];
+                $indi->spouse_family_links[] = $famlink;
                 $is_update = true;
             }
         }
