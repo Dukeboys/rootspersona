@@ -380,7 +380,11 @@ CREATE TABLE IF NOT EXISTS rp_submitter_note (
 
 ALTER TABLE rp_fam ADD UNIQUE( `id`, `batch_id`, `spouse1`, `indi_batch_id_1`, `spouse2`, `indi_batch_id_2`);
 
+
+DROP TABLE IF EXISTS rp_indi_seq;
 CREATE TABLE rp_indi_seq (id INT NOT NULL);
 INSERT INTO rp_indi_seq VALUES (100000);
+
+DROP TABLE IF EXISTS rp_fam_seq;
 CREATE TABLE rp_fam_seq (id INT NOT NULL);
 INSERT INTO rp_fam_seq VALUES (100000);

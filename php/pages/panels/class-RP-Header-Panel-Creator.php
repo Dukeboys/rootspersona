@@ -94,7 +94,7 @@ class RP_Header_Panel_Creator {
             }
             $cnt = count( $persona->notes );
             for ($idx = 0; $idx < $cnt; $idx++) {
-                $block .= str_replace( "\n", "<br/>", $persona->notes[$idx]->note );
+                $block .= '<br/>' . str_replace( "\n", "<br/>", $persona->notes[$idx]->note );
             }
         }
         $block .= '</div></section>';
