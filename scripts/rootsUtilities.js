@@ -61,6 +61,10 @@ function updatePersona() {
                     item.innerHTML = 'Saved.';
                     jQuery(item).css('color','green');
                 });
+                var cancels = jQuery('[name="cancel"]');
+                jQuery.each(cancels, function(index, item){
+                    jQuery(item).val('View');
+                });
             }
         } catch (err) {
             if (data == null) data = err;

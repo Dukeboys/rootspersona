@@ -10,7 +10,7 @@ class Persona_Manager {
             $handler = new RP_Gedcom_Loader();
             $handler->credentials = $credentials;
             $handler->batch_id = $ret[0]->batch_id;
-            $options['editMode'] = true;
+            $options['editMode'] = 1;
             $indi = $handler->process_individual( $ret[0], $options );
             if( $indi instanceof RP_Individual_Record ) {
                 if( isset( $indi->id ) && !empty( $indi->id ) ) {

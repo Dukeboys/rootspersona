@@ -59,6 +59,7 @@ class RP_Gedcom_Loader {
      */
     var $batch_id;
 
+    var $transaction = null;
     /**
      *
      * @param RP_Credentials $credentials
@@ -104,7 +105,7 @@ class RP_Gedcom_Loader {
         $note_rec->submitter_text = $note->text;
 
         try {
-            $transaction = new RP_Transaction( $this->credentials );
+            $this->transaction = new RP_Transaction( $this->credentials );
             RP_Dao_Factory::get_rp_note_dao( $this->credentials->prefix )->insert( $note_rec );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
@@ -122,8 +123,7 @@ class RP_Gedcom_Loader {
                 throw $e;
             }
         }
-
-        $transaction->commit();
+        $this->transaction->commit();
     }
 
     /**
@@ -142,7 +142,7 @@ class RP_Gedcom_Loader {
         $indi->auto_rec_id = $person->auto_rec_id;
         $indi->ged_change_date = $person->change_date->date;
         try {
-            $transaction = new RP_Transaction( $this->credentials );
+            $this->transaction = new RP_Transaction( $this->credentials );
             $person->id =
                     RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->insert( $indi );
         } catch ( Exception $e ) {
@@ -165,7 +165,7 @@ class RP_Gedcom_Loader {
         $this->update_indi_events( $person );
         $this->update_family_links( $person, $options );
         $this->update_notes( $person );
-        $transaction->commit();
+        $this->transaction->commit();
         return $person;
     }
 
@@ -220,11 +220,14 @@ class RP_Gedcom_Loader {
                     $family->batch_id = $this->batch_id;
                     if($spousal->spouse_seq == 2) {
                         $family->husband = $person->id;
-                        $family->wife = $spousal_sid;
+                        $family->wife = $spousal->spouse_id;
                     } else {
-                        $family->husband = $spousal_sid;
+                        $family->husband = $spousal->spouse_id;
                         $family->wife = $person->id;
                     }
+                    // need a commit here
+                    $this->transaction->commit();
+
                     $this->add_fam($family, $options);
                 }
             } catch ( Exception $e ) {
@@ -398,7 +401,7 @@ class RP_Gedcom_Loader {
         $fam->auto_rec_id = $family->auto_rec_id;
         $fam->ged_change_date = $family->change_date->date;
         try {
-            $transaction = new RP_Transaction( $this->credentials );
+            $this->transaction = new RP_Transaction( $this->credentials );
             RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->insert( $fam );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
@@ -420,7 +423,7 @@ class RP_Gedcom_Loader {
         if(!isset($options['editMode'])) {
             $this->update_children( $family, $options );
             $this->update_fam_events( $family );
-            $transaction->commit();
+            $this->transaction->commit();
         }
     }
 
@@ -543,7 +546,7 @@ class RP_Gedcom_Loader {
         $src->auto_rec_id = $source->auto_rec_id;
         $src->ged_change_date = $source->change_date->date;
         try {
-            $transaction = new RP_Transaction( $this->credentials );
+            $this->transaction = new RP_Transaction( $this->credentials );
             RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->insert( $src );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
@@ -562,7 +565,7 @@ class RP_Gedcom_Loader {
             }
         }
         $this->update_src_notes( $source );
-        $transaction->commit();
+        $this->transaction->commit();
     }
 
     /**
