@@ -13,14 +13,16 @@ class RP_Group_Sheet_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
+        $famc = $ancestors[1]->famc;
+
         $block = '<section class="rp_truncate">'
                 . RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Child', 'rootspersona' ))
                 . '<div class="rp_family">'
                 . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"'
                 . ' itemscope itemtype="http://historical-data.org/HistoricalFamily.html"><tbody>'
-               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $ancestors[2], $ancestors[4], $ancestors[5], $options )
-               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $ancestors[3], $ancestors[6], $ancestors[7], $options )
-               . RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $children, $options )
+               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $ancestors[2], $ancestors[4], $ancestors[5], $options, $famc, 1 )
+               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $ancestors[3], $ancestors[6], $ancestors[7], $options, $famc, 2 )
+               . RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $children, $options, $famc )
                . '</tbody></table></div></section>';
         return $block;
     }
@@ -35,17 +37,18 @@ class RP_Group_Sheet_Panel_Creator {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
 
+        $fams =  $marriage['fams'];
         $block = '<section class="rp_truncate">'
             . RP_Persona_Helper::get_banner($options, __( 'Family Group Sheet - Spouse', 'rootspersona' ))
             . '<div class="rp_family">'
             . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"'
             . ' itemscope itemtype="http://historical-data.org/HistoricalFamily.html"><tbody>'
             . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $marriage['spouse1'],
-                    $marriage['spouse1']->f_persona, $marriage['spouse1']->m_persona, $options )
+                    $marriage['spouse1']->f_persona, $marriage['spouse1']->m_persona, $options, $fams, 1 )
             . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $marriage['spouse2'],
-                    $marriage['spouse2']->f_persona, $marriage['spouse2']->m_persona, $options );
+                    $marriage['spouse2']->f_persona, $marriage['spouse2']->m_persona, $options, $fams, 2 );
         if (isset ( $marriage['children'] ) ) {
-            $block .=  RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $marriage['children'], $options );
+            $block .=  RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $marriage['children'], $options,$fams );
         }
         $block .= '</tbody></table></div></section>';
         return $block;
@@ -59,7 +62,7 @@ class RP_Group_Sheet_Panel_Creator {
      * @param array $options
      * @return string
      */
-    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options ) {
+    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options, $fams, $sseq ) {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
         $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )
@@ -79,15 +82,29 @@ class RP_Group_Sheet_Panel_Creator {
         $death_place = isset( $parent->death_place ) ? $parent->death_place : '';
 
         $ppfx = $pfx . $parent->id;
+        $isEdit = (($options['is_system_of_record'] == '1'?true:false) && current_user_can( "edit_pages" ));
+        $fname = $parent->full_name;
+        $a = '';
+        if($isEdit && $fname == '?') {
+            $a = '<a href="'
+                    . admin_url('/tools.php?page=rootsPersona&rootspage=edit&action=edit&fams=')
+                    . $fams . '&sseq=' . $sseq
+                    . '">+</a>';
+        } else if ($fname == '?') {
+            $a = $fname;
+        } else {
+            $a = '<a href="' . $options['home_url'] . '?page_id='
+                . $parent->page . '" itemprop="name">'
+                . $fname . '</a>';
+        }
+
         $block = '<tr id="' . $ppfx . '" itemprop="parents" itemscope itemtype="http://historical-data.org/HistoricalPerson.html">'
                 . '<td class="full" colspan="4" style="' . $fill
                 . 'border-color:' . $pframe_color . ' !important">'
                 . __( 'PARENT', 'rootspersona' )
                 . ' (<span itemprop="gender">' . $parent->gender . '</span>) '
-                . '<a href="' . $options['home_url'] . '?page_id='
-                . $parent->page . '" itemprop="name">'
-                . $parent->full_name . '</a>'
-                . '<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_bdate ' . $ppfx . '_bloc"></span>'
+                . $a
+                .'<span itemprop="birth" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_bdate ' . $ppfx . '_bloc"></span>'
                 . '<span itemprop="death" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_ddate ' . $ppfx . '_dloc"></span>'
                 . '<span itemprop="marriages" itemscope itemtype="http://historical-data.org/HistoricalEvent" itemref="' . $ppfx . '_mdate ' . $ppfx . '_mloc"></span>'
                 . '<span itemprop="parents" itemscope itemtype="http://historical-data.org/HistoricalPerson" itemref="' . $ppfx . '_father"></span>'
@@ -141,7 +158,7 @@ class RP_Group_Sheet_Panel_Creator {
      * @param array $options
      * @return string
      */
-    static function show_children($pfx, $children, $options ) {
+    static function show_children($pfx, $children, $options, $famc ) {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
         $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )
@@ -154,8 +171,17 @@ class RP_Group_Sheet_Panel_Creator {
         $fill = "color:$color;"
                 . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
 
+        $isEdit = (($options['is_system_of_record'] == '1'?true:false) && current_user_can( "edit_pages" ));
+        $a = '';
+        if($isEdit) {
+            $a = '<span style="float:right;"><a href="'
+                    . admin_url('/tools.php?page=rootsPersona&rootspage=edit&action=edit&famc=')
+                    . $famc
+                    . '">+</a></span>';
+        }
+
         $block = '<tr><td class="full" colspan="4" style="' . $fill . 'border-color:' . $pframe_color . ' !important">'
-        . __( 'CHILDREN', 'rootspersona' ) . '</td></tr>';
+                . __( 'CHILDREN', 'rootspersona' ) . $a . '</td></tr>';
         $cnt = count( $children );
         for ( $idx = 0; $idx < $cnt; $idx++ ) {
             $ppfx = $pfx . $idx . $children[$idx]->id;
