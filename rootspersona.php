@@ -222,7 +222,35 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     if($isSOR === true) {
                         $builder = new RP_Edit_Page_Builder();
                         $options = $builder->get_persona_options( $options );
-                        return $builder->build( new RP_Persona(), $action, $options );
+                        $persona = new RP_Persona();
+                        $famc = isset( $_GET['famc'] )
+                                ? trim( esc_attr( $_GET['famc'] ) )  : '';
+                        $fams = isset( $_GET['fams'] )
+                                ? trim( esc_attr( $_GET['fams'] ) )  : '';
+                        $child = isset( $_GET['child'] )
+                                ? trim( esc_attr( $_GET['child'] ) )  : '';
+                        $sseq = isset( $_GET['sseq'] )
+                                ? trim( esc_attr( $_GET['sseq'] ) )  : '';
+                        $spouse = isset( $_GET['spouse'] )
+                                ? trim( esc_attr( $_GET['spouse'] ) )  : '';
+                        if($famc != '') {
+                            // add new person as child to famc
+                            $famlink = new RP_Family_Link();
+                            $famlink->family_id = $famc;
+                            $persona->child_family_links[] = $famlink;
+                        } else if($fams != '') {
+                            // add new person as spouse sseq
+                            $famlink = new RP_Family_Link();
+                            $famlink->family_id = $fams;
+                            $famlink->spouse_id = $spouse;
+                            $famlink->spouse_seq = $sseq=='1'?'2':'1';
+                            $persona->spouse_family_links[] = $famlink;
+                        } else if ($child != '') {
+                            //add person as parent of child, no family record exists
+                            $famlink = new RP_Family_Link();
+                            $famlink->family_id = $famc;
+                        }
+                        return $builder->build( $persona, $action, $options );
                     }
                     return  __( 'Missing', 'rootspersona' ) . ' personId:' . $persona_id;
                 }
