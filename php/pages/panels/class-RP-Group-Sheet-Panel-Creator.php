@@ -278,6 +278,11 @@ class RP_Group_Sheet_Panel_Creator {
         $mother = '';
         $fid = '';
         $mid = '';
+
+        $block = '<div class="rp_truncate">'
+                . '<div class="rp_header" style="overflow:hidden;margin:10px;">'
+                . '<input type="hidden" id="rp_famc" name="rp_famc" value="' . $persona->famc . '">';
+
         if(isset($persona->ancestors)) {
             if( isset($persona->ancestors[2])) {
                 $father = $persona->ancestors[2]->full_name;
@@ -287,74 +292,78 @@ class RP_Group_Sheet_Panel_Creator {
                 $mother = $persona->ancestors[3]->full_name;
                 $mid = $persona->ancestors[2]->id;
             }
-        }
-        $block = '<div class="rp_truncate">'
-                . '<div class="rp_header" style="overflow:hidden;margin:10px;">';
 
-        if(isset($persona->ancestors[2]) || isset($persona->ancestors[3])) {
-            $u = '';
-            $l = 'style="display:none;"';
-        } else {
-            $u = 'style="display:none;"';
-            $l = '';
-        }
-
-        $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
-                . '<input id="rp_unlink_parents" name="rp_unlink_parents" class="submitPersonForm" type="button" onclick="unlinkparents(\'rp_famc\');" value="'
-                . sprintf ( __( 'Unlink %s from this Father/Mother Family Group',
-                'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'
-                . '<input id="rp_link_parents" name="rp_link_parents" class="submitPersonForm" type="button" onclick="linkparents();" value="'
-                . sprintf ( __( 'Link %s to a Father/Mother',
-                'rootspersona' ), $persona->full_name ) . '" ' . $l . '></div>'
-                . '<input type="hidden" id="rp_famc" name="rp_famc" value="' . $persona->famc . '">'
-                . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>'
-                . '<span id="rp_father">' . $father . '</span></div>'
-                . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>'
-                . '<span id="rp_mother">' . $mother . '</span></div>';
-
-        $cnt = ( isset( $persona->marriages ) ?  count( $persona->marriages ) : 0 );
-        if($cnt > 0) {
-            $block .= '<div style="margin-top:10px;">'
-                . '<span style="font-weight:bold;font-size:14px;">Family Groups:</span></div>';
-        }
-        for ( $idx = 0; $idx < $cnt; $idx++ ) {
-            $marriage = $persona->marriages[$idx];
-
-            $associated = '';
-            $sid = '';
-            $sseq = '';
-            if ( $marriage['spouse1']->id == $persona->id ) {
-                $associated = $marriage['spouse2']->full_name;
-                $sid = $marriage['spouse2']->id;
-                $sseq = 2;
+            if(isset($persona->ancestors[2]) || isset($persona->ancestors[3])) {
+                $u = '';
+                $l = 'style="display:none;"';
             } else {
-                $associated = $marriage['spouse1']->full_name;
-                $sid = $marriage['spouse1']->id;
-                $sseq = 1;
+                $u = 'style="display:none;"';
+                $l = '';
             }
-            $block .= '<div id="rp_group_' . $idx . '" name="rp_group_' . $idx . '">'
-                   . '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
-                   . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
-                   . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
-                   . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
-                   . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
-                   . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
-                   . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
-            $cnt2 = count( $marriage['children'] );
-            if($cnt2 > 0) {
-                $block .= '<div style="margin-left:20px;font-weight:bold;font-style:italic;display:inline-block;width:5em;">Children: </div>';
-                for ( $idx2 = 0; $idx2 < $cnt2; $idx2++ ) {
-                    $child = $marriage['children'][$idx2];
-                    $child->full_name;
-                    $block .= '<div style="margin-left:40px;">' . $child->full_name . '</div>';
-                }
-            }
-            $block .= '</div>';
+
+            $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
+                    . '<input id="rp_unlink_parents" name="rp_unlink_parents" class="submitPersonForm" type="button" onclick="unlinkparents(\'rp_famc\');" value="'
+                    . sprintf ( __( 'Unlink %s from this Father/Mother Family Group',
+                    'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'
+                    . '<input id="rp_link_parents" name="rp_link_parents" class="submitPersonForm" type="button" onclick="linkparents();" value="'
+                    . sprintf ( __( 'Link %s to a Father/Mother',
+                    'rootspersona' ), $persona->full_name ) . '" ' . $l . '></div>'
+                    . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>'
+                    . '<span id="rp_father">' . $father . '</span></div>'
+                    . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>'
+                    . '<span id="rp_mother">' . $mother . '</span></div>';
         }
 
-        $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
-               . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
-               . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>';
+        if($persona->fams == null) {
+            $cnt = ( isset( $persona->marriages ) ?  count( $persona->marriages ) : 0 );
+            if($cnt > 0) {
+                $block .= '<div style="margin-top:10px;">'
+                    . '<span style="font-weight:bold;font-size:14px;">Family Groups:</span></div>';
+            }
+            for ( $idx = 0; $idx < $cnt; $idx++ ) {
+                $marriage = $persona->marriages[$idx];
+
+                $associated = '';
+                $sid = '';
+                $sseq = '';
+                if ( $marriage['spouse1']->id == $persona->id ) {
+                    $associated = $marriage['spouse2']->full_name;
+                    $sid = $marriage['spouse2']->id;
+                    $sseq = 2;
+                } else {
+                    $associated = $marriage['spouse1']->full_name;
+                    $sid = $marriage['spouse1']->id;
+                    $sseq = 1;
+                }
+                $block .= '<div id="rp_group_' . $idx . '" name="rp_group_' . $idx . '">'
+                    . '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
+                    . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
+                    . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
+                    . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
+                    . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
+                    . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
+                    . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
+                $cnt2 = count( $marriage['children'] );
+                if($cnt2 > 0) {
+                    $block .= '<div style="margin-left:20px;font-weight:bold;font-style:italic;display:inline-block;width:5em;">Children: </div>';
+                    for ( $idx2 = 0; $idx2 < $cnt2; $idx2++ ) {
+                        $child = $marriage['children'][$idx2];
+                        $child->full_name;
+                        $block .= '<div style="margin-left:40px;">' . $child->full_name . '</div>';
+                    }
+                }
+                $block .= '</div>';
+            }
+            $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
+                    . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
+                    . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name )
+                    . '"></div>';
+        } else {
+            $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
+                   . '<input type="hidden" id="rp_sid_0" name="rp_sid_0" value="' . $persona->spouse . '">'
+                   . '<input type="hidden" id="rp_fams_0" name="rp_fams_0" value="' . $persona->fams . '">';
+        }
+
         $block .= '</div></div>';
         return $block;
     }

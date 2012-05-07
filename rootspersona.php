@@ -234,21 +234,16 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         $spouse = isset( $_GET['spouse'] )
                                 ? trim( esc_attr( $_GET['spouse'] ) )  : '';
                         if($famc != '') {
-                            // add new person as child to famc
-                            $famlink = new RP_Family_Link();
-                            $famlink->family_id = $famc;
-                            $persona->child_family_links[] = $famlink;
+                            $persona->$famc;
                         } else if($fams != '') {
-                            // add new person as spouse sseq
-                            $famlink = new RP_Family_Link();
-                            $famlink->family_id = $fams;
-                            $famlink->spouse_id = $spouse;
-                            $famlink->spouse_seq = $sseq=='1'?'2':'1';
-                            $persona->spouse_family_links[] = $famlink;
+                            $persona->fams = $fams;
+                            $persona->spouse = $spouse;
+                            $persona->sseq = $sseq=='1'?'2':'1';
                         } else if ($child != '') {
                             //add person as parent of child, no family record exists
-                            $famlink = new RP_Family_Link();
-                            $famlink->family_id = $famc;
+                            $persona->fams = -1;
+                            $persona->child = $child;
+
                         }
                         return $builder->build( $persona, $action, $options );
                     }

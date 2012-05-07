@@ -96,7 +96,7 @@ class RP_Ancestors_Panel_Creator {
                     . admin_url('/tools.php?page=rootsPersona&rootspage=edit&action=edit&fams=')
                     . $descendant->famc . '&sseq=' . $sseq
                     . '&child=' . $descendant->id
-                    . '&spouse=' . $spouse
+                    . '&spouse=' . $spouse->id
                     . '">';
         }
         $block .= '<span class="nospace" id="anc' . $ancestor->id . '_name" itemprop="name">'

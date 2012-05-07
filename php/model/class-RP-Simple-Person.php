@@ -26,6 +26,8 @@ class RP_Simple_Person {
 	var $mother;
 	var $m_persona;
 	var $famc;
+	var $fams = null;
+    var $child = null;
 	var $privacy;
 	var $page;
 }
