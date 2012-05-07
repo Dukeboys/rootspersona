@@ -165,6 +165,10 @@ class RP_Gedcom_Loader {
         $this->update_indi_events( $person );
         $this->update_family_links( $person, $options );
         $this->update_notes( $person );
+        if(isset($person->offspring_id) && !empty($person->offspring_id)) {
+            // special case for when rootsperson isSOR
+            $this->manageNewParent( $person, $options );
+        }
         $this->transaction->commit();
         return $person;
     }
@@ -198,12 +202,53 @@ class RP_Gedcom_Loader {
      *
      * @param RP_Individual_Record $person
      */
-    function update_family_links( $person, $options ) {
+    function manageNewParent( $person, $options ) {
+
+        $family = new RP_Family_Record();
+        $family->id = null;
+        $family->batch_id = $this->batch_id;
+        if($person->sseq == 2) {
+            $family->husband = $person->id;
+        } else {
+            $family->wife = $person->id;
+        }
+
+        $family->children[] = $person->offspring_id;
+
+        $famid = $this->add_fam($family, $options);
+
+        $link = new RP_Indi_Fam();
+        $link->indi_id = $person->id;
+        $link->indi_batch_id = $this->batch_id;
+        $link->fam_id = $famid;
+        $link->fam_batch_id = $this->batch_id;
+        $link->link_type = 'S';
+        try {
+            RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
+
+        } catch ( Exception $e ) {
+            echo $e->getMessage();
+            throw $e;
+        }
+        $link->indi_id = $person->offspring_id;
+        $link->link_type = 'C';
+        try {
+            RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
+
+        } catch ( Exception $e ) {
+            echo $e->getMessage();
+            throw $e;
+        }
+    }
+
+   function update_family_links( $person, $options ) {
         RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->delete_by_indi( $person->id, $this->batch_id  );
         if(isset($options['editMode'])) {
             RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_by_child( $person->id, $person->batch_id  );
             RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->delete_spouse( $person->id, $person->batch_id  );
         }
+        $this->transaction->commit();
+        $this->transaction = new RP_Transaction( $this->credentials );
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;
@@ -225,8 +270,6 @@ class RP_Gedcom_Loader {
                         $family->husband = $spousal->spouse_id;
                         $family->wife = $person->id;
                     }
-                    // need a commit here
-                    $this->transaction->commit();
 
                     $this->add_fam($family, $options);
                 }
@@ -390,6 +433,7 @@ class RP_Gedcom_Loader {
      */
     function add_fam( $family, $options ) {
         $need_update = false;
+        $famid = null;
         $fam = new RP_Fam();
         $fam->id = $family->id;
         $fam->batch_id = $this->batch_id;
@@ -402,7 +446,7 @@ class RP_Gedcom_Loader {
         $fam->ged_change_date = $family->change_date->date;
         try {
             $this->transaction = new RP_Transaction( $this->credentials );
-            RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->insert( $fam );
+            $famid = RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->insert( $fam );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
@@ -425,6 +469,7 @@ class RP_Gedcom_Loader {
             $this->update_fam_events( $family );
             $this->transaction->commit();
         }
+        return $famid;
     }
 
     /**

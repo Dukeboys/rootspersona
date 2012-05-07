@@ -34,6 +34,10 @@ class Persona_Manager {
                         $content = $content . "/]";
                         $page_id = RP_Persona_Helper::add_page( null, $title, $options, null, $content );
                         $indi->page = $page_id;
+                        if ( $page_id != false ) {
+                            RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
+                                    ->update_page( $indi->id, $indi->batch_id, $page_id );
+                        }
                     } else if ($indi->privacy != 'Exc') {
                         $my_post = array();
                         $my_post['ID'] = $page;

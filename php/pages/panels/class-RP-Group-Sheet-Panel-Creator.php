@@ -358,10 +358,14 @@ class RP_Group_Sheet_Panel_Creator {
                     . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
                     . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name )
                     . '"></div>';
+        } else if( $persona->fams == '-1') {
+            $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
+                   . '<input type="hidden" id="rp_child_0" name="rp_child_0" value="' . $persona->child . '">';
         } else {
             $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
                    . '<input type="hidden" id="rp_sid_0" name="rp_sid_0" value="' . $persona->spouse . '">'
-                   . '<input type="hidden" id="rp_fams_0" name="rp_fams_0" value="' . $persona->fams . '">';
+                   . '<input type="hidden" id="rp_fams_0" name="rp_fams_0" value="' . $persona->fams . '">'
+                   . '<input type="hidden" id="rp_child_0" name="rp_child_0" value="' . $persona->child . '">';
         }
 
         $block .= '</div></div>';

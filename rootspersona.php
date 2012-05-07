@@ -243,7 +243,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                             //add person as parent of child, no family record exists
                             $persona->fams = -1;
                             $persona->child = $child;
-
+                            $persona->sseq = $sseq=='1'?'2':'1';
                         }
                         return $builder->build( $persona, $action, $options );
                     }

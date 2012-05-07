@@ -106,7 +106,7 @@ class Persona_Validator {
             $indi->events[] = $ev;
         }
 
-        for($i=0; $i <= $cnt; $i++) {
+        for($i=0; $i < $cnt; $i++) {
             if(strpos($fields[$i],'img_path') === false ) continue;
             $sfx = strrpos($fields[$i],'_');
             $sfx = substr($fields[$i],$sfx+1);
@@ -131,7 +131,7 @@ class Persona_Validator {
             $is_update = true;
         }
 
-        for($i=0; $i <= $cnt; $i++) {
+        for($i=0; $i < $cnt; $i++) {
             if(strpos($fields[$i],'rp_fams') === false ) continue;
             $sfx = strrpos($fields[$i],'_');
             $sfx = substr($fields[$i],$sfx+1);
@@ -144,6 +144,12 @@ class Persona_Validator {
                 $indi->spouse_family_links[] = $famlink;
                 $is_update = true;
             }
+        }
+
+        if (isset($form['rp_child_0']) && !empty($form['rp_child_0'])) {
+            $indi->offspring_id = trim(esc_attr($form['rp_child_0']));
+            $indi->sseq = trim(esc_attr($form['rp_sseq_0']));
+            $is_update = true;
         }
         return ( isset($options['errors']) ? array(false, $options) : array($indi, $options) );
     }

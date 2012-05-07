@@ -53,12 +53,23 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$this->execute_update( $sql_query );
 		return $this->execute_update( $sql_query );
 	}
+	public function get_next_id(  ) {
+		$sql = 'UPDATE rp_fam_seq SET id=LAST_INSERT_ID(id+1)';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $this->execute_update($sql_query);
+		$sql = 'SELECT LAST_INSERT_ID()';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		return $this->query_single_result( $sql_query );
+	}
 	/**
 	 * Insert record to table
 	 *
 	 * @param RpFamMySql rpFam
 	 */
 	public function insert( $rp_fam ) {
+        if($rp_fam->id == null || empty($rp_fam->id)) {
+            $rp_fam->id = $this->get_next_id();
+        }
 		$sql = 'INSERT INTO rp_fam (restriction_notice, spouse1, indi_batch_id_1, spouse2, indi_batch_id_2, auto_rec_id, ged_change_date, update_datetime, id, batch_id) VALUES (?, ?, ?, ?, ?, ?, ?, now(), ?, ?)';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_fam->restriction_notice );
@@ -71,8 +82,7 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_fam->id );
 		$sql_query->set_number( $rp_fam->batch_id );
 		$this->execute_insert( $sql_query );
-		//$rpFam->id = $id;
-		//return $id;
+		return $rp_fam->id;
 
 	}
 	/**
