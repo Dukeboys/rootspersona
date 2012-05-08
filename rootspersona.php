@@ -234,7 +234,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         $spouse = isset( $_GET['spouse'] )
                                 ? trim( esc_attr( $_GET['spouse'] ) )  : '';
                         if($famc != '') {
-                            $persona->$famc;
+                            $persona->famc = $famc;
                         } else if($fams != '') {
                             $persona->fams = $fams;
                             $persona->spouse = $spouse;
