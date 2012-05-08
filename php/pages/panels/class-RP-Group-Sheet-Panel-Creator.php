@@ -20,8 +20,8 @@ class RP_Group_Sheet_Panel_Creator {
                 . '<div class="rp_family">'
                 . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"'
                 . ' itemscope itemtype="http://historical-data.org/HistoricalFamily.html"><tbody>'
-               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $ancestors[2], $ancestors[4], $ancestors[5], $options, $famc, 1 )
-               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $ancestors[3], $ancestors[6], $ancestors[7], $options, $famc, 2 )
+               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $ancestors[2], $ancestors[4], $ancestors[5], $options, $famc, 1, $ancestors[3]->id, $ancestors[1]->id )
+               . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $ancestors[3], $ancestors[6], $ancestors[7], $options, $famc, 2, $ancestors[2]->id, $ancestors[1]->id )
                . RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $children, $options, $famc )
                . '</tbody></table></div></section>';
         return $block;
@@ -44,9 +44,9 @@ class RP_Group_Sheet_Panel_Creator {
             . '<table class="familygroup" style="border-color:' . $pframe_color . ' !important"'
             . ' itemscope itemtype="http://historical-data.org/HistoricalFamily.html"><tbody>'
             . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'p', $marriage['spouse1'],
-                    $marriage['spouse1']->f_persona, $marriage['spouse1']->m_persona, $options, $fams, 1 )
+                    $marriage['spouse1']->f_persona, $marriage['spouse1']->m_persona, $options)
             . RP_Group_Sheet_Panel_Creator::show_parent($pfx . 'm', $marriage['spouse2'],
-                    $marriage['spouse2']->f_persona, $marriage['spouse2']->m_persona, $options, $fams, 2 );
+                    $marriage['spouse2']->f_persona, $marriage['spouse2']->m_persona, $options );
         if (isset ( $marriage['children'] ) ) {
             $block .=  RP_Group_Sheet_Panel_Creator::show_children($pfx . 'c', $marriage['children'], $options,$fams );
         }
@@ -62,7 +62,7 @@ class RP_Group_Sheet_Panel_Creator {
      * @param array $options
      * @return string
      */
-    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options, $fams, $sseq ) {
+    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options, $fams, $sseq, $sid, $child ) {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
         $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )
@@ -85,10 +85,10 @@ class RP_Group_Sheet_Panel_Creator {
         $isEdit = (($options['is_system_of_record'] == '1'?true:false) && current_user_can( "edit_pages" ));
         $fname = $parent->full_name;
         $a = '';
-        if($isEdit && $fname == '?') {
+        if($isEdit && $fname == '?' && isset($child)) {
             $a = '<a href="'
                     . admin_url('/tools.php?page=rootsPersona&rootspage=edit&action=edit&fams=')
-                    . $fams . '&sseq=' . $sseq
+                    . $fams . '&sseq=' . $sseq . '&spouse=' . $sid . '&child=' . $child
                     . '">+</a>';
         } else if ($fname == '?') {
             $a = $fname;
@@ -173,7 +173,7 @@ class RP_Group_Sheet_Panel_Creator {
 
         $isEdit = (($options['is_system_of_record'] == '1'?true:false) && current_user_can( "edit_pages" ));
         $a = '';
-        if($isEdit) {
+        if($isEdit && isset($famc) && !empty( $famc ) )  {
             $a = '<span style="float:right;"><a href="'
                     . admin_url('/tools.php?page=rootsPersona&rootspage=edit&action=edit&famc=')
                     . $famc
@@ -294,11 +294,11 @@ class RP_Group_Sheet_Panel_Creator {
             }
 
             if(isset($persona->ancestors[2]) || isset($persona->ancestors[3])) {
-                $u = '';
+                $u = 'style="display:none;';
                 $l = 'style="display:none;"';
             } else {
                 $u = 'style="display:none;"';
-                $l = '';
+                $l = 'style="display:none;';
             }
 
             $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
@@ -340,7 +340,7 @@ class RP_Group_Sheet_Panel_Creator {
                     . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
                     . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
                     . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
-                    . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
+                    . '<input style="display:none" id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
                     . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
                     . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
                 $cnt2 = count( $marriage['children'] );
@@ -355,7 +355,7 @@ class RP_Group_Sheet_Panel_Creator {
                 $block .= '</div>';
             }
             $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
-                    . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
+                    . '<input  style="display:none" class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
                     . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name )
                     . '"></div>';
         } else if( $persona->fams == '-1') {

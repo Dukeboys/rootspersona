@@ -447,6 +447,7 @@ class RP_Gedcom_Loader {
         try {
             $this->transaction = new RP_Transaction( $this->credentials );
             $famid = RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->insert( $fam );
+            $family->id = $famid;
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
@@ -464,10 +465,9 @@ class RP_Gedcom_Loader {
             }
         }
 
+        $this->update_children( $family, $options );
         if(!isset($options['editMode'])) {
-            $this->update_children( $family, $options );
             $this->update_fam_events( $family );
-            $this->transaction->commit();
         }
         return $famid;
     }
