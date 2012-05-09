@@ -44,6 +44,10 @@ class RP_Transaction {
        RP_Transaction::$transactions->remove_last();
     }
 
+    public function commit_no_close() {
+       $this->connection->execute_query( 'COMMIT' );
+    }
+
     /**
      * Zakonczenie transakcji i wycofanie zmian
      */

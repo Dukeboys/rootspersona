@@ -303,7 +303,7 @@ class RP_Parser {
     private function parse_family( $tree, $process_family ) {
         $rec = new RP_Family_Record();
         $rec->parse_tree( array( $tree ), $this->gedcom_version );
-        call_user_func( $process_family, $rec );
+        call_user_func( $process_family, $rec, array() );
     }
 
 
@@ -312,7 +312,7 @@ class RP_Parser {
      * @param  $rec
      * @return
      */
-    function process_family( $rec ) {
+    function process_family( $rec, $options ) {
         $this->gedcom_objects['FamRecs']["$rec->id"] = $rec;
     }
     /**
@@ -325,7 +325,7 @@ class RP_Parser {
     private function parse_individual( $tree, $process_individual ) {
         $rec = new RP_Individual_Record();
         $rec->parse_tree( array( $tree ), $this->gedcom_version );
-        call_user_func( $process_individual, $rec );
+        call_user_func( $process_individual, $rec, array() );
     }
 
 
@@ -334,7 +334,7 @@ class RP_Parser {
      * @param  $rec
      * @return
      */
-    function process_individual( $rec ) {
+    function process_individual( $rec, $options ) {
         $this->gedcom_objects['IndiRecs']["$rec->id"] = $rec;
     }
     /**

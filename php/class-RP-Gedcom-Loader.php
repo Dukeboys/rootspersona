@@ -247,8 +247,9 @@ class RP_Gedcom_Loader {
             RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_by_child( $person->id, $person->batch_id  );
             RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->delete_spouse( $person->id, $person->batch_id  );
         }
-        $this->transaction->commit();
-        $this->transaction = new RP_Transaction( $this->credentials );
+
+        $this->transaction->commit_no_close();
+
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;
@@ -310,15 +311,16 @@ class RP_Gedcom_Loader {
      */
     function update_indi_events( $person ) {
         $old_events = RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->load_list( $person->id, $this->batch_id );
-        if ( $old_events != null
-        && count( $old_events ) > 0 ) {
+        if ( $old_events != null && count( $old_events ) > 0 ) {
             foreach ( $old_events as $eve ) {
                 RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->delete( $eve->event_id );
                 RP_Dao_Factory::get_rp_event_cite_dao( $this->credentials->prefix )->delete_by_event_id( $eve->event_id );
                 RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->delete_orphans();
             }
             RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, $this->batch_id );
+            $this->transaction->commit_no_close();
         }
+
         foreach ( $person->events as $p_event ) {
             $event = new RP_Event_Detail();
             $event->event_type = ( $p_event->tag === 'EVEN' ? $p_event->type : $p_event->_TYPES[$p_event->tag] );
@@ -386,12 +388,12 @@ class RP_Gedcom_Loader {
      */
     function update_names( $person ) {
         $old_names = RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->load_list( $person->id, $this->batch_id );
-        if ( $old_names != null
-        && count( $old_names ) > 0 ) {
+        if ( $old_names != null && count( $old_names ) > 0 ) {
             foreach ( $old_names as $name ) {
                 RP_Dao_Factory::get_rp_name_personal_dao( $this->credentials->prefix )->delete( $name->name_id );
             }
             RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->delete_by_indi_id( $person->id, $this->batch_id );
+            $this->transaction->commit_no_close();
         }
         $seq = 1;
         foreach ( $person->names as $p_name ) {
@@ -479,6 +481,7 @@ class RP_Gedcom_Loader {
     function update_children( $family, $options ) {
         if(!isset($options['editMode'])) {
             RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->delete_children( $family->id, $this->batch_id);
+            $this->transaction->commit_no_close();
         }
         foreach ( $family->children as $child ) {
             $fam_child = new RP_Fam_Child();
@@ -501,22 +504,22 @@ class RP_Gedcom_Loader {
      */
     function update_fam_events( $family ) {
         $old_events = RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->load_list( $family->id, $this->batch_id );
-        if ( $old_events != null
-        && count( $old_events ) > 0 ) {
+        if ( $old_events != null && count( $old_events ) > 0 ) {
             foreach ( $old_events as $eve ) {
                 RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->delete( $eve->event_id );
                 RP_Dao_Factory::get_rp_event_cite_dao( $this->credentials->prefix )->delete_by_event_id( $eve->event_id );
                 RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->delete_orphans();
             }
             RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->delete_by_fam( $family->id, $this->batch_id );
+            $this->transaction->commit_no_close();
         }
+
         foreach ( $family->events as $p_event ) {
             $event = new RP_Event_Detail();
             $event->event_type = ( $p_event->tag === 'EVEN' ? $p_event->type : $p_event->_TYPES[$p_event->tag] );
             $event->classification = $p_event->descr;
             $event->event_date = $p_event->date;
             $event->place = $p_event->place->name;
-            //$event->addrId;
             $event->resp_agency = $p_event->resp_agency;
             $event->religious_aff = $p_event->religious_affiliation;
             $event->cause = $p_event->cause;
@@ -531,7 +534,8 @@ class RP_Gedcom_Loader {
             $fam_event = new RP_Fam_Event();
             $fam_event->fam_id = $family->id;
             $fam_event->fam_batch_id = $this->batch_id;
-            $fam_event->event_id = $id;try {
+            $fam_event->event_id = $id;
+            try {
                 RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->insert( $fam_event );
             } catch ( Exception $e ) {
                 echo $e->getMessage();
@@ -556,7 +560,6 @@ class RP_Gedcom_Loader {
             $cite->event_type = $citation->event_type;
             $cite->event_role = $citation->role_in_event;
             $cite->quay = $citation->quay;
-            //$cite->sourceDescription = $citation->;
             try {
                 $id = RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->insert( $cite );
             } catch ( Exception $e ) {
