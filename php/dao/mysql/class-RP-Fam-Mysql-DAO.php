@@ -67,7 +67,7 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpFamMySql rpFam
 	 */
 	public function insert( $rp_fam ) {
-        if($rp_fam->id == null || empty($rp_fam->id)) {
+        if($rp_fam->id == null || $rp_fam->id == '0' || empty($rp_fam->id)) {
             $rp_fam->id = $this->get_next_id();
         }
 		$sql = 'INSERT INTO rp_fam (restriction_notice, spouse1, indi_batch_id_1, spouse2, indi_batch_id_2, auto_rec_id, ged_change_date, update_datetime, id, batch_id) VALUES (?, ?, ?, ?, ?, ?, ?, now(), ?, ?)';

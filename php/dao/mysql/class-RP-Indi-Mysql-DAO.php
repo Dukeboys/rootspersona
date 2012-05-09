@@ -95,7 +95,7 @@ class RP_Indi_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpIndiMySql rpIndi
 	 */
 	public function insert( $rp_indi ) {
-        if($rp_indi->id == null || empty($rp_indi->id)) {
+        if($rp_indi->id == null || $rp_indi->id == '0' || empty($rp_indi->id)) {
             $rp_indi->id = $this->get_next_id();
         }
 		$sql = 'INSERT INTO rp_indi (restriction_notice, gender, perm_rec_file_nbr, anc_rec_file_nbr, auto_rec_id, ged_change_date, update_datetime, id, batch_id) VALUES (?, ?, ?, ?, ?, ?, now(), ?, ?)';
