@@ -148,7 +148,8 @@ class RP_Persona_Helper {
         $my_post['post_type'] = 'page';
         $my_post['ping_status'] = 'closed';
         $my_post['comment_status'] = 'closed';
-        $my_post['post_parent'] = $options['parent_page'];
+        if( isset($options['parent_page']) && get_post($options['parent_page']) != null)
+            $my_post['post_parent'] = isset( $options['parent_page'] );
         $page_id = '';
         if ( empty( $page ) ) {
             $page_id = wp_insert_post( $my_post );
@@ -177,7 +178,8 @@ class RP_Persona_Helper {
         $my_post['post_author'] = 0;
         $my_post['post_type'] = 'page';
         $my_post['ping_status'] = get_option( 'default_ping_status' );
-        $my_post['post_parent'] = $options['parent_page'];
+        if( isset($options['parent_page']) && get_post($options['parent_page']) != null)
+            $my_post['post_parent'] = isset( $options['parent_page'] );
         // Insert the post into the database
         $page_id = wp_insert_post( $my_post );
         return $page_id;
