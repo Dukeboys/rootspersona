@@ -308,7 +308,7 @@ class RP_Group_Sheet_Panel_Creator {
                     'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'
                     . '<input id="rp_link_parents" name="rp_link_parents" class="submitPersonForm" type="button" onclick="linkparents();" value="'
                     . sprintf ( __( 'Link %s to a Father/Mother','rootspersona' ), $persona->full_name ) . '" ' . $l . '>'
-                    . "<input style='display:none;' id='paternal_text' name='paternal_text' type='text' width='60'/></div>"
+                    . "<input style='display:none;' id='paternal_text' name='paternal_text' type='text' width='80'/></div>"
                     . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>'
                     . '<span id="rp_father">' . $father . '</span></div>'
                     . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>'
@@ -359,7 +359,7 @@ class RP_Group_Sheet_Panel_Creator {
                     . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
                     . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name )
                     . '">'
-                    . "<input style='display:none;' id='spousal_text' name='spousal_text' type='text' width='60'/></div>";
+                    . "<input style='display:none;' id='spousal_text' name='spousal_text' type='text' width='80'/></div>";
         } else if( $persona->fams == '-1') {
             $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
                    . '<input type="hidden" id="rp_child_0" name="rp_child_0" value="' . $persona->child . '">';

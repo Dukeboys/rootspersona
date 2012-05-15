@@ -401,12 +401,14 @@ jQuery(document).ready(function() {
 
     jQuery('#paternal_text').autocomplete({
         source: rp_autoCompleteCallback,
-        select: rp_autoSelectPerson
+        select: rp_autoSelectPerson,
+        minLength: 3
     });
 
     jQuery('#spousal_text').autocomplete({
         source: rp_autoCompleteCallback,
-        select: rp_autoSelectPerson
+        select: rp_autoSelectPerson,
+        minLength: 3
     });
 
     document.body.style.cursor = "default";

@@ -99,7 +99,7 @@ class RP_Persona_Installer {
 
         if ( $options[ 'version' ] < '3.0.0' ) {
 
-            $sql = "CREATE TABLE rp_indi_seq (id INT NOT NULL)";
+            $stmt = "CREATE TABLE rp_indi_seq (id INT NOT NULL)";
             if ( $prefix != null ) {
                 $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
             }
@@ -108,9 +108,9 @@ class RP_Persona_Installer {
                $wpdb->print_error();
                throw new Exception( $stmt );
             }
-            $sql = "INSERT INTO rp_indi_seq VALUES (100000)";
+            $stmt = "INSERT INTO rp_indi_seq VALUES (100000)";
             if ( $prefix != null ) {
-                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+                $stmt = str_replace( 'INTO rp_', 'INTO ' . $prefix . 'rp_', $stmt );
             }
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {
@@ -118,7 +118,7 @@ class RP_Persona_Installer {
                throw new Exception( $stmt );
             }
 
-            $sql = "CREATE TABLE rp_fam_seq (id INT NOT NULL)";
+            $stmt = "CREATE TABLE rp_fam_seq (id INT NOT NULL)";
             if ( $prefix != null ) {
                 $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
             }
@@ -127,9 +127,9 @@ class RP_Persona_Installer {
                $wpdb->print_error();
                throw new Exception( $stmt );
             }
-            $sql = "INSERT INTO rp_fam_seq VALUES (100000)";
+            $stmt = "INSERT INTO rp_fam_seq VALUES (100000)";
             if ( $prefix != null ) {
-                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+                $stmt = str_replace( 'INTO rp_', 'INTO ' . $prefix . 'rp_', $stmt );
             }
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {

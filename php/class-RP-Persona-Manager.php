@@ -1,6 +1,15 @@
 <?php
 class Persona_Manager {
 
+    function process_getfamilies($credentials, $like, $options) {
+        RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                ->get_family_list( $like );
+    }
+
+    function process_getfamily($credentials, $datastr, $options) {
+
+    }
+
  	function process_form( $credentials, $parms, $options) {
 
         $validator = new Persona_Validator();

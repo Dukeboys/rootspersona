@@ -288,26 +288,24 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 $transaction->close();
                 echo json_encode($persons);
             } else if (isset( $_POST['form_action'] ) ) {
-
                 $mgr = new Persona_Manager();
-                $data = urldecode( $_POST['datastr'] );
-                $parms = explode( '&', $data );
-                $form = array();
-                foreach ( $parms AS $p ) {
-                    $pair = explode( '=', $p );
-                    $form[$pair[0]] = isset($pair[1])?$pair[1]:'';
-                }
-                if($_POST['form_action'] == 'updatePersona') {
-                    $response =  $mgr->process_form( $this->credentials, $form, $options );
-                    echo json_encode($response);
-                } else if($_POST['form_action'] == 'unlinkparents') {
-
-                } else if($_POST['form_action'] == 'linkparents') {
-
-                } else if($_POST['form_action'] == 'unlinkspouse') {
-
-                } else if($_POST['form_action'] == 'linkspouse') {
-
+                if ( $_POST['form_action'] == 'getFamilies' ) {
+                    $response =  $mgr->process_getfamilies( $this->credentials, $_POST['datastr']['term'], $options );
+                } else if ( $_POST['form_action'] == 'getFamily' ) {
+                    $response =  $mgr->process_getfamily( $this->credentials, $_POST['datastr'], $options );
+                    $response = $response->to_array();
+                } else {
+                    $data = urldecode( $_POST['datastr'] );
+                    $parms = explode( '&', $data );
+                    $form = array();
+                    foreach ( $parms AS $p ) {
+                        $pair = explode( '=', $p );
+                        $form[$pair[0]] = isset($pair[1])?$pair[1]:'';
+                    }
+                    if($_POST['form_action'] == 'updatePersona') {
+                        $response =  $mgr->process_form( $this->credentials, $form, $options );
+                        echo json_encode($response);
+                    }
                 }
             }
 

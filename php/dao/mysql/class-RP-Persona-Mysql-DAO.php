@@ -18,6 +18,74 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
     private static $_pcache = array();
     private static $_fcache = array();
 
+    /*
+SELECT 'I',
+	ri.id AS id,
+	concat(rnp.surname,',',rnp.given) AS name
+FROM wp_rp_indi ri
+JOIN wp_rp_indi_name rip
+    ON ri.id = rip.indi_id
+    AND ri.batch_id = rip.indi_batch_id
+JOIN wp_rp_name_personal rnp
+    ON rip.name_id = rnp.id
+WHERE ri.batch_id = '1'
+	AND rip.seq_nbr = 1
+	AND upper(rnp.surname) LIKE 'T%'
+UNION
+SELECT 'F',
+	rf.id AS id,
+	concat(rnp.surname,',',rnp.given,' & ',rnp2.surname,',',rnp2.given) AS name
+FROM wp_rp_fam rf
+JOIN wp_rp_indi_name rip
+    ON rf.spouse1 = rip.indi_id
+    AND rf.indi_batch_id_1 = rip.indi_batch_id
+JOIN wp_rp_name_personal rnp
+    ON rip.name_id = rnp.id
+JOIN wp_rp_indi_name rip2
+    ON rf.spouse2 = rip2.indi_id
+    AND rf.indi_batch_id_2 = rip2.indi_batch_id
+JOIN wp_rp_name_personal rnp2
+    ON rip2.name_id = rnp2.id
+WHERE rf.indi_batch_id_1 = '1'
+AND rf.spouse1 IN (SELECT ri.id AS id
+    FROM wp_rp_indi ri
+    JOIN wp_rp_indi_name rip
+        ON ri.id = rip.indi_id
+        AND ri.batch_id = rip.indi_batch_id
+    JOIN wp_rp_name_personal rnp
+        ON rip.name_id = rnp.id
+    WHERE ri.batch_id = '1'
+	AND rip.seq_nbr = 1
+	AND upper(rnp.surname) LIKE 'T%')
+UNION
+SELECT 'F',
+	rf.id AS id,
+	concat(rnp.surname,',',rnp.given,' & ',rnp2.surname,',',rnp2.given) AS name
+FROM wp_rp_fam rf
+JOIN wp_rp_indi_name rip
+    ON rf.spouse2 = rip.indi_id
+    AND rf.indi_batch_id_2 = rip.indi_batch_id
+JOIN wp_rp_name_personal rnp
+    ON rip.name_id = rnp.id
+JOIN wp_rp_indi_name rip2
+    ON rf.spouse1 = rip2.indi_id
+    AND rf.indi_batch_id_1 = rip2.indi_batch_id
+JOIN wp_rp_name_personal rnp2
+    ON rip2.name_id = rnp2.id
+WHERE rf.indi_batch_id_2 = '1'
+AND rf.spouse2 IN (SELECT ri.id AS id
+    FROM wp_rp_indi ri
+    JOIN wp_rp_indi_name rip
+        ON ri.id = rip.indi_id
+        AND ri.batch_id = rip.indi_batch_id
+    JOIN wp_rp_name_personal rnp
+        ON rip.name_id = rnp.id
+    WHERE ri.batch_id = '1'
+	AND rip.seq_nbr = 1
+	AND upper(rnp.surname) LIKE 'T%')
+ORDER BY name
+
+     */
     public function get_top_x_surnames($cnt) {
         if(!isset($cnt) || empty($cnt)) $cnt = 10;
 
