@@ -83,6 +83,12 @@ function unlinkparents(fid) {
 }
 
 function linkparents() {
+    if(jQuery('#paternal_text').is(':visible')) {
+        jQuery('#paternal_text').css('display','none');
+    } else {
+        jQuery('#paternal_text').css('display','inline');
+    }
+    /*
 	var data = {
         action: 'rp_action',
         datastr: '',
@@ -93,6 +99,7 @@ function linkparents() {
 	jQuery.get(ajaxurl, data, function(response) {
         document.body.style.cursor = "default";
 	});
+    */
 }
 function unlinkspouse(fid) {
     jQuery('#' + fid).val('');
@@ -101,6 +108,12 @@ function unlinkspouse(fid) {
 }
 
 function linkspouse() {
+    if(jQuery('#spousal_text').is(':visible')) {
+        jQuery('#spousal_text').css('display','none');
+    } else {
+        jQuery('#spousal_text').css('display','inline');
+    }
+    /*
 	var data = {
         action: 'rp_action',
         datastr: '',
@@ -111,6 +124,7 @@ function linkspouse() {
 	jQuery.get(ajaxurl, data, function(response) {
         document.body.style.cursor = "default";
 	});
+    */
 }
 
 jQuery(document).ready(function() {
@@ -338,6 +352,61 @@ jQuery(document).ready(function() {
        jQuery(this).mouseup(function() {
            jQuery(this).removeClass('submitPersonFormClick').addClass('submitPersonFormHover');
         });
+    });
+
+    function rp_autoSelectPerson (event, ui) {
+            var type = this.id.replace('_text','');
+            var isPaternal = (type == 'paternal');
+
+            var data = {
+                action: 'my_action',
+                datastr: [ ui.item.value, (isPaternal?'P':'S') ],
+                form_action: 'getFamily'
+            };
+            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+            jQuery.post(ajaxurl, data, function(data) {
+                //process response
+                row = jQuery.parseJSON(data);
+                rp_populateFamily((isPaternal?'P':'S'), row);
+            });
+    }
+
+    function rp_autoCompleteCallback(req, add){
+        var data = {
+            action: 'my_action',
+            datastr: req,
+            form_action: 'getFamilies'
+        };
+        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+        jQuery.post(ajaxurl, data, function(data) {
+            //create array for response objects
+            var suggestions = [];
+
+            //process response
+            rows = jQuery.parseJSON(data);
+            if( rows !== undefined && rows != null ) {
+                jQuery.each(rows, function(idx, row){
+                    suggestions.push(row.name);
+                });
+            }
+
+            //pass array to callback
+            add(suggestions);
+        });
+    }
+
+    function rp_populateFamily(type, data) {
+
+    }
+
+    jQuery('#paternal_text').autocomplete({
+        source: rp_autoCompleteCallback,
+        select: rp_autoSelectPerson
+    });
+
+    jQuery('#spousal_text').autocomplete({
+        source: rp_autoCompleteCallback,
+        select: rp_autoSelectPerson
     });
 
     document.body.style.cursor = "default";

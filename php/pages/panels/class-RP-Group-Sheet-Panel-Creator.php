@@ -293,12 +293,13 @@ class RP_Group_Sheet_Panel_Creator {
                 $mid = $persona->ancestors[2]->id;
             }
 
-            if(isset($persona->ancestors[2]) || isset($persona->ancestors[3])) {
-                $u = 'style="display:none;';
+            if((isset($persona->ancestors[2]) && $persona->ancestors[2]->full_name != '?')
+                    || (isset($persona->ancestors[3]) && $persona->ancestors[3]->full_name != '?')) {
+                $u = '';
                 $l = 'style="display:none;"';
             } else {
                 $u = 'style="display:none;"';
-                $l = 'style="display:none;';
+                $l = '';
             }
 
             $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
@@ -306,8 +307,8 @@ class RP_Group_Sheet_Panel_Creator {
                     . sprintf ( __( 'Unlink %s from this Father/Mother Family Group',
                     'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'
                     . '<input id="rp_link_parents" name="rp_link_parents" class="submitPersonForm" type="button" onclick="linkparents();" value="'
-                    . sprintf ( __( 'Link %s to a Father/Mother',
-                    'rootspersona' ), $persona->full_name ) . '" ' . $l . '></div>'
+                    . sprintf ( __( 'Link %s to a Father/Mother','rootspersona' ), $persona->full_name ) . '" ' . $l . '>'
+                    . "<input style='display:none;' id='paternal_text' name='paternal_text' type='text' width='60'/></div>"
                     . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Father: </span>'
                     . '<span id="rp_father">' . $father . '</span></div>'
                     . '<div style="margin-left:10px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Mother: </span>'
@@ -340,7 +341,7 @@ class RP_Group_Sheet_Panel_Creator {
                     . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
                     . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
                     . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
-                    . '<input style="display:none" id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
+                    . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
                     . sprintf ( __( 'Unlink %s from this Family Group', 'rootspersona' ), $persona->full_name ) . '"></div>'
                     . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
                 $cnt2 = count( $marriage['children'] );
@@ -355,9 +356,10 @@ class RP_Group_Sheet_Panel_Creator {
                 $block .= '</div>';
             }
             $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
-                    . '<input  style="display:none" class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
+                    . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
                     . sprintf ( __( 'Link %s to a Spouse/Family Group', 'rootspersona' ), $persona->full_name )
-                    . '"></div>';
+                    . '">'
+                    . "<input style='display:none;' id='spousal_text' name='spousal_text' type='text' width='60'/></div>";
         } else if( $persona->fams == '-1') {
             $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
                    . '<input type="hidden" id="rp_child_0" name="rp_child_0" value="' . $persona->child . '">';
