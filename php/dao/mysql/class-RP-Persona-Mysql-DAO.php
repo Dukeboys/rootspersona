@@ -97,6 +97,77 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
 		return $ret;
     }
 
+    public function get_spouses_list( $term, $options ) {
+        $sql = " SELECT concat('I','-',ri.id) AS id,"
+            . " concat(rnp.surname,',',rnp.given) AS name"
+            . " FROM wp_rp_indi ri"
+            . " JOIN wp_rp_indi_name rip"
+            . " ON ri.id = rip.indi_id"
+            . " AND ri.batch_id = rip.indi_batch_id"
+            . " JOIN wp_rp_name_personal rnp"
+            . " ON rip.name_id = rnp.id"
+            . " WHERE ri.batch_id = '1'"
+            . " AND rip.seq_nbr = 1"
+            . " AND upper(rnp.surname) LIKE ?"
+            . " UNION"
+            . " SELECT concat('F1','-',rf.id) AS id,"
+            . " concat(rnp.surname,',',rnp.given, '& Family [', rf.spouse1, ']') AS name"
+            . " FROM wp_rp_fam rf"
+            . " JOIN wp_rp_indi_name rip"
+            . " ON rf.spouse1 = rip.indi_id"
+            . " AND rf.indi_batch_id_1 = rip.indi_batch_id"
+            . " JOIN wp_rp_name_personal rnp"
+            . " ON rip.name_id = rnp.id"
+            . " WHERE rf.indi_batch_id_1 = '1'"
+            . " AND rf.spouse2 IS NULL"
+            . " AND rf.spouse1 IN (SELECT ri.id AS id"
+            . " FROM wp_rp_indi ri"
+            . " JOIN wp_rp_indi_name rip"
+            . " ON ri.id = rip.indi_id"
+            . " AND ri.batch_id = rip.indi_batch_id"
+            . " JOIN wp_rp_name_personal rnp"
+            . " ON rip.name_id = rnp.id"
+            . " WHERE ri.batch_id = '1'"
+            . " AND rip.seq_nbr = 1"
+            . " AND upper(rnp.surname) LIKE ?)"
+            . " UNION"
+            . " SELECT concat('F2','-',rf.id) AS id,"
+            . " concat(rnp.surname,',',rnp.given, '& Family [', rf.spouse2, ']') AS name"
+            . " FROM wp_rp_fam rf"
+            . " JOIN wp_rp_indi_name rip"
+            . " ON rf.spouse2 = rip.indi_id"
+            . " AND rf.indi_batch_id_2 = rip.indi_batch_id"
+            . " JOIN wp_rp_name_personal rnp"
+            . " ON rip.name_id = rnp.id"
+            . " WHERE rf.indi_batch_id_2 = '1'"
+            . " AND rf.spouse1 IS NULL"
+            . " AND rf.spouse2 IN (SELECT ri.id AS id"
+            . " FROM wp_rp_indi ri"
+            . " JOIN wp_rp_indi_name rip"
+            . " ON ri.id = rip.indi_id"
+            . " AND ri.batch_id = rip.indi_batch_id"
+            . " JOIN wp_rp_name_personal rnp"
+            . " ON rip.name_id = rnp.id"
+            . " WHERE ri.batch_id = '1'"
+            . " AND rip.seq_nbr = 1"
+            . " AND upper(rnp.surname) LIKE ?)"
+            . " ORDER BY name";
+
+
+        $sql_query = new RP_Sql_Query($sql, $this->prefix );
+        $sql_query->set($term . '%');
+        $sql_query->set($term . '%');
+        $sql_query->set($term . '%');
+		$tab = RP_Query_Executor::execute($sql_query);
+		$ret = array();
+		for($i=0;$i<count($tab);$i++){
+            $ret[$i] = array();
+            $ret[$i]['name'] =  '(' . $tab[$i]['id'] . ') '
+                            . $tab[$i]['name'];
+		}
+		return $ret;
+    }
+
     public function get_top_x_surnames($cnt) {
         if(!isset($cnt) || empty($cnt)) $cnt = 10;
 

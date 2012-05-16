@@ -291,6 +291,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 $mgr = new Persona_Manager();
                 if ( $_POST['form_action'] == 'getFamilies' ) {
                     $response =  $mgr->process_getfamilies( $this->credentials, $_POST['datastr']['term'], $options );
+                } else if ( $_POST['form_action'] == 'getSpouses' ) {
+                    $response =  $mgr->process_getspouses( $this->credentials, $_POST['datastr']['term'], $options );
                 } else if ( $_POST['form_action'] == 'getFamily' ) {
                     $response =  $mgr->process_getfamily( $this->credentials, $_POST['datastr'], $options );
                     $response = $response->to_array();
@@ -306,8 +308,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         $response =  $mgr->process_form( $this->credentials, $form, $options );
                     }
                 }
-                $t = json_encode( $response );
-                echo $t;
+                if( isset( $response ) ) {
+                    $t = json_encode( $response );
+                    echo $t;
+                }
             }
 
             die(); // this is required to return a proper result

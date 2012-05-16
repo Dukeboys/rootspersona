@@ -3,8 +3,16 @@ class Persona_Manager {
 
     function process_getfamilies($credentials, $like, $options) {
         $transaction = new RP_Transaction( $credentials );
-        $list =  RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+        $list =  RP_Dao_Factory::get_rp_persona_dao( $credential->prefix )
                                 ->get_family_list( $like, $options );
+        $transaction->close();
+        return $list;
+    }
+
+    function process_getspouses($credentials, $like, $options) {
+        $transaction = new RP_Transaction( $credentials );
+        $list =  RP_Dao_Factory::get_rp_persona_dao( $credentials->prefix )
+                                ->get_spouses_list( $like, $options );
         $transaction->close();
         return $list;
     }

@@ -317,10 +317,9 @@ class RP_Group_Sheet_Panel_Creator {
 
         if($persona->fams == null) {
             $cnt = ( isset( $persona->marriages ) ?  count( $persona->marriages ) : 0 );
-            if($cnt > 0) {
-                $block .= '<div style="margin-top:10px;">'
+            $block .= '<div style="margin-top:10px;">'
                     . '<span style="font-weight:bold;font-size:14px;">Family Groups:</span></div>';
-            }
+
             for ( $idx = 0; $idx < $cnt; $idx++ ) {
                 $marriage = $persona->marriages[$idx];
 

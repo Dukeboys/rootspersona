@@ -85,6 +85,7 @@ function unlinkparents(fid) {
 function linkparents() {
     if(jQuery('#paternal_text').is(':visible')) {
         jQuery('#paternal_text').css('display','none');
+        jQuery('#paternal_text').val('');
     } else {
         jQuery('#paternal_text').css('display','inline');
     }
@@ -110,6 +111,7 @@ function unlinkspouse(fid) {
 function linkspouse() {
     if(jQuery('#spousal_text').is(':visible')) {
         jQuery('#spousal_text').css('display','none');
+        jQuery('#spousal_text').val('');
     } else {
         jQuery('#spousal_text').css('display','inline');
     }
@@ -365,18 +367,38 @@ jQuery(document).ready(function() {
                 jQuery('#rp_mother').html(nameParm[1]);
                 jQuery('#rp_unlink_parents').css('display','inline');
                 jQuery('#rp_link_parents').css('display','none');
+                jQuery('#paternal_text').val('');
                 jQuery('#paternal_text').css('display','none');
             } else if(type == 'paternal' && idParm[0] == 'I') {
 
-            } else if (idParm[0] == 'F') {
-
+            } else if (idParm[0] == 'F1' || idParm[0] == 'F2') {
+                var seq = 0;
+                var el = jQuery('#rp_sseq_' + seq);
+                while (el.length > 0) {
+                    seq++;
+                    el = jQuery('#rp_sseq_' + seq);
+                }
+                var nameParm = ui.item.value.substr(end+2).split('&')
+                var ssid = nameParm[1].substr(9, nameParm[1].indexOf(']')-9)
+                var block = '<div id="rp_group_' + seq + '" name="rp_group_' + seq + '">'
+                    + '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' + idParm[1] + '</span>'
+                    + '<input type="hidden" id="rp_sseq_'
+                    + seq + '" name="rp_sseq_'+ seq + '" value="' + (idParm[0]=='F2'?'2':'1') + '">'
+                    + '<input type="hidden" id="rp_sid_'+ seq + '" name="rp_sid_'+ seq + '" value="' + ssid + '">'
+                    + '<input type="hidden" id="rp_fams_'+ seq + '" name="rp_fams_'+ seq + '" value="' + idParm[1] + '">'
+                    + '<input id="rp_fams_unlink_'+ seq + '" name="rp_fams_unlink_'+ seq + '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_'+ seq + '\');"  value="'
+                    + 'Unlink from this Family Group"></div>'
+                    + '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>'
+                    + nameParm[0] + '</div></div>';
+                jQuery('#spousal_text').parent().prepend(block);
+                jQuery('#spousal_text').val('');
+                jQuery('#spousal_text').css('display','none');
             } else if (idParm[0] == 'I') {
 
             }
     }
 
-    function rp_autoCompleteCallback(req, add){
-
+    function rp_autoCompletePaternal(req, add){
         document.body.style.cursor = "wait";
         var data = {
             action: 'rp_action',
@@ -403,14 +425,41 @@ jQuery(document).ready(function() {
         });
     }
 
+    function rp_autoCompleteSpousal(req, add){
+        document.body.style.cursor = "wait";
+        var data = {
+            action: 'rp_action',
+            datastr: req,
+            form_action: 'getSpouses'
+        };
+        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+        jQuery.post(ajaxurl, data, function(data) {
+            //create array for response objects
+            var suggestions = [];
+
+            //process response
+            rows = jQuery.parseJSON(data);
+            if( rows !== undefined && rows != null ) {
+                jQuery.each(rows, function(idx, row){
+                    suggestions.push(row.name);
+                });
+            }
+
+            //pass array to callback
+            add(suggestions);
+
+            document.body.style.cursor = "default";
+        });
+    }
+
     jQuery('#paternal_text').autocomplete({
-        source: rp_autoCompleteCallback,
+        source: rp_autoCompletePaternal,
         select: rp_autoSelectPerson,
         minLength: 1
     });
 
     jQuery('#spousal_text').autocomplete({
-        source: rp_autoCompleteCallback,
+        source: rp_autoCompleteSpousal,
         select: rp_autoSelectPerson,
         minLength: 1
     });
