@@ -302,7 +302,7 @@ class RP_Group_Sheet_Panel_Creator {
                 $l = '';
             }
 
-            $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:21em;">Parents:</span>'
+            $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:20.6em;">Parents:</span>'
                     . '<input id="rp_unlink_parents" name="rp_unlink_parents" class="submitPersonForm" type="button" onclick="unlinkparents(\'rp_famc\');" value="'
                     . sprintf ( __( 'Unlink %s from this Father/Mother Family Group',
                     'rootspersona' ), $persona->full_name ) . '" ' . $u . '>'

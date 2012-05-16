@@ -304,9 +304,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     }
                     if($_POST['form_action'] == 'updatePersona') {
                         $response =  $mgr->process_form( $this->credentials, $form, $options );
-                        echo json_encode($response);
                     }
                 }
+                $t = json_encode( $response );
+                echo $t;
             }
 
             die(); // this is required to return a proper result
