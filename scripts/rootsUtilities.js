@@ -79,29 +79,26 @@ function unlinkparents(fid) {
     jQuery('#rp_father').html('');
     jQuery('#rp_mother').html('');
     jQuery('#rp_unlink_parents').css('display','none');
-    jQuery('#rp_link_parents').css('display','inline');
+    jQuery('#rp_link_parents1').css('display','inline');
+    jQuery('#rp_link_parents2').css('display','inline');
+    jQuery('#parental_text').val('');
+    jQuery('#rp_father_id').val('');
+    jQuery('#rp_mother_id').val('');
+    jQuery('#parental_gender').val('');
 }
 
-function linkparents() {
-    if(jQuery('#paternal_text').is(':visible')) {
-        jQuery('#paternal_text').css('display','none');
-        jQuery('#paternal_text').val('');
+function linkparents(seq) {
+    if(jQuery('#parental_text').is(':visible')) {
+        jQuery('#parental_text').css('display','none');
+        jQuery('#parental_text').val('');
+        jQuery('#parental_gender').val('');
     } else {
-        jQuery('#paternal_text').css('display','inline');
+        jQuery('#parental_text').css('display','inline');
+        jQuery('#parental_gender').css('display','inline');
+        jQuery('#parental_gender').val(seq);
     }
-    /*
-	var data = {
-        action: 'rp_action',
-        datastr: '',
-        form_action: 'linkparents'
-	};
-    document.body.style.cursor = "wait";
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.get(ajaxurl, data, function(response) {
-        document.body.style.cursor = "default";
-	});
-    */
 }
+
 function unlinkspouse(fid) {
     jQuery('#' + fid).val('');
     famid = fid.replace('rp_fams_','');
@@ -115,18 +112,6 @@ function linkspouse() {
     } else {
         jQuery('#spousal_text').css('display','inline');
     }
-    /*
-	var data = {
-        action: 'rp_action',
-        datastr: '',
-        form_action: 'linkspouse'
-	};
-    document.body.style.cursor = "wait";
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.get(ajaxurl, data, function(response) {
-        document.body.style.cursor = "default";
-	});
-    */
 }
 
 jQuery(document).ready(function() {
@@ -362,20 +347,38 @@ jQuery(document).ready(function() {
             var nameParm;
             var ssid;
             var block;
+            var name;
             var type = this.id.replace('_text','');
             var end = ui.item.value.indexOf(')');
             var idParm = ui.item.value.substr(1, (end-1)).split('-');
-            if(type == 'paternal' && idParm[0] == 'F') {
+            if(type == 'parental' && idParm[0] == 'F') {
                 jQuery('#rp_famc').val(idParm[1]);
                 nameParm = ui.item.value.substr(end+2).split('&')
                 jQuery('#rp_father').html(nameParm[0]);
                 jQuery('#rp_mother').html(nameParm[1]);
                 jQuery('#rp_unlink_parents').css('display','inline');
-                jQuery('#rp_link_parents').css('display','none');
-                jQuery('#paternal_text').val('');
-                jQuery('#paternal_text').css('display','none');
-            } else if(type == 'paternal' && idParm[0] == 'I') {
-
+                jQuery('#rp_link_parents1').css('display','none');
+                jQuery('#rp_link_parents2').css('display','none');
+                jQuery('#rp_father_id').val('');
+                jQuery('#rp_mother_id').val('');
+                jQuery('#parental_text').val('');
+                jQuery('#parental_gender').val('');
+                jQuery('#parental_text').css('display','none');
+            } else if(type == 'parental' && idParm[0] == 'I') {
+                jQuery('#rp_famc').val('-1');
+                nameParm = ui.item.value.split(')');
+                name = nameParm[1].substr(1);
+                if(jQuery('#parental_gender').val() == '1') {
+                    jQuery('#rp_father').html(name);
+                    jQuery('#rp_father_id').val(idParm[1]);
+                } else {
+                    jQuery('#rp_mother').html(name);
+                    jQuery('#rp_mother_id').val(idParm[1]);
+                }
+                jQuery('#rp_unlink_parents').css('display','inline');
+                jQuery('#rp_link_parents1').css('display','none');
+                jQuery('#rp_link_parents2').css('display','none');
+                jQuery('#parental_text').val('');
             } else if (idParm[0] == 'F1' || idParm[0] == 'F2') {
                 seq = 0;
                 el = jQuery('#rp_sseq_' + seq);
@@ -406,7 +409,7 @@ jQuery(document).ready(function() {
                     el = jQuery('#rp_sseq_' + seq);
                 }
                 nameParm = ui.item.value.split(')');
-                var name = nameParm[1].substr(1);
+                name = nameParm[1].substr(1);
                 block = '<div id="rp_group_' + seq + '" name="rp_group_' + seq + '">'
                     + '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family</span>'
                     + '<input type="hidden" id="rp_sseq_' + seq + '" name="rp_sseq_'+ seq + '">'
@@ -422,7 +425,7 @@ jQuery(document).ready(function() {
             }
     }
 
-    function rp_autoCompletePaternal(req, add){
+    function rp_autoCompleteParental(req, add){
         document.body.style.cursor = "wait";
         var data = {
             action: 'rp_action',
@@ -476,8 +479,8 @@ jQuery(document).ready(function() {
         });
     }
 
-    jQuery('#paternal_text').autocomplete({
-        source: rp_autoCompletePaternal,
+    jQuery('#parental_text').autocomplete({
+        source: rp_autoCompleteParental,
         select: rp_autoSelectPerson,
         minLength: 1
     });

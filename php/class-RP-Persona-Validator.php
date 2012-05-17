@@ -127,7 +127,9 @@ class Persona_Validator {
         if (isset($form['rp_famc']) && !empty($form['rp_famc'])) {
             $famlink = new RP_Family_Link();
             $famlink->family_id = trim(esc_attr($form['rp_famc']));
-            $indi->child_family_links[] = $famlink;
+            if($famlink->family_id != '-1') {
+                $indi->child_family_links[] = $famlink;
+            }
             $is_update = true;
         }
 
