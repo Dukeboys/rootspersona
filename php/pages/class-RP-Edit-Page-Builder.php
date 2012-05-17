@@ -18,7 +18,10 @@ class RP_Edit_Page_Builder {
                 . "<input type='button' name='submitPersonForm' class='submitPersonForm' value='"
                 . __( 'Save', 'rootspersona' ) . "' onclick='updatePersona();'/>"
                 . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
-                . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>";
+                . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/>"
+               . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='new' value='"
+                . __( 'New', 'rootspersona' ) . "' onclick='window.location=\""
+                . $options['admin_url'] . "/tools.php?page=rootsPersona&rootspage=edit&action=edit\";'/></div>";
 
         $block .= "<div class='persona_msg'></div>";
         $creator = new RP_Header_Panel_Creator();
@@ -138,6 +141,7 @@ class RP_Edit_Page_Builder {
      */
     public function get_persona_options( $options ) {
         $options['home_url'] = home_url();
+        $options['admin_url'] = admin_url();
         $options['plugin_url'] = WP_PLUGIN_URL . '/rootspersona/';
         $options['action'] = $options['home_url'] . '/?page_id=' . RP_Persona_Helper::get_page_id();
         $options['uscore'] = RP_Persona_Helper::score_user();

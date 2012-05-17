@@ -8,9 +8,9 @@
 class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		/**
 	 * @todo Description of function deleteByIndi
-	 * @param  $indiId 
+	 * @param  $indiId
 	 * @param  $indiBatchId
-	 * @return 
+	 * @return
 	 */
 	public function delete_by_indi( $indi_id, $indi_batch_id ) {
 		$sql = 'DELETE FROM rp_indi_fam WHERE indi_id = ?  AND indi_batch_id = ?';
@@ -35,6 +35,14 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $link_type );
 		return $this->get_row( $sql_query );
 	}
+	public function get_next_id(  ) {
+		$sql = 'UPDATE rp_fam_seq SET id=LAST_INSERT_ID(id+1)';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+        $this->execute_update($sql_query);
+		$sql = 'SELECT LAST_INSERT_ID()';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		return $this->query_single_result( $sql_query );
+	}
 
 	/**
 	 * Delete record FROM table
@@ -56,6 +64,9 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpIndiFamMySql rpIndiFam
 	 */
 	public function insert( $rp_indi_fam ) {
+        if($rp_indi_fam->id == null || $rp_indi_fam->id == '0' || empty($rp_indi_fam->id)) {
+            $rp_indi_fam->id = $this->get_next_id();
+        }
 		$sql = 'INSERT INTO rp_indi_fam (link_status, pedigree, update_datetime, indi_id, indi_batch_id, fam_id, fam_batch_id, link_type) VALUES (?, ?, now(), ?, ?, ?, ?, ?)';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
 		$sql_query->set( $rp_indi_fam->link_status );
@@ -67,8 +78,8 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_indi_fam->link_type );
 		$this->execute_insert( $sql_query );
 		//$rpIndiFam->id = $id;
-		//return $id;
-		
+		return $rp_indi_fam->id;
+
 	}
 	/**
 	 * Update record in table
