@@ -99,9 +99,9 @@ class RP_Persona_Installer {
 
         if ( $options[ 'version' ] < '3.0.0' ) {
 
-            $stmt = "CREATE TABLE rp_indi_seq (id INT NOT NULL)";
+            $stmt = "CREATE TABLE IF NOT EXISTS rp_indi_seq (id INT NOT NULL)";
             if ( $prefix != null ) {
-                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+                $stmt = str_replace( 'rp_', $prefix . 'rp_', $stmt );
             }
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {
@@ -115,12 +115,12 @@ class RP_Persona_Installer {
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {
                $wpdb->print_error();
-               throw new Exception( $stmt );
+               //throw new Exception( $stmt );
             }
 
-            $stmt = "CREATE TABLE rp_fam_seq (id INT NOT NULL)";
+            $stmt = "CREATE TABLE IF NOT EXISTS rp_fam_seq (id INT NOT NULL)";
             if ( $prefix != null ) {
-                $stmt = str_replace( 'TABLE rp_', 'TABLE ' . $prefix . 'rp_', $stmt );
+                $stmt = str_replace( 'rp_', $prefix . 'rp_', $stmt );
             }
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {
@@ -134,7 +134,7 @@ class RP_Persona_Installer {
             $result = $wpdb->query( $stmt );
             if ( $result === false ) {
                $wpdb->print_error();
-               throw new Exception( $stmt );
+               //throw new Exception( $stmt );
             }
         }
 

@@ -115,7 +115,7 @@ class RP_Tools_Page_Builder {
                 . "<td style='vertical-align:middle'>";
 
         $block .=  "<span id='batchlabel'>"
-                . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. You will be promoted before the data is deleted.', 'rootspersona' ), 'rootspersona')
+                . sprintf( __( 'Perform a bulk deletion of all %s and evidence pages. You will be prompted before the data is deleted.', 'rootspersona' ), 'rootspersona')
                . "</span></td></tr>";
         return $block;
     }

@@ -556,7 +556,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
         function insert_persona_scripts() {
             if ( !is_admin() ) {
                 wp_register_script( 'rootsUtilities',
-                    plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
+                    plugins_url( 'js/rootsUtilities.js',__FILE__ ) );
                 wp_enqueue_script( 'rootsUtilities' );
             }
         }
@@ -568,7 +568,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_enqueue_script('media-upload');
             wp_enqueue_script('thickbox');
             wp_register_script( 'rootsUtilities',
-                    plugins_url( 'scripts/rootsUtilities.js',__FILE__ ) );
+                    plugins_url( 'js/rootsUtilities.js',__FILE__ ) );
             wp_enqueue_script( 'rootsUtilities' );
 
             wp_register_script( 'jquery.validate',
