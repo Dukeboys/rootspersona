@@ -293,22 +293,26 @@ class RP_Group_Sheet_Panel_Creator {
                 $mid = $persona->ancestors[2]->id;
             }
 
-            if((isset($persona->ancestors[2]) && $persona->ancestors[2]->full_name != '?')
-                    || (isset($persona->ancestors[3]) && $persona->ancestors[3]->full_name != '?')) {
+
+            $u = 'style="display:none;"';
+            $l1 = '';
+            $l2 = '';
+            if((isset($persona->ancestors[2]) && $persona->ancestors[2]->full_name != '?')) {
+                $l1 = 'style="display:none;"';
                 $u = '';
-                $l = 'style="display:none;"';
-            } else {
-                $u = 'style="display:none;"';
-                $l = '';
+            }
+            if((isset($persona->ancestors[3]) && $persona->ancestors[3]->full_name != '?')) {
+                $l2 = 'style="display:none;"';
+                $u = '';
             }
 
             $block .= '<div><span style="font-weight:bold;font-size:14px;display:inline-block;width:20.6em;">Parents:</span>'
                     . '<input id="rp_unlink_parents" name="rp_unlink_parents" class="submitPersonForm" type="button" onclick="unlinkparents(\'rp_famc\');" value="'
                     . __( 'Unlink from Parents','rootspersona' ) . '" ' . $u . '>'
                     . '<input id="rp_link_parents1" name="rp_link_parents1" class="submitPersonForm" type="button" onclick="linkparents(\'1\');" value="'
-                    . __( 'Link to a Father','rootspersona' ) . '" ' . $l . '>'
+                    . __( 'Link to a Father','rootspersona' ) . '" ' . $l1 . '>'
                     . '<input id="rp_link_parents2" name="rp_link_parents2" class="submitPersonForm" type="button" onclick="linkparents(\'2\');" value="'
-                    . __( 'Link to a Mother','rootspersona' ) . '" ' . $l . '>'
+                    . __( 'Link to a Mother','rootspersona' ) . '" ' . $l2 . '>'
                     . "<input id='rp_father_id' name='rp_father_id' type='hidden'/>"
                     . "<input id='rp_mother_id' name='rp_mother_id' type='hidden'/>"
                     . "<input style='display:none;' id='parental_text' name='parental_text' type='text' width='120'/>"

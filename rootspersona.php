@@ -461,10 +461,11 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $batch_id='1';
             if ( isset( $_POST['submitUploadGedcomForm'] ) )
             {
-                if ( !is_uploaded_file( $_FILES['gedcomFile']['tmp_name'] ) ) {
+               if ($_FILES['gedcomFile']['error'] != UPLOAD_ERR_OK ) {
+                    $msg = __( 'Error Uploading File.', 'rootspersona' );
+               } else  if ( !is_uploaded_file( $_FILES['gedcomFile']['tmp_name'] ) ) {
                     $msg = __( 'Empty File.', 'rootspersona' );
-                }
-                else {
+               } else {
                     set_time_limit( 60 );
                     if ( WP_DEBUG === true ){
                         $time_start = microtime( true );

@@ -103,6 +103,7 @@ Currently you will lose any links to pictures if you do that.
 * Better handling of surname slashes to avoid mushed names
 * Updated installer to support multi-site WP
 * removed null surnames from top ten list
+* added error check for failure to upload a file
 
 = 2.5.0 =
 * Facts panel now displays Facts and Events

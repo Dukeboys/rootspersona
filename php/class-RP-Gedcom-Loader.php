@@ -250,6 +250,23 @@ class RP_Gedcom_Loader {
 
         $this->transaction->commit_no_close();
 
+        if(isset($options['editMode']) && isset($person->parental)) {
+            $familyRecord = $person->parental;
+            $familyRecord->batch_id = $person->batch_id;
+            if($familyRecord->id == '-1') {
+                $familyRecord->id = null;
+                $familyRecord->batch_id = $person->batch_id;
+                $familyRecord->children[] = $person->id;
+                $this->add_fam($familyRecord, $options);
+            } else {
+                // I am updating husband or wife
+                if(isset($familyRecord->husband) && !empty($familyRecord->husband)) {
+                    RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->update_spouse1( $familyRecord );
+                } else if(isset($familyRecord->wife) && !empty($familyRecord->wife)) {
+                    RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->update_spouse2( $familyRecord );
+                }
+            }
+        }
         foreach ( $person->spouse_family_links as $spousal ) {
             $link = new RP_Indi_Fam();
             $link->indi_id = $person->id;

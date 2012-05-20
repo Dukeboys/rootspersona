@@ -104,6 +104,24 @@ class RP_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set_number( $rp_fam->batch_id );
 		return $this->execute_update( $sql_query );
 	}
+	public function update_spouse1( $rp_fam ) {
+		$sql = 'UPDATE rp_fam SET spouse1 = ?, indi_batch_id_1 = ?, update_datetime = now() WHERE id = ?  AND batch_id = ? ';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $rp_fam->husband );
+		$sql_query->set_number( $rp_fam->batch_id );
+		$sql_query->set( $rp_fam->id );
+		$sql_query->set_number( $rp_fam->batch_id );
+		return $this->execute_update( $sql_query );
+	}
+	public function update_spouse2( $rp_fam ) {
+		$sql = 'UPDATE rp_fam SET spouse2 = ?, indi_batch_id_2 = ?, update_datetime = now() WHERE id = ?  AND batch_id = ? ';
+		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
+		$sql_query->set( $rp_fam->wife );
+		$sql_query->set_number( $rp_fam->batch_id );
+		$sql_query->set( $rp_fam->id );
+		$sql_query->set_number( $rp_fam->batch_id );
+		return $this->execute_update( $sql_query );
+	}
 
 	/**
 	 * Read row

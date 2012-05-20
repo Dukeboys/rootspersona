@@ -52,8 +52,13 @@ function updatePersona() {
                   } else if (key == 'rp_page') {
                       jQuery("#rp_page").text(value);
                       jQuery('#persona_page').val(value);
+                  } else if (key == 'rp_famc') {
+                      jQuery("#rp_famc").val(value);
                   }
             });
+
+            jQuery("#rp_father_id").val('');
+            jQuery("#rp_mother_id").val('');
 
             if(!isErr) {
                 var msgs = jQuery('.persona_msg');
@@ -82,6 +87,7 @@ function unlinkparents(fid) {
     jQuery('#rp_link_parents1').css('display','inline');
     jQuery('#rp_link_parents2').css('display','inline');
     jQuery('#parental_text').val('');
+    jQuery('#parental_text').css('display','none');
     jQuery('#rp_father_id').val('');
     jQuery('#rp_mother_id').val('');
     jQuery('#parental_gender').val('');
@@ -103,6 +109,7 @@ function unlinkspouse(fid) {
     jQuery('#' + fid).val('');
     famid = fid.replace('rp_fams_','');
     jQuery('#rp_group_' + famid).remove();
+    jQuery('#spousal_text').css('display','none');
 }
 
 function linkspouse() {
@@ -112,6 +119,87 @@ function linkspouse() {
     } else {
         jQuery('#spousal_text').css('display','inline');
     }
+}
+
+
+function processBatchSpan( event ) {
+    var myUrl = event.data.url
+                + '/tools.php?page=rootsPersona&rootspage=';
+    var action = event.data.action;
+    if (action == 'include') {
+        myUrl += action + '&batch_id=' + jQuery('#batch_id').val();
+    } else {
+        myUrl += 'util&utilityAction='
+            + action + '&batch_id=' + jQuery('#batch_id').val();
+    }
+
+    jQuery('#process_button').unbind('click', processBatchSpan);
+    window.location = myUrl;
+    return false;
+}
+
+function revealBatchSpan(obj, url) {
+    var action = '';
+    if (obj.id == 'evidence') {
+        action = 'evidence';
+    } else if(obj.id == 'delete') {
+        action = 'delete'
+    } else if(obj.id == 'validate') {
+        action = 'validatePages';
+    } else if(obj.id == 'review') {
+        action='include';
+    }
+    var b = jQuery('#batch_ids option')
+    if ( b.size() < 2 ) {
+        batch_id = b.val();
+        var event = new Object();
+        event.data = new Object();
+        event.data.url = url + '/tools.php?page=rootsPersona&rootspage=';
+        event.data.action = action;
+        processBatchSpan(event);
+    } else {
+        var spanpos = jQuery('#' + obj.id).parent().next().children('span:first');
+
+        if( jQuery('#batchspan').is(":visible") ) {
+            jQuery('#batchspan').hide();
+        } else {
+            jQuery('#process_button').bind('click',{url: url, action: action}, processBatchSpan);
+
+            var caller = spanpos.offset();
+            jQuery('#batchspan').show();
+            jQuery('#batchspan').offset({top: (caller.top - 25), left: (caller.left - 10)});
+        }
+    }
+}
+
+function synchBatchText() {
+    var value = jQuery('#batch_ids option:selected').val();
+    jQuery('#batch_id').val(value);
+    return false;
+}
+
+function refreshAddPerson() {
+    var b = jQuery('#batch_ids option:selected').val();
+    jQuery("#persons").contents().remove();
+	var data = {
+        action: 'rp_action',
+        refresh: 1,
+        batch_id: b
+	};
+    document.body.style.cursor = "wait";
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.get(ajaxurl, data, function(response) {
+        document.body.style.cursor = "default";
+        var res = jQuery.parseJSON(response);
+        jQuery.each(res, function(index, p) {
+            // add items to List box
+            jQuery("#persons").append("<option id='" + p.id + "'>"
+                        + p.surname + ", " + p.given + "</option");
+            } // end of function
+        );  // each
+	});
+
+    return false;
 }
 
 jQuery(document).ready(function() {
@@ -365,19 +453,23 @@ jQuery(document).ready(function() {
                 jQuery('#parental_gender').val('');
                 jQuery('#parental_text').css('display','none');
             } else if(type == 'parental' && idParm[0] == 'I') {
-                jQuery('#rp_famc').val('-1');
+                el = jQuery('#rp_famc')
+                var id = el.val();
+                if ( id == '') id = '-1';
+                el.val(id);
                 nameParm = ui.item.value.split(')');
                 name = nameParm[1].substr(1);
                 if(jQuery('#parental_gender').val() == '1') {
                     jQuery('#rp_father').html(name);
                     jQuery('#rp_father_id').val(idParm[1]);
+                    jQuery('#rp_link_parents1').css('display','none');
                 } else {
                     jQuery('#rp_mother').html(name);
                     jQuery('#rp_mother_id').val(idParm[1]);
+                    jQuery('#rp_link_parents2').css('display','none');
                 }
                 jQuery('#rp_unlink_parents').css('display','inline');
-                jQuery('#rp_link_parents1').css('display','none');
-                jQuery('#rp_link_parents2').css('display','none');
+                jQuery('#parental_text').css('display','none');
                 jQuery('#parental_text').val('');
             } else if (idParm[0] == 'F1' || idParm[0] == 'F2') {
                 seq = 0;
@@ -427,6 +519,7 @@ jQuery(document).ready(function() {
 
     function rp_autoCompleteParental(req, add){
         document.body.style.cursor = "wait";
+        jQuery('#parental_text').css('cursor','wait');
         var data = {
             action: 'rp_action',
             datastr: req,
@@ -449,11 +542,13 @@ jQuery(document).ready(function() {
             add(suggestions);
 
             document.body.style.cursor = "default";
+            jQuery('#parental_text').css('cursor','default');
         });
     }
 
     function rp_autoCompleteSpousal(req, add){
         document.body.style.cursor = "wait";
+        jQuery('#spousal_text').css('cursor','wait');
         var data = {
             action: 'rp_action',
             datastr: req,
@@ -476,6 +571,7 @@ jQuery(document).ready(function() {
             add(suggestions);
 
             document.body.style.cursor = "default";
+            jQuery('#spousal_text').css('cursor','default');
         });
     }
 
@@ -494,83 +590,3 @@ jQuery(document).ready(function() {
     document.body.style.cursor = "default";
 
 });
-
-function processBatchSpan( event ) {
-    var myUrl = event.data.url
-                + '/tools.php?page=rootsPersona&rootspage=';
-    var action = event.data.action;
-    if (action == 'include') {
-        myUrl += action + '&batch_id=' + jQuery('#batch_id').val();
-    } else {
-        myUrl += 'util&utilityAction='
-            + action + '&batch_id=' + jQuery('#batch_id').val();
-    }
-
-    jQuery('#process_button').unbind('click', processBatchSpan);
-    window.location = myUrl;
-    return false;
-}
-
-function revealBatchSpan(obj, url) {
-    var action = '';
-    if (obj.id == 'evidence') {
-        action = 'evidence';
-    } else if(obj.id == 'delete') {
-        action = 'delete'
-    } else if(obj.id == 'validate') {
-        action = 'validatePages';
-    } else if(obj.id == 'review') {
-        action='include';
-    }
-    var b = jQuery('#batch_ids option')
-    if ( b.size() < 2 ) {
-        batch_id = b.val();
-        var event = new Object();
-        event.data = new Object();
-        event.data.url = url + '/tools.php?page=rootsPersona&rootspage=';
-        event.data.action = action;
-        processBatchSpan(event);
-    } else {
-        var spanpos = jQuery('#' + obj.id).parent().next().children('span:first');
-
-        if( jQuery('#batchspan').is(":visible") ) {
-            jQuery('#batchspan').hide();
-        } else {
-            jQuery('#process_button').bind('click',{url: url, action: action}, processBatchSpan);
-
-            var caller = spanpos.offset();
-            jQuery('#batchspan').show();
-            jQuery('#batchspan').offset({top: (caller.top - 25), left: (caller.left - 10)});
-        }
-    }
-}
-
-function synchBatchText() {
-    var value = jQuery('#batch_ids option:selected').val();
-    jQuery('#batch_id').val(value);
-    return false;
-}
-
-function refreshAddPerson() {
-    var b = jQuery('#batch_ids option:selected').val();
-    jQuery("#persons").contents().remove();
-	var data = {
-        action: 'rp_action',
-        refresh: 1,
-        batch_id: b
-	};
-    document.body.style.cursor = "wait";
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.get(ajaxurl, data, function(response) {
-        document.body.style.cursor = "default";
-        var res = jQuery.parseJSON(response);
-        jQuery.each(res, function(index, p) {
-            // add items to List box
-            jQuery("#persons").append("<option id='" + p.id + "'>"
-                        + p.surname + ", " + p.given + "</option");
-            } // end of function
-        );  // each
-	});
-
-    return false;
-}

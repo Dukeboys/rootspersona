@@ -105,6 +105,8 @@ class Persona_Manager {
         $r = array();
         $r['rp_id'] = $indi->id;
         $r['rp_page'] = $indi->page;
+        if(isset($indi->parental->id) && !empty($indi->parental->id))
+            $r['rp_famc'] = $indi->parental->id;
         return $r;
 	}
 }
