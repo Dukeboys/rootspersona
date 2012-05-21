@@ -140,6 +140,7 @@ class RP_Individual_Record extends RP_Record_Abstract {
     var $page = null;
     var $privacy = 'Def';
     var $parental = null;
+    var $newFams = null;
 	/**
 	 * Initializes complex attributes
 	 *

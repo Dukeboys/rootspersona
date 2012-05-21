@@ -347,7 +347,7 @@ class RP_Group_Sheet_Panel_Creator {
                     . '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family ' . $marriage['fams'] . '</span>'
                     . '<input type="hidden" id="rp_sseq_' . $idx . '" name="rp_sseq_' . $idx . '" value="' . $sseq . '">'
                     . '<input type="hidden" id="rp_sid_' . $idx . '" name="rp_sid_' . $idx . '" value="' . $sid . '">'
-                    . '<input type="hidden" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
+                    . '<input type="hidden" class="rp_fams" id="rp_fams_' . $idx . '" name="rp_fams_' . $idx . '" value="' . $marriage['fams'] . '">'
                     . '<input id="rp_fams_unlink_' . $idx . '" name="rp_fams_unlink_' . $idx . '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_' . $idx . '\');"  value="'
                     . __( 'Unlink from this Spouse', 'rootspersona' ) . '"></div>'
                     . '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>' . $associated . '</div>';
@@ -363,7 +363,7 @@ class RP_Group_Sheet_Panel_Creator {
                 $block .= '</div>';
             }
             $block .= '<div><span style="display:inline-block;width:24em;">&#160;</span>'
-                    . '<input class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
+                    . '<input id="spousal_link" name="spousal_link" class="submitPersonForm" type="button" onclick="linkspouse();"  value="'
                     . __( 'Link to a Spouse', 'rootspersona' )
                     . '">'
                     . "<input style='display:none;' id='spousal_text' name='spousal_text' type='text' width='120'/></div>";
@@ -373,7 +373,7 @@ class RP_Group_Sheet_Panel_Creator {
         } else {
             $block .= '<input type="hidden" id="rp_sseq_0" name="rp_sseq_0" value="' . $persona->sseq . '">'
                    . '<input type="hidden" id="rp_sid_0" name="rp_sid_0" value="' . $persona->spouse . '">'
-                   . '<input type="hidden" id="rp_fams_0" name="rp_fams_0" value="' . $persona->fams . '">'
+                   . '<input type="hidden" class="rp_fams" id="rp_fams_0" name="rp_fams_0" value="' . $persona->fams . '">'
                    . '<input type="hidden" id="rp_child_0" name="rp_child_0" value="' . $persona->child . '">';
         }
 

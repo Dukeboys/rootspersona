@@ -54,11 +54,20 @@ function updatePersona() {
                       jQuery('#persona_page').val(value);
                   } else if (key == 'rp_famc') {
                       jQuery("#rp_famc").val(value);
+                  } else if (key == 'rp_fams') {
+                      var fams = jQuery('.rp_fams');
+                      jQuery.each(fams, function(index, item){
+                        if(jQuery(item).val() == '-1') {
+                            jQuery(item).val(value);
+                            return;
+                        }
+                      });
                   }
             });
 
             jQuery("#rp_father_id").val('');
             jQuery("#rp_mother_id").val('');
+            jQuery('#spousal_link').css('display','inline');
 
             if(!isErr) {
                 var msgs = jQuery('.persona_msg');
@@ -110,6 +119,7 @@ function unlinkspouse(fid) {
     famid = fid.replace('rp_fams_','');
     jQuery('#rp_group_' + famid).remove();
     jQuery('#spousal_text').css('display','none');
+    jQuery('#spousal_link').css('display','inline');
 }
 
 function linkspouse() {
@@ -485,7 +495,7 @@ jQuery(document).ready(function() {
                     + '<input type="hidden" id="rp_sseq_'
                     + seq + '" name="rp_sseq_'+ seq + '" value="' + (idParm[0]=='F2'?'2':'1') + '">'
                     + '<input type="hidden" id="rp_sid_'+ seq + '" name="rp_sid_'+ seq + '" value="' + ssid + '">'
-                    + '<input type="hidden" id="rp_fams_'+ seq + '" name="rp_fams_'+ seq + '" value="' + idParm[1] + '">'
+                    + '<input type="hidden" class="rp_fams" id="rp_fams_'+ seq + '" name="rp_fams_'+ seq + '" value="' + idParm[1] + '">'
                     + '<input id="rp_fams_unlink_'+ seq + '" name="rp_fams_unlink_'+ seq + '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_'+ seq + '\');"  value="'
                     + 'Unlink from this Family Group"></div>'
                     + '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>'
@@ -506,7 +516,7 @@ jQuery(document).ready(function() {
                     + '<div style="margin-left:10px;"><span style="display:inline-block;width:23.5em;">Family</span>'
                     + '<input type="hidden" id="rp_sseq_' + seq + '" name="rp_sseq_'+ seq + '">'
                     + '<input type="hidden" id="rp_sid_'+ seq + '" name="rp_sid_'+ seq + '" value="' + idParm[1] + '">'
-                    + '<input type="hidden" id="rp_fams_'+ seq + '" name="rp_fams_'+ seq + '" value="-1">'
+                    + '<input type="hidden" class="rp_fams" id="rp_fams_'+ seq + '" name="rp_fams_'+ seq + '" value="-1">'
                     + '<input id="rp_fams_unlink_'+ seq + '" name="rp_fams_unlink_'+ seq + '" class="submitPersonForm" type="button" onclick="unlinkspouse(\'rp_fams_'+ seq + '\');"  value="'
                     + 'Unlink from this Family Group"></div>'
                     + '<div style="margin-left:20px;"><span style="font-weight:bold;font-style:italic;display:inline-block;width:5em;">Spouse: </span>'
@@ -514,6 +524,7 @@ jQuery(document).ready(function() {
                 jQuery('#spousal_text').parent().prepend(block);
                 jQuery('#spousal_text').val('');
                 jQuery('#spousal_text').css('display','none');
+                jQuery('#spousal_link').css('display','none');
             }
     }
 

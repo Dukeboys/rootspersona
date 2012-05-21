@@ -289,7 +289,10 @@ class RP_Gedcom_Loader {
                         $family->wife = $person->id;
                     }
 
-                    $this->add_fam($family, $options);
+                    $famId = $this->add_fam($family, $options);
+                    if( $spousal->family_id == null) {
+                        $person->newFams = $famId;
+                    }
                 }
             } catch ( Exception $e ) {
                 echo $e->getMessage();

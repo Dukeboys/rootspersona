@@ -249,29 +249,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     }
                     return  __( 'Missing', 'rootspersona' ) . ' personId:' . $persona_id;
                 }
-            } else {
-                $persona_id  = isset( $_POST['personId'] )  ? trim( esc_attr( $_POST['personId'] ) )  : '';
-                $batch_id = isset( $_POST['batchId'] )?$_POST['batchId']:'1';
-                $name  = isset( $_POST['fullName'] )  ? trim( esc_attr( $_POST['fullName'] ) )  : '';
-                $opt = ( in_array( $_POST['privacy_grp'], array( 'Exc', 'Pub', 'Pvt', 'Mbr' ) )
-                        ? $_POST['privacy_grp'] : '' );
-                $src_page = isset( $_POST['srcPage'] )  ? trim( esc_attr( $_POST['srcPage'] ) )  : '';
-                $transaction = new RP_Transaction( $this->credentials, false );
-                if ( $opt == 'Exc' ) {
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
-                    wp_delete_post( $src_page );
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->delete_persona( $persona_id, $batch_id );
-                } else {
-                    RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->update_persona_privacy( $persona_id, $batch_id, $opt, $name );
-                }
-                $transaction->commit();
-
-                $builder = new RP_Edit_Page_Builder();
-                return $builder->process_edit( $options );
-            }
+            } 
         }
 
         function rp_action_callback() {
