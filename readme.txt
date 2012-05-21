@@ -98,7 +98,7 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
-= 3.0.0 =
+= 3.0.1 =
 * Added System of Record support, including adding and editing persons
 * Better handling of surname slashes to avoid mushed names
 * Updated installer to support multi-site WP
