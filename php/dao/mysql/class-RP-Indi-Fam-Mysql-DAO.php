@@ -64,8 +64,8 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpIndiFamMySql rpIndiFam
 	 */
 	public function insert( $rp_indi_fam ) {
-        if($rp_indi_fam->id == null || $rp_indi_fam->id == '0' || empty($rp_indi_fam->id)) {
-            $rp_indi_fam->id = $this->get_next_id();
+        if($rp_indi_fam->fam_id == null || $rp_indi_fam->fam_id == '0' || empty($rp_indi_fam->fam_id)) {
+            $rp_indi_fam->fam_id = $this->get_next_id();
         }
 		$sql = 'INSERT INTO rp_indi_fam (link_status, pedigree, update_datetime, indi_id, indi_batch_id, fam_id, fam_batch_id, link_type) VALUES (?, ?, now(), ?, ?, ?, ?, ?)';
 		$sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -78,7 +78,7 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 		$sql_query->set( $rp_indi_fam->link_type );
 		$this->execute_insert( $sql_query );
 		//$rpIndiFam->id = $id;
-		return $rp_indi_fam->id;
+		return $rp_indi_fam->fam_id;
 
 	}
 	/**
