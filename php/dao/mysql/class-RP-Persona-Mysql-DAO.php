@@ -298,7 +298,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
             . ((!empty( $surname )) ?' JOIN rp_name_personal rnp ON rip.name_id = rnp.id':'')
             . ' WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null'
             . ' AND rip.seq_nbr = 1'
-            . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "'"):'')
+            . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "%'"):'')
             . " AND IFNULL(rio.privacy_code,'Def') != '"
             . RP_Persona_Helper::EXC . "'";
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );
@@ -335,7 +335,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 . ' JOIN rp_name_personal rnp ON rip.name_id = rnp.id'
                 . " WHERE ri.batch_id = ? AND ri.wp_page_id IS NOT null"
                 . ' AND rip.seq_nbr = 1'
-                . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "'"):'')
+                . ((!empty( $surname )) ? (" AND rnp.surname LIKE '" . esc_sql($surname) . "%'"):'')
                 . " AND IFNULL(rio.privacy_code,'Def') != '"
                 . RP_Persona_Helper::EXC
                 . "' ORDER BY rnp.surname, rnp.given";
