@@ -46,6 +46,9 @@ class RP_Edit_Page_Builder {
         $creator = new RP_Picture_Panel_Creator();
         $block .= $creator->create_for_edit($persona, $options);
 
+        $src = '';
+        if(isset($options['src_page']))
+            $src = $options['src_page'];
 
         $block .= "<div class='persona_msg'></div>";
 
@@ -55,7 +58,7 @@ class RP_Edit_Page_Builder {
                 . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
                 . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>"
 
-                . "<input type='hidden' name='persona_page' id='persona_page' value='" . isset($options['src_page'])?$options['src_page']:'' . "'>"
+                . "<input type='hidden' name='persona_page' id='persona_page' value='" . $src . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
@@ -179,6 +182,7 @@ class RP_Edit_Page_Builder {
      * @return array
      */
     function params_from_html( $params ) {
+        $p = array();
         $p['personId'] = isset( $params['personId'] ) ? trim( esc_attr( $params['personId'] ) ) : '';
         $p['srcPage'] = isset( $params['srcPage'] ) ? trim( esc_attr( $params['srcPage'] ) ) : '';
         for ( $i = 1; $i <= 7; $i++ ) {
