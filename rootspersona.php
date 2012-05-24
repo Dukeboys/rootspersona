@@ -828,7 +828,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_undef_pics'] = ( $input['hide_undef_pics'] == 1 ? 1 : 0 );
             $options['hide_dates'] = ( $input['hide_dates'] == 1 ? 1 : 0 );
             $options['hide_places'] = ( $input['hide_places'] == 1 ? 1 : 0 );
-            $options['debug'] = ( $input['debug'] == true ? 1 : 0 );
+            $options['debug'] = ( (isset($input['debug']) && $input['debug'] == true)? 1 : 0 );
             $options['privacy_default'] =
                 in_array( $input['privacy_default'], array( 'Pub', 'Pvt', 'Mbr' ) )
                     ? $input['privacy_default'] : 'Pub';
