@@ -711,7 +711,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
         function persona_menus() {
             $hook = add_options_page(
                         'RootsPersona Options',
-                        'rootspersona',
+                        'RootsPersona',
                         'manage_options',
                         'rootsPersona',
                         array( $this, 'build_roots_options_page' )
@@ -722,7 +722,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $hook = add_submenu_page(
                                 'tools.php',
                                 'RootsPersona Tools',
-                                'rootspersona',
+                                'RootsPersona',
                                 'manage_options',
                                 'rootsPersona',
                                 array( $this, 'build_roots_tools_page' )
