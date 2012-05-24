@@ -84,6 +84,7 @@ class RP_Persona_Page_Builder {
             $options['hide_evidence'] = 1;
             $options['hide_banner'] = 1;
             $options['hide_bio'] = 1;
+            $options['hide_edit_links'] = 1;
             if ( $callback == 'rootspersonaheader' ) {
                 $options['hide_header'] = 0;
             } else if ( $callback == 'rootspersonafacts' ) {
