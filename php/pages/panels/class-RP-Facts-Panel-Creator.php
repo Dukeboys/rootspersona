@@ -92,13 +92,13 @@ class RP_Facts_Panel_Creator {
         }
             $block .= '<tr>';
             //Fact
-            $block .= '<td><input id="newclaim" type="text" class="claimType" value=""/></td>';
+            $block .= '<td><input id="newclaim" name="newclaim" type="text" class="claimType" value=""/></td>';
             //Date
-            $block .= '<td><input id="newdate" type="text" value=""/></td>';
+            $block .= '<td><input id="newdate" name="newdate" type="text" value=""/></td>';
             //Place
-            $block .= '<td><input id="newplace" type="text" value=""/></td>';
+            $block .= '<td><input id="newplace" name="newplace" type="text" value=""/></td>';
             //Notes
-            $block .= '<td><textarea id="newclassification" type="text" cols="30" rows="1"/></textarea></td>';
+            $block .= '<td><textarea id="newclassification" name="newclassification" type="text" cols="30" rows="1"/></textarea></td>';
             $block .= '<td id="newbutton">'
                 . '</td>';
             $block .= '</tr>';

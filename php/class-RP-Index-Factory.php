@@ -50,8 +50,7 @@ class RP_Index_Factory {
      * @return integer
      */
     public function get_cnt( $batch_id, $options ) {
-        if($this->transaction == null)
-                $this->transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         $cnt = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_indexed_page_cnt( $batch_id, $options['surname'] );
         // @todo we are adjusted for Exc, but not for Pvt or Mbr
