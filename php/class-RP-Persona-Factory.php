@@ -7,6 +7,7 @@ class RP_Persona_Factory {
      * @var RP_Credentials
      */
     var $credentials;
+    private $transaction = null;
 
     /**
      *
@@ -26,7 +27,7 @@ class RP_Persona_Factory {
     public function get_with_options( $id, $batch_id, $options ) {
         $persona = null;
         $uscore = $options['uscore'];
-        $transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         if ( $options['hide_header'] == 0
         || $options['hide_facts'] == 0
         || $options['hide_ancestors'] == 0
@@ -154,7 +155,7 @@ class RP_Persona_Factory {
             $p = new RP_Persona();
             $persona = $this->privatize( $p );
         }
-        $transaction->close();
+        $this->transaction->close();
 
         return $persona;
     }
@@ -335,9 +336,10 @@ class RP_Persona_Factory {
         $persona = null;
         $uscore = $options['uscore'];
         $isSOR = ($options['is_system_of_record'] == '1'?true:false);
-        $transaction = new RP_Transaction( $this->credentials, true );
+
+                $this->transaction = new RP_Transaction( $this->credentials, true );
         $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
-        $transaction->close();
+        $this->transaction->close();
 
         $persona->picFiles = array();
         $persona->picCaps = array();

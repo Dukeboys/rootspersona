@@ -7,6 +7,7 @@ class RP_Index_Factory {
      * @var RP_Credentials
      */
     var $credentials;
+    private $transaction = null;
 
     /**
      *
@@ -23,12 +24,12 @@ class RP_Index_Factory {
      * @return array
      */
     public function get_with_options( $batch_id, $options ) {
-        $transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         $rows = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                ->get_indexed_page( $batch_id, $options['surname'], 
+                ->get_indexed_page( $batch_id, $options['surname'],
                                     $options['page_nbr'], $options['per_page'],
                                     $options['style'] );
-        $transaction->close();
+        $this->transaction->close();
         $cnt = count( $rows );
         $uscore = $options['uscore'];
         $index = array();
@@ -49,11 +50,12 @@ class RP_Index_Factory {
      * @return integer
      */
     public function get_cnt( $batch_id, $options ) {
-        $transaction = new RP_Transaction( $this->credentials, true );
+        if($this->transaction == null)
+                $this->transaction = new RP_Transaction( $this->credentials, true );
         $cnt = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_indexed_page_cnt( $batch_id, $options['surname'] );
         // @todo we are adjusted for Exc, but not for Pvt or Mbr
-        $transaction->close();
+        $this->transaction->close();
         return $cnt;
     }
 }

@@ -98,6 +98,11 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.0.2 =
+* fix issue with mysql connections and families
+* fix issue with parental links when mysql connections needed
+* enhanced debug output with error_log even when xdebug not active
+
 = 3.0.1 =
 * Added System of Record support, including adding and editing persons
 * Better handling of surname slashes to avoid mushed names

@@ -3,7 +3,7 @@
  Plugin Name: rootspersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 3.0.1
+ Version: 3.0.2
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -59,14 +59,14 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '3.0.1';
+        var $persona_version = '3.0.2';
 
         /**
          *
          * @var RP_Credentials
          */
         var $credentials;
-
+        private $transaction = null;
         /**
          *
          * @global wpdb $wpdb
@@ -87,29 +87,34 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
         function persona_handler( $atts, $content = null, $callback = null ) {
             //$time_start = microtime( true );
             global $post;
-            $block = '';
-            $persona_id = $atts['personid'];
-            if( $persona_id == '0' ) unset( $persona_id );
+            try {
+                $block = '';
+                $persona_id = $atts['personid'];
+                if( $persona_id == '0' ) unset( $persona_id );
 
-            if ( isset( $persona_id ) ) {
-                $batch_id = isset( $atts['batchid'] ) ? $atts['batchid'] : '1';
-                $builder = new RP_Persona_Page_Builder();
-                $options = get_option( 'persona_plugin' );
-                $options = $builder->get_persona_options( $atts, $callback, $options );
-                $factory = new RP_Persona_Factory( $this->credentials );
-                $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
-                //if($persona->full_name == 'Private')
-                //    $post->post_title = 'Private';
-                $block = $builder->build( $persona, $options, RP_Persona_Helper::get_page_id() );
-            } else {
-                $msg = __('Invalid person id.', 'rootspersona');
-                $block = RP_Persona_Helper::return_default_empty( $msg, WP_PLUGIN_URL );
+                if ( isset( $persona_id ) ) {
+                    $batch_id = isset( $atts['batchid'] ) ? $atts['batchid'] : '1';
+                    $builder = new RP_Persona_Page_Builder();
+                    $options = get_option( 'persona_plugin' );
+                    $options = $builder->get_persona_options( $atts, $callback, $options );
+                    $factory = new RP_Persona_Factory( $this->credentials );
+                    $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                    //if($persona->full_name == 'Private')
+                    //    $post->post_title = 'Private';
+                    $block = $builder->build( $persona, $options, RP_Persona_Helper::get_page_id() );
+                } else {
+                    $msg = __('Invalid person id.', 'rootspersona');
+                    $block = RP_Persona_Helper::return_default_empty( $msg, WP_PLUGIN_URL );
+                }
+
+                //$time = microtime( true ) - $time_start;
+                //echo "\nDone in $time seconds using "
+                //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
+                return $block;
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-
-            //$time = microtime( true ) - $time_start;
-            //echo "\nDone in $time seconds using "
-            //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
-            return $block;
         }
 
         /**
@@ -117,27 +122,32 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function index_page_handler( $atts, $content = null, $callback = null ) {
-            //$time_start = microtime( true );
-            $batch_id = isset( $atts['batchid'] )? $atts['batchid'] : '1';
-            $builder = new RP_Index_Page_Builder();
-            $options = get_option( 'persona_plugin' );
-            $options = $builder->get_options( $options, $atts );
+            try {
+                //$time_start = microtime( true );
+                $batch_id = isset( $atts['batchid'] )? $atts['batchid'] : '1';
+                $builder = new RP_Index_Page_Builder();
+                $options = get_option( 'persona_plugin' );
+                $options = $builder->get_options( $options, $atts );
 
-            $factory = new RP_Index_Factory( $this->credentials );
-            $index = $factory->get_with_options( $batch_id, $options );
-            $cnt = null;
-            if( 'paginated' == $options['style']) {
-                $cnt = $factory->get_cnt( $batch_id, $options );
+                $factory = new RP_Index_Factory( $this->credentials );
+                $index = $factory->get_with_options( $batch_id, $options );
+                $cnt = null;
+                if( 'paginated' == $options['style']) {
+                    $cnt = $factory->get_cnt( $batch_id, $options );
+                }
+
+                $block = "<div id = 'personaIndex'>"
+                . $builder->build( $index, $cnt, $options )
+                . '</div>';
+
+                //$time = microtime( true ) - $time_start;
+                //echo "\nDone in $time seconds using "
+                //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
+                return $block;
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-
-            $block = "<div id = 'personaIndex'>"
-            . $builder->build( $index, $cnt, $options )
-            . '</div>';
-
-            //$time = microtime( true ) - $time_start;
-            //echo "\nDone in $time seconds using "
-            //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
-            return $block;
         }
 
         /**
@@ -148,38 +158,43 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function evidence_page_handler( $atts, $content = null, $callback = null ) {
-            $block = null;
-            //$time_start = microtime( true );
-            $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
-            $builder = new RP_Evidence_Page_Builder();
-            $options = get_option( 'persona_plugin' );
-            $options = $builder->get_options( $options, $atts );
+            try {
+                $block = null;
+                //$time_start = microtime( true );
+                $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
+                $builder = new RP_Evidence_Page_Builder();
+                $options = get_option( 'persona_plugin' );
+                $options = $builder->get_options( $options, $atts );
 
-            $block = '';
-            $factory = new RP_Evidence_Factory( $this->credentials );
+                $block = '';
+                $factory = new RP_Evidence_Factory( $this->credentials );
 
-            if ( isset( $atts['sourceid'] ) ) {
-                $evidence = $factory->get_with_options( $atts['sourceid'], $batch_id, $options );
+                if ( isset( $atts['sourceid'] ) ) {
+                    $evidence = $factory->get_with_options( $atts['sourceid'], $batch_id, $options );
 
-                $block .= "<div id = 'rp_evidence'>"
-                    . $builder->build( $evidence, $options )
-                    . '</div>';
-            } else {
-                $cnt = null;
-                if( 'paginated' == $options['style']) {
-                    $cnt = $factory->get_cnt( $batch_id, $options );
+                    $block .= "<div id = 'rp_evidence'>"
+                        . $builder->build( $evidence, $options )
+                        . '</div>';
+                } else {
+                    $cnt = null;
+                    if( 'paginated' == $options['style']) {
+                        $cnt = $factory->get_cnt( $batch_id, $options );
+                    }
+                    $sources = $factory->get_index_with_options( $batch_id, $options );
+
+                    $block .= "<div id = 'personaIndex'>"
+                        . $builder->build_index( $sources, $cnt, $options )
+                        . '</div>';
                 }
-                $sources = $factory->get_index_with_options( $batch_id, $options );
 
-                $block .= "<div id = 'personaIndex'>"
-                    . $builder->build_index( $sources, $cnt, $options )
-                    . '</div>';
+                //$time = microtime( true ) - $time_start;
+                //echo "\nDone in $time seconds using "
+                //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
+                return $block;
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-
-            //$time = microtime( true ) - $time_start;
-            //echo "\nDone in $time seconds using "
-            //    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.';
-            return $block;
         }
 
         /**
@@ -188,67 +203,72 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function edit_persona_page_handler( ) {
-            $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
-            $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
-            $options = get_option( 'persona_plugin' );
-            $isSOR = ($options['is_system_of_record'] == '1'?true:false);
+            try {
+                $action = admin_url('/tools.php?page=rootsPersona&rootspage=edit');
+                $batch_id = isset( $atts['batchid'] )?$atts['batchid']:'1';
+                $options = get_option( 'persona_plugin' );
+                $isSOR = ($options['is_system_of_record'] == '1'?true:false);
 
-            if ( !isset( $_POST['submitPersonForm'] ) ) {
-                $persona_id  = isset( $_GET['personId'] )
-                        ? trim( esc_attr( $_GET['personId'] ) )  : '';
-                $batch_id = isset( $_GET['batchId'] )?$_GET['batchId']:'1';
-                if ( ! empty( $persona_id ) ) {
-                    $edit_action = isset( $_GET['action'] )
-                            ? trim( esc_attr( $_GET['action'] ) )  : '';
-                    $src_page = isset( $_GET['srcPage'] )
-                            ? trim( esc_attr( $_GET['srcPage'] ) )  : '';
-                    if ( $edit_action == 'edit' ) {
-                        $options['src_page'] = $src_page;
-                        $builder = new RP_Edit_Page_Builder();
-                        $options = $builder->get_persona_options( $options );
+                if ( !isset( $_POST['submitPersonForm'] ) ) {
+                    $persona_id  = isset( $_GET['personId'] )
+                            ? trim( esc_attr( $_GET['personId'] ) )  : '';
+                    $batch_id = isset( $_GET['batchId'] )?$_GET['batchId']:'1';
+                    if ( ! empty( $persona_id ) ) {
+                        $edit_action = isset( $_GET['action'] )
+                                ? trim( esc_attr( $_GET['action'] ) )  : '';
+                        $src_page = isset( $_GET['srcPage'] )
+                                ? trim( esc_attr( $_GET['srcPage'] ) )  : '';
+                        if ( $edit_action == 'edit' ) {
+                            $options['src_page'] = $src_page;
+                            $builder = new RP_Edit_Page_Builder();
+                            $options = $builder->get_persona_options( $options );
 
-                        $factory = new RP_Persona_Factory( $this->credentials );
-                        if($isSOR == false ) {
-                            $persona = $factory->get_for_edit( $persona_id, $batch_id, $options );
-                        } else {
-                            $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                            $factory = new RP_Persona_Factory( $this->credentials );
+                            if($isSOR == false ) {
+                                $persona = $factory->get_for_edit( $persona_id, $batch_id, $options );
+                            } else {
+                                $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                            }
+                            return $builder->build( $persona, $action, $options );
+                        } elseif ( $edit_action == 'delete' ) {
+                            wp_delete_post( $src_page );
+                            return RP_Persona_Helper::redirect_to_page( $src_page );
                         }
-                        return $builder->build( $persona, $action, $options );
-                    } elseif ( $edit_action == 'delete' ) {
-                        wp_delete_post( $src_page );
-                        return RP_Persona_Helper::redirect_to_page( $src_page );
-                    }
-                } else {
-                    if($isSOR === true) {
-                        $builder = new RP_Edit_Page_Builder();
-                        $options = $builder->get_persona_options( $options );
-                        $persona = new RP_Persona();
-                        $famc = isset( $_GET['famc'] )
-                                ? trim( esc_attr( $_GET['famc'] ) )  : '';
-                        $fams = isset( $_GET['fams'] )
-                                ? trim( esc_attr( $_GET['fams'] ) )  : '';
-                        $child = isset( $_GET['child'] )
-                                ? trim( esc_attr( $_GET['child'] ) )  : '';
-                        $sseq = isset( $_GET['sseq'] )
-                                ? trim( esc_attr( $_GET['sseq'] ) )  : '';
-                        $spouse = isset( $_GET['spouse'] )
-                                ? trim( esc_attr( $_GET['spouse'] ) )  : '';
-                        if($famc != '') {
-                            $persona->famc = $famc;
-                        } else if($fams != '') {
-                            $persona->fams = $fams;
-                            $persona->spouse = $spouse;
-                            $persona->sseq = $sseq=='1'?'2':'1';
-                        } else if ($child != '') {
-                            //add person as parent of child, no family record exists
-                            $persona->fams = -1;
-                            $persona->child = $child;
-                            $persona->sseq = $sseq=='1'?'2':'1';
+                    } else {
+                        if($isSOR === true) {
+                            $builder = new RP_Edit_Page_Builder();
+                            $options = $builder->get_persona_options( $options );
+                            $persona = new RP_Persona();
+                            $famc = isset( $_GET['famc'] )
+                                    ? trim( esc_attr( $_GET['famc'] ) )  : '';
+                            $fams = isset( $_GET['fams'] )
+                                    ? trim( esc_attr( $_GET['fams'] ) )  : '';
+                            $child = isset( $_GET['child'] )
+                                    ? trim( esc_attr( $_GET['child'] ) )  : '';
+                            $sseq = isset( $_GET['sseq'] )
+                                    ? trim( esc_attr( $_GET['sseq'] ) )  : '';
+                            $spouse = isset( $_GET['spouse'] )
+                                    ? trim( esc_attr( $_GET['spouse'] ) )  : '';
+                            if($famc != '') {
+                                $persona->famc = $famc;
+                            } else if($fams != '') {
+                                $persona->fams = $fams;
+                                $persona->spouse = $spouse;
+                                $persona->sseq = $sseq=='1'?'2':'1';
+                            } else if ($child != '') {
+                                //add person as parent of child, no family record exists
+                                $persona->fams = -1;
+                                $persona->child = $child;
+                                $persona->sseq = $sseq=='1'?'2':'1';
+                            }
+                            return $builder->build( $persona, $action, $options );
                         }
-                        return $builder->build( $persona, $action, $options );
+                        return  __( 'Missing', 'rootspersona' ) . ' personId:' . $persona_id;
                     }
-                    return  __( 'Missing', 'rootspersona' ) . ' personId:' . $persona_id;
                 }
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
         }
 
@@ -260,10 +280,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
             if ( isset( $_GET['refresh'] ) ) {
                 $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
-                $transaction = new RP_Transaction( $this->credentials, true );
+                $this->transaction = new RP_Transaction( $this->credentials, true );
                 $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
                         ->get_persons_no_page( $batch_id );
-                $transaction->close();
+                $this->transaction->close();
                 echo json_encode($persons);
             } else if (isset( $_POST['form_action'] ) ) {
                 $mgr = new Persona_Manager();
@@ -301,54 +321,58 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function add_page_handler(  ) {
-            $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
-            $msg = '';
-            $options = get_option( 'persona_plugin' );
-
-            $transaction = new RP_Transaction( $this->credentials, false );
-            if ( isset( $_POST['submitAddPageForm'] ) ) {
-                $persons  = $_POST['persons'];
-                $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
-                if ( !isset( $persons ) || count( $persons ) == 0 ) {
-                    $msg = __( 'No people selected.', 'rootspersona' );
-                } else {
-                    foreach ( $persons as $p ) {
-                        $name = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                                ->get_fullname( $p, $batch_id );
-                        $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id );
-                        if ( $pageId != false ) {
-                            RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
-                                    ->update_page( $p, $batch_id, $pageId );
-                            $msg = $msg . '<br/>'
-                                    . sprintf( __( 'Page %s created for', 'rootspersona' ),
-                                            $pageId )
-                                    . ' ' . $p;
+            try {
+                $action = admin_url('/tools.php?page=rootsPersona&rootspage=create');
+                $msg = '';
+                $options = get_option( 'persona_plugin' );
+                $this->transaction = new RP_Transaction( $this->credentials, false );
+                if ( isset( $_POST['submitAddPageForm'] ) ) {
+                    $persons  = $_POST['persons'];
+                    $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
+                    if ( !isset( $persons ) || count( $persons ) == 0 ) {
+                        $msg = __( 'No people selected.', 'rootspersona' );
+                    } else {
+                        foreach ( $persons as $p ) {
+                            $name = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                    ->get_fullname( $p, $batch_id );
+                            $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id );
+                            if ( $pageId != false ) {
+                                RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
+                                        ->update_page( $p, $batch_id, $pageId );
+                                $msg = $msg . '<br/>'
+                                        . sprintf( __( 'Page %s created for', 'rootspersona' ),
+                                                $pageId )
+                                        . ' ' . $p;
+                            }
+                            else {
+                                $msg .= '<br/>'
+                                        . __( 'Error creating page for', 'rootspersona' )
+                                        . ' ' . $p;
+                            }
+                            set_time_limit( 60 );
                         }
-                        else {
-                            $msg .= '<br/>'
-                                    . __( 'Error creating page for', 'rootspersona' )
-                                    . ' ' . $p;
-                        }
-                        set_time_limit( 60 );
                     }
                 }
+
+                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                            ->get_batch_ids( );
+
+                if( isset( $_GET['batch_id'] ) ) {
+                    $batch_ids[0] = $_GET['batch_id'];
+                } else if(count($batch_ids) == 0) {
+                    $batch_ids[0] = 1;
+                }
+
+                $builder = new RP_Add_Page_Builder();
+                $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                        ->get_persons_no_page( $batch_ids[0] );
+                $retStr = $builder->build( $action, $persons, $msg, $options, $batch_ids );
+                $this->transaction->commit();
+                return $retStr;
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-
-            $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                        ->get_batch_ids( );
-
-            if( isset( $_GET['batch_id'] ) ) {
-                $batch_ids[0] = $_GET['batch_id'];
-            } else if(count($batch_ids) == 0) {
-                $batch_ids[0] = 1;
-            }
-
-            $builder = new RP_Add_Page_Builder();
-            $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                    ->get_persons_no_page( $batch_ids[0] );
-            $retStr = $builder->build( $action, $persons, $msg, $options, $batch_ids );
-            $transaction->commit();
-            return $retStr;
         }
 
         /**
@@ -357,31 +381,38 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function include_page_handler(  ) {
-            $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
-            $msg = '';
-            $options = get_option( 'persona_plugin' );
-            if ( isset( $_POST['submitIncludePageForm'] ) )
-            {
-                $persons  = $_POST['persons'];
+            try {
+                $action = admin_url('/tools.php?page=rootsPersona&rootspage=include');
+                $msg = '';
+                $options = get_option( 'persona_plugin' );
+                if ( isset( $_POST['submitIncludePageForm'] ) )
+                {
+                    $persons  = $_POST['persons'];
 
-                if ( !isset( $persons ) || count( $persons ) == 0 ) {
-                    $msg = __( 'No people selected.', 'rootspersona' );
-                } else {
-                    $transaction = new RP_Transaction( $this->credentials, false );
-                    foreach ( $persons as $id ) {
-                        RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->update_persona_privacy( $id, $batch_id, '', '' );
+                    if ( !isset( $persons ) || count( $persons ) == 0 ) {
+                        $msg = __( 'No people selected.', 'rootspersona' );
+                    } else {
+
+                        $this->transaction = new RP_Transaction( $this->credentials, false );
+                        foreach ( $persons as $id ) {
+                            RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                ->update_persona_privacy( $id, $batch_id, '', '' );
+                        }
+                        $this->transaction->commit();
                     }
-                    $transaction->commit();
                 }
-            }
 
-            $transaction = new RP_Transaction( $this->credentials, true );
-            $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->get_excluded( $batch_id );
-            $transaction->close();
-            $builder = new RP_Include_Page_Builder();
-            return $builder->build( $persons, $options, $action, $msg );
+
+                $this->transaction = new RP_Transaction( $this->credentials, true );
+                $persons = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                ->get_excluded( $batch_id );
+                $this->transaction->close();
+                $builder = new RP_Include_Page_Builder();
+                return $builder->build( $persons, $options, $action, $msg );
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
+            }
         }
 
         /**
@@ -389,40 +420,44 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function utility_page_handler(  ) {
-            $action = admin_url('/tools.php?page=rootsPersona&rootspage=util');
-            $msg = '';
-            $options = get_option( 'persona_plugin' );
-            if ( isset( $_GET['utilityAction'] ) ) {
+            try {
+                $action = admin_url('/tools.php?page=rootsPersona&rootspage=util');
+                $options = get_option( 'persona_plugin' );
+                if ( isset( $_GET['utilityAction'] ) ) {
 
-                $action  = $_GET['utilityAction'];
-                if( isset( $_GET['batch_id'] ) ) {
-                    $batch_id = $_GET['batch_id'];
-                } else {
-                    $batch_id = 1;
-                }
+                    $action  = $_GET['utilityAction'];
+                    if( isset( $_GET['batch_id'] ) ) {
+                        $batch_id = $_GET['batch_id'];
+                    } else {
+                        $batch_id = 1;
+                    }
 
-                $mender = new RP_Persona_Site_Mender( $this->credentials );
-                if ( $action == 'validatePages' ) {
-                    return $mender->validate_pages( $options, false, $batch_id  );
-                }else if ( $action == 'repairPages' ) {
-                    return $mender->validate_pages( $options, true, $batch_id  );
-                } else if ( $action == 'validateEvidencePages' ) {
-                    return $mender->validate_evidence_pages( $options, false, $batch_id  );
-                } else if ( $action == 'repairEvidencePages' ) {
-                    return $mender->validate_evidence_pages( $options, true, $batch_id  );
-                } else if ( $action == 'delete' ) {
-                    echo $mender->delete_pages( $options, $batch_id  );
-                    return;
-                } else if ( $action == 'deldata' ) {
-                    echo $mender->delete_data( $options, $batch_id  );
-                    return;
-                } else if ( $action == 'evidence' ) {
-                    return $mender->add_evidence_pages( $options, $batch_id );
-                } else {
-                    return $action . ' ' . __('action not supported', 'rootspersona' ) . '.<br/>';
+                    $mender = new RP_Persona_Site_Mender( $this->credentials );
+                    if ( $action == 'validatePages' ) {
+                        return $mender->validate_pages( $options, false, $batch_id  );
+                    }else if ( $action == 'repairPages' ) {
+                        return $mender->validate_pages( $options, true, $batch_id  );
+                    } else if ( $action == 'validateEvidencePages' ) {
+                        return $mender->validate_evidence_pages( $options, false, $batch_id  );
+                    } else if ( $action == 'repairEvidencePages' ) {
+                        return $mender->validate_evidence_pages( $options, true, $batch_id  );
+                    } else if ( $action == 'delete' ) {
+                        echo $mender->delete_pages( $options, $batch_id  );
+                        return;
+                    } else if ( $action == 'deldata' ) {
+                        echo $mender->delete_data( $options, $batch_id  );
+                        return;
+                    } else if ( $action == 'evidence' ) {
+                        return $mender->add_evidence_pages( $options, $batch_id );
+                    } else {
+                        return $action . ' ' . __('action not supported', 'rootspersona' ) . '.<br/>';
+                    }
                 }
+                return __('For internal use only', 'rootspersona' ) . '.<br/>';
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-            return __('For internal use only', 'rootspersona' ) . '.<br/>';
         }
 
         /**
@@ -430,56 +465,62 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function upload_gedcom_handler( ) {
-            if ( !current_user_can( 'upload_files' ) ) {
-                wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
-            }
-            $action = admin_url('/tools.php?page=rootsPersona&rootspage=upload');
-            $msg = '';
-            $retStr = '';
-            $batch_id='1';
-            if ( isset( $_POST['submitUploadGedcomForm'] ) )
-            {
-               if ($_FILES['gedcomFile']['error'] != UPLOAD_ERR_OK ) {
-                    $msg = __( 'Error Uploading File.', 'rootspersona' );
-               } else  if ( !is_uploaded_file( $_FILES['gedcomFile']['tmp_name'] ) ) {
-                    $msg = __( 'Empty File.', 'rootspersona' );
-               } else {
-                    set_time_limit( 60 );
-                    if ( WP_DEBUG === true ){
-                        $time_start = microtime( true );
-                    }
-                    $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
-                    $fileName = $_FILES['gedcomFile']['tmp_name'];
-                    $loader = new RP_Gedcom_Loader();
-                    set_time_limit( 60 );
-                    $loader->load_tables( $this->credentials, $fileName, $batch_id );
-                    unlink( $_FILES['gedcomFile']['tmp_name'] );
+            try {
+                if ( !current_user_can( 'upload_files' ) ) {
+                    wp_die( _( 'You do not have permission to upload files.', 'rootspersona' ) );
+                }
+                $action = admin_url('/tools.php?page=rootsPersona&rootspage=upload');
+                $msg = '';
+                $retStr = '';
+                $batch_id='1';
+                if ( isset( $_POST['submitUploadGedcomForm'] ) )
+                {
+                if ($_FILES['gedcomFile']['error'] != UPLOAD_ERR_OK ) {
+                        $msg = __( 'Error Uploading File.', 'rootspersona' );
+                } else  if ( !is_uploaded_file( $_FILES['gedcomFile']['tmp_name'] ) ) {
+                        $msg = __( 'Empty File.', 'rootspersona' );
+                } else {
+                        set_time_limit( 60 );
+                        if ( WP_DEBUG === true ){
+                            $time_start = microtime( true );
+                        }
+                        $batch_id = isset( $_POST['batch_id'] )? trim( esc_attr( $_POST['batch_id'] ) ):'1';
+                        $fileName = $_FILES['gedcomFile']['tmp_name'];
+                        $loader = new RP_Gedcom_Loader();
+                        set_time_limit( 60 );
+                        $loader->load_tables( $this->credentials, $fileName, $batch_id );
+                        unlink( $_FILES['gedcomFile']['tmp_name'] );
 
-                    if ( WP_DEBUG === true ){
-                        $time = microtime( true ) - $time_start;
-                        error_log( "Done in $time seconds using "
-                                . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.' );
+                        if ( WP_DEBUG === true ){
+                            $time = microtime( true ) - $time_start;
+                            error_log( "Done in $time seconds using "
+                                    . memory_get_peak_usage( true ) / 1024 / 1024 . 'MB.' );
+                        }
                     }
                 }
-            }
-            $options = get_option( 'persona_plugin' );
-            if ( empty( $msg ) && isset( $_POST['submitUploadGedcomForm'] ) ) {
-                // The wp_redirect command uses a PHP redirect at its core,
-                // therefore, it will not work either after header information
-                // has been defined for a page.
-                $location = admin_url('/tools.php?page=rootsPersona&rootspage=create&batch_id=' . $batch_id);
-                $retStr = '<script type = "text/javascript">window.location = "'
-                        . $location . '"; </script>';
-            } else {
-                $transaction = new RP_Transaction( $this->credentials, true );
-                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                            ->get_batch_ids( );
-                $transaction->close();
+                $options = get_option( 'persona_plugin' );
+                if ( empty( $msg ) && isset( $_POST['submitUploadGedcomForm'] ) ) {
+                    // The wp_redirect command uses a PHP redirect at its core,
+                    // therefore, it will not work either after header information
+                    // has been defined for a page.
+                    $location = admin_url('/tools.php?page=rootsPersona&rootspage=create&batch_id=' . $batch_id);
+                    $retStr = '<script type = "text/javascript">window.location = "'
+                            . $location . '"; </script>';
+                } else {
 
-                $builder = new RP_Upload_Page_Builder();
-                $retStr = $builder->build( $action,$msg,$options, $batch_ids );
+                        $this->transaction = new RP_Transaction( $this->credentials, true );
+                    $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                                ->get_batch_ids( );
+                    $this->transaction->close();
+
+                    $builder = new RP_Upload_Page_Builder();
+                    $retStr = $builder->build( $action,$msg,$options, $batch_ids );
+                }
+                return $retStr;
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
-            return $retStr;
         }
 
         /**
@@ -587,32 +628,37 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function persona_activate() {
             global $wpdb;
-            $options = get_option( 'persona_plugin' );
-            $installer = new RP_Persona_Installer();
+            try {
+                $options = get_option( 'persona_plugin' );
+                $installer = new RP_Persona_Installer();
 
-            if (function_exists('is_multisite') && is_multisite()) {
-                // check if it is a network activation - if so, run the activation function for each blog id
-                if (isset($_GET['networkwide']) && ($_GET['networkwide'] == 1)) {
-                     $old_blog = $wpdb->blogid;
-                    // Get all blog ids
-                    $blogids = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs"));
-                    foreach ($blogids as $blog_id) {
-                        switch_to_blog($blog_id);
-                        $installer->persona_install(
-                            WP_PLUGIN_DIR . '/rootspersona/',
-                            $this->persona_version,
-                            $options, $wpdb->prefix
-                            );
+                if (function_exists('is_multisite') && is_multisite()) {
+                    // check if it is a network activation - if so, run the activation function for each blog id
+                    if (isset($_GET['networkwide']) && ($_GET['networkwide'] == 1)) {
+                        $old_blog = $wpdb->blogid;
+                        // Get all blog ids
+                        $blogids = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs"));
+                        foreach ($blogids as $blog_id) {
+                            switch_to_blog($blog_id);
+                            $installer->persona_install(
+                                WP_PLUGIN_DIR . '/rootspersona/',
+                                $this->persona_version,
+                                $options, $wpdb->prefix
+                                );
+                        }
+                        switch_to_blog($old_blog);
+                        return;
                     }
-                    switch_to_blog($old_blog);
-                    return;
                 }
+                $installer->persona_install(
+                        WP_PLUGIN_DIR . '/rootspersona/',
+                        $this->persona_version,
+                        $options, $wpdb->prefix
+                    );
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                trigger_error($e->getMessage(), E_USER_ERROR);
             }
-            $installer->persona_install(
-                    WP_PLUGIN_DIR . '/rootspersona/',
-                    $this->persona_version,
-                    $options, $wpdb->prefix
-                   );
         }
 
         /**
@@ -621,19 +667,25 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          */
         function persona_upgrade() {
             global $wpdb;
-            $options = get_option( 'persona_plugin' );
-            if ( ! isset( $options ) || ! isset ( $options['version'] ) ) {
-                $options = array();
-                $options['version'] = get_option( 'persona_version' );
-            }
-            if ( $this->persona_version != $options['version'] ) {
-                $installer = new RP_Persona_Installer();
-                $installer->persona_upgrade(
-                        WP_PLUGIN_DIR . '/rootspersona/',
-                        $this->persona_version,
-                        $options,
-                        $wpdb->prefix
-                        );
+            try {
+                $options = get_option( 'persona_plugin' );
+                if ( ! isset( $options ) || ! isset ( $options['version'] ) ) {
+                    $options = array();
+                    $options['version'] = get_option( 'persona_version' );
+                }
+                if ( $this->persona_version != $options['version'] ) {
+                    $installer = new RP_Persona_Installer();
+                    $installer->persona_upgrade(
+                            WP_PLUGIN_DIR . '/rootspersona/',
+                            $this->persona_version,
+                            $options,
+                            $wpdb->prefix
+                            );
+                }
+
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
         }
 
@@ -684,10 +736,15 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function build_roots_options_page() {
-            $options = get_option( 'persona_plugin' );
-            $options['home_url'] = home_url();
-            $builder = new RP_Option_Page_Builder();
-            return $builder->build( $options );
+            try {
+                $options = get_option( 'persona_plugin' );
+                $options['home_url'] = home_url();
+                $builder = new RP_Option_Page_Builder();
+                return $builder->build( $options );
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                return '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
+            }
         }
 
         /**
@@ -695,30 +752,37 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          * @return string
          */
         function build_roots_tools_page() {
-            if( isset( $_GET['rootspage'] ) ) {
-                $page = $_GET['rootspage'];
-                if( $page == 'upload' ) {
-                    echo $this->upload_gedcom_handler();
-                } else if ( $page == 'create' ) {
-                    echo $this->add_page_handler();
-                } else if ( $page == 'include' ) {
-                    echo $this->include_page_handler();
-                } else if ( $page == 'edit' ) {
-                    echo $this->edit_persona_page_handler();
-                } else if ( $page == 'util' ) {
-                    echo $this->utility_page_handler();
-                }
-            } else {
-                $transaction = new RP_Transaction( $this->credentials, true );
-                $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
-                        ->get_batch_ids( );
-                $transaction->close();
-                $options = get_option( 'persona_plugin' );
-                $options['home_url'] = home_url();
+            try {
+                if( isset( $_GET['rootspage'] ) ) {
+                    $page = $_GET['rootspage'];
+                    if( $page == 'upload' ) {
+                        echo $this->upload_gedcom_handler();
+                    } else if ( $page == 'create' ) {
+                        echo $this->add_page_handler();
+                    } else if ( $page == 'include' ) {
+                        echo $this->include_page_handler();
+                    } else if ( $page == 'edit' ) {
+                        echo $this->edit_persona_page_handler();
+                    } else if ( $page == 'util' ) {
+                        echo $this->utility_page_handler();
+                    }
+                } else {
 
-                $builder = new RP_Tools_Page_Builder();
-                echo $builder->build( $options, $batch_ids );
+                    $this->transaction = new RP_Transaction( $this->credentials, true );
+                    $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
+                            ->get_batch_ids( );
+                    $this->transaction->close();
+                    $options = get_option( 'persona_plugin' );
+                    $options['home_url'] = home_url();
+
+                    $builder = new RP_Tools_Page_Builder();
+                    echo $builder->build( $options, $batch_ids );
+                }
+            } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                echo '<span style="color:red;margin-top:20px;display:inline-block;">' . $e->getMessage() . "::" . RP_Persona_Helper::trace_caller() . '</span>';
             }
+
         }
 
         /**

@@ -1,19 +1,20 @@
 <?php
 class Persona_Manager {
+    private $transaction = null;
 
     function process_getfamilies($credentials, $like, $options) {
-        $transaction = new RP_Transaction( $credentials );
+        $this->transaction = new RP_Transaction( $credentials );
         $list =  RP_Dao_Factory::get_rp_persona_dao( $credentials->prefix )
                                 ->get_family_list( $like, $options );
-        $transaction->close();
+        $this->transaction->close();
         return $list;
     }
 
     function process_getspouses($credentials, $like, $options) {
-        $transaction = new RP_Transaction( $credentials );
+        $this->transaction = new RP_Transaction( $credentials );
         $list =  RP_Dao_Factory::get_rp_persona_dao( $credentials->prefix )
                                 ->get_spouses_list( $like, $options );
-        $transaction->close();
+        $this->transaction->close();
         return $list;
     }
 
@@ -55,11 +56,11 @@ class Persona_Manager {
                         $page_id = RP_Persona_Helper::add_page( null, $title, $options, null, $content );
                         $indi->page = $page_id;
                         if ( $page_id != false ) {
-                            $transaction = new RP_Transaction( $credentials );
+                            $this->transaction = new RP_Transaction( $credentials );
                             RP_Dao_Factory::get_rp_indi_dao( $credentials->prefix )
                                     ->update_page( $indi->id, $indi->batch_id, $page_id );
 
-                            $transaction->commit();
+                            $this->transaction->commit();
                         }
                     } else if ($indi->privacy != 'Exc') {
                         $my_post = array();

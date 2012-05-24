@@ -27,12 +27,15 @@ class RP_Connection_Factory {
 	 */
 	static public function get_connection( $credentials ) {
         $new_link = true;
-		$conn = mysql_connect( $credentials->hostname, $credentials->dbuser, $credentials->dbpassword, $new_link );
-		mysql_select_db( $credentials->dbname );
-		mysql_set_charset( 'utf8', $conn );
+        $conn = mysql_connect( $credentials->hostname,
+                               $credentials->dbuser,
+                               $credentials->dbpassword,
+                               $new_link );
 		if ( ! $conn ) {
 			throw new Exception( 'could not connect to database' );
 		}
+        mysql_select_db( $credentials->dbname );
+		mysql_set_charset( 'utf8', $conn );
 		return $conn;
 	}
 	/**

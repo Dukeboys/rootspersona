@@ -105,12 +105,12 @@ class RP_Gedcom_Loader {
         $note_rec->submitter_text = $note->text;
 
         try {
-            $this->transaction = new RP_Transaction( $this->credentials );
             RP_Dao_Factory::get_rp_note_dao( $this->credentials->prefix )->insert( $note_rec );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
             } else {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -119,11 +119,11 @@ class RP_Gedcom_Loader {
             try {
                 RP_Dao_Factory::get_rp_note_dao( $this->credentials->prefix )->update( $note_rec );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
         }
-        $this->transaction->commit();
     }
 
     /**
@@ -142,13 +142,13 @@ class RP_Gedcom_Loader {
         $indi->auto_rec_id = $person->auto_rec_id;
         $indi->ged_change_date = $person->change_date->date;
         try {
-            $this->transaction = new RP_Transaction( $this->credentials );
             $person->id =
-                    RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->insert( $indi );
+            RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->insert( $indi );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
             } else {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -157,6 +157,7 @@ class RP_Gedcom_Loader {
             try {
                 RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->update( $indi );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -169,7 +170,6 @@ class RP_Gedcom_Loader {
             // special case for when rootsperson isSOR
             $this->manageNewParent( $person, $options );
         }
-        $this->transaction->commit();
         return $person;
     }
 
@@ -191,6 +191,7 @@ class RP_Gedcom_Loader {
                 $note->id = RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
                        ->insert($new_note);
                } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                     echo $e->getMessage();
                     throw $e;
                }
@@ -227,6 +228,7 @@ class RP_Gedcom_Loader {
             RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
 
         } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
             echo $e->getMessage();
             throw $e;
         }
@@ -236,6 +238,7 @@ class RP_Gedcom_Loader {
             RP_Dao_Factory::get_rp_indi_fam_dao( $this->credentials->prefix )->insert( $link );
 
         } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
             echo $e->getMessage();
             throw $e;
         }
@@ -295,6 +298,7 @@ class RP_Gedcom_Loader {
                     }
                 }
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -319,6 +323,7 @@ class RP_Gedcom_Loader {
                     $this->update_children($family, $options);
                 }
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -356,6 +361,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->insert( $event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -365,6 +371,7 @@ class RP_Gedcom_Loader {
             $indi_event->event_id = $id;try {
                 RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->insert( $indi_event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -386,6 +393,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->insert( $event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -395,6 +403,7 @@ class RP_Gedcom_Loader {
             $indi_event->event_id = $id;try {
                 RP_Dao_Factory::get_rp_indi_event_dao( $this->credentials->prefix )->insert( $indi_event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -432,6 +441,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_name_personal_dao( $this->credentials->prefix )->insert( $name );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -443,6 +453,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_indi_name_dao( $this->credentials->prefix )->insert( $indi_name );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -467,13 +478,13 @@ class RP_Gedcom_Loader {
         $fam->auto_rec_id = $family->auto_rec_id;
         $fam->ged_change_date = $family->change_date->date;
         try {
-            $this->transaction = new RP_Transaction( $this->credentials );
             $famid = RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->insert( $fam );
             $family->id = $famid;
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
             } else {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -482,6 +493,7 @@ class RP_Gedcom_Loader {
             try {
                 RP_Dao_Factory::get_rp_fam_dao( $this->credentials->prefix )->update( $fam );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -491,6 +503,7 @@ class RP_Gedcom_Loader {
         if(!isset($options['editMode'])) {
             $this->update_fam_events( $family );
         }
+
         return $famid;
     }
 
@@ -512,6 +525,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_fam_child_dao( $this->credentials->prefix )->insert( $fam_child );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -548,6 +562,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_event_detail_dao( $this->credentials->prefix )->insert( $event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -558,6 +573,7 @@ class RP_Gedcom_Loader {
             try {
                 RP_Dao_Factory::get_rp_fam_event_dao( $this->credentials->prefix )->insert( $fam_event );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -583,6 +599,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_source_cite_dao( $this->credentials->prefix )->insert( $cite );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -591,6 +608,7 @@ class RP_Gedcom_Loader {
             $event_cite->cite_id = $id;try {
                 $id = RP_Dao_Factory::get_rp_event_cite_dao( $this->credentials->prefix )->insert( $event_cite );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -614,12 +632,12 @@ class RP_Gedcom_Loader {
         $src->auto_rec_id = $source->auto_rec_id;
         $src->ged_change_date = $source->change_date->date;
         try {
-            $this->transaction = new RP_Transaction( $this->credentials );
             RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->insert( $src );
         } catch ( Exception $e ) {
             if ( stristr( $e->getMessage(), 'Duplicate entry' ) >= 0 ) {
                 $need_update = true;
             } else {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -628,12 +646,12 @@ class RP_Gedcom_Loader {
             try {
                 RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->update( $src );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
         }
         $this->update_src_notes( $source );
-        $this->transaction->commit();
     }
 
     /**
@@ -651,6 +669,7 @@ class RP_Gedcom_Loader {
             try {
                 $id = RP_Dao_Factory::get_rp_source_note_dao( $this->credentials->prefix )->insert( $src_note );
             } catch ( Exception $e ) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 echo $e->getMessage();
                 throw $e;
             }
@@ -662,7 +681,10 @@ class RP_Gedcom_Loader {
      * @param RP_Header_Record $rec
      */
     function process_header( $rec ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_hdr( $rec );
+        $this->transaction->commit();
     }
 
     /**
@@ -670,7 +692,10 @@ class RP_Gedcom_Loader {
      * @param RP_Submission_Rec $rec
      */
     function process_submission( $rec ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_subn( $rec );
+        $this->transaction->commit();
     }
 
     /**
@@ -678,7 +703,10 @@ class RP_Gedcom_Loader {
      * @param RP_Family_Record $rec
      */
     function process_family( $rec, $options ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_fam( $rec, $options );
+        $this->transaction->commit();
     }
 
     /**
@@ -686,7 +714,11 @@ class RP_Gedcom_Loader {
      * @param RP_Individual_Record $rec
      */
     function process_individual( $rec, $options ) {
-        return $this->add_indi( $rec, $options );
+
+        $this->transaction = new RP_Transaction( $this->credentials );
+        $retCode = $this->add_indi( $rec, $options );
+        $this->transaction->commit();
+        return $retCode;
     }
 
     /**
@@ -701,7 +733,10 @@ class RP_Gedcom_Loader {
      * @param RP_Note_Record $rec
      */
     function process_note( $rec ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_note_rec( $rec );
+        $this->transaction->commit();
     }
 
     /**
@@ -716,7 +751,10 @@ class RP_Gedcom_Loader {
      * @param RP_Source_Record $rec
      */
     function process_source( $rec ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_src( $rec );
+        $this->transaction->commit();
     }
 
     /**
@@ -724,7 +762,10 @@ class RP_Gedcom_Loader {
      * @param RP_Submitter_Record $rec
      */
     function process_submitter( $rec ) {
+
+        $this->transaction = new RP_Transaction( $this->credentials );
         $this->add_subm( $rec );
+        $this->transaction->commit();
     }
 }
 ?>

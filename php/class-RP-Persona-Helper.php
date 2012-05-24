@@ -358,4 +358,24 @@ class RP_Persona_Helper {
         $pagination .= "</div>";
         return $pagination;
     }
+
+
+    public static function trace_caller() {
+		$trace  = debug_backtrace(); //array_reverse( debug_backtrace() );
+		$caller = array();
+
+		foreach ( $trace as $call ) {
+			if ( isset( $call['class'] ) && __CLASS__ == $call['class'] )
+				continue; // Filter out helper calls.
+            $class = '';
+            if(isset($call['class'])) $class = "{$call['class']}->";
+            $func = '';
+            if(isset($call['function'])) $func = $call['function'];
+            $line = '';
+            if(isset($call['line'])) $line = "(" . $call['line'] . ")";
+			$caller[] = $class . $func . $line ;
+		}
+
+		return join( ', ', $caller );
+	}
 }

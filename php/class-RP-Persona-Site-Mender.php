@@ -7,6 +7,7 @@ class RP_Persona_Site_Mender {
      * @var RP_Credentials
      */
     var $credentials;
+    private $transaction = null;
     var $sql_file_to_truncate_tables;
 
     /**
@@ -30,7 +31,8 @@ class RP_Persona_Site_Mender {
         $is_empty = count($pages)>0 ? false : true;
 
         $queryOnly = $is_repair === true ? false : true;
-        $transaction = new RP_Transaction( $this->credentials, $queryOnly );
+
+                $this->transaction = new RP_Transaction( $this->credentials, $queryOnly );
         $parent = $options['parent_page'];
         foreach ( $pages as $page ) {
             $output = array();
@@ -262,8 +264,8 @@ class RP_Persona_Site_Mender {
             }
         }
 
-        if( $queryOnly ) $transaction->close();
-        else $transaction->commit();
+        if( $queryOnly ) $this->transaction->close();
+        else $this->transaction->commit();
 
         $footer = "<div style='text-align:center;padding:.5em;margin-top:.5em;'>";
         if ( $is_empty && $is_first ) {
@@ -283,9 +285,9 @@ class RP_Persona_Site_Mender {
                 . "</a></span><span>&#160;&#160;</span>";
         }
 
-        $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
-                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
-                . admin_url('/tools.php?page=rootsPersona') 
+        $footer .= "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover
+                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\""
+                . admin_url('/tools.php?page=rootsPersona')
                 . "\");'><a href=' "
                 . admin_url() . "tools.php?page=rootsPersona'>"
                 . __( 'Return', 'rootspersona' )
@@ -312,21 +314,22 @@ class RP_Persona_Site_Mender {
                 }
             }
         }
-        $transaction = new RP_Transaction( $this->credentials, false );
+
+                $this->transaction = new RP_Transaction( $this->credentials, false );
         RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
         RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
-        $transaction->commit();
+        $this->transaction->commit();
         $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" . $cnt
             . ' ' .sprintf( __( 'pages deleted from batchId %s', 'rootspersona' ), $batch_id ) . "<br/>"
             . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
             . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover . " style='width:200px;border:2px outset orange;padding:5px;'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona&rootspage=util"
                 . "&utilityAction=deldata&batch_id=" . $batch_id . "'>"
-            . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"    
+            . __( 'Deleta Data From Database?', 'rootspersona' ) . "</a></span>"
             ."<span style='display:inline-block;width:5em;'>&#160;</span>"
-            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
-            . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
-                . admin_url('/tools.php?page=rootsPersona') 
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover
+            . " style='border:2px outset orange;padding:5px;' onclick='window.open(\""
+                . admin_url('/tools.php?page=rootsPersona')
                 . "\");'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
@@ -335,23 +338,24 @@ class RP_Persona_Site_Mender {
     }
 
     function delete_data( $options, $batch_id  ) {
-        $transaction = new RP_Transaction( $this->credentials, false );
+
+                $this->transaction = new RP_Transaction( $this->credentials, false );
         $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
         if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {
-            $transaction->close();
+            $this->transaction->close();
             $block =  $this->purge_data( $options );
         } else {
             RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )->delete_all( $batch_id );
-            $transaction->commit();
+            $this->transaction->commit();
 
-            $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
-                    . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id ) 
+            $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>"
+                    . sprintf( __( 'Data deleted for batchId %s.', 'rootspersona' ), $batch_id )
                     . "<br/>"
-                    . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-                    . "<span class='rp_linkbutton'" . RP_Tools_Page_Builder::hover 
-                    . "style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
-                . admin_url('/tools.php?page=rootsPersona') 
+                    . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+                    . "<span class='rp_linkbutton'" . RP_Tools_Page_Builder::hover
+                    . "style='border:2px outset orange;padding:5px;' onclick='window.open(\""
+                . admin_url('/tools.php?page=rootsPersona')
                 . "\");'><a href=' "
                     . admin_url() . "tools.php?page=rootsPersona'>"
                     . __( 'Return', 'rootspersona' ) . "</a></span>"
@@ -359,16 +363,16 @@ class RP_Persona_Site_Mender {
         }
         return $block;
     }
-    
+
     function purge_data( $options ) {
         $creator = new RP_Table_Creator();
         $creator->update_tables( $this->sql_file_to_truncate_tables, $this->credentials->prefix );
-        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>" 
+        $block =  "<div style='overflow:hidden;width:60%;margin:40px;'>"
             . __( 'Tables emptied.', 'rootspersona' ) . "<br/>"
-            . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"          
-            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover 
-                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\"" 
-                . admin_url('/tools.php?page=rootsPersona') 
+            . "<div style='text-align:center;padding:.5em;margin-top:.5em;'>"
+            . "<span class='rp_linkbutton'  " . RP_Tools_Page_Builder::hover
+                . " style='border:2px outset orange;padding:5px;' onclick='window.open(\""
+                . admin_url('/tools.php?page=rootsPersona')
                 . "\");'><a href=' "
             . admin_url() . "tools.php?page=rootsPersona'>"
             . __( 'Return', 'rootspersona' ) . "</a></span>"
@@ -381,7 +385,8 @@ class RP_Persona_Site_Mender {
      * @return string
      */
     function add_evidence_pages( $options, $batch_id ) {
-        $transaction = new RP_Transaction( $this->credentials, false );
+
+                $this->transaction = new RP_Transaction( $this->credentials, false );
         $sources = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                 ->get_source_no_page( $batch_id );
         foreach ( $sources AS $src ) {
@@ -391,8 +396,8 @@ class RP_Persona_Site_Mender {
                     ->update_page( $src['id'], $batch_id, $page_id );
             set_time_limit( 60 );
         }
-        $transaction->commit();
-        return count($sources) . ' ' 
+        $this->transaction->commit();
+        return count($sources) . ' '
                 .sprintf( __('source page(s) added for batchId %s','rootspersona' ), $batch_id ) . '.<br/>';
     }
 }

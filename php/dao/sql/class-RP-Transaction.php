@@ -17,6 +17,7 @@ class RP_Transaction {
      * @return
      */
     public function __construct( $credentials, $is_query = false ) {
+        //error_log("connection opened " . RP_Persona_Helper::trace_caller(),0);
         $this->connection = new RP_Connection( $credentials );
         if ( ! RP_Transaction::$transactions ) {
            RP_Transaction::$transactions = new RP_Array_List();
@@ -34,6 +35,7 @@ class RP_Transaction {
     public function close() {
        $this->connection->close();
        RP_Transaction::$transactions->remove_last();
+        //error_log("connection closed " . RP_Persona_Helper::trace_caller(),0);
     }
     /**
      * Zakonczenie transakcji i zapisanie zmian
@@ -42,6 +44,7 @@ class RP_Transaction {
        $this->connection->execute_query( 'COMMIT' );
        $this->connection->close();
        RP_Transaction::$transactions->remove_last();
+        //error_log("connection closed " . RP_Persona_Helper::trace_caller(),0);
     }
 
     public function commit_no_close() {
@@ -55,6 +58,7 @@ class RP_Transaction {
         $this->connection->execute_query( 'ROLLBACK' );
         $this->connection->close();
        RP_Transaction::$transactions->remove_last();
+        //error_log("connection closed " . RP_Persona_Helper::trace_caller(),0);
     }
     /**
      * Pobranie polaczenia dla obencej transakcji

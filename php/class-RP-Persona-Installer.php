@@ -138,6 +138,24 @@ class RP_Persona_Installer {
             }
         }
 
+        // support table recreation on activation
+        try {
+            $credentials = new RP_Credentials();
+            $credentials->set_prefix( $wpdb->prefix );
+            $transaction = new RP_Transaction( $credentials, true );
+            RP_Dao_Factory::get_rp_persona_dao( $credentials->prefix )
+                    ->get_batch_ids( );
+            $transaction->close();
+        } catch (Exception $e) {
+            if(strpos($e->getMessage(),"doesn't exist") >= 0) {
+                $creator = new RP_Table_Creator();
+                $creator->update_tables( $this->sql_file_to_create_tables, $prefix );
+            } else {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                throw $e;
+            }
+        }
+
         $options['version'] = $version;
         update_option( 'persona_plugin', $options );
     }

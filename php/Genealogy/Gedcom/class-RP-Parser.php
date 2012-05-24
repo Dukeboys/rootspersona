@@ -100,7 +100,7 @@ class RP_Parser {
                 throw new RP_File_Exception( 'Cannot open file ' . $this->gedcom_filename );
             }
         } catch ( Exception $e ) {
-            //if(isset($fp)) fclose($fp);
+            error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
             throw $e;
         }
     }

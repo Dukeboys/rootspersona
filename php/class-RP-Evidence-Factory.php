@@ -8,6 +8,8 @@ class RP_Evidence_Factory {
      */
 	var $credentials;
 
+    private $transaction = null;
+
     /**
      *
      * @param RP_Credentials $credentials
@@ -24,10 +26,10 @@ class RP_Evidence_Factory {
      * @return RP_Evidence
      */
 	public function get_with_options( $id, $batch_id, $options ) {
-		$transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         $evi = RP_Dao_Factory::get_rp_source_dao($this->credentials->prefix)
                 ->get_source($id, $batch_id, $options);
-		$transaction->close();
+		$this->transaction->close();
 		return $evi;
 	}
 
@@ -38,10 +40,10 @@ class RP_Evidence_Factory {
      * @return array
      */
     public function get_index_with_options( $batch_id, $options ) {
-		$transaction = new RP_Transaction( $this->credentials, true );
+		$this->transaction = new RP_Transaction( $this->credentials, true );
         $index = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_indexed_sources( $batch_id, $options['page_nbr'], $options['per_page'], $options['style'] );
-        $transaction->close();
+        $this->transaction->close();
         return $index;
 	}
 
@@ -52,10 +54,10 @@ class RP_Evidence_Factory {
      * @return integer
      */
     public function get_cnt( $batch_id, $options ) {
-        $transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         $cnt = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                 ->get_indexed_source_cnt( $batch_id );
-        $transaction->close();
+        $this->transaction->close();
         return $cnt;
     }
 }
