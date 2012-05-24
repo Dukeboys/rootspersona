@@ -83,6 +83,7 @@ class RP_Persona_Page_Builder {
             $options['hide_pictures'] = 1;
             $options['hide_evidence'] = 1;
             $options['hide_banner'] = 1;
+            $options['hide_bio'] = 1;
             if ( $callback == 'rootspersonaheader' ) {
                 $options['hide_header'] = 0;
             } else if ( $callback == 'rootspersonafacts' ) {
@@ -99,6 +100,8 @@ class RP_Persona_Page_Builder {
                 $options['hide_pictures'] = 0;
             } else if ( $callback == 'rootspersonaevidence' ) {
                 $options['hide_evidence'] = 0;
+            } else if ( $callback == 'rootspersonabio' ) {
+                $options['hide_bio'] = 0;
             }
         }
 
