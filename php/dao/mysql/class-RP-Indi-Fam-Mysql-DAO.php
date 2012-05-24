@@ -64,6 +64,7 @@ class RP_Indi_Fam_Mysql_Dao extends Rp_Mysql_DAO {
 	 * @param RpIndiFamMySql rpIndiFam
 	 */
 	public function insert( $rp_indi_fam ) {
+
         if($rp_indi_fam->fam_id == null || $rp_indi_fam->fam_id == '0' || empty($rp_indi_fam->fam_id)) {
             $rp_indi_fam->fam_id = $this->get_next_id();
         }

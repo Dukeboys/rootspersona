@@ -62,7 +62,7 @@ class RP_Group_Sheet_Panel_Creator {
      * @param array $options
      * @return string
      */
-    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options, $fams, $sseq, $sid, $child ) {
+    static function show_parent($pfx, $parent, $grandfather, $grandmother, $options, $fams=null, $sseq=null, $sid=null, $child=null ) {
         $pframe_color = ( ( isset( $options['pframe_color'] ) && ! empty( $options['pframe_color'] ) )
                         ? $options['pframe_color'] : 'brown' );
         $color = ( ( isset( $options['group_fcolor'] ) && ! empty( $options['group_fcolor'] ) )

@@ -3,7 +3,7 @@ class Persona_Manager {
 
     function process_getfamilies($credentials, $like, $options) {
         $transaction = new RP_Transaction( $credentials );
-        $list =  RP_Dao_Factory::get_rp_persona_dao( $credential->prefix )
+        $list =  RP_Dao_Factory::get_rp_persona_dao( $credentials->prefix )
                                 ->get_family_list( $like, $options );
         $transaction->close();
         return $list;

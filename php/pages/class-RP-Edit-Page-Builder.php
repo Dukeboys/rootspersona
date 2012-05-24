@@ -55,7 +55,7 @@ class RP_Edit_Page_Builder {
                 . "&#160;&#160;&#160;<input type='button' class='submitPersonForm' name='cancel' value='"
                 . __( 'Cancel', 'rootspersona' ) . "' onclick='gotoPersonaPage(\"" . $options['home_url'] . "\");'/></div>"
 
-                . "<input type='hidden' name='persona_page' id='persona_page' value='" . $options['src_page'] . "'>"
+                . "<input type='hidden' name='persona_page' id='persona_page' value='" . isset($options['src_page'])?$options['src_page']:'' . "'>"
                 . "<input type='hidden' name='personId' id='personId' value='" . $persona->id . "'>"
                 . "<input type='hidden' name='batchId' id='batchId' value='" . $persona->batch_id . "'>"
                 . "<input type='hidden' name='fullName' id='fullName' value='" . $persona->full_name . "'>"
@@ -147,25 +147,27 @@ class RP_Edit_Page_Builder {
         $options['uscore'] = RP_Persona_Helper::score_user();
 
         $options['hide_banner'] =  0;
-        $page = get_post( $options['src_page'] );
-        $content = $page->post_content;
-        for ( $i = 1; $i <= 7; $i++ ) {
-            $pf = 'picFile' . $i;
-            if ( preg_match( "/$pf/", $content ) ) {
-                $options[$pf] = @preg_replace(
-                           '/.*?' . $pf . '=[\'|"](.*)[\'|"].*?/US'
-                          , '$1'
-                          , $content
-                          );
-                 $pc = 'picCap' . $i;
-
-                  if ( preg_match( "/$pc/", $content ) ) {
-                           $options[$pc] = @preg_replace(
-                                  '/.*?' . $pc . '=[\'|"](.*)[\'|"].*?/US'
-                                , '$1'
-                                , $content
+        if(isset($options['src_page']) && !empty($options['src_page'])) {
+            $page = get_post( $options['src_page'] );
+            $content = $page->post_content;
+            for ( $i = 1; $i <= 7; $i++ ) {
+                $pf = 'picFile' . $i;
+                if ( preg_match( "/$pf/", $content ) ) {
+                    $options[$pf] = @preg_replace(
+                            '/.*?' . $pf . '=[\'|"](.*)[\'|"].*?/US'
+                            , '$1'
+                            , $content
                             );
-                  }
+                    $pc = 'picCap' . $i;
+
+                    if ( preg_match( "/$pc/", $content ) ) {
+                            $options[$pc] = @preg_replace(
+                                    '/.*?' . $pc . '=[\'|"](.*)[\'|"].*?/US'
+                                    , '$1'
+                                    , $content
+                                );
+                    }
+                }
             }
         }
         return $options;
