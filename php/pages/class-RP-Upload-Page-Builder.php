@@ -13,17 +13,17 @@ class RP_Upload_Page_Builder {
         $default = count( $batch_ids ) > 0 ? $batch_ids[0] : '1';
         if(count($batch_ids) == 0) $batch_ids[0] = $default;
         $s = count( $batch_ids ) <= 1 ? '2' : '4';
-        
+
         $block = '<div style="overflow:hidden;width:60%;margin:40px;"><div><i>'
                 . __('Please note that GEDCOM processing is the most system taxing processing this plugin performs', 'rootspersona')
                 . '. ' . __('The system will be uploading the file AND parsing each person into the database', 'rootspersona')
                 . '. ' . __('Many users have reported hitting PHP time limit constraints when processing large files', 'rootspersona')
                 . ', ' . __('resulting in a white screen with no status message', 'rootspersona')
                 . '.</i></div>';
-        
+
        if(!function_exists( 'mysql_set_charset' ) ) {
            $block .= '<br/><div style="overflow:hidden;width:80%;color:red;border:#DDD solid 2px;background-color:#EEE;padding:10px;"><i>'
-                . sprintf( __('%s is not able to find the %s function', 'rootspersona'), 'rootspersona', 'mysql_set_charset')
+                . sprintf( __('%s is not able to find the %s function', 'rootspersona'), 'RootsPersona', 'mysql_set_charset')
                 . '. ' . __('This probably means your version of PHP is too old.  You must be running version 5.2.3 or higher', 'rootspersona')
                 . '. ' . __('You will have problems uploading GEDCOM files until you upgrade', 'rootspersona')
                 . ', ' . __('resulting in a white screen with no status message', 'rootspersona')
@@ -38,21 +38,21 @@ class RP_Upload_Page_Builder {
                 . "style='height:13;width:13;font-family:helvetica;padding:2px;' "
                 . "onclick='javascript:if( jQuery(\"#batch_ids_span\").is(\":visible\") ) jQuery(\"#batch_ids_span\").css(\"display\",\"none\"); else jQuery(\"#batch_ids_span\").css(\"display\",\"inline-block\");'>"
                 . "<span style='color:red;font-style:italic;margin-left:10px;font-size:smaller;'>"
-                . sprintf( __('Please note that %s cannot link persons in different batches', 'rootspersona'), 'rootspersona')
+                . sprintf( __('Please note that %s cannot link persons in different batches', 'rootspersona'), 'RootsPersona')
                 . "</span>"
-                
+
                 . "<br/><label class='label8' for='batch_id'>&nbsp;</label>"
                 . "<span  id='batch_ids_span' name='batch_ids_span' style='display:none;overflow:hidden;margin:-3px 0px 0px 0px;'>"
                 . "<select id='batch_ids' name='batch_ids' style='width:7.6em;zIndex=1;'"
                 . " onchange='javascript:synchBatchText();' size='$s'>";
-        
+
       foreach ( $batch_ids as $id ) {
            $selected = $id==$default?'selected':'';
            $block .= "<option value='$id' $selected>$id&nbsp;&nbsp;</option>";
       }
-                    
-        $block .= "</select></span></div>"                
-                
+
+        $block .= "</select></span></div>"
+
                 . "<div style='overflow:hidden;margin:10px;'>"
                 . "<label class='label8' for='gedcom'>GEDCOM File:</label><input type='file' name='gedcomFile' size='60'/></div>"
 
@@ -78,11 +78,11 @@ class RP_Upload_Page_Builder {
 
         if(ini_get('safe_mode')) {
             $block .= '<div>' . __('Your system is configured in ', 'rootspersona') . ' '
-                    . '<span style="color:red;font-weight:bold">safe_mode.</span> <i>rootspersona</i> '
+                    . '<span style="color:red;font-weight:bold">safe_mode.</span> <i>RootsPersona</i> '
                     . __('will NOT be able to override your system settings to allow processing of a large GEDCOM file.',
                             'rootspersna') . '</div>';
         } else {
-            $block .= '<br/><div><i>rootspersona</i> '
+            $block .= '<br/><div><i>RootsPersona</i> '
                     . __('will try to override your system settings as needed to allow processing of a large GEDCOM file',
                             'rootspersona')
                     . '. '

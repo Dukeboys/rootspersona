@@ -13,7 +13,11 @@ class RP_Tools_Page_Builder {
         $block = "<div class='wrap'>"
                 . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'></span>"
                 . "<span class='rp_clickbutton' style='background-position: -1000px -1000px;'></span>"
-                . "<h2>rootspersona</h2>"
+                . "<h2>RootsPersona <span style='font-size:smaller;'>" . $options['version'] . "</span></h2>"
+                . " <div style='float:right;padding-right:1em;'>"
+                . '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ANLEXXNXKFN9N">'
+                . '<img src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" mce_src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" alt="Donations welcome"></a>'
+                . "<div  style='float:right;width:15em;padding-right:20em;padding-left:2em;font-weight:bold;'>A Fan of <i>RootsPersona?</i><br>Consider making a donation!</b></div></div>"
                 . "<table class='form-table'>";
 
         $block .=  $this->get_upload();

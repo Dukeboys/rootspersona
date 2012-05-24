@@ -11,7 +11,7 @@ class RP_Option_Page_Builder {
                 'rootspersona' ), 'persona' )
                . ". " . sprintf ( __( 'Accessing outside of a %s page will result in an invalid personId error.',
                 'rootspersona' ), 'persona' );
-        echo "<div class='wrap'><h2>rootspersona <span style='font-size:smaller;'>" . $options['version'] . "</span></h2>";
+        echo "<div class='wrap'><h2>RootsPersona <span style='font-size:smaller;'>" . $options['version'] . "</span></h2>";
         echo "<form method='post' action='options.php'>";
         echo "<p class='submit'><input type='submit' name='Submit' value=' " . __( 'Save Changes', 'rootspersona' ) . " '/></p>";
         echo "<table class='form-table'>";
