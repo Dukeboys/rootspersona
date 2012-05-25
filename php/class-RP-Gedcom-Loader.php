@@ -348,7 +348,7 @@ class RP_Gedcom_Loader {
 
         foreach ( $person->events as $p_event ) {
             $event = new RP_Event_Detail();
-            $event->event_type = ( $p_event->tag === 'EVEN' ? $p_event->type : (isset($p_event->_TYPES[$p_event->tag])?$p_event->_TYPES[$p_event->tag]:$p_event->tag));
+            $event->event_type = ( $p_event->tag === 'EVEN' ? $p_event->type : $p_event->_TYPES[$p_event->tag]);
             $event->classification = $p_event->descr;
             $event->event_date = $p_event->date;
             $event->place = $p_event->place->name;

@@ -98,6 +98,9 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.03. =
+* fix event and fact matching
+
 = 3.0.2 =
 * fix issue with mysql connections and families
 * fix issue with parental links when mysql connections needed

@@ -89,6 +89,15 @@ class Persona_Validator {
             $sfx = substr($fields[$i],$sfx+1);
             if (isset($form['rp_claimtype_' . $sfx]) && !empty($form['rp_claimtype_' . $sfx])) {
                 $ev->type = trim(esc_attr($form['rp_claimtype_' . $sfx]));
+                $ev->tag = array_search($ev->type,$ev->_TYPES);
+                if($ev->tag === false) {
+                    $fact = new RP_Fact();
+                    $fact->tag = array_search($ev->type,$fact->_TYPES);
+                    if($fact->tag !== false) {
+                        $fact->type = $ev->type;
+                        $ev = $fact;
+                    } else continue;
+                }
                 $is_update = true;
             }
             if (isset($form['rp_claimdate_' . $sfx]) && !empty($form['rp_claimdate_' . $sfx])) {
@@ -103,7 +112,8 @@ class Persona_Validator {
                 $ev->cause = trim(esc_attr($form['rp_classification_' . $sfx]));
                 $is_update = true;
             }
-            $indi->events[] = $ev;
+            if($ev instanceof RP_Event) $indi->events[] = $ev;
+            else $this->attributes[] = $ev;
         }
 
         for($i=0; $i < $cnt; $i++) {
