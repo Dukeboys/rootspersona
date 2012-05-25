@@ -173,7 +173,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
 
         $sql = 'SELECT surname, count(*) AS cnt'
              . ' FROM rp_name_personal'
-             . ' WHERE surname IS NOT NULL'
+             . ' WHERE surname IS NOT NULL AND surname != \'\''
              . ' GROUP BY surname ORDER BY count(*) DESC LIMIT 0,'
              . $cnt;
         $sql_query = new RP_Sql_Query( $sql, $this->prefix );

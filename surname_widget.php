@@ -72,7 +72,7 @@ class Surname_Widget extends WP_Widget {
                 //$index_page = $options[''];
 
                 for($idx = 0; $idx < $rCnt; $idx++ ) {
-                    echo '<p>' . $rows[$idx]['surname'] . ' (' . $rows[$idx]['cnt'] . ')';
+                    echo '<div style="margin-left:10px;">' . $rows[$idx]['surname'] . ' (' . $rows[$idx]['cnt'] . ')</div>';
                 }
             }
             $transaction->close();
