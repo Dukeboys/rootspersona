@@ -574,7 +574,12 @@ jQuery(document).ready(function() {
             rows = jQuery.parseJSON(data);
             if( rows !== undefined && rows != null ) {
                 jQuery.each(rows, function(idx, row){
+                  if(idx == 'error') {
+                      alert(row);
+                      return;
+                  } else {
                     suggestions.push(row.name);
+                  }
                 });
             }
 

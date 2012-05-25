@@ -67,6 +67,10 @@ class Surname_Widget extends WP_Widget {
                             ->get_top_x_surnames( $cnt );
            $rCnt = count($rows);
 			if($rCnt > 0 ) {
+
+                //$options = get_option( 'persona_plugin' );
+                //$index_page = $options[''];
+
                 for($idx = 0; $idx < $rCnt; $idx++ ) {
                     echo '<p>' . $rows[$idx]['surname'] . ' (' . $rows[$idx]['cnt'] . ')';
                 }

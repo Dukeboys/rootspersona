@@ -97,6 +97,14 @@ class RP_Index_Page_Builder {
         $options['uscore'] = RP_Persona_Helper::score_user();
         $options['surname'] = isset( $atts['surname'] )? $atts['surname'] : null;
         $options['style'] = isset( $atts['style'] )? $atts['style'] : 'paginated';
+
+        //if(isset($atts['override-surname'])) {
+        //    $options['surname'] = $atts['override-surname'];
+        //}
+        if(isset( $wp_query->query_vars['override-surname'] )) {
+            $options['surname'] = $wp_query->query_vars['override-surname'];
+        }
+
         return $options;
     }
 }

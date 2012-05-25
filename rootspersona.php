@@ -274,42 +274,53 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
         function rp_action_callback() {
             global $wpdb; // this is how you get access to the database
-            $options = get_option( 'persona_plugin' );
-            $options['home_url'] = home_url();
-            $options['admin_url'] = admin_url();
+            try {
+                $options = get_option( 'persona_plugin' );
+                $options['home_url'] = home_url();
+                $options['admin_url'] = admin_url();
 
-            if ( isset( $_GET['refresh'] ) ) {
-                $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
-                $this->transaction = new RP_Transaction( $this->credentials, true );
-                $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
-                        ->get_persons_no_page( $batch_id );
-                $this->transaction->close();
-                echo json_encode($persons);
-            } else if (isset( $_POST['form_action'] ) ) {
-                $mgr = new Persona_Manager();
-                if ( $_POST['form_action'] == 'getFamilies' ) {
-                    $response =  $mgr->process_getfamilies( $this->credentials, $_POST['datastr']['term'], $options );
-                } else if ( $_POST['form_action'] == 'getSpouses' ) {
-                    $response =  $mgr->process_getspouses( $this->credentials, $_POST['datastr']['term'], $options );
-                } else if ( $_POST['form_action'] == 'getFamily' ) {
-                    $response =  $mgr->process_getfamily( $this->credentials, $_POST['datastr'], $options );
-                    $response = $response->to_array();
-                } else {
-                    $data = urldecode( $_POST['datastr'] );
-                    $parms = explode( '&', $data );
-                    $form = array();
-                    foreach ( $parms AS $p ) {
-                        $pair = explode( '=', $p );
-                        $form[$pair[0]] = isset($pair[1])?$pair[1]:'';
+                if ( isset( $_GET['refresh'] ) ) {
+                    $batch_id = isset( $_GET['batch_id'] )? trim( esc_attr( $_GET['batch_id'] ) ):'1';
+                    $this->transaction = new RP_Transaction( $this->credentials, true );
+                    $persons = RP_Dao_Factory::get_rp_persona_dao( $wpdb->prefix )
+                            ->get_persons_no_page( $batch_id );
+                    $this->transaction->close();
+                    echo json_encode($persons);
+                } else if (isset( $_POST['form_action'] ) ) {
+                    $mgr = new Persona_Manager();
+                    if ( $_POST['form_action'] == 'getFamilies' ) {
+                        $response =  $mgr->process_getfamilies( $this->credentials, $_POST['datastr']['term'], $options );
+                    } else if ( $_POST['form_action'] == 'getSpouses' ) {
+                        $response =  $mgr->process_getspouses( $this->credentials, $_POST['datastr']['term'], $options );
+                    } else if ( $_POST['form_action'] == 'getFamily' ) {
+                        $response =  $mgr->process_getfamily( $this->credentials, $_POST['datastr'], $options );
+                        $response = $response->to_array();
+                    } else {
+                        $data = urldecode( $_POST['datastr'] );
+                        $parms = explode( '&', $data );
+                        $form = array();
+                        foreach ( $parms AS $p ) {
+                            $pair = explode( '=', $p );
+                            $form[$pair[0]] = isset($pair[1])?$pair[1]:'';
+                        }
+                        if($_POST['form_action'] == 'updatePersona') {
+                            $response =  $mgr->process_form( $this->credentials, $form, $options );
+                        }
                     }
-                    if($_POST['form_action'] == 'updatePersona') {
-                        $response =  $mgr->process_form( $this->credentials, $form, $options );
+
+                    if( isset( $response ) ) {
+                        $t = json_encode( $response );
+                        echo $t;
                     }
                 }
-                if( isset( $response ) ) {
-                    $t = json_encode( $response );
-                    echo $t;
-                }
+
+            } catch (Exception $e) {
+                $msg = $e->getMessage() . "::" . RP_Persona_Helper::trace_caller();
+                error_log($msg,0);
+                $response = array();
+                $response['error'] = $msg;
+                $t = json_encode( $response );
+                echo $t;
             }
 
             die(); // this is required to return a proper result
@@ -847,6 +858,8 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
         function parameter_queryvars( $qvars )
         {
             $qvars[] = 'rootsvar';
+            $qvars[] = 'override-surname';
+
             return $qvars;
         }
 
