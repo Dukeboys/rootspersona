@@ -98,6 +98,9 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.0.4 =
+* remove errant wp_ from table name
+
 = 3.03. =
 * fix event and fact matching
 
