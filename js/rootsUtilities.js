@@ -202,9 +202,14 @@ function refreshAddPerson() {
         document.body.style.cursor = "default";
         var res = jQuery.parseJSON(response);
         jQuery.each(res, function(index, p) {
-            // add items to List box
-            jQuery("#persons").append("<option id='" + p.id + "'>"
+                  if(index == 'error') {
+                      alert(p);
+                      return;
+                  } else {
+                    // add items to List box
+                    jQuery("#persons").append("<option id='" + p.id + "'>"
                         + p.surname + ", " + p.given + "</option");
+                }
             } // end of function
         );  // each
 	});
@@ -545,7 +550,12 @@ jQuery(document).ready(function() {
             rows = jQuery.parseJSON(data);
             if( rows !== undefined && rows != null ) {
                 jQuery.each(rows, function(idx, row){
+                  if(idx == 'error') {
+                      alert(row);
+                      return;
+                  } else {
                     suggestions.push(row.name);
+                  }
                 });
             }
 
