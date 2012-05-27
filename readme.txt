@@ -20,7 +20,7 @@ be mixed and matched for optimum customization.
 <li>You can now idenitfy rootsPersona as the System of Record, allowing you to edit your data online!</li>
 <li>Includes a Top Ten Surnames widget!</li>
 <li>Support for multi-site installs</li>
-<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "rootspersona.ed4becky.net")
+<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "Demo")</li>
 </ul>
 
 **Features**
