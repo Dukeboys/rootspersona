@@ -15,6 +15,14 @@ rootsPersona creates one or more pages of family history using data imported fro
 It allows an administrator to create pages featuring people or evidence with a variety of panels that can
 be mixed and matched for optimum customization.
 
+**New in 3.0!**
+<ul>
+<li>You can now idenitfy rootsPersona as the System of Record, allowing you to edit your data online!</li>
+<li>Includes a Top Ten Surnames widget!</li>
+<li>Support for multi-site installs</li>
+<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "rootspersona.ed4becky.net")
+</ul>
+
 **Features**
 <ul>
 <li> Support for GEDCOM Version 5.5
