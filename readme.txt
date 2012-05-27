@@ -6,12 +6,12 @@ Requires at least: 3.0
 Tested up to: 3.3.2
 Stable tag: 3.0.5
 
-rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
+RootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
 == Description ==
 Check out the Changelog for new release details!
 
-rootsPersona creates one or more pages of family history using data imported from one or more GEDCOM files.
+RootsPersona creates one or more pages of family history using data imported from one or more GEDCOM files.
 It allows an administrator to create pages featuring people or evidence with a variety of panels that can
 be mixed and matched for optimum customization.
 
@@ -20,7 +20,7 @@ be mixed and matched for optimum customization.
 <li>You can now idenitfy rootsPersona as the System of Record, allowing you to edit your data online!</li>
 <li>Includes a Top Ten Surnames widget!</li>
 <li>Support for multi-site installs</li>
-<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "Demo") </li>
+<li> <a href="http://rootspersona.ed4becky.net" title="Demo Site">New Demo Site</a></li>
 </ul>
 
 **Features**
@@ -39,7 +39,7 @@ be mixed and matched for optimum customization.
 
 ** New in 3.0! **
 <ul>
-<li> if you define rootspersona as the system of record, you can now edit your data online!
+<li> if you define RootsPersona as the system of record, you can now edit your data online!
 <li> enhanced installer now supports multi-site installation!
 </ul>
 
