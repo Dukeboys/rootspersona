@@ -3,7 +3,7 @@ Contributors: ed4becky
 Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
-Tested up to: 3.2.1
+Tested up to: 3.3.2
 Stable tag: 3.0.5
 
 rootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
@@ -20,7 +20,7 @@ be mixed and matched for optimum customization.
 <li>You can now idenitfy rootsPersona as the System of Record, allowing you to edit your data online!</li>
 <li>Includes a Top Ten Surnames widget!</li>
 <li>Support for multi-site installs</li>
-<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "Demo")</li>
+<li> [rootspersona.ed4becky.net] (http://rootspersona.ed4becky.net "Demo") </li>
 </ul>
 
 **Features**
