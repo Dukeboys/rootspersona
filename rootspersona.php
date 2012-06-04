@@ -1,6 +1,6 @@
 <?php
 /*
- Plugin Name: rootspersona
+ Plugin Name: RootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
  Version: 3.0.5
