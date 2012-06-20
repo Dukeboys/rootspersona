@@ -106,6 +106,9 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.0.6 =
+* fix errant join when multiple batches
+
 = 3.0.4 =
 * remove errant wp_ from table name
 

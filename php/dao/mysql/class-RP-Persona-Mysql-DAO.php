@@ -670,6 +670,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 . "red.event_date AS event_date, red.place AS place"
                 . " FROM rp_fam rf"
                 . " LEFT OUTER JOIN rp_fam_event rfe ON rf.id = rfe.fam_id"
+                . " AND rf.batch_id = rfe.fam_batch_id"
                 . " LEFT OUTER JOIN rp_event_detail red ON red.id = rfe.event_id"
                 . " WHERE ((rf.spouse1 = ? AND rf.indi_batch_id_1 = ?)"
                 . " OR (rf.spouse2 = ? AND rf.indi_batch_id_2 = ?))"
