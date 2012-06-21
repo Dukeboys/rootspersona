@@ -25,8 +25,8 @@ class RP_Persona extends Rp_Simple_Person {
     var $marriages;
     var $is_living;
     var $pscore;
-    var $picFiles = array();
-    var $picCaps = array();
+    var $picfiles = array();
+    var $piccaps = array();
     var $notes = array();
 
     /**

@@ -375,7 +375,7 @@ class RP_Option_Page_Builder {
         echo "<td><input type='radio' name='persona_plugin[is_system_of_record]' value='true' $yes >Yes ";
         echo "&#160;<input type='radio' name='persona_plugin[is_system_of_record]' value='false' $no>No </td>";
         echo "<td>"
-                . __( 'Yes indicates data may be entered from this website. Editing data from this website AND importing GEDCOM data is NOT recommneded.', 'rootspersona' )
+                . __( 'Yes indicates data may be entered from this website. Editing data from this website AND importing GEDCOM data is NOT recommended.', 'rootspersona' )
                 . ".</td></tr>";
 
         echo "<tr valign='top'>";

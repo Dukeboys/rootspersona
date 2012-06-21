@@ -11,7 +11,7 @@ class RP_Header_Panel_Creator {
     public static function create( $persona, $options ) {
         $default = '';
         $imgprop = '';
-        if ( ! isset($persona->picFiles[0])) {
+        if ( ! isset($persona->picfiles[0])) {
             if( isset( $persona->gender )
             && $persona->gender == 'F' ) {
                 $default = $options['plugin_url'] . "/images/girl-silhouette.gif";
@@ -19,7 +19,7 @@ class RP_Header_Panel_Creator {
                 $default = $options['plugin_url'] . "/images/boy-silhouette.gif";
             }
         } else {
-            $default = $persona->picFiles[0];
+            $default = $persona->picfiles[0];
             $imgprop = ' itemprop="image" ';
         }
 
@@ -107,11 +107,11 @@ class RP_Header_Panel_Creator {
         $block = '<div class="rp_truncate">'
                 . '<div class="rp_header" style="overflow:hidden;">'
                 . '<div class="rp_picture" style="text-align:center;width:120px;overflow:hidden;float:left;padding-bottom:10px;">';
-        if ( isset( $persona->picFiles[0] ) ) {
-            $block .= '<a style="margin-bottom:0px;" href="' . $persona->picFiles[0]
+        if ( isset( $persona->picfiles[0] ) ) {
+            $block .= '<a style="margin-bottom:0px;" href="' . $persona->picfiles[0]
                     . '"><img id="img_1" name="img_1" src="'
-                    . $persona->picFiles[0] . '"';
-            $tempPic = $persona->picFiles[0];
+                    . $persona->picfiles[0] . '"';
+            $tempPic = $persona->picfiles[0];
 
         } else {
             $block .= "<a style='margin-bottom:0px;' href='" . $options['plugin_url'] . "/images/";

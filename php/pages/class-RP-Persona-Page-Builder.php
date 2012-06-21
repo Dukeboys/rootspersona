@@ -47,7 +47,7 @@ class RP_Persona_Page_Builder {
                 $block .= RP_Group_Sheet_Panel_Creator::create_group_spouse('p' . $idx, $marriage, $options );
             }
         }
-        if ( $options['hide_pictures'] == 0  && isset( $persona->picFiles )  && count( $persona->picFiles ) > 0) {
+        if ( $options['hide_pictures'] == 0  && isset( $persona->picfiles )  && count( $persona->picfiles ) > 0) {
             $block .= RP_Picture_Panel_Creator::create( $persona, $options );
         }
         if ( $options['hide_evidence'] == 0  && isset( $persona->sources )   && count( $persona->sources ) > 0) {

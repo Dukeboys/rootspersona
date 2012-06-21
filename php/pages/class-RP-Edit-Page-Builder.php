@@ -154,14 +154,14 @@ class RP_Edit_Page_Builder {
             $page = get_post( $options['src_page'] );
             $content = $page->post_content;
             for ( $i = 1; $i <= 7; $i++ ) {
-                $pf = 'picFile' . $i;
+                $pf = 'picfile' . $i;
                 if ( preg_match( "/$pf/", $content ) ) {
                     $options[$pf] = @preg_replace(
                             '/.*?' . $pf . '=[\'|"](.*)[\'|"].*?/US'
                             , '$1'
                             , $content
                             );
-                    $pc = 'picCap' . $i;
+                    $pc = 'piccap' . $i;
 
                     if ( preg_match( "/$pc/", $content ) ) {
                             $options[$pc] = @preg_replace(
@@ -186,8 +186,8 @@ class RP_Edit_Page_Builder {
         $p['personId'] = isset( $params['personId'] ) ? trim( esc_attr( $params['personId'] ) ) : '';
         $p['srcPage'] = isset( $params['srcPage'] ) ? trim( esc_attr( $params['srcPage'] ) ) : '';
         for ( $i = 1; $i <= 7; $i++ ) {
-            $p['picFile' . $i] = isset( $params['img' . $i . '_upload'] ) ? trim( esc_attr( $params['img' . $i . '_upload'] ) ) : '';
-            $p['picCap' . $i] = isset( $params['cap' . $i] ) ? trim( esc_attr( $params['cap' . $i] ) ) : '';
+            $p['picfile' . $i] = isset( $params['img' . $i . '_upload'] ) ? trim( esc_attr( $params['img' . $i . '_upload'] ) ) : '';
+            $p['piccap' . $i] = isset( $params['cap' . $i] ) ? trim( esc_attr( $params['cap' . $i] ) ) : '';
         }
         return $p;
     }

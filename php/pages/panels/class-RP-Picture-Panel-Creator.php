@@ -20,13 +20,13 @@ class RP_Picture_Panel_Creator {
                . '<div class="rp_pictures">';
         $cnt = 6;
         for ( $idx = 1;    $idx <= $cnt; $idx++ ) {
-            if ( isset ( $persona->picFiles[$idx] )
+            if ( isset ( $persona->picfiles[$idx] )
                     || ! isset($options['hide_undef_pics'])
                     || $options['hide_undef_pics'] != '1') {
-                $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
+                $link = isset ( $persona->picfiles[$idx] ) ? $persona->picfiles[$idx] : $default;
                 $block .= '<div class="rp_picture"><a href="' . $link
                         . '"><img width="100px" src="' . $link . '"/></a><div class="rp_caption">'
-                        . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' )
+                        . ( isset( $persona->piccaps[$idx] ) ? $persona->piccaps[$idx] : '&#160;' )
                         . '</div></div>';
             }
         }
@@ -54,7 +54,7 @@ class RP_Picture_Panel_Creator {
 
         $cnt = 6;
         for ( $idx = 1;  $idx <= $cnt; $idx++ ) {
-            $link = isset ( $persona->picFiles[$idx] ) ? $persona->picFiles[$idx] : $default;
+            $link = isset ( $persona->picfiles[$idx] ) ? $persona->picfiles[$idx] : $default;
             $i = $idx + 1;
             $block .= '<div class="rp_picture" style="text-align:center;"><a href="' . $link
                     . '"><img id="img_' . $i . '" width="100px" src="' . $link . '"/></a>'
@@ -62,7 +62,7 @@ class RP_Picture_Panel_Creator {
                     . '<br/><input class="submitPersonForm"  id="img_' . $i . '_upload_button" type="button" value="Browse" />'
 
                     . '<div class="rp_caption"><textarea id="cap_' . $i . '" name="cap_' . $i . '" cols="12">'
-                    . ( isset( $persona->picCaps[$idx] ) ? $persona->picCaps[$idx] : '&#160;' )
+                    . ( isset( $persona->piccaps[$idx] ) ? $persona->piccaps[$idx] : '&#160;' )
                     . '</textarea></div>'
                     . '</div>';
         }

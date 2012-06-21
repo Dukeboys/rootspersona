@@ -108,6 +108,8 @@ Currently you will lose any links to pictures if you do that.
 == Changelog ==
 = 3.0.6 =
 * fix errant join when multiple batches
+* fix problem with pictures not appearing on edit screen
+* fix save privacy issue at persona level
 
 = 3.0.4 =
 * remove errant wp_ from table name

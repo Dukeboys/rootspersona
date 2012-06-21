@@ -42,8 +42,8 @@ class RP_Persona_Factory {
             $persona->pscore = RP_Persona_Helper::ANYONE;
         }
 
-        $persona->picFiles = array();
-        $persona->picCaps = array();
+        $persona->picfiles = array();
+        $persona->piccaps = array();
         $pscore = $persona->pscore;
 
         if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
@@ -144,10 +144,10 @@ class RP_Persona_Factory {
             for ( $idx = 1; $idx <= 7; $idx++ ) {
                 $pic = 'picfile' . $idx ;
                 if ( isset( $options[$pic] ) ) {
-                    $persona->picFiles[$idx-1] = $options[$pic];
+                    $persona->picfiles[$idx-1] = $options[$pic];
                     $cap = 'piccap' . $idx;
                     if ( isset( $options[$cap] ) ) {
-                        $persona->picCaps[$idx-1] = $options[$cap];
+                        $persona->piccaps[$idx-1] = $options[$cap];
                     }
                 }
             }
@@ -335,21 +335,20 @@ class RP_Persona_Factory {
     public function get_for_edit( $id, $batch_id, $options ) {
         $persona = null;
         $uscore = $options['uscore'];
-        $isSOR = ($options['is_system_of_record'] == '1'?true:false);
 
-                $this->transaction = new RP_Transaction( $this->credentials, true );
+        $this->transaction = new RP_Transaction( $this->credentials, true );
         $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
         $this->transaction->close();
 
-        $persona->picFiles = array();
-        $persona->picCaps = array();
+        $persona->picfiles = array();
+        $persona->piccaps = array();
         for ( $idx = 1; $idx <= 7; $idx++ ) {
-            $pic = 'picFile' . $idx ;
+            $pic = 'picfile' . $idx ;
             if ( isset( $options[$pic] ) ) {
-                $persona->picFiles[$idx-1] = $options[$pic];
-                $cap = 'picCap' . $idx;
+                $persona->picfiles[$idx-1] = $options[$pic];
+                $cap = 'piccap' . $idx;
                 if ( isset( $options[$cap] ) ) {
-                    $persona->picCaps[$idx-1] = $options[$cap];
+                    $persona->piccaps[$idx-1] = $options[$cap];
                 }
             }
         }
