@@ -3,7 +3,7 @@
  Plugin Name: RootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 3.0.5
+ Version: 3.0.6
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -59,7 +59,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '3.0.5';
+        var $persona_version = '3.0.6';
 
         /**
          *
@@ -585,11 +585,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          */
         function insert_persona_scripts() {
-            if ( !is_admin() ) {
-                wp_register_script( 'rootsUtilities',
-                    plugins_url( 'js/rootsUtilities.js',__FILE__ ) );
-                wp_enqueue_script( 'rootsUtilities' );
-            }
+            $this->insert_admin_scripts();
         }
 
         /**
@@ -598,39 +594,41 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
         function insert_admin_scripts() {
             wp_enqueue_script('media-upload');
             wp_enqueue_script('thickbox');
-            wp_register_script( 'rootsUtilities',
-                    plugins_url( 'js/rootsUtilities.js',__FILE__ ) );
-            wp_enqueue_script( 'rootsUtilities' );
+            wp_enqueue_script('jquery');
 
             wp_register_script( 'jquery.validate',
                                 plugins_url( 'js/jquery.validate.min.js', __FILE__ ),
-                                array('jquery'), '1.8.1', true );
+                                array('jquery') );
             wp_enqueue_script( 'jquery.validate' );
 
             wp_register_script( 'jquery.maskedinput',
                                 plugins_url( 'js/jquery.maskedinput.min.js', __FILE__ ),
-                                array('jquery'), '1.3', true );
+                                array('jquery') );
             wp_enqueue_script( 'jquery.maskedinput' );
 
             wp_register_script( 'jquery.ui.core',
                                 plugins_url( 'js/jquery.ui.core.js', __FILE__ ),
-                                array('jquery'), '1.8.16', true );
+                                array('jquery') );
             wp_enqueue_script( 'jquery.ui.core' );
 
             wp_register_script( 'jquery.ui.widget',
                                 plugins_url( 'js/jquery.ui.widget.js', __FILE__ ),
-                                array('jquery'), '1.8.16', true );
+                                array('jquery') );
             wp_enqueue_script( 'jquery.ui.widget' );
 
             wp_register_script( 'jquery.ui.position',
                                 plugins_url( 'js/jquery.ui.position.js', __FILE__ ),
-                                array('jquery'), '1.8.16', true );
+                                array('jquery') );
             wp_enqueue_script( 'jquery.ui.position' );
 
             wp_register_script( 'jquery.ui.autocomplete',
                                 plugins_url( 'js/jquery.ui.autocomplete.js', __FILE__ ),
-                                array('jquery.ui.core','jquery.ui.position','jquery.ui.widget'), '1.8.16', true );
+                                array('jquery.ui.core','jquery.ui.position','jquery.ui.widget') );
             wp_enqueue_script( 'jquery.ui.autocomplete' );
+
+            wp_register_script( 'rootsUtilities',
+                                plugins_url( 'js/rootsUtilities.js',__FILE__ ));
+            wp_enqueue_script( 'rootsUtilities' );
         }
 
         /**
@@ -916,6 +914,8 @@ if ( isset( $roots_persona_plugin ) ) {
     add_filter( 'wp_nav_menu_args', array( $roots_persona_plugin, 'person_menu_filter' ) );
     add_action('wp_ajax_rp_action', array( $roots_persona_plugin, 'rp_action_callback' ) );
     add_action('wp_head', array( $roots_persona_plugin, 'inject_custom_style' ) );
+    add_action('wp_head', array( $roots_persona_plugin, 'insert_persona_scripts' ) );
+    add_action('admin_head', array( $roots_persona_plugin, 'insert_admin_scripts' ));
     $options = get_option( 'persona_plugin' );
     if(isset($options['debug']) && $options['debug'] == '1') {
         if(!defined('WP_DEBUG')) define( 'WP_DEBUG', true ); // turn on debug mode
