@@ -626,7 +626,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
      * @return
      */
     public function get_persona_events( $id, $batch_id ) {
-        $sql = "SELECT event_type, event_date, place, classification"
+        $sql = "SELECT event_type, event_date, place, classification, cause"
             . " FROM rp_indi_event rie"
             . " JOIN rp_event_detail red ON red.id = rie.event_id"
             . " WHERE rie.indi_id = ? AND rie.indi_batch_id = ?";
@@ -646,6 +646,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 $event['date'] = $rows[$idx]['event_date'];
                 $event['place'] = $rows[$idx]['place'];
                 $event['classification'] = $rows[$idx]['classification'];
+                $event['cause'] = $rows[$idx]['cause'];
                 $event['associated_person'] = null; //array('name'=>'', 'isPrivate'=> false);
                 $events[$idx] = $event;
             }

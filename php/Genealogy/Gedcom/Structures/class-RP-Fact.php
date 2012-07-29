@@ -23,7 +23,7 @@
  * @link
  */
 class RP_Fact extends RP_Fact_Detail {
-    var $_TYPES = array( 'CAST' => 'Caste', 'EDUC' => 'Education', 'NATI' => 'Nationality', 'OCCU' => 'Occupation', 'PROP' => 'Possessions', 'RELI' => 'Religion', 'RESI' => 'Residence', 'TITL' => 'NobilityTitle', 'SSN' => 'Social Security Nbr', 'FACT' => 'Fact' );
+    var $_TYPES = array( 'CAST' => 'Caste', 'EDUC' => 'Education', 'NATI' => 'Nationality', 'OCCU' => 'Occupation', 'PROP' => 'Possessions', 'RELI' => 'Religion', 'RESI' => 'Residence', 'TITL' => 'Nobility Title', 'SSN' => 'Social Security Nbr', 'FACT' => 'Fact' );
     /**
      * CONSTRUCTOR
      */

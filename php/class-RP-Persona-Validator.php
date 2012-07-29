@@ -39,7 +39,6 @@ class Persona_Validator {
             $name = new RP_Personal_Name();
             $indi->names[] = $name;
             $isName = false;
-
             if (isset($form['rp_prefix']) && !empty($form['rp_prefix'])) {
                 $name->rp_name->pieces->prefix = trim(esc_attr($form['rp_prefix']));
                 $is_update = true;
@@ -82,41 +81,44 @@ class Persona_Validator {
                 $is_update = true;
             }
         }
+
         $fields = array_keys($form);
         $cnt = count($fields);
-        if($isSOR) {
-            for($i=0; $i < $cnt; $i++) {
-                if(strpos($fields[$i],'rp_claimtype') === false ) continue;
-                $ev = new RP_Event();
-                $sfx = strrpos($fields[$i],'_');
-                $sfx = substr($fields[$i],$sfx+1);
-                if (isset($form['rp_claimtype_' . $sfx]) && !empty($form['rp_claimtype_' . $sfx])) {
-                    $ev->type = trim(esc_attr($form['rp_claimtype_' . $sfx]));
-                    $ev->tag = array_search($ev->type,$ev->_TYPES);
-                    if($ev->tag === false) {
-                        $fact = new RP_Fact();
-                        $fact->tag = array_search($ev->type,$fact->_TYPES);
-                        if($fact->tag !== false) {
-                            $fact->type = $ev->type;
-                            $ev = $fact;
-                        } else continue;
-                    }
-                    $is_update = true;
+        for($i=0; $i < $cnt; $i++) {
+            if(strpos($fields[$i],'rp_claimtype') === false ) continue;
+            $ev = new RP_Event();
+            $sfx = strrpos($fields[$i],'_');
+            $sfx = substr($fields[$i],$sfx+1);
+            if (isset($form['rp_claimtype_' . $sfx]) && !empty($form['rp_claimtype_' . $sfx])) {
+                $ev->type = trim(esc_attr($form['rp_claimtype_' . $sfx]));
+                $ev->tag = $this->my_array_val_search($ev->type,$ev->_TYPES);
+                if($ev->tag === false) {
+                    $fact = new RP_Fact();
+                    $fact->tag = $this->my_array_val_search($ev->type,$fact->_TYPES);
+                    if($fact->tag !== false) {
+                        $fact->type = $ev->type;
+                        $ev = $fact;
+                    } else continue;
                 }
-                if (isset($form['rp_claimdate_' . $sfx]) && !empty($form['rp_claimdate_' . $sfx])) {
-                    $ev->date = trim(esc_attr($form['rp_claimdate_' . $sfx]));
-                    $is_update = true;
-                }
-                if (isset($form['rp_claimplace_' . $sfx]) && !empty($form['rp_claimplace_' . $sfx])) {
-                    $ev->place->name = trim(esc_attr($form['rp_claimplace_' . $sfx]));
-                    $is_update = true;
-                }
-                if (isset($form['rp_classification_' . $sfx]) && !empty($form['rp_classification_' . $sfx])) {
-                    $ev->cause = trim(esc_attr($form['rp_classification_' . $sfx]));
-                    $is_update = true;
-                }
-                if($ev instanceof RP_Event) $indi->events[] = $ev;
-                else $this->attributes[] = $ev;
+                $is_update = true;
+            }
+            if (isset($form['rp_claimdate_' . $sfx]) && !empty($form['rp_claimdate_' . $sfx])) {
+                $ev->date = trim(esc_attr($form['rp_claimdate_' . $sfx]));
+                $is_update = true;
+            }
+            if (isset($form['rp_claimplace_' . $sfx]) && !empty($form['rp_claimplace_' . $sfx])) {
+                $ev->place->name = trim(esc_attr($form['rp_claimplace_' . $sfx]));
+                $is_update = true;
+            }
+            if (isset($form['rp_classification_' . $sfx]) && !empty($form['rp_classification_' . $sfx])) {
+                $ev->cause = trim(esc_attr($form['rp_classification_' . $sfx]));
+                $is_update = true;
+            }
+            if($ev instanceof RP_Event) {
+                $indi->events[] = $ev;
+            }
+            else {
+                $indi->attributes[] = $ev;
             }
         }
 
@@ -200,5 +202,15 @@ class Persona_Validator {
         }
         $options['errors'][$type] = $msg;
         return $options;
+    }
+    
+    private function my_array_val_search($needle, $haystack) {
+        $retCode = false;
+            foreach( $haystack as $key => $val ) { 
+                if ($val === $needle) {
+                    $retCode = $key;
+                }
+            }
+            return $retCode;
     }
 }

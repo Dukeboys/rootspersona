@@ -3,7 +3,7 @@
  Plugin Name: RootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 3.0.6
+ Version: 3.0.7
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -59,7 +59,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '3.0.6';
+        var $persona_version = '3.0.7';
 
         /**
          *
@@ -721,7 +721,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $hook = add_options_page(
                         'RootsPersona Options',
                         'RootsPersona',
-                        'manage_options',
+                        'manage_rootspersona1',
                         'rootsPersona',
                         array( $this, 'build_roots_options_page' )
                         );
@@ -732,12 +732,24 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                                 'tools.php',
                                 'RootsPersona Tools',
                                 'RootsPersona',
-                                'manage_options',
+                                'manage_rootspersona2',
                                 'rootsPersona',
                                 array( $this, 'build_roots_tools_page' )
                                 );
             add_action( 'admin_print_styles-' . $hook, array( $this, 'insert_persona_styles' ) );
             add_action( 'admin_print_scripts-' . $hook, array( $this, 'insert_admin_scripts' ) );
+            
+            $role = get_role( 'administrator' );
+            $role->add_cap( 'manage_rootspersona1' );
+            $role->add_cap( 'manage_rootspersona2' );
+            
+            $options = get_option( 'persona_plugin' );
+            $role = get_role( 'editor' );
+            if(isset($options['is_editor']) && $options['is_editor'] == '1') {
+                $role->add_cap( 'manage_rootspersona2' );
+            } else {
+                $role->remove_cap( 'manage_rootspersona2' );
+            }
         }
 
         /**
@@ -837,6 +849,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             $options['hide_undef_pics'] = ( $input['hide_undef_pics'] == 1 ? 1 : 0 );
             $options['hide_dates'] = ( $input['hide_dates'] == 1 ? 1 : 0 );
             $options['hide_places'] = ( $input['hide_places'] == 1 ? 1 : 0 );
+            $options['is_editor'] = ( (isset($input['is_editor']) && $input['is_editor'] == true)? 1 : 0 );
             $options['debug'] = ( (isset($input['debug']) && $input['debug'] == true)? 1 : 0 );
             $options['privacy_default'] =
                 in_array( $input['privacy_default'], array( 'Pub', 'Pvt', 'Mbr' ) )

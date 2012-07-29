@@ -15,30 +15,33 @@ class RP_Facts_Panel_Creator {
 		$block .= '<ul>';
 		$cnt = count( $facts );
 		for ( $idx = 0; $idx < $cnt; $idx++ ) {
-            if((!isset($facts[$idx]['classification'])
-                    || empty($facts[$idx]['classification']))
-               && ($options['hide_dates']
-                    || !isset($facts[$idx]['date'])
-                    || empty($facts[$idx]['date'])))
-                continue;  // no real meaningfull data, so skip it
-			$block .= '<li>';
-			if ( ! $options['hide_dates']
-			&& isset( $facts[$idx]['date'] )
-			&& ! empty( $facts[$idx]['date'] ) ) {
-				$block .= @preg_replace( '/@.*@(.*)/US', '$1', $facts[$idx]['date'] ) . ' - ';
-			}
-			$block .= $facts[$idx]['type'] . ' - ' . $facts[$idx]['classification'];
-			if ( ! $options['hide_places']
-			&& isset( $facts[$idx]['place'] )
-			&& ! empty( $facts[$idx]['place'] ) ) {
-				$block .= '; <span class="rp_place">' . $facts[$idx]['place'] . '</span>';
-			}
-			$p = $facts[$idx]['associated_person'];
-			if ( isset( $p )
-			&& ! empty( $p ) ) {
-				$block .= ' ' . __( 'with', 'rootspersona' ) . ' ' . $p['name'];
-			}
-			$block .= '</li>';
+                    if((!isset($facts[$idx]['classification'])
+                        || empty($facts[$idx]['classification']))
+                    && (!isset($facts[$idx]['cause'])
+                        || empty($facts[$idx]['cause']))
+                    && ($options['hide_dates']
+                        || !isset($facts[$idx]['date'])
+                        || empty($facts[$idx]['date'])))
+                    continue;  // no real meaningfull data, so skip it
+                    
+                    $block .= '<li>';
+                    if ( ! $options['hide_dates']
+                    && isset( $facts[$idx]['date'] )
+                    && ! empty( $facts[$idx]['date'] ) ) {
+                            $block .= @preg_replace( '/@.*@(.*)/US', '$1', $facts[$idx]['date'] ) . ' - ';
+                    }
+                    $block .= $facts[$idx]['type'] . ' - ' . $facts[$idx]['classification'] . ' ' . $facts[$idx]['cause'];
+                    if ( ! $options['hide_places']
+                    && isset( $facts[$idx]['place'] )
+                    && ! empty( $facts[$idx]['place'] ) ) {
+                            $block .= '; <span class="rp_place">' . $facts[$idx]['place'] . '</span>';
+                    }
+                    $p = $facts[$idx]['associated_person'];
+                    if ( isset( $p )
+                    && ! empty( $p ) ) {
+                            $block .= ' ' . __( 'with', 'rootspersona' ) . ' ' . $p['name'];
+                    }
+                    $block .= '</li>';
 		}
 		$block .= '</ul></div></section>';
 		return $block;
@@ -80,9 +83,9 @@ class RP_Facts_Panel_Creator {
             $block .= '"/></td>';
             //Notes
             $block .= '<td><textarea cols="30" rows="1" name="rp_classification_' . $idx . '">';
-            if ( isset( $facts[$idx]['classification'] )
-			&& ! empty( $facts[$idx]['classification'] ) ) {
-				$block .= $facts[$idx]['classification'];
+            if ( isset( $facts[$idx]['cause'] )
+			&& ! empty( $facts[$idx]['cause'] ) ) {
+				$block .= $facts[$idx]['cause'];
 			}
             $block .= '</textarea>';
             $block .= '<td>'

@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 
 RootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -106,6 +106,10 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.0.7 = 
+* fix issue with FACT types versus EVENT types
+* added option to make Editor optional edit privileges
+
 = 3.0.6 =
 * fix errant join when multiple batches
 * fix problem with pictures not appearing on edit screen
