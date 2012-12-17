@@ -606,25 +606,10 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                                 array('jquery') );
             wp_enqueue_script( 'jquery.maskedinput' );
 
-            wp_register_script( 'jquery.ui.core',
-                                plugins_url( 'js/jquery.ui.core.js', __FILE__ ),
+            wp_register_script( 'jquery-ui',
+                                plugins_url( 'js/jquery-ui-1.9.2.custom.min.js', __FILE__ ),
                                 array('jquery') );
-            wp_enqueue_script( 'jquery.ui.core' );
-
-            wp_register_script( 'jquery.ui.widget',
-                                plugins_url( 'js/jquery.ui.widget.js', __FILE__ ),
-                                array('jquery') );
-            wp_enqueue_script( 'jquery.ui.widget' );
-
-            wp_register_script( 'jquery.ui.position',
-                                plugins_url( 'js/jquery.ui.position.js', __FILE__ ),
-                                array('jquery') );
-            wp_enqueue_script( 'jquery.ui.position' );
-
-            wp_register_script( 'jquery.ui.autocomplete',
-                                plugins_url( 'js/jquery.ui.autocomplete.js', __FILE__ ),
-                                array('jquery.ui.core','jquery.ui.position','jquery.ui.widget') );
-            wp_enqueue_script( 'jquery.ui.autocomplete' );
+            wp_enqueue_script( 'jquery-ui' );
 
             wp_register_script( 'rootsUtilities',
                                 plugins_url( 'js/rootsUtilities.js',__FILE__ ));
