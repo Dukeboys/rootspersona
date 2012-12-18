@@ -306,7 +306,7 @@ class RP_Persona_Site_Mender {
         $cnt = 0;
         $force_delete = true;
         foreach ( $pages as $page ) {
-            if ( preg_match( "/rootsPersona |rootsEvidencePage /", $page->post_content ) ) {
+            if ( preg_match( "/rootsPersona |rootsEvidencePage |rootsPersonaHeader /", $page->post_content ) ) {
                 if ( preg_match( "/batch[i|I]d=['|\"]" . $batch_id . "['|\"]/", $page->post_content ) ) {
                     wp_delete_post( $page->ID, $force_delete );
                     $cnt++;
@@ -315,7 +315,7 @@ class RP_Persona_Site_Mender {
             }
         }
 
-                $this->transaction = new RP_Transaction( $this->credentials, false );
+        $this->transaction = new RP_Transaction( $this->credentials, false );
         RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
         RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )->unlink_all_pages( $batch_id );
         $this->transaction->commit();
@@ -339,7 +339,7 @@ class RP_Persona_Site_Mender {
 
     function delete_data( $options, $batch_id  ) {
 
-                $this->transaction = new RP_Transaction( $this->credentials, false );
+        $this->transaction = new RP_Transaction( $this->credentials, false );
         $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                             ->get_batch_ids( );
         if(count($batch_ids) == 1 && $batch_id == $batch_ids[0]) {

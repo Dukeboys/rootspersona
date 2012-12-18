@@ -843,6 +843,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                 in_array( $input['privacy_living'], array( 'Pub', 'Pvt', 'Mbr', 'Exc' ) )
                     ? $input['privacy_living'] : 'Mbr';
             $options['custom_style'] = trim( esc_attr( $input['custom_style'] ) );
+            $options['custom_page'] = trim( esc_attr( $input['custom_page'] ) );
             return $options;
         }
 

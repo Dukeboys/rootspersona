@@ -74,6 +74,7 @@ class RP_Persona_Installer {
             $options['index_hdr_color'] = '';
             $options['index_odd_color'] = '';
             $options['pframe_color'] = '';
+            $options['custom_page'] = '';
             update_option( 'persona_plugin', $options );
         }
     }

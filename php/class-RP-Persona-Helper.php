@@ -172,8 +172,20 @@ class RP_Persona_Helper {
         // Create post object
         $my_post = array();
         $my_post['post_title'] = $name;
-        $my_post['post_content'] =
-            $content == null?"[rootsPersona personId='$person' batchId='$batch_id'/]":$content;
+        if($content == null) {
+            if ( isset($options['custom_page']) && !empty($options['custom_page'])) {
+                $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
+                $pageContent = str_replace("{%personid%}" , $person, $pageContent);
+                $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
+            } else {
+                $pageContent = "[rootsPersona personId='$person' batchId='$batch_id'/]";
+            }
+        } else {
+            $pageContent = $content;
+        }
+
+        $my_post['post_content'] = $pageContent;
+            
         $my_post['post_status'] = 'publish';
         $my_post['post_author'] = 0;
         $my_post['post_type'] = 'page';

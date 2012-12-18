@@ -1,0 +1,982 @@
+# Copyright (C) 2010 rootspersona
+# This file is distributed under the same license as the rootspersona package.
+msgid ""
+msgstr ""
+"Project-Id-Version: rootspersona 2.2.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/rootspersona\n"
+"POT-Creation-Date: 2011-10-10 15:04:32+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-10-03 15:41+0100\n"
+"Last-Translator: U. Gross <info@ugross.de>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-Basepath: /Users/ugross/Desktop/Resources/Lokalisierung\n"
+
+#: rootspersona.php:102
+msgid "Invalid person id."
+msgstr "Ungültige Personenkennung"
+
+#: rootspersona.php:213
+msgid "Missing"
+msgstr "Fehlt"
+
+#: rootspersona.php:271 rootspersona.php:327
+msgid "No people selected."
+msgstr "Niemand ausgewählt"
+
+#: rootspersona.php:281
+msgid "Page %s created for"
+msgstr "Seite %s erzeugt für"
+
+#: rootspersona.php:287
+msgid "Error creating page for"
+msgstr "Fehler bei der Erzeugung der Seite für"
+
+#: rootspersona.php:384
+msgid "action not supported"
+msgstr "Dies wird nicht unterstützt"
+
+#: rootspersona.php:387
+msgid "For internal use only"
+msgstr "Nur zum internen Gebrauch"
+
+#: rootspersona.php:397
+msgid "You do not have permission to upload files."
+msgstr "Sie sind nicht berechtigt, Dateien hochzuladen."
+
+#: rootspersona.php:406
+msgid "Empty File."
+msgstr "Leere Datei"
+
+#: rootspersona.php:456
+msgid "Content reserved for registered members."
+msgstr "Diese Inhalte sind registrierten Mitgliedern vorbehalten."
+
+#: php/class-RP-Persona-Site-Mender.php:47
+msgid "Deleted orphaned page with no reference in"
+msgstr "Seite gelöscht, kein Anschluss und kein Bezug in "
+
+#: php/class-RP-Persona-Site-Mender.php:51
+msgid "No reference in"
+msgstr "Kein Bezug in"
+
+#: php/class-RP-Persona-Site-Mender.php:55
+#: php/class-RP-Persona-Site-Mender.php:120
+msgid "Updated parent page to %s."
+msgstr "Übergeordnete Seite aktualisiert zu %s"
+
+#: php/class-RP-Persona-Site-Mender.php:62
+#: php/class-RP-Persona-Site-Mender.php:127
+msgid "Parent page out of synch %s"
+msgstr "Unstimmige übergeordnete Seite %s"
+
+#: php/class-RP-Persona-Site-Mender.php:68
+#: php/class-RP-Persona-Site-Mender.php:76
+#: php/class-RP-Persona-Site-Mender.php:84
+#: php/class-RP-Persona-Site-Mender.php:92
+#: php/class-RP-Persona-Site-Mender.php:100
+msgid "Deleted obsolete %s page."
+msgstr "Obsolete Seite gelöscht: %s"
+
+#: php/class-RP-Persona-Site-Mender.php:72
+#: php/class-RP-Persona-Site-Mender.php:80
+#: php/class-RP-Persona-Site-Mender.php:88
+#: php/class-RP-Persona-Site-Mender.php:96
+#: php/class-RP-Persona-Site-Mender.php:104
+msgid "Obsolete"
+msgstr "Obsolet"
+
+#: php/class-RP-Persona-Site-Mender.php:112
+msgid "Deleted orphaned page with no reference in rp_source."
+msgstr "Seite ohne Anschluss und ohne Bezug in rp_source gelöscht."
+
+#: php/class-RP-Persona-Site-Mender.php:116
+msgid "No reference in rp_source."
+msgstr "Kein Bezug in rp_source"
+
+#: php/class-RP-Persona-Site-Mender.php:137
+#: php/class-RP-Persona-Site-Mender.php:196
+#: php/class-RP-Persona-Site-Mender.php:255
+msgid "Issues found with your %s pages."
+msgstr "Probleme bei Ihren %s-Seiten festgestellt."
+
+#: php/class-RP-Persona-Site-Mender.php:141
+#: php/class-RP-Persona-Site-Mender.php:200
+#: php/class-RP-Persona-Site-Mender.php:259
+#: php/pages/class-RP-Option-Page-Builder.php:267
+msgid "Page"
+msgstr "Seite"
+
+#: php/class-RP-Persona-Site-Mender.php:155
+#: php/class-RP-Persona-Site-Mender.php:214
+msgid "Database updated to remove reference to missing page."
+msgstr "Datenbank aktualisiert, Bezug auf fehlende Seite gelöscht."
+
+#: php/class-RP-Persona-Site-Mender.php:159
+msgid "Invalid person page assignment in database (page missing)."
+msgstr "Ungültige Personenseitenzuordnung in der Datenbank (Seite fehlt)."
+
+#: php/class-RP-Persona-Site-Mender.php:165
+#: php/class-RP-Persona-Site-Mender.php:173
+#: php/class-RP-Persona-Site-Mender.php:224
+#: php/class-RP-Persona-Site-Mender.php:232
+msgid "Database updated to remove reference to invalid page."
+msgstr "Datenbank aktualisiert, Bezug auf ungültige Seite gelöscht."
+
+#: php/class-RP-Persona-Site-Mender.php:169
+msgid "Invalid person page assignment in database (no personid)."
+msgstr ""
+"Ungültige Personenseitenbezeichnung in der Datenbank (keine Personenkennung)."
+
+#: php/class-RP-Persona-Site-Mender.php:177
+msgid "Invalid person page assignment in database (wrong personId)."
+msgstr ""
+"Ungültige Personenseitenbezeichnung in der Datenbank (falsche "
+"Personenkennung)."
+
+#: php/class-RP-Persona-Site-Mender.php:181
+#: php/class-RP-Persona-Site-Mender.php:240
+msgid "Page title updated."
+msgstr "Seitentitel aktualisiert."
+
+#: php/class-RP-Persona-Site-Mender.php:187
+msgid "Page title out of synch with person name"
+msgstr "Seitentitel stimmt nicht mit dem Personennamen überein."
+
+#: php/class-RP-Persona-Site-Mender.php:218
+msgid "Invalid source page assignment in database (page missing)."
+msgstr "Ungültige Quellenseitenzuordnung in der Datenbank (fehlende Seite)."
+
+#: php/class-RP-Persona-Site-Mender.php:228
+msgid "Invalid source page assignment in database (no sourceid)."
+msgstr ""
+"Ungültige Quellenseitenzuordnung in der Datenbank (keine Quellenkennung)."
+
+#: php/class-RP-Persona-Site-Mender.php:236
+msgid "Invalid source page assignment in database (wrong sourceId)."
+msgstr ""
+"Ungültige Quellenseitenzuordnung in der Datenbank (falsche Quellenkennung)."
+
+#: php/class-RP-Persona-Site-Mender.php:246
+msgid "Page title out of synch with source name"
+msgstr "Seitentitel stimmt nicht mit Quellennamen überein"
+
+#: php/class-RP-Persona-Site-Mender.php:271
+msgid "No persona pages found."
+msgstr "Keine Personenseiten gefunden."
+
+#: php/class-RP-Persona-Site-Mender.php:275
+msgid "Your %s setup is VALID."
+msgstr "Ihre %s-Einstellung ist GÜLTIG."
+
+#: php/class-RP-Persona-Site-Mender.php:282
+msgid "Repair Inconsistencies?"
+msgstr "Inkonsistenzen beheben?"
+
+#: php/class-RP-Persona-Site-Mender.php:288
+#: php/class-RP-Persona-Site-Mender.php:326
+#: php/class-RP-Persona-Site-Mender.php:348
+#: php/class-RP-Persona-Site-Mender.php:362
+msgid "Return"
+msgstr "Zurück"
+
+#: php/class-RP-Persona-Site-Mender.php:317
+msgid "pages deleted from batchId %s"
+msgstr "Seiten von Chargenkennung  %s gelöscht"
+
+#: php/class-RP-Persona-Site-Mender.php:322
+msgid "Deleta Data From Database?"
+msgstr "Daten in der Datenbank löschen?"
+
+#: php/class-RP-Persona-Site-Mender.php:343
+msgid "Data deleted for batchId %s."
+msgstr "Daten für Chargenkennung %s gelöscht."
+
+#: php/class-RP-Persona-Site-Mender.php:358
+msgid "Tables emptied."
+msgstr "Tabellen geleert."
+
+#: php/class-RP-Persona-Site-Mender.php:384
+msgid "source page(s) added for batchId %s"
+msgstr "Quellenseite(n) wurde(n) für Chargenkennung %s hinzugefügt"
+
+#: php/pages/class-RP-Include-Page-Builder.php:17
+msgid "All %s have been included"
+msgstr "Alle %s wurden hinzugefügt"
+
+#: php/pages/class-RP-Include-Page-Builder.php:19
+msgid "Previously excluded persons must be re-imported"
+msgstr "Früher ausgeschlossene Personen müssen erneut importiert werden"
+
+#: php/pages/class-RP-Include-Page-Builder.php:36
+msgid "Include"
+msgstr "Hinzunehmen"
+
+#: php/pages/class-RP-Include-Page-Builder.php:38
+#: php/pages/class-RP-Add-Page-Builder.php:61
+#: php/pages/class-RP-Edit-Page-Builder.php:25
+#: php/pages/class-RP-Upload-Page-Builder.php:62
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:27
+msgid "Biography"
+msgstr "Biographie"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:31
+msgid "Facts"
+msgstr "Daten"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:35
+msgid "Ancestors"
+msgstr "Vorfahren"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:40
+msgid "Descendancy Chart"
+msgstr "Nachkommen"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:45
+msgid "Family Group Sheet - Child"
+msgstr "Familiengruppenblatt - Kind"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:49
+msgid "Family Group Sheet - Spouse"
+msgstr "Familiengruppenblatt - Partner"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:57
+msgid "Picture Gallery"
+msgstr "Bildergalerie"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:61
+msgid "Evidence"
+msgstr "Nachweise"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:138
+msgid "Page will be removed but supporting data will not be deleted.  Proceed?"
+msgstr "Seite wird gelöscht, Daten aber nicht. Weitermachen?"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:139
+msgid "Page will be removed and supporting data will be deleted.  Proceed?"
+msgstr "Seite wird zusammen mit zugehörigen Daten gelöscht. Weitermachen?"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:148
+msgid "Edit Person"
+msgstr "Person editieren"
+
+#: php/pages/class-RP-Persona-Page-Builder.php:156
+msgid "Delete Person"
+msgstr "Person löschen"
+
+#: php/pages/class-RP-Add-Page-Builder.php:21
+msgid "All available persons have been added."
+msgstr "Alle verfügbaren Personen wurden hinzugefügt."
+
+#: php/pages/class-RP-Add-Page-Builder.php:59
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: php/pages/class-RP-Edit-Page-Builder.php:23
+msgid "Submit"
+msgstr "Ausführen"
+
+#: php/pages/class-RP-Edit-Page-Builder.php:73
+msgid "Delete page and exclude this person FROM future uploads."
+msgstr "Seite löschen und diese Person in Zukunft vom Hochladen ausschließen."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:79
+msgid "This person will only be visible to the admin role."
+msgstr "Diese Person ist nur mit Admin-Rechten sichtbar."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:85
+msgid "This person will only be visible to users who are logged in."
+msgstr "Diese Person ist nur für angemeldete Benutzer sichtbar."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:91
+msgid "This person will be visible to ANYONE, even if they are living."
+msgstr "Diese Person ist ALLGEMEIN sichtbar, auch wenn sie noch lebt."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:97
+msgid ""
+"This person will be visible based on the privacy setting for living persons "
+"or the global default setting."
+msgstr ""
+"Ob diese Person sichtbar ist, hängt von der Datenschutzeinstellung für "
+"lebende Personen oder der globalen Vorsteinstellung ab."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:110
+msgid "Missing Id."
+msgstr "Fehlende Kennung."
+
+#: php/pages/class-RP-Edit-Page-Builder.php:111
+msgid "Missing source page."
+msgstr "Fehlende Quellenseite."
+
+#: php/pages/class-RP-Evidence-Page-Builder.php:13
+msgid "Source"
+msgstr "Quelle"
+
+#: php/pages/class-RP-Evidence-Page-Builder.php:19
+msgid "Citations"
+msgstr "Zitate"
+
+#: php/pages/class-RP-Evidence-Page-Builder.php:28
+msgid "Person(s) of Interest"
+msgstr "Interessierende Person(en)"
+
+#: php/pages/class-RP-Evidence-Page-Builder.php:45
+msgid "Notes"
+msgstr "Anmerkungen"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:77
+msgid "PARENT"
+msgstr "ELTERN"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:84
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:136
+msgid "Birth"
+msgstr "Geburt"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:87
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:139
+msgid "Death"
+msgstr "Tod"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:92
+msgid "Father"
+msgstr "Vater"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:96
+msgid "Mother"
+msgstr "Mutter"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:122
+msgid "CHILDREN"
+msgstr "KINDER"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:170
+msgid "to"
+msgstr "mit"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:179
+msgid "at"
+msgstr "in"
+
+#: php/pages/panels/class-RP-Group-Sheet-Panel-Creator.php:181
+msgid "Marriage"
+msgstr "Heirat"
+
+#: php/pages/panels/class-RP-Evidence-Panel-Creator.php:23
+msgid "Evidence page has not yet been created for this source"
+msgstr "Für diese Quelle wurde noch keine Nachweisseite erstellt."
+
+#: php/pages/panels/class-RP-Facts-Panel-Creator.php:32
+msgid "with"
+msgstr "mit"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:18
+msgid ""
+"Please note that GEDCOM processing is the most system taxing processing this "
+"plugin performs"
+msgstr ""
+"Bitte beachten, dass die GEDCOM-Verarbeitung von allen Aufgaben, die dieses "
+"Plugin ausführen kann, die höchsten Anforderungen an das System stellt."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:19
+msgid ""
+"The system will be uploading the file AND parsing each person into the "
+"database"
+msgstr ""
+"Das System wird nun die Datei hochladen UND für jede Person die Eintragungen "
+"in die Datenbank vornehmen."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:20
+msgid ""
+"Many users have reported hitting PHP time limit constraints when processing "
+"large files"
+msgstr ""
+"Viele Benutzer haben berichtet, bei der Verarbeitung großer Dateien gegen "
+"die PHP-Zeitgrenze angelaufen zu sein, "
+
+#: php/pages/class-RP-Upload-Page-Builder.php:21
+#: php/pages/class-RP-Upload-Page-Builder.php:29
+msgid "resulting in a white screen with no status message"
+msgstr "was zu einem weißen Bildschirm ohne jede Statusmeldung führte."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:26
+msgid "%s is not able to find the %s function"
+msgstr "%s kann die %s-Funktion nicht finden"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:27
+msgid ""
+"This probably means your version of PHP is too old.  You must be running "
+"version 5.2.3 or higher"
+msgstr ""
+"Dies bedeutet wahrscheinlich, dass Ihre PHP-Version zu alt ist. Sie müssen "
+"mindestens Version 5.2.3 haben."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:28
+msgid "You will have problems uploading GEDCOM files until you upgrade"
+msgstr ""
+"Sie werden Schwierigkeiten mit dem Hochladen von GEDCOM-Dateien haben, wenn "
+"SIe nicht die aktuelle Version einsetzen"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:41
+msgid "Please note that %s cannot link persons in different batches"
+msgstr ""
+"Bitte beachten, das %s keine Verbindung zwischen Personen in "
+"unterschiedlichen Chargen herstellen kann."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:60
+msgid "Upload"
+msgstr "Hochladen"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:66
+msgid "The following PHP settings have an impact on GEDCOM file processing"
+msgstr ""
+"Die folgenden Einstellungen von PHP haben Einfluss auf die Verarbeitung von "
+"GEDCOM-Dateien."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:67
+msgid "version"
+msgstr "Version"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:80
+msgid "Your system is configured in "
+msgstr "Ihr System ist konfiguriert in"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:82
+msgid ""
+"will NOT be able to override your system settings to allow processing of a "
+"large GEDCOM file."
+msgstr ""
+"ist NICHT in der Lage, Ihre Systemeinstellungen zu überschreiben um die "
+"Verarbeitung einer großen GEDCOM-Datei möglich zu machen."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:86
+msgid ""
+"will try to override your system settings as needed to allow processing of a "
+"large GEDCOM file"
+msgstr ""
+"versucht Ihre Systemeinstellungen entsprechend den Erfordernissen zur "
+"Verarbeitung einer großen GEDCOM-Datei zu überschreiben"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:89
+msgid ""
+"However you may still run into an issue with server time limit settings "
+"(usually 300 seconds)"
+msgstr ""
+"Allerdings kann es immer noch Probleme mit der Zeitbegrenzungseinstellung "
+"des Servers geben (im allgemeinen 300 s)"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:91
+msgid "and may need to split your GEDCOM file accordingly"
+msgstr "und muss die GEDCOM-Datei entsprechend aufgeteilt werden."
+
+#: php/pages/class-RP-Upload-Page-Builder.php:96
+msgid "You may change the above values in the php.ini file"
+msgstr "Sie können die oben angegebenen Werte in der Datei php.ini verändern"
+
+#: php/pages/class-RP-Upload-Page-Builder.php:98
+msgid "or by override the settings in your .htaccess file as defined below"
+msgstr ""
+"oder die Einstellungen in Ihrer .htaccess-Datei überschreiben, wie "
+"nachstehend definiert"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:35
+msgid "Upload GEDCOM"
+msgstr "GEDCOM-Datei hochladen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:37
+msgid "Upload (or re-upload) a GEDCOM file."
+msgstr "Eine GEDCOM-Datei (erneut) hochladen."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:48
+msgid "Add Uploaded Persons"
+msgstr "Hochgeladene Personen hinzufügen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:51
+msgid "Review the list of people you have uploaded but not created pages for."
+msgstr ""
+"Verzeichnis der hochgeladenen Personen anzeigen, für die Sie noch keine "
+"Seiten erstellt haben."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:61
+msgid "Review Excluded Persons"
+msgstr "Ausgeschlossene Personen anzeigen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:65
+msgid ""
+"Review people you have previous excluded, and include the ones you select."
+msgstr ""
+"Bisher ausgeschlossene Personen anzeigen und die ausgewählten davon "
+"hinzufügen."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:75
+msgid "Validate persona Pages"
+msgstr "Personenseiten auf Gültigkeit prüfen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:79
+msgid ""
+"Identify orphaned %s pages. Includes all pages with %s shortcode and no "
+"reference in the database, or reference in the database with no "
+"corresponding page."
+msgstr ""
+"Nicht angeschlossene %s Seiten identifizieren. Dies sind alle Seiten mit der "
+"Kodierung %s ohne Bezug in der Datenbank oder in der Datenbank aufgeführte "
+"Personen ohne entsprechende Seite."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:80
+msgid "Will also identify/sync pages with the wrong parent page assigned."
+msgstr ""
+"Außerdem werden Seiten identifiziert und berichtigt, denen eine falsche "
+"Elternseite zugeordnet ist."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:86
+msgid "All persona files will be used to populate the database tables"
+msgstr ""
+"Alle Personendateien werden zur Eintragung in die Datenbanktabellen benutzt."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:87
+msgid "The files will NOT be deleted. Proceed?"
+msgstr "Die Dateien werden NICHT gelöscht. Fortfahren?"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:93
+msgid "Convert to 2.x Format"
+msgstr "Auf Format 2.x umstellen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:96
+msgid ""
+"Perform a bulk conversion from the pre 2.x file format to the 2.x database "
+"format."
+msgstr ""
+"Eine Gesamtumwandlung von einem Dateiformat vor 2.x auf das Datenbankformat "
+"2.x ausführen."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:106
+msgid "Delete persona Pages"
+msgstr "Personenseiten löschen"
+
+#: php/pages/class-RP-Tools-Page-Builder.php:110
+msgid ""
+"Perform a bulk deletion of all %s and evidence pages. This will NOT delete "
+"data, only pages."
+msgstr ""
+"Eine Gesamtlöschung aller %s- und Nachweisseiten ausführen. Die Daten werden "
+"NICHT gelöscht, nur die Seiten."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:121
+msgid "Add Evidence Pages"
+msgstr "Nachweisseiten hinzufügen."
+
+#: php/pages/class-RP-Tools-Page-Builder.php:124
+msgid "Add missing evidence pages."
+msgstr "Fehlende Nachweisseiten hinzufügen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:10
+msgid "Edit page is meant to be accessed using the Edit button on a %s page"
+msgstr ""
+"Die Editorseite sollte über das Edit-Tastenfeld einer %s-Seite aufgerufen "
+"werden"
+
+#: php/pages/class-RP-Option-Page-Builder.php:12
+msgid ""
+"Accessing outside of a %s page will result in an invalid personId error."
+msgstr ""
+"Ein Zugriff von außerhalb einer %s-Seite führt zu einem Fehler wegen "
+"ungültiger Personenkennung."
+
+#: php/pages/class-RP-Option-Page-Builder.php:16
+#: php/pages/class-RP-Option-Page-Builder.php:355
+msgid "Save Changes"
+msgstr "Änderungen abspeichern"
+
+#: php/pages/class-RP-Option-Page-Builder.php:18
+msgid "Privacy Options"
+msgstr "Datenschutzoptionen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:20
+msgid "Living Privacy Setting"
+msgstr "Datenschutzeinstellung für lebende Personen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:39
+#: php/pages/class-RP-Option-Page-Builder.php:58
+msgid "Private, Admins Only"
+msgstr "Privat, nur für Administratoren"
+
+#: php/pages/class-RP-Option-Page-Builder.php:40
+#: php/pages/class-RP-Option-Page-Builder.php:59
+msgid "Members Only"
+msgstr "Nur für Mitglieder"
+
+#: php/pages/class-RP-Option-Page-Builder.php:41
+#: php/pages/class-RP-Option-Page-Builder.php:60
+msgid "Public"
+msgstr "Öffentlich"
+
+#: php/pages/class-RP-Option-Page-Builder.php:42
+msgid ""
+"Privacy Setting to use for living people (no death date and birth date "
+"greater than 110 years ago)"
+msgstr ""
+"Datenschutzeinstellung für lebende Personen (ohne Todesdatum und ohne ein "
+"mehr als 110 Jahre zurückliegendes Geburtsdatum)"
+
+#: php/pages/class-RP-Option-Page-Builder.php:44
+msgid "Default Privacy Setting"
+msgstr "Standard-Datenschutzeinstellung"
+
+#: php/pages/class-RP-Option-Page-Builder.php:61
+msgid "Privacy Setting to use when nothing else applies"
+msgstr ""
+"Die Datenschutzeinstellung, die anzuwenden ist, wenn nichts anderes vorliegt"
+
+#: php/pages/class-RP-Option-Page-Builder.php:63
+msgid "Hide Dates"
+msgstr "Datumsangaben verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:73
+#: php/pages/class-RP-Option-Page-Builder.php:87
+#: php/pages/class-RP-Option-Page-Builder.php:120
+#: php/pages/class-RP-Option-Page-Builder.php:136
+#: php/pages/class-RP-Option-Page-Builder.php:152
+#: php/pages/class-RP-Option-Page-Builder.php:168
+#: php/pages/class-RP-Option-Page-Builder.php:184
+#: php/pages/class-RP-Option-Page-Builder.php:200
+#: php/pages/class-RP-Option-Page-Builder.php:216
+#: php/pages/class-RP-Option-Page-Builder.php:230
+#: php/pages/class-RP-Option-Page-Builder.php:244
+#: php/pages/class-RP-Option-Page-Builder.php:258
+msgid "Yes"
+msgstr "Ja"
+
+#: php/pages/class-RP-Option-Page-Builder.php:74
+#: php/pages/class-RP-Option-Page-Builder.php:88
+#: php/pages/class-RP-Option-Page-Builder.php:121
+#: php/pages/class-RP-Option-Page-Builder.php:137
+#: php/pages/class-RP-Option-Page-Builder.php:153
+#: php/pages/class-RP-Option-Page-Builder.php:169
+#: php/pages/class-RP-Option-Page-Builder.php:185
+#: php/pages/class-RP-Option-Page-Builder.php:201
+#: php/pages/class-RP-Option-Page-Builder.php:217
+#: php/pages/class-RP-Option-Page-Builder.php:231
+#: php/pages/class-RP-Option-Page-Builder.php:245
+#: php/pages/class-RP-Option-Page-Builder.php:259
+msgid "No"
+msgstr "Nein"
+
+#: php/pages/class-RP-Option-Page-Builder.php:75
+msgid ""
+"Some people may want to hide dates for privacy purposes.  This is a global "
+"flag (impacts all %s pages)."
+msgstr ""
+"Bestimmte Personen wollen ihre Seiten möglicherweise zwecks Datenschutz "
+"verbergen. Dies ist ein globaler Vermerk (beeinflusst alle %s-Seiten) "
+
+#: php/pages/class-RP-Option-Page-Builder.php:77
+msgid "Hide Locations"
+msgstr "Orte verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:89
+msgid ""
+"Some people may want to hide locations for privacy purposes.  This is a "
+"global flag (impacts all %s pages)."
+msgstr ""
+"Bestimmte Personen wollen Ortsangaben möglicherweise zwecks Datenschutz "
+"verbergen. Dies ist ein globaler Vermerk (beeinflusst alle %s-Seiten) "
+
+#: php/pages/class-RP-Option-Page-Builder.php:90
+msgid "Display Options"
+msgstr "Optionen anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:94
+msgid "Header Style"
+msgstr "Stil für Seitenkopf"
+
+#: php/pages/class-RP-Option-Page-Builder.php:104
+msgid "Original"
+msgstr "Original"
+
+#: php/pages/class-RP-Option-Page-Builder.php:105
+msgid "Bio"
+msgstr "Bio"
+
+#: php/pages/class-RP-Option-Page-Builder.php:106
+msgid "Choose a style for the header panel"
+msgstr "Einen Stil für das Kopffeld auswählen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:110
+msgid "Hide Header"
+msgstr "Seitenkopf verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:122
+msgid "Skip the Header Panel on persona pages."
+msgstr "Seitenkopf-Feld bei Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:126
+msgid "Hide Bio"
+msgstr "Bio verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:138
+msgid "Skip the Biography panel on persona pages"
+msgstr "Das Biographie-Feld bei Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:142
+msgid "Hide Facts"
+msgstr "Daten verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:154
+msgid "Skip the Facts panel on persona pages"
+msgstr "Das Datenfeld bei Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:158
+msgid "Hide Ancestors"
+msgstr "Vorfahren verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:170
+msgid "Skip the Ancestors panel on persona pages"
+msgstr "Das Vorfahren-Feld bei Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:174
+msgid "Hide Descendancy"
+msgstr "Nachkommen verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:186
+msgid "Skip the Descendancy panel on persona pages"
+msgstr "Das Nachkommenfeld bei Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:190
+msgid "Hide Child Family Group"
+msgstr "Familiengruppe Kind verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:202
+msgid ""
+"Skip the Family Group panel where the person is a Child on persona pages"
+msgstr ""
+"Das Familiengruppenfeld, in dem die Person als Kind vorkommt, auf "
+"Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:206
+msgid "Hide Spousal Family Groups"
+msgstr "Partnerfamiliengruppen verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:218
+msgid ""
+"Skip the Family Group panels where the person is a Spouse on persona pages"
+msgstr ""
+"Die Familiengruppenfelder, auf denen die Person als Partner vorkommt, auf "
+"Personenseiten nicht anzeigen."
+
+#: php/pages/class-RP-Option-Page-Builder.php:220
+msgid "Hide Picture"
+msgstr "Bilder verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:232
+msgid ""
+"Skip the pictures panel on %s pages. Still displays the image in the Header "
+"panel"
+msgstr ""
+"Das Bilderfeld auf %s-Seiten nicht anzeigen. Das Bild im Kopf-Feld wird "
+"trotzdem angezeigt."
+
+#: php/pages/class-RP-Option-Page-Builder.php:234
+msgid "Hide Evidence"
+msgstr "Nachweise verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:246
+msgid "Skip the evidence panel in persona pages."
+msgstr "Das Nachweisfeld auf Personenseiten nicht anzeigen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:248
+msgid "Hide Edit Links"
+msgstr "Editor-Schaltfelder verbergen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:260
+msgid ""
+"Some people may want to hide the edit links at the bottom of the %s page"
+msgstr ""
+"Falls man die Editor-Schaltfelder am Ende der %s-Seite nicht anzeigen will."
+
+#: php/pages/class-RP-Option-Page-Builder.php:261
+msgid "Utility Pages"
+msgstr "Interne Seiten"
+
+#: php/pages/class-RP-Option-Page-Builder.php:264
+msgid "Parent Page Id"
+msgstr "Kennung der übergeordneten Seite"
+
+#: php/pages/class-RP-Option-Page-Builder.php:267
+msgid ""
+"you want %s pages to be organized under in a menu structure.  0 indicates no "
+"parent page"
+msgstr ""
+"falls Sie die %s-Seiten unter einer übergeordneten Seite in einer "
+"Menüstruktur anordnen wollen. 0 bedeutet keine übergeordnete Seite."
+
+#: php/pages/class-RP-Option-Page-Builder.php:269
+msgid "Style Options"
+msgstr "Stiloptionen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:272
+msgid "Banner Foreground Color"
+msgstr "Titel-Vordergrundfarbe"
+
+#: php/pages/class-RP-Option-Page-Builder.php:278
+msgid "Banner Background Color"
+msgstr "Titel-Hintergrundfarbe"
+
+#: php/pages/class-RP-Option-Page-Builder.php:284
+msgid "Banner Image"
+msgstr "Titelbild"
+
+#: php/pages/class-RP-Option-Page-Builder.php:291
+msgid "Group Foreground Color"
+msgstr "Gruppenvordergrundfarbe"
+
+#: php/pages/class-RP-Option-Page-Builder.php:297
+msgid "Group Background Color"
+msgstr "Gruppenhintergrundfarbe"
+
+#: php/pages/class-RP-Option-Page-Builder.php:303
+msgid "Group Image"
+msgstr "Gruppenbild"
+
+#: php/pages/class-RP-Option-Page-Builder.php:309
+msgid "Persona Frames"
+msgstr "Personenseitenrahmen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:315
+msgid "Index Even Row Color"
+msgstr "Farbe für geradzahlige Verzeichniszeilen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:321
+msgid "Index Odd Row Color"
+msgstr "Farbe für ungeradzahlige Verzeichniszeilen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:327
+msgid "Index Header Row Color"
+msgstr "Farbe für Kopfzeile von Verzeichnissen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:332
+msgid "Misc Options"
+msgstr "Verschiedene Optionen"
+
+#: php/pages/class-RP-Option-Page-Builder.php:335
+msgid "Entries Per Page"
+msgstr "Einträge pro Seite"
+
+#: php/pages/class-RP-Option-Page-Builder.php:338
+msgid "Indicates the number of rows on an index page. Default is 25."
+msgstr ""
+"Dies ist die Zeilenzahl auf einer Verzeichnisseite, sie ist auf 25 "
+"voreingestellt."
+
+#: php/pages/class-RP-Option-Page-Builder.php:341
+msgid "System Of Record"
+msgstr "Datensatzsystem"
+
+#: php/pages/class-RP-Option-Page-Builder.php:353
+msgid ""
+"Only No is supported at this time (meaning some external program is the "
+"system of record)"
+msgstr ""
+"Zur Zeit wird nur Nein unterstützt (Ja würde bedeuten, dass ein externes "
+"Programm das Datensatzsystem bereitstellt)"
+
+#: php/class-RP-Persona-Installer.php:36
+#: php/class-RP-Persona-Installer.php:152
+msgid "Person Index"
+msgstr "Personenverzeichnis"
+
+#: php/class-RP-Persona-Installer.php:39
+#: php/class-RP-Persona-Installer.php:147
+msgid "Evidence Index"
+msgstr "Nachweisverzeichnis"
+
+#: php/class-RP-Persona-Installer.php:44
+#: php/class-RP-Persona-Installer.php:157
+msgid "rootspersona Tree"
+msgstr "rootsPersona-Stammbaum"
+
+#: php/class-RP-Persona-Installer.php:266
+msgid "The default WordPress themes display all first level pages by default"
+msgstr ""
+"Die Standard-WordPress-Themen zeigen als Voreinstellung alle Seiten des "
+"ersten Niveaus an"
+
+#: php/class-RP-Persona-Installer.php:267
+msgid ""
+"When importing a GEDCOM file, hundreds of pages can be created, all first "
+"level pages"
+msgstr ""
+"Beim Import einer GEDCOM-Datei werden unter Umständen hunderte von Seiten "
+"erstellt, die alle dem ersten Niveau angehören."
+
+#: php/class-RP-Persona-Installer.php:268
+msgid ""
+"The intent of assigning a Parent Page is to push persona pages down to a "
+"second level"
+msgstr ""
+"Mit der Angabe einer übergeordneten Seite wird beabsichtigt, alle "
+"Personenseiten auf das zweitoberste Niveau herunterzustufen."
+
+#: php/class-RP-Persona-Installer.php:269
+msgid "allowing an admin to manage the display of those pages"
+msgstr "sodass ein Administrator die Anzeige dieser Seiten verwalten kann."
+
+#: php/class-RP-Persona-Installer.php:271
+msgid ""
+"I can not tell you how many new users have skipped the step of assigning the "
+"parent page"
+msgstr "Unzählige neue Benutzer haben keine übergeordnete Seite festgelegt "
+
+#: php/class-RP-Persona-Installer.php:272
+msgid "then emailed me to say that %s has destroyed their site"
+msgstr ""
+"und sich dann per Email darüber beklagt, dass %s ihren Webauftritt zerstört "
+"hat."
+
+#: php/class-RP-Persona-Installer.php:273
+msgid "(Picture a front page with 100 or more entries in the menu bar)"
+msgstr ""
+"(Stellen Sie sich mal eine Startseite mit 100 oder noch mehr Einträgen im "
+"Menübalken vor!)"
+
+#: php/class-RP-Persona-Installer.php:275
+msgid "will now create and assign a Parent Page by default"
+msgstr ""
+"Daher wird nun als Standard eine übergeordnete Seite erstellt und zugeordnet."
+
+#: php/class-RP-Persona-Installer.php:276
+msgid ""
+"The parent page is NOT meant for display, as the menu is very large on most "
+"sites."
+msgstr ""
+"Diese übergeordnete Seite ist NICHT zur Anzeige vorgesehen, da das Menü "
+"sonst bei den meisten Websites sehr groß ausfallen würde."
+
+#: php/class-RP-Persona-Installer.php:295
+msgid "Conversion complete"
+msgstr "Umwandlung abgeschlossen"
+
+#. Plugin Name of the plugin/theme
+msgid "rootspersona"
+msgstr "rootspersona"
+
+#. Plugin URI of the plugin/theme
+msgid "http://ed4becky.net/plugins/rootsPersona"
+msgstr "http://ed4becky.net/plugins/rootsPersona"
+
+#. Description of the plugin/theme
+msgid "Build one or more family history pages from a Gedcom file."
+msgstr ""
+"Eine oder mehr Familiengeschichte-Seiten aus einer Gedcom-Datei aufbauen."
+
+#. Author of the plugin/theme
+msgid "Ed Thompson"
+msgstr "Ed Thompson"
+
+#. Author URI of the plugin/theme
+msgid "http://ed4becky.net/"
+msgstr "http://ed4becky.net/"
