@@ -94,14 +94,22 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
 
                 if ( isset( $persona_id ) ) {
                     $batch_id = isset( $atts['batchid'] ) ? $atts['batchid'] : '1';
-                    $builder = new RP_Persona_Page_Builder();
                     $options = get_option( 'persona_plugin' );
-                    $options = $builder->get_persona_options( $atts, $callback, $options );
-                    $factory = new RP_Persona_Factory( $this->credentials );
-                    $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
-                    //if($persona->full_name == 'Private')
-                    //    $post->post_title = 'Private';
-                    $block = $builder->build( $persona, $options, RP_Persona_Helper::get_page_id() );
+                    if ( (empty( $callback ) || strtolower($callback) == 'rootspersona')
+                            && isset($options['custom_page']) && !empty($options['custom_page'])) {
+                        $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
+                        $pageContent = str_replace("{%personid%}" , $person, $pageContent);
+                        $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
+                        $block = do_shortcode($pageContent);
+                    } else {
+                        $builder = new RP_Persona_Page_Builder();
+                        $options = $builder->get_persona_options( $atts, $callback, $options );
+                        $factory = new RP_Persona_Factory( $this->credentials );
+                        $persona = $factory->get_with_options( $persona_id, $batch_id, $options );
+                        //if($persona->full_name == 'Private')
+                        //    $post->post_title = 'Private';
+                        $block = $builder->build( $persona, $options, RP_Persona_Helper::get_page_id() );
+                    }
                 } else {
                     $msg = __('Invalid person id.', 'rootspersona');
                     $block = RP_Persona_Helper::return_default_empty( $msg, WP_PLUGIN_URL );

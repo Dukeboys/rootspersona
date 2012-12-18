@@ -173,13 +173,13 @@ class RP_Persona_Helper {
         $my_post = array();
         $my_post['post_title'] = $name;
         if($content == null) {
-            if ( isset($options['custom_page']) && !empty($options['custom_page'])) {
-                $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
-                $pageContent = str_replace("{%personid%}" , $person, $pageContent);
-                $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
-            } else {
+            //if ( isset($options['custom_page']) && !empty($options['custom_page'])) {
+            //    $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
+            //    $pageContent = str_replace("{%personid%}" , $person, $pageContent);
+            //    $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
+            //} else {
                 $pageContent = "[rootsPersona personId='$person' batchId='$batch_id'/]";
-            }
+            //}
         } else {
             $pageContent = $content;
         }
