@@ -98,7 +98,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     if ( (empty( $callback ) || strtolower($callback) == 'rootspersona')
                             && isset($options['custom_page']) && !empty($options['custom_page'])) {
                         $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
-                        $pageContent = str_replace("{%personid%}" , $person, $pageContent);
+                        $pageContent = str_replace("{%personid%}" , $persona_id, $pageContent);
                         $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
                         $block = do_shortcode($pageContent);
                     } else {

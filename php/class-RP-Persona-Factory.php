@@ -33,7 +33,8 @@ class RP_Persona_Factory {
         || $options['hide_ancestors'] == 0
         || $options['hide_descendancy'] == 0
         || $options['hide_family_c'] == 0
-        || $options['hide_family_s'] == 0 ) {
+        || $options['hide_family_s'] == 0 
+        || $options['hide_bio'] == 0 ) {
             // need the real thing
             $persona = $this->get_persona( $id, $batch_id, $uscore, $options );
         } else {
@@ -48,8 +49,9 @@ class RP_Persona_Factory {
 
         if ( ! RP_Persona_Helper::is_restricted( $uscore, $pscore ) ) {
             if ( $options['hide_header'] == 0 || $options['hide_bio'] == 0 ) {
-                if( ( isset ( $options['header_style'] ) && $options['header_style'] == '2' )
-                        || $options['hide_bio'] == 0 ) {
+                if( $options['hide_bio'] == 0  
+                        || ( isset ( $options['header_style'] ) && $options['header_style'] == '2' )
+                     ) {
                     $persona->notes = RP_Dao_Factory::get_rp_indi_note_dao( $this->credentials->prefix )
                             ->query_by_indi_id($persona->id, $persona->batch_id);
                 }
