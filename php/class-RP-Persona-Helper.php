@@ -168,7 +168,7 @@ class RP_Persona_Helper {
      * @param array $options
      * @return integer
      */
-    public static function add_page( $person, $name, $options, $batch_id, $content = null ) {
+    public static function add_page( $person, $name, $options, $batch_id,$picfile, $content = null ) {
         // Create post object
         $my_post = array();
         $my_post['post_title'] = $name;
@@ -178,7 +178,7 @@ class RP_Persona_Helper {
             //    $pageContent = str_replace("{%personid%}" , $person, $pageContent);
             //    $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
             //} else {
-                $pageContent = "[rootsPersona personId='$person' batchId='$batch_id'/]";
+                $pageContent = "[rootsPersona personId='$person' batchId='$batch_id' picfile1='$picfile'/]";
             //}
         } else {
             $pageContent = $content;

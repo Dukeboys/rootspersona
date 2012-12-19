@@ -412,7 +412,7 @@ class RP_Option_Page_Builder {
         echo "<td scope='row' class='left-label'><label for='persona_plugin[custom_page]'>" . __( 'Custom Page Shortcodes', 'rootspersona' ) . "</label></td>";
         echo "<td colspan='1'><textarea cols='65' rows='4' name='persona_plugin[custom_page]' id='custom_page' />";
         echo ( isset( $options['custom_page'] ) ?  $options['custom_page'] : '' ) . "</textarea></span></td>";
-        echo "<td>" . __( 'Advanced feature.  Data will be used in place of the RootsPersona shortcode when generating new pages.<br>{%personid%} will be replaced by the actual person id when the page is created.<br>{%batchid%} will be replaced by the current batch id when the page is created.<br>The rest is still rendered when the page is requested.', 'rootspersona' ) . ".</td></tr>";
+        echo "<td>" . __( 'Advanced feature.  Data will be used in place of the RootsPersona shortcode when generating new pages.<br>{%personid%} will be replaced by the actual person id when the page is created.<br>{%batchid%} will be replaced by the current batch id when the page is created.<br>{%picfile1%} will be replaced by the current picfile1 when page is created.<br>The rest is still rendered when the page is requested.', 'rootspersona' ) . ".</td></tr>";
 
         echo "</table><p class='submit'>";
         echo "<input type='submit' name='Submit' value=' " . __( 'Save Changes', 'rootspersona' ) . " '/>";

@@ -97,9 +97,12 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     $options = get_option( 'persona_plugin' );
                     if ( (empty( $callback ) || strtolower($callback) == 'rootspersona')
                             && isset($options['custom_page']) && !empty($options['custom_page'])) {
+                        
+                        $picfile1 = isset( $atts['picfile1'] ) ? $atts['picfile1'] : plugins_url('images/boy-silhouette.gif', __FILE__ );
                         $pageContent = html_entity_decode($options['custom_page'], ENT_QUOTES);
                         $pageContent = str_replace("{%personid%}" , $persona_id, $pageContent);
                         $pageContent = str_replace("{%batchid%}" , $batch_id, $pageContent);
+			$pageContent = str_replace("{%picfile1%}" , $picfile1, $pageContent);
                         $block = do_shortcode($pageContent);
                     } else {
                         $builder = new RP_Persona_Page_Builder();
