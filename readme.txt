@@ -107,8 +107,11 @@ Currently you will lose any links to pictures if you do that.
 
 == Changelog ==
 = 3.1.0 = 
-* fix WP 3.5 compatability issue with JQuery (showed itself on wdget screen)
+* fix WP 3.5 compatability issue with JQuery (showed itself on widget screen)
 * Added advanced template feature
+* Fixed 404 error when permalinks used
+* Fixed error in bio shortcode (not retrieving data)
+* 
 
 = 3.0.7 = 
 * fix issue with FACT types versus EVENT types
