@@ -35,14 +35,14 @@ div.rp_family table.familygroup td {
 }
 
 div.rp_family table.familygroup td.full {
-    background-image: url("wp-content//plugins//rootspersona/images/familyGroupSidebar.jpg");
+    background-image: url("../images/familyGroupSidebar.jpg");
     padding-right: 8px !important;
     padding-left: 8px !important;
     width: 70%;
 }
 
 div.rp_family table.familygroup td.child {
-    background-image: url("wp-content//plugins//rootspersona/images/familyGroupSidebar.jpg");
+    background-image: url("../images/familyGroupSidebar.jpg");
     padding-right: 8px !important;
     padding-left: 8px !important;
     width: 70%;
@@ -61,7 +61,7 @@ div.rp_family table.familygroup td.notes {
 }
 
 div.rp_family table.familygroup td.gender {
-    background-image: url("wp-content//plugins//rootspersona/images/familyGroupSidebar.jpg");
+    background-image: url("../images/familyGroupSidebar.jpg");
     font-weight: bold;
     text-align: center;
     padding: 0px 2px 0px 2px !important;
@@ -70,7 +70,7 @@ div.rp_family table.familygroup td.gender {
 
 div.rp_family table.familygroup td.inset {
     padding: 0px 2px 0px 2px !important;
-    background-image: url("wp-content//plugins//rootspersona/images/familyGroupSidebar.jpg");
+    background-image: url("../images/familyGroupSidebar.jpg");
     width: 3%;
 }
 

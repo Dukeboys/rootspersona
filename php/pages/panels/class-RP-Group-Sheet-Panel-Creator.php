@@ -70,7 +70,7 @@ class RP_Group_Sheet_Panel_Creator {
         $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) )
                         ? $options['group_bcolor'] : null );
         $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) )
-                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );
+                        ? $options['group_image'] : WP_PLUGIN_URL . '/rootspersona/images/familyGroupSidebar.jpg' );
 
         $fill = "color:$color;"
                 . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
@@ -166,7 +166,7 @@ class RP_Group_Sheet_Panel_Creator {
         $bcolor = ( ( isset( $options['group_bcolor'] ) && ! empty( $options['group_bcolor'] ) )
                         ? $options['group_bcolor'] : null );
         $img = ( ( isset( $options['group_image'] ) && ! empty( $options['group_image'] ) )
-                        ? $options['group_image'] : 'wp-content//plugins//rootspersona//images//familyGroupSidebar.jpg' );
+                        ? $options['group_image'] : WP_PLUGIN_URL . '/rootspersona/images/familyGroupSidebar.jpg' );
 
         $fill = "color:$color;"
                 . ( empty( $bcolor ) ?  "background-image:url('$img') !important;" : "background-image:none;background-color:$bcolor !important;" );
