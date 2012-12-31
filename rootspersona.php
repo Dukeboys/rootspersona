@@ -3,7 +3,7 @@
  Plugin Name: RootsPersona
  Plugin URI: http://ed4becky.net/plugins/rootsPersona
  Description: Build one or more family history pages from a Gedcom file.
- Version: 3.1.0
+ Version: 3.1.1
  Author: Ed Thompson
  Author URI: http://ed4becky.net/
  Text Domain: rootspersona
@@ -11,7 +11,7 @@
  License: GPL2
  */
 
-/*  Copyright 2010-2011  Ed Thompson  ( email : ed@ed4becky.org )
+/*  Copyright 2010-2013  Ed Thompson  ( email : ed@ed4becky.org )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -59,7 +59,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
          *
          * @var string
          */
-        var $persona_version = '3.1.0';
+        var $persona_version = '3.1.1';
 
         /**
          *
@@ -357,7 +357,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                         foreach ( $persons as $p ) {
                             $name = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                                     ->get_fullname( $p, $batch_id );
-                            $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id );
+                            $pageId = RP_Persona_Helper::add_page( $p, $name, $options, $batch_id, null, null );
                             if ( $pageId != false ) {
                                 RP_Dao_Factory::get_rp_indi_dao( $this->credentials->prefix )
                                         ->update_page( $p, $batch_id, $pageId );
