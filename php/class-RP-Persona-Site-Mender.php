@@ -31,8 +31,7 @@ class RP_Persona_Site_Mender {
         $is_empty = count($pages)>0 ? false : true;
 
         $queryOnly = $is_repair === true ? false : true;
-
-                $this->transaction = new RP_Transaction( $this->credentials, $queryOnly );
+        $this->transaction = new RP_Transaction( $this->credentials, $queryOnly );
         $parent = $options['parent_page'];
         foreach ( $pages as $page ) {
             $output = array();

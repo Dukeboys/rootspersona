@@ -27,8 +27,12 @@ class RP_Persona_Installer {
              $this->persona_upgrade( $plugin_dir, $version, $options, $prefix );
         } else {
             $creator = new RP_Table_Creator();
-            $creator->update_tables( $this->sql_file_to_create_tables, $prefix );
-
+            try {
+                $creator->update_tables( $this->sql_file_to_create_tables, $prefix );
+            } catch (Exception $e) {
+                error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
+                trigger_error($e->getMessage(), E_USER_ERROR);
+            }
             $options = array();
             $options['version'] = $version;
 

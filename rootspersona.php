@@ -529,8 +529,7 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                     $retStr = '<script type = "text/javascript">window.location = "'
                             . $location . '"; </script>';
                 } else {
-
-                        $this->transaction = new RP_Transaction( $this->credentials, true );
+                    $this->transaction = new RP_Transaction( $this->credentials, true );
                     $batch_ids = RP_Dao_Factory::get_rp_persona_dao( $this->credentials->prefix )
                                 ->get_batch_ids( );
                     $this->transaction->close();
@@ -663,6 +662,18 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             } catch ( Exception $e ) {
                 error_log($e->getMessage() . "::" . RP_Persona_Helper::trace_caller(),0);
                 trigger_error($e->getMessage(), E_USER_ERROR);
+                throw new Exception($e);
+            }
+            $sql = "SELECT COUNT(1) FROM information_schema.tables WHERE table_schema='"
+                            . DB_NAME
+                            . "' AND table_name='" 
+                            . $wpdb->prefix . "rp_fam'";
+            $sql_query = new RP_Sql_Query($sql, $wpdb->prefix);
+            $tab = RP_Query_Executor::execute( $sql_query, $this->credentials );
+            if($tab[0][0] !== "1") {
+                error_log("RootsPersona tables not created.",0);
+                trigger_error("RootsPersona tables not created.", E_USER_ERROR);
+                throw new Exception("RootsPersona tables not created.");
             }
         }
 
