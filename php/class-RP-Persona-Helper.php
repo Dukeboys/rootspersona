@@ -148,8 +148,9 @@ class RP_Persona_Helper {
         $my_post['post_type'] = 'page';
         $my_post['ping_status'] = 'closed';
         $my_post['comment_status'] = 'closed';
-        if( isset($options['parent_page']) && get_post($options['parent_page']) != null)
-            $my_post['post_parent'] = isset( $options['parent_page'] );
+        if( isset($options['parent_page']) && get_post($options['parent_page']) != null) {
+            $my_post['post_parent'] = $options['parent_page'];
+        }
         $page_id = '';
         if ( empty( $page ) ) {
             $page_id = wp_insert_post( $my_post );

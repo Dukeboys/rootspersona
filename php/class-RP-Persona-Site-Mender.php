@@ -385,7 +385,7 @@ class RP_Persona_Site_Mender {
      */
     function add_evidence_pages( $options, $batch_id ) {
 
-                $this->transaction = new RP_Transaction( $this->credentials, false );
+        $this->transaction = new RP_Transaction( $this->credentials, false );
         $sources = RP_Dao_Factory::get_rp_source_dao( $this->credentials->prefix )
                 ->get_source_no_page( $batch_id );
         foreach ( $sources AS $src ) {
