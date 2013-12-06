@@ -4,7 +4,7 @@ Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 3.1.2
+Stable tag: 3.2.1
 
 RootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -111,6 +111,7 @@ Currently you will lose any links to pictures if you do that.
 * fix parent page for evidence causing large top level menus
 * include name suffix (Jr, Sr, etc...) when displaying name(including page titles)
 * surname widget now has links
+* fixed bug blocking new facts in Persona Editor
 
 == Changelog ==
 = 3.1.2 = 
