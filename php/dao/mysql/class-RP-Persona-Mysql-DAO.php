@@ -484,7 +484,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
      * @return
      */
     public function get_fullname( $id, $batch_id ) {
-        $sql = "SELECT trim(replace(rnp.personal_name,'/',' ')) AS fullname"
+        $sql = "SELECT CONCAT_WS(' ', (trim(replace(rnp.personal_name,'/',' '))), NULLIF(rnp.suffix,'')) AS full_name"
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id"
             . " JOIN rp_name_personal rnp ON rip.name_id = rnp.id"
@@ -561,7 +561,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
         } else {
             $sql1 = "SELECT ri.id AS id, ri.batch_id AS batch_id,"
             . "IFNULL(rio.privacy_code,'Def') AS privacy"
-            . ",trim(replace(rnp.personal_name,'/',' ')) AS full_name"
+            . ",CONCAT_WS(' ', (trim(replace(rnp.personal_name,'/',' '))), NULLIF(rnp.suffix,'')) AS full_name"
             . ",rnp.prefix AS prefix"
             . ",rnp.surname AS surname"
             . ",rnp.given AS given"
@@ -805,7 +805,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
 
     public function get_persons_with_pages( $batch_id ) {
         $sql = "SELECT ri.id AS id, ri.batch_id AS batch_id"
-            . ",trim(replace(rnp.personal_name,'/',' ')) AS full_name"
+            . ",CONCAT_WS(' ', (trim(replace(rnp.personal_name,'/',' '))), NULLIF(rnp.suffix,'')) AS fullname"
             . ",ri.wp_page_id AS page"
             . " FROM rp_indi ri"
             . " JOIN rp_indi_name rip ON ri.id = rip.indi_id AND ri.batch_id = rip.indi_batch_id AND rip.seq_nbr = 1"

@@ -109,6 +109,7 @@ Currently you will lose any links to pictures if you do that.
 = 3.2 = 
 * fix jquery drag and drop issue on admin screen (WP 3.6.1 compatability issue)
 * fix parent page for evidence causing large top level menus
+* include name suffix (Jr, Sr, etc...) when displaying name(including page titles)
 
 == Changelog ==
 = 3.1.2 = 
