@@ -22,7 +22,7 @@ class Persona_Manager {
 
     }
 
- 	function process_form( $credentials, $parms, $options) {
+    function process_form( $credentials, $parms, $options) {
 
         $isSOR = ($options['is_system_of_record'] == '1'?true:false);
         $validator = new Persona_Validator();

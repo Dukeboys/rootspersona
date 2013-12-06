@@ -123,6 +123,41 @@ class Persona_Validator {
         }
 
         for($i=0; $i < $cnt; $i++) {
+            if(strpos($fields[$i],'newclaim') === false ) continue;
+            $ev = new RP_Event();
+            $ev->type = trim(esc_attr($form['newclaim']));
+            $ev->tag = $this->my_array_val_search($ev->type,$ev->_TYPES);
+            if($ev->tag === false) {
+                    $fact = new RP_Fact();
+                    $fact->tag = $this->my_array_val_search($ev->type,$fact->_TYPES);
+                    if($fact->tag !== false) {
+                        $fact->type = $ev->type;
+                        $ev = $fact;
+                    } else continue;
+            }
+            if (isset($form['newdate']) && !empty($form['newdate'])) {
+                $ev->date = trim(esc_attr($form['newdate']));
+                $is_update = true;
+            }
+            if (isset($form['newplace']) && !empty($form['newplace'])) {
+                $ev->place->name = trim(esc_attr($form['newplace']));
+                $is_update = true;
+            }
+            if (isset($form['newclassification']) && !empty($form['newclassification'])) {
+                $ev->cause = trim(esc_attr($form['newclassification']));
+                $is_update = true;
+            }
+            if($ev instanceof RP_Event) {
+                $indi->events[] = $ev;
+            }
+            else {
+                $indi->attributes[] = $ev;
+            }
+            $is_update = true;
+        }
+
+
+        for($i=0; $i < $cnt; $i++) {
             if(strpos($fields[$i],'img_path') === false ) continue;
             $sfx = strrpos($fields[$i],'_');
             $sfx = substr($fields[$i],$sfx+1);
@@ -139,7 +174,6 @@ class Persona_Validator {
                 $is_update = true;
             }
         }
-
 
         if($isSOR) {
         if (isset($form['rp_famc']) && !empty($form['rp_famc'])) {

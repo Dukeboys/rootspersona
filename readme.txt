@@ -110,6 +110,7 @@ Currently you will lose any links to pictures if you do that.
 * fix jquery drag and drop issue on admin screen (WP 3.6.1 compatability issue)
 * fix parent page for evidence causing large top level menus
 * include name suffix (Jr, Sr, etc...) when displaying name(including page titles)
+* surname widget now has links
 
 == Changelog ==
 = 3.1.2 = 

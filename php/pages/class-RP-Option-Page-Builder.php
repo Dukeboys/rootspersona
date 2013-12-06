@@ -395,7 +395,7 @@ class RP_Option_Page_Builder {
 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left=label' ><label for='persona_plugin[is_editor]'>" . __( 'Allow Editor', 'rootspersona' ) . "?</label></td>";
-        $yes = $options['is_editor'];
+        $yes = isset($options['is_editor'])?$options['is_editor']:0;
         if ( isset( $yes )
         && $yes == 1 ) {
             $yes = 'checked';
