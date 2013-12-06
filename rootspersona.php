@@ -605,6 +605,40 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
             wp_enqueue_script('media-upload');
             wp_enqueue_script('thickbox');
             wp_enqueue_script('jquery');
+            wp_enqueue_script('jquery-ui-core');
+            wp_enqueue_script('jquery-ui-widget');
+            wp_enqueue_script('jquery-ui-mouse');
+            wp_enqueue_script('jquery-ui-accordian');
+            wp_enqueue_script('jquery-ui-button');
+            wp_enqueue_script('jquery-ui-autocomplete');
+            wp_enqueue_script('jquery-ui-position');
+            wp_enqueue_script('jquery-ui-datepicker');
+            wp_enqueue_script('jquery-ui-dialog');
+            wp_enqueue_script('jquery-ui-draggable');
+            wp_enqueue_script('jquery-ui-droppable');
+            wp_enqueue_script('jquery-effects-core');
+            wp_enqueue_script('jquery-effects-blind'); 
+            wp_enqueue_script('jquery-effects-bounce'); 
+            wp_enqueue_script('jquery-effects-clip'); 
+            wp_enqueue_script('jquery-effects-drop'); 
+            wp_enqueue_script('jquery-effects-explode'); 
+            wp_enqueue_script('jquery-effects-fade'); 
+            wp_enqueue_script('jquery-effects-fold'); 
+            wp_enqueue_script('jquery-effects-highlight'); 
+            wp_enqueue_script('jquery-effects-pulsate'); 
+            wp_enqueue_script('jquery-effects-scale'); 
+            wp_enqueue_script('jquery-effects-shake'); 
+            wp_enqueue_script('jquery-effects-slide'); 
+            wp_enqueue_script('jquery-effects-transfer'); 
+            wp_enqueue_script('jquery-ui-menu'); 
+            wp_enqueue_script('jquery-ui-progressbar'); 
+            wp_enqueue_script('jquery-ui-resizable'); 
+            wp_enqueue_script('jquery-ui-selectable'); 
+            wp_enqueue_script('jquery-ui-slider'); 
+            wp_enqueue_script('jquery-ui-sortable'); 
+            wp_enqueue_script('jquery-ui-spinner'); 
+            wp_enqueue_script('jquery-ui-tabs'); 
+            wp_enqueue_script('jquery.ui.tooltip.js');
 
             wp_register_script( 'jquery.validate',
                                 plugins_url( 'js/jquery.validate.min.js', __FILE__ ),
@@ -615,11 +649,6 @@ if ( ! class_exists( 'Roots_Persona' ) ) {
                                 plugins_url( 'js/jquery.maskedinput.min.js', __FILE__ ),
                                 array('jquery') );
             wp_enqueue_script( 'jquery.maskedinput' );
-
-            wp_register_script( 'jquery-ui',
-                                plugins_url( 'js/jquery-ui-1.9.2.custom.min.js', __FILE__ ),
-                                array('jquery') );
-            wp_enqueue_script( 'jquery-ui' );
 
             wp_register_script( 'rootsUtilities',
                                 plugins_url( 'js/rootsUtilities.js',__FILE__ ));
