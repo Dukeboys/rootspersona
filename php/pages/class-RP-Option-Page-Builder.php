@@ -11,7 +11,17 @@ class RP_Option_Page_Builder {
                 'rootspersona' ), 'persona' )
                . ". " . sprintf ( __( 'Accessing outside of a %s page will result in an invalid personId error.',
                 'rootspersona' ), 'persona' );
-        echo "<div class='wrap'><h2>RootsPersona <span style='font-size:smaller;'>" . $options['version'] . "</span></h2>";
+        $banner = WP_PLUGIN_URL . '/rootspersona/images/bannerstartwithwp.png';
+        $block = "<div class='wrap'><a href='http://rootspersona.com'><img src='" . $banner . "'></img></a>"
+                . "<div style='padding-left:10px;padding-top:5px;font-size:larger;'>Version " . $options['version'];
+        
+        if($options['hide_donation'] != '1') {
+                $block .= " <span style='display:inline-block;float:right;padding-right:1em;'>"
+                . '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ANLEXXNXKFN9N">'
+                . '<img src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" mce_src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" alt="Donations welcome"></a>'
+                . "<span  style='display:inline-block;float:right;width:15em;padding-right:20em;padding-left:2em;font-size:smaller;'>A Fan of <i>RootsPersona?</i><br>Consider making a donation!</b></span>";
+        }
+        echo $block . "</div>";
         echo "<form method='post' action='options.php'>";
         echo "<p class='submit'><input type='submit' name='Submit' value=' " . __( 'Save Changes', 'rootspersona' ) . " '/></p>";
         echo "<table class='form-table'>";
@@ -355,6 +365,21 @@ class RP_Option_Page_Builder {
 
         echo "<tr><td colspan='3'><span class='optionsHdr'>" . __('Misc Options','rootspersona') . "</span><hr class='optionsHdr'></span></td></tr>";
 
+        echo "<tr valign='top'>";
+        echo "<td scope='row' class='left=label' ><label for='persona_plugin[hide_donation]'>" . __( 'Hide Donation Button', 'rootspersona' ) . "?</label></td>";
+        $yes = isset($options['hide_donation'])?$options['hide_donation']:0;
+        if ( isset( $yes )
+        && $yes == 1 ) {
+            $yes = 'checked';
+            $no = '';
+        } else {
+            $yes = '';
+            $no = 'checked';
+        }
+        echo "<td><input type='checkbox' name='persona_plugin[hide_donation]' value='true' $yes>&#160;&#160;Yes ";
+
+        echo "<td>" . __( 'Hide the PayPal Donation button', 'rootspersona' ) . ".</td></tr>";
+ 
         echo "<tr valign='top'>";
         echo "<td scope='row' class='left=label' ><label for='persona_plugin[per_page]'>" . __( 'Entries Per Page', 'rootspersona' ) . "</label></td>";
         echo "<td><input type='text' size='5' name='persona_plugin[per_page]' id='per_page'";

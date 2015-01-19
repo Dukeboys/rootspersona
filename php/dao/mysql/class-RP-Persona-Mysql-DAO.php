@@ -821,7 +821,7 @@ class RP_Persona_Mysql_Dao extends Rp_Mysql_DAO {
                 $p = array();
                 $p['id'] = $rows[$idx]['id'];
                 $p['batch_id'] = $rows[$idx]['batch_id'];
-                $p['name'] = $rows[$idx]['full_name'];
+                $p['name'] = $rows[$idx]['fullname'];
                 $p['page_id'] = $rows[$idx]['page'];
                 $persons[$idx] = $p;
             }

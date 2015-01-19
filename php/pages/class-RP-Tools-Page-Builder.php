@@ -10,15 +10,19 @@ class RP_Tools_Page_Builder {
     function build( $options, $batch_ids ) {
 
         $isSOR = ($options['is_system_of_record'] == '1'?true:false);
-        $block = "<div class='wrap'>"
-                . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'></span>"
-                . "<span class='rp_clickbutton' style='background-position: -1000px -1000px;'></span>"
-                . "<h2>RootsPersona <span style='font-size:smaller;'>" . $options['version'] . "</span></h2>"
-                . " <div style='float:right;padding-right:1em;'>"
+        $block = "<div class='wrap'>";
+
+        $banner = WP_PLUGIN_URL . '/rootspersona/images/bannerstartwithwp.png';
+        $block .= "<div class='wrap'><a href='http://rootspersona.com'><img src='" . $banner . "'></img></a>"
+                . "<div style='padding-left:10px;padding-top:5px;font-size:larger;'>Version " . $options['version'];
+        
+        if($options['hide_donation'] != '1') {
+                $block .= " <span style='display:inline-block;float:right;padding-right:1em;'>"
                 . '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ANLEXXNXKFN9N">'
                 . '<img src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" mce_src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" alt="Donations welcome"></a>'
-                . "<div  style='float:right;width:15em;padding-right:20em;padding-left:2em;font-weight:bold;'>A Fan of <i>RootsPersona?</i><br>Consider making a donation!</b></div></div>"
-                . "<table class='form-table'>";
+                . "<span  style='display:inline-block;float:right;width:15em;padding-right:20em;padding-left:2em;font-size:smaller;'>A Fan of <i>RootsPersona?</i><br>Consider making a donation!</b></span>";
+        }
+        $block .= "</div><table class='form-table'>";
 
         $block .=  $this->get_upload();
         $block .=  $this->get_add();
@@ -31,7 +35,10 @@ class RP_Tools_Page_Builder {
         $block .=  $this->get_delete();
         //$block .=  $this->get_conversion();
 
-        $block .= "</table>" . $this->get_secondary($batch_ids) . "</div>";
+        $block .= "</table>" . $this->get_secondary($batch_ids) 
+                . "<span class='rp_hoverbutton' style='background-position: -1000px -1000px;'></span>"
+                . "<span class='rp_clickbutton' style='background-position: -1000px -1000px;'></span>"
+                . "</div>";
         return $block;
     }
 

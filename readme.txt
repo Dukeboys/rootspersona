@@ -3,8 +3,8 @@ Contributors: ed4becky
 Donate link: http://ed4becky.net/plugins
 Tags: roots, genealogy, GEDCOM, ancestors, family
 Requires at least: 3.0
-Tested up to: 3.7.1
-Stable tag: 3.2.1
+Tested up to: 4.1.0
+Stable tag: 3.3.0
 
 RootsPersona creates one or more pages of family history using data imported from a GEDCOM file (version 5.5).
 
@@ -106,6 +106,10 @@ Currently you will lose any links to pictures if you do that.
 5. Lots of options for customization
 
 == Changelog ==
+= 3.3 = 
+* added hide donation button option
+* fixed validation tool issue with corrupting page titles
+
 = 3.2 = 
 * fix jquery drag and drop issue on admin screen (WP 3.6.1 compatability issue)
 * fix parent page for evidence causing large top level menus
